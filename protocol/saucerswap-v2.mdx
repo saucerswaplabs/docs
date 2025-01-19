@@ -1,0 +1,387 @@
+---
+title: "Overview"
+---
+
+1. [Protocol](/protocol)
+
+## Core Concepts
+
+SaucerSwap V2 is an automated market maker (AMM) based on Uniswap V3 smart contracts, adapted to work with the Hedera Token Service (HTS) through the Hedera Smart Contract Service (HSCS). For technical information, refer to the [V2 Whitepaper](https://www.saucerswap.finance/whitepaper-v2.pdf).
+
+### Concentrated Liquidity
+
+The hallmark feature of SaucerSwap V2 is its implementation of concentrated liquidity, allowing liquidity providers (LPs) to allocate capital within specific price ranges. Unlike in V1, where liquidity is uniformly distributed across all possible prices (0, ∞), V2 enables more efficient use of capital.
+
+Key advantages include:
+
+* LPs have the capacity to provide liquidity with up to 4,000x capital efficiency in comparison to SaucerSwap V1, thus receiving elevated returns on their capital.
+
+* Capital efficiency allows for trades to be executed with greatly reduced price impact in comparison to both centralized exchanges and stablecoin-focused AMMs.
+
+* LPs have the opportunity to increase their exposure to desired assets and mitigate their downside risk.
+
+* LPs have the ability to trade one asset for another by depositing liquidity into a price range entirely above or below the current spot price, emulating a fee-earning limit order that executes along a smooth curve.
+
+Take stablecoin pairs as an example. In SaucerSwap V1, much of the liquidity between tokens like USDC and USDT is often idle due to the broad price range over which liquidity is distributed. With V2, an LP can concentrate their capital within a tight range, say, 0.995 to 1.005 USDC/USDT, which can result in a more efficient utilization of their capital and higher fee earnings.
+
+In SaucerSwap V2, liquidity can become inactive if the spot price moves out of the set price range. This is in stark contrast to V1, where the liquidity is always active but often underutilized. When the spot price re-enters an LP’s range, their liquidity is once again utilized, and will resume earning fees.
+
+The flexibility of setting multiple positions means LPs can adapt to market conditions more effectively, concentrating their liquidity where it's most likely to be utilized, maximizing fee earning potential.
+
+SaucerSwap V2 inherits the Uniswap V3 concept of "ticks," partitioning the continuous price range into discrete intervals. Each tick signifies a 0.01% change in the price, and LPs must select upper and lower ticks to define their position's boundaries. As swaps occur and the spot price (i.e., active tick) changes, liquidity will be activated or deactivated according to these ticks.
+
+### Fee Tiers
+
+V2 offers a multi-tiered fee structure, allowing LPs to be appropriately compensated for taking on varying degrees of risk.
+
+Fee Tier
+
+Tick Spacing
+
+Characteristic
+
+Example
+
+0.05%
+
+10
+
+Highly stable pairs (Minimal price volatility)
+
+USDC/USDT
+
+0.15%
+
+30
+
+Moderately stable pairs (Low to medium volatility)
+
+USDC/HBAR
+
+0.30%
+
+60
+
+Volatile pairs (Significant price swings)
+
+LINK/HBAR
+
+1.00%
+
+200
+
+Highly volatile pairs (Unpredictable price movements)
+
+JAM/HBAR
+
+* **Highly stable pairs:** These are typically stablecoin pairs where both assets aim to peg their value to an external stable source, like the U.S. dollar.
+
+* **Moderately stable pairs:** These can be a combination of a stablecoin and a relatively less volatile cryptocurrency. Their price can fluctuate, but not as wildly as more exotic pairs.
+
+* **Volatile pairs:** Token pairs that have notable price swings within short time frames, but they are relatively well-known or have larger market caps.
+
+* **Highly volatile pairs:** These pairs might include new or less-known tokens. Their prices can be highly unpredictable, and they often come with higher risk of impermanent loss.
+
+The fee tiers have a direct correlation with tick spacing; lower fee tiers allow for tighter tick intervals, thereby offering greater capital efficiency.
+
+### Distribution of Fees
+
+In each swap, traders are charged a fee based on the pool's fee tier. As with SaucerSwap V1, 5/6 of the collected fee is allocated to LPs, and the remaining 1/6 is directed to the protocol. The protocol's share is used for SAUCE token buybacks, which are then distributed between the [Infinity Pool](/protocol/single-sided-staking) and the DAO. Unlike V1, LPs are rewarded directly in the tokens that constitute the pool. For example, if liquidity is provided in a USDC/HBAR pool, rewards are claimed as USDC and HBAR.
+
+The Fees APR is calculated in a similar manner to V1, using the following formula:
+
+Fees APR=LBal​24h Volume ×(Fee×65​)​×365
+
+Where:
+
+* Fee can be 0.05%, 0.15%, 0.30%, or 1.00%.
+
+* LBal​ represents the total liquidity (aggregate of positions) in a [balanced range](/protocol/saucerswap-v2#balanced-approach).
+
+The 7-day average Fees APR is displayed in the SaucerSwap interface.
+
+**Note:** Total APR=Fees APR+Reward APR, where Reward APR is sourced from [LARI](/protocol/saucerswap-v2#liquidity-aligned-reward-initiative-lari).
+
+### Volatility Strategies
+
+The SaucerSwap interface offers volatility strategies with preset price ranges tailored for each fee tier to cater to different LP styles, streamlining liquidity provision.
+
+#### Focused Approach
+
+Fee Tier
+
+Price Range
+
+Tick Range
+
+0.05%
+
+± 0.30%
+
+± 30 ticks
+
+0.15%
+
+± 3.00%
+
+± 300 ticks
+
+0.30%
+
+± 5.00%
+
+± 500 ticks
+
+1.00%
+
+± 10.00%
+
+± 1,000 ticks
+
+* 0.05% Fee Tier: Narrowly set around stablecoin peg of 1:1.
+
+* 0.15% Fee Tier: Based on average day-to-day price swings of moderately stable pairs.
+
+* 0.30% & 1.00% Fee Tiers: Positions set within daily volatility ranges.
+
+#### Balanced Approach
+
+Fee tier
+
+Price Range
+
+Tick Range
+
+0.05%
+
+± 1.00%
+
+± 100 ticks
+
+0.15%
+
+± 9.00%
+
+± 900 ticks
+
+0.30%
+
+± 15.00%
+
+± 1,500 ticks
+
+1.00%
+
+± 30.00%
+
+± 3,000 ticks
+
+* 0.05% Fee Tier: Accounts for possible off-peg scenarios.
+
+* 0.15% Fee Tier: Set within the weekly volatility range.
+
+* 0.30% & 1.00% Fee Tiers: Weekly ranges with a wider view due to greater unpredictability.
+
+#### Relaxed Approach
+
+Fee tier
+
+Price Range
+
+Tick Range
+
+0.05%
+
+± 2.50%
+
+± 250 ticks
+
+0.15%
+
+± 20.00%
+
+± 2,000 ticks
+
+0.30%
+
+± 30.00%
+
+± 3,000 ticks
+
+1.00%
+
+± 60.00%
+
+± 6,000 ticks
+
+* 0.05% Fee Tier: Accounts for extreme market conditions.
+
+* 0.15% Fee Tier: Accounts for short-term price moves due to significant events or longer-term price trends.
+
+* 0.30% & 1.00% Fee Tiers: Based on longer-term technical indicators with a wider view due to greater unpredictability.
+
+**Note:** The min and max values of a tick range are first rounded to the nearest multiple of a pool's tick spacing before being converted into prices. As such, the volatility strategy parameters should be regarded as approximations.
+
+The volatility strategies aim to simplify the process of liquidity provision but do not guarantee enhanced performance or reduced risk of impermanent loss. It is strongly advised that liquidity providers actively manage their positions. Please be aware that the current preset ranges may be adjusted based on community feedback. Finally, using these volatility strategies is entirely optional, and LPs always have the choice to define a custom range.
+
+### Liquidity Position NFT
+
+In SaucerSwap V2, each liquidity position is uniquely represented by a non-fungible token (NFT). This is because LPs can specify arbitrary price ranges for their liquidity, resulting in positions that are distinct and non-fungible. Using NFTs streamlines the representation and prevents the creation of countless fungible tokens for every possible range. The Liquidity Position NFTs adopt the HTS standard and are designed to be interoperable with other systems.
+
+As an added touch, each minted NFT possesses one of eleven handcrafted illustrations, chosen at random. Additionally, every NFT embeds details about the liquidity position, such as the ticker symbols and token IDs of the paired assets, as well as the fee tier, position ID, and the max and min ticks.
+
+## Liquidity-Aligned Reward Initiative (LARI)
+
+While SaucerSwap V2 has the potential to generate higher real yields for LPs, token incentives remain vital for bootstrapping liquidity, broadening the distribution of the SAUCE token, and reinforcing protocol governance.
+
+The Liquidity-Aligned Reward Initiative (LARI) offers LPs token incentives for efficient liquidity contributions. This system addresses certain limitations of the SaucerSwap V1 yield farm. Notably, the obligatory staking of LP tokens, which transfers LP custody, is not optimal. Moreover, it is inefficient to reward LPs without accounting for their relative performance. Every reward token, such as SAUCE or HBAR, should not only incentivize liquidity, but also ensure its optimal use, with rewards reflecting this objective.
+
+LARI addresses these design shortcomings. LPs do not have to stake their liquidity position NFTs to begin earning token incentives. Once an LP provides liquidity to a V2 pool, LARI is activated for their position. Furthermore, rewards are automatically distributed at the end of each two-week reward period, or ‘epoch,’ greatly simplifying the UX and optimizing for gas efficiency.
+
+Unlike the SaucerSwap V1 yield farm, which only supports SAUCE and HBAR rewards, LARI can be configured to emit any number of HTS tokens for each pool. This enables projects to tailor campaigns for their liquidity pools, rewarding LPs with their protocol token.
+
+### How It Works
+
+#### **1. Initialization**
+
+Before the epoch begins, each pool is assigned a weight of token rewards. For example, the USDC/HBAR pool may receive 15% of the total SAUCE rewards over this 14-day period. For more details, see [LARI Weights](/protocol/saucerswap-v2/lari-weights).
+
+#### **2. Monitoring and Reward Calculation**
+
+During the epoch, 'liquidity hours,' representing liquidity in the active tick, are calculated for each position by closely monitoring a pool for two types of events: swap events, which occur when a trade is executed, and liquidity events, which happen when liquidity is either added (mint) or removed (burn).
+
+For a position of size L, defined within the tick interval \[*a, b*] and containing the active tick, we determine its liquidity at that tick, Lpool, pos​, using the formula:
+
+Lpool, pos​=b−aL​
+
+Next, we measure the time interval Δt between consecutive events (either swap or liquidity events), converting this duration into hours. The liquidity hours for a position during the ith interval are calculated as:
+
+Spool, pos, i​=Lpool, pos​×Δti​
+
+This process is repeated throughout the epoch. Each event emitted by the pool starts a new interval. The total liquidity hours for a position during an epoch are the sum of liquidity hours across all intervals:
+
+Tpool, pos​=j=1∑n​Spool, pos, j​
+
+Where:
+
+* Tpool, pos​ represents the total liquidity hours for a position during an epoch.
+
+* Spool, pos, j​ represents the liquidity hours for each interval j, from j=1 to n.
+
+* n represents the total number of intervals during which the position was active.
+
+Additional considerations:
+
+* Liquidity hours are calculated with precision down to the second.
+
+* For positions that fall out-of-range after a swap, we assume they were active for half the duration of this interval.
+
+* The active tick at the start of an epoch is generally set as the tick of the last swap before the epoch. However, there are specific details and exceptions to this rule.
+
+The reward allocation for a position is calculated as follows:
+
+Rpool, pos​=Tpool​Rpool​×Tpool, pos​​
+
+Where:
+
+* Rpool, pos​ represents the reward allocation, or the quantity of tokens earned by the position during an epoch.
+
+* Rpool​ represents the reward allocation for the pool, found [here](/protocol/saucerswap-v2/lari-weights).
+
+* Tpool, pos​ represents the total liquidity hours for the position during an epoch.
+
+* Tpool​ represents the total liquidity hours for the pool, calculated by summing the total liquidity hours of every position Tpool, pos, j​, from j=1 to n, where n represents the total number of active positions in the pool throughout the epoch.
+
+Tpool​=j=1∑n​Tpool, pos, j​
+
+As an aside, the estimated Reward APR displayed in the SaucerSwap interface is calculated as follows:
+
+Reward APR=Lpool​Rpool​×26.07145​
+
+Where Lpool​ represents the pool liquidity.
+
+**3. Distribution:**
+
+At the end of each epoch, rewards are automatically sent to the participants via an airdrop. This system ensures maximal efficiency by only rewarding active liquidity. This focus not only improves the overall health of liquidity pools but also maximizes the utility and efficiency of each token distributed as a reward, all while allowing LPs to retain custody of their assets.
+
+### Worked Example
+
+Alice and Bob both decide to provide liquidity to the USDC/USDT pool on SaucerSwap V2. This pool has a 0.05% fee and a tick spacing of 10, where every tick represents a 0.01% change in price. Additionally, this pool is allocated a total of 100,000 SAUCE in LARI rewards for the current epoch.
+
+**Alice:** Provides $10k of liquidity over a wide price range of $0.95 to $1.05, or 1,000 ticks.
+
+**Bob:** Provides $10k of liquidity over a much narrower price range of $0.9995 to $1.0005, or 10 ticks.
+
+We assume that, throughout the epoch, the price of the pool remains stable and stays entirely within Bob's $0.9995 — $1.0005 range.
+
+First, we calculate liquidity at the active tick for each position:
+
+LUSDC/USDT, Bob​=1010,000​=1,000
+
+LUSDC/USDT, Alice​=1,00010,000​=10
+
+In this example, we can assume Δt1​=336 hours because neither position falls out-of-range. Since there is only one interval, SUSDC/USDT, pos, 1​=TUSDC/USDT, pos​. The total liquidity hours for each position are therefore calculated as follows:
+
+TUSDC/USDT, Bob​=1,000×336=336,000
+
+TUSDC/USDT, Alice​=10×336=3,360
+
+We can now determine the reward allocation in SAUCE for each position:
+
+RUSDC/USDT, Bob​=336,000+3,360100,000×336,000​=99,010
+
+RUSDC/USDT, Alice​=336,000+3,360100,000×3,360​=990
+
+Bob's focused approach results in a reward of 99,010 SAUCE, while Alice's broader approach yields her only 990 SAUCE. Bob’s decision to provide liquidity in a narrow, focused range where he anticipated price activity led him to outperform Alice in terms of rewards by a factor of 100. Alice, although safer in terms of exposure to price movement, did not capitalize as efficiently on the rewards during this particular epoch.
+
+**Note:** The probability of the price staying within Bob's narrow range over a 14-day epoch is low in a real-world scenario. Therefore, Bob's actual accumulated liquidity hours and rewards could be less than this theoretical maximum.
+
+### Tokenomics
+
+The entire 43.75% DAO allocation of Masterchef emissions (55.49 SAUCE / min) will go towards LARI for the first four epochs. For subsequent epochs, half the allocation will go towards LARI, while the other half is retained by the DAO for future use. For more information, see [Tokenomics](/tokenomics/overview).
+
+Epoch
+
+Weeks Since V2 Launch
+
+SAUCE Rewards
+
+1
+
+Nov 17 - Dec 1
+
+1,600,000
+
+2
+
+Dec 1 - Dec 15
+
+1,300,000
+
+3
+
+Dec 15 - Dec 29
+
+874,714
+
+4
+
+Dec 29 - Jan 15
+
+700,000
+
+5
+
+Jan 15 - Jan 29
+
+559,339
+
+...
+
+...
+
+559,339
+
+![](/images/protocol/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FNHEN7cBNkVlYQeSdbcbi%252Flari.png)
+
+[PreviousFarm Weights](/protocol/saucerswap-v1/farm-weights)[NextLARI Weights](/protocol/saucerswap-v2/lari-weights)

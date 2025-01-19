@@ -1,0 +1,45 @@
+---
+title: "🥩Single-Sided Staking"
+---
+
+1. [Protocol](/protocol)
+
+Within the SaucerSwap ecosystem, the Infinity Pool allows for single-sided staking of the SAUCE token. Upon depositing SAUCE into the pool, participants receive a receipt token known as xSAUCE. The conversion rate between SAUCE and xSAUCE was initialized at 1:1 and is designed to increase over time. This growth is enabled by automatic compounding in the Infinity Pool, fueled by SAUCE buybacks and allocations from the Masterchef contract.
+
+## Threefold Yield Mechanism
+
+Yield in the Infinity Pool is derived from three distinct sources:
+
+1. **Swap Fees:** A 1/6 fee collected by the protocol from all SaucerSwap V1 and V2 liquidity pools.
+
+2. **Farm Emissions:** 30% of the Masterchef contract's devcut, currently set at 17.30 SAUCE per minute.
+
+3. **HBAR Native Staking Rewards:** HBAR, which is not an HTS token, is made compatible with SaucerSwap through a smart contract that wraps it into WHBAR. This contract's entire HBAR balance is proxy-staked to a designated, permissioned node on the Hedera network for the purpose of earning proof-of-stake rewards. This is enabled by Hedera's lack of slashing conditions and lock-up periods. Rewards accrued in HBAR are then swapped into SAUCE tokens via a daily buyback mechanism. Currently, the WHBAR contract holds around 200 million HBAR, and the staking APR for Hedera is capped at 2.5%.
+
+## Worked Example
+
+Consider this hypothetical:
+
+* **Step 1:** User A becomes the first participant to stake SAUCE in the Infinity Pool. They deposit 10 SAUCE and, in return, are issued 10 xSAUCE, maintaining an initial 1:1 ratio between SAUCE and xSAUCE.
+
+* **Step 2:** An additional 10 SAUCE—sourced from swap fees, HBAR native staking rewards, and farm emissions—is added to the Infinity Pool. This brings the total SAUCE in the contract to 20. With 10 xSAUCE in circulation, the new ratio becomes 1 xSAUCE to 2 SAUCE. At this point, User A has the option to redeem their 10 xSAUCE for 20 SAUCE, in accordance with the updated ratio.
+
+* **Step 3:** Assuming User A opts not to redeem their xSAUCE, User B enters the scene. They deposit 10 SAUCE into the Infinity Pool. Due to the 1:2 ratio, User B receives 5 xSAUCE in return. The pool now contains 30 SAUCE and 15 xSAUCE, maintaining the existing ratio.
+
+* **Step 4:** The ratio between SAUCE and xSAUCE continues to grow as additional SAUCE rewards are sent to the Infinity Pool. These rewards are distributed among all xSAUCE holders in proportion to their stake, resulting in each xSAUCE token gaining increased value in terms of SAUCE.
+
+## Calculating APR
+
+The APR for single-sided staking is determined using the following formula:
+
+Infinity Pool APR=\[Ri​Rf​​−1]×365
+
+Where:
+
+* R represents the exchange rate, given by *SAUCE/xSAUCE* in the Infinity Pool.
+
+* Ri​ and Rf​ represent the exchange rates at the initial and final times, respectively.
+
+* The rate updates once per day at random, implying Δt≈24h.
+
+[PreviousLARI Weights](/protocol/saucerswap-v2/lari-weights)[NextCommunity Pools](/protocol/community-pools)

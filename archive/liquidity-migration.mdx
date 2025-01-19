@@ -1,0 +1,47 @@
+---
+title: "🔁Liquidity Migration"
+---
+
+1. [Archive](/archive)
+
+Note: the public liquidity migration will begin on December 1st at 11pm UTC.
+
+For SaucerSwap to take advantage of native staking rewards, a new WHBAR and router contract have been deployed. This requires users to migrate their liquidity from deprecated pools.
+
+All liquidity pools containing the existing WHBAR token will be deprecated on December 1st, i.e., no longer used to route swaps; instead, upgraded pools containing the new WHBAR token will be used. Users can withdraw liquidity from the deprecated pools at any time; however, they will no longer have the ability to provide liquidity to these deprecated pools through SaucerSwap’s website. Instead, the site will automatically direct all deposits to the upgraded pools.
+
+Unless otherwise done by a project founder on Wednesday, Nov 30th, the SaucerSwap team will seed pools with a small amount of liquidity for all HBAR pairs to ensure a smooth user experience. The one-time fee associated with creating other pools will be lowered to $10 for one week following the migration, after which it will be set back to $50.
+
+## How to Migrate Liquidity: Instructional Video
+
+## How to Migrate Liquidity: Guide
+
+After December 1st, 11pm UTC, we encourage all liquidity providers to do the following:
+
+1. Identify if you are providing liquidity in a pool containing WHBAR — all existing pairs containing HBAR fall in this category (e.g., HBAR-SAUCE, HBAR-USDC, etc.)
+
+2. If you have LP tokens containing WHBAR, unstake those LP tokens on the farm page if applicable — these deprecated farms will be found in the “inactive” tab.
+
+3. Withdraw your liquidity for pairs containing WHBAR in the “My Pools” tab on the liquidity page.
+
+4. Provide liquidity to the same pair — for example, if you withdraw HBAR-SAUCE LP tokens, provide liquidity back to the HBAR-SAUCE pool. Our site will automatically route your liquidity to the upgraded pools.
+
+5. If applicable, stake those LP tokens in the new farm to receive HBAR and SAUCE emissions. These farms can be found in the "active" tab of the farm page.
+
+6. Be mindful of the inverse relationship between APR and liquidity — those who stake first will receive a higher yield.
+
+Note: If you have any questions about the above process, please reach out in the SaucerSwap [Discord](https://discord.com/invite/saucerswap) and a team member will assist you.
+
+Farm emissions to supported pools containing the current WHBAR will be set to zero – these farms will appear in the inactive tab of the farm page. A new farm will be created for each existing farm containing HBAR. The same token pairs are to be incentivized, with the same weighting scheme. The only difference here is the use of the new WHBAR.
+
+## WHBAR and Native Staking Explained
+
+HBAR is not an HTS token — analogous to ETH vs. ERC-20 — so it must be wrapped to interact with the SaucerSwap contracts. This is achieved via a smart contract that stores incoming HBAR and mints wrapped HBAR. These WHBAR tokens are used to provide liquidity in SaucerSwap’s decentralized exchange. When liquidity is withdrawn, WHBAR tokens are sent back to the smart contract and burned, and an equal amount of HBAR is returned to the user.
+
+With the introduction of native staking, the HBAR in this smart contract can be dynamically staked to a permissioned node to generate real yield for users. Since Hedera does not impose slashing or lockup periods, SaucerSwap users can withdraw liquidity instantaneously.
+
+The native staking mechanics of the WHBAR contract are described in the above figure. Here, the WHBAR contract is deployed, setting the stakedAccountId to a simple smart contract. This StakeToSetter contract has an admin key to select a node for staking and allows its beneficiary to withdraw the accrued rewards. The WHBAR contract will not have an admin key and will therefore be completely decentralized.
+
+Once daily, at a random time, an allocation of HBAR native staking rewards is pulled from an intermediary payment splitter contract. This HBAR is swapped for SAUCE in the BrewSaucer contract before being sent to the Infinity Pool. Since the ratio of SAUCE to xSAUCE in the pool increases, so does the relative value of xSAUCE.
+
+[PreviousEmission Schedule](/archive/old-tokenomics/emission-schedule)

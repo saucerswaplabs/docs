@@ -1,91 +1,156 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
-  "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
-  },
-  "favicon": "/favicon.svg",
+  "name": "SaucerSwap",
   "colors": {
     "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
-    "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
-    }
+    "light": "#55D799",
+    "dark": "#0D9373"
   },
-  "topbarLinks": [
-    {
-      "name": "Support",
-      "url": "mailto:hi@mintlify.com"
-    }
-  ],
-  "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
-  },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
-    }
-  ],
+  "favicon": "/~/files/v0/b/gitbook-x-prod.appspot.com/o/collections/aBf6JnIPeeDq8E21sP47/icon/086L3zN4YJkTwYjV4TmV/alien_head_v2.png",
   "navigation": [
+    {
+      "group": "Home",
+      "pages": [
+        "home"
+      ]
+    },
+    {
+      "group": "Roadmap",
+      "pages": [
+        "roadmap"
+      ]
+    },
+    {
+      "group": "📞Contact",
+      "pages": [
+        "contact",
+        "contact/partnership-inquiries",
+        "contact/user-support",
+        "contact/socials"
+      ]
+    },
     {
       "group": "Get Started",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "get-started/faq",
+        {
+          "group": "🌐Hedera Guide",
+          "pages": [
+            "get-started/hedera-guide",
+            "get-started/hedera-guide/create-hedera-wallet",
+            "get-started/hedera-guide/get-hbar",
+            "get-started/hedera-guide/bridge-to-hedera"
+          ]
+        },
+        {
+          "group": "🎓SaucerSwap Tutorials",
+          "pages": [
+            "get-started/saucerswap-tutorials",
+            "get-started/saucerswap-tutorials/swap",
+            {
+              "group": "Liquidity",
+              "pages": [
+                "get-started/saucerswap-tutorials/liquidity",
+                "get-started/saucerswap-tutorials/liquidity/saucerswap-v1",
+                "get-started/saucerswap-tutorials/liquidity/saucerswap-v2"
+              ]
+            },
+            "get-started/saucerswap-tutorials/single-sided-staking"
+          ]
+        }
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Protocol",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "protocol/saucerswap-v1",
+        {
+          "group": "⚖️SaucerSwap V1",
+          "pages": [
+            "protocol/saucerswap-v1",
+            "protocol/saucerswap-v1/farm-weights",
+            "external-link-0"
+          ]
+        },
+        {
+          "group": "🌊SaucerSwap V2",
+          "pages": [
+            "protocol/saucerswap-v2",
+            "protocol/saucerswap-v2/lari-weights",
+            "external-link-1",
+            "external-link-2"
+          ]
+        },
+        "protocol/single-sided-staking",
+        "protocol/community-pools"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Governance",
       "pages": [
-        "api-reference/introduction"
+        "governance/overview"
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Tokenomics",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "tokenomics/overview"
+      ]
+    },
+    {
+      "group": "Developer",
+      "pages": [
+        "developerx/developer-resources",
+        {
+          "group": "🔮Developer Resources",
+          "pages": [
+            "developerx/developer-resources"
+          ]
+        },
+        "developerx/contract-deployments",
+        "developerx/audits",
+        "developerx/bug-bounty",
+        "external-link-3"
+      ]
+    },
+    {
+      "group": "Contributors",
+      "pages": [
+        "contributors/saucerswap-labs",
+        "contributors/careers",
+        "contributors/community",
+        "contributors/galactic-pioneers"
+      ]
+    },
+    {
+      "group": "Resources",
+      "pages": [
+        "resources/brand-assets",
+        "resources/glossary",
+        "resources/analytics"
+      ]
+    },
+    {
+      "group": "Legal",
+      "pages": [
+        "legal/terms-of-service",
+        "legal/privacy-policy"
+      ]
+    },
+    {
+      "group": "Archive",
+      "pages": [
+        "archive/proto-governance",
+        {
+          "group": "🦕Old Tokenomics",
+          "pages": [
+            "archive/old-tokenomics",
+            "archive/old-tokenomics/initial-supply-breakdown",
+            "archive/old-tokenomics/emission-schedule"
+          ]
+        },
+        "archive/liquidity-migration"
       ]
     }
-  ],
-  "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://linkedin.com/company/mintlify"
-  }
+  ]
 }
