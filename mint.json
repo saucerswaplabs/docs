@@ -21,7 +21,7 @@
       ]
     },
     {
-      "group": "📞Contact",
+      "group": "📞 Contact",
       "pages": [
         "contact",
         "contact/partnership-inquiries",
@@ -34,7 +34,7 @@
       "pages": [
         "get-started/faq",
         {
-          "group": "🌐Hedera Guide",
+          "group": "🌐 Hedera Guide",
           "pages": [
             "get-started/hedera-guide",
             "get-started/hedera-guide/create-hedera-wallet",
@@ -43,7 +43,7 @@
           ]
         },
         {
-          "group": "🎓SaucerSwap Tutorials",
+          "group": "🎓 SaucerSwap Tutorials",
           "pages": [
             "get-started/saucerswap-tutorials",
             "get-started/saucerswap-tutorials/swap",
@@ -65,7 +65,7 @@
       "pages": [
         "protocol/saucerswap-v1",
         {
-          "group": "⚖️SaucerSwap V1",
+          "group": "⚖️ SaucerSwap V1",
           "pages": [
             "protocol/saucerswap-v1",
             "protocol/saucerswap-v1/farm-weights",
@@ -73,7 +73,7 @@
           ]
         },
         {
-          "group": "🌊SaucerSwap V2",
+          "group": "🌊 SaucerSwap V2",
           "pages": [
             "protocol/saucerswap-v2",
             "protocol/saucerswap-v2/lari-weights",
@@ -102,7 +102,7 @@
       "pages": [
         "developerx/developer-resources",
         {
-          "group": "🔮Developer Resources",
+          "group": "🔮 Developer Resources",
           "pages": [
             "developerx/developer-resources"
           ]
@@ -142,7 +142,7 @@
       "pages": [
         "archive/proto-governance",
         {
-          "group": "🦕Old Tokenomics",
+          "group": "🦕 Old Tokenomics",
           "pages": [
             "archive/old-tokenomics",
             "archive/old-tokenomics/initial-supply-breakdown",
