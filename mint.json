@@ -10,7 +10,9 @@
   "navigation": [
     {
       "group": "Home",
-     
+      "pages": [
+        "home"
+      ]
     },
     {
       "group": "Roadmap",
