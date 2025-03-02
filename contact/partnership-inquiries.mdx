@@ -30,8 +30,6 @@ Token information displayed on [saucerswap.finance](https://saucerswap.finance) 
 
 From either source, the following fields are currently supported:
 
-
-
 | Field                     | type   | description                                                        |
 | ------------------------- | ------ | ------------------------------------------------------------------ |
 | "lightLogo" or "darkLogo" | string | Token icon or logo image                                           |
@@ -43,19 +41,26 @@ From either source, the following fields are currently supported:
 | "sentinelReport"          | string | Published [Sentinel Report](https://sentinel.headstarter.org/) url |
 | "category"                | string | Category for the asset, e.g. meme, stablecoin, defi.               |
 
+<Accordion title="Example Metadata" defaultOpen={false}>
+  ```
+  {
+    "lightLogo": "ar://U-xGP5bDZaqKPAE_4J2Pxqidb4s73qd0VjnuwboFWI8",
+    "description": "Test token metadata",
+    "website": "https://hedera.com",
+    "properties": {
+      "twitter": "hedera",
+      "discord": "https://discord.com/invite/uJ5k8DkmKV",
+      "telegram": "https://t.me/hederahashgraph",
+      "sentinelReport": "https://sentinel.headstarter.org/details/saucerswap",
+      "category": "meme"
+    }
+  }
+  ```
+</Accordion>
 
+#### Token Classifications[](#token-classifications)
 
-### Classes
-
-Tokens on SaucerSwap fall into one of three classes: default, extended, or untracked. These classes are defined below:
-
-<CardGroup cols="2">
-  <Card title="Card" icon="sparkles">
-    *
-  </Card>
-
-  <Card title="Card" icon="sparkles" />
-</CardGroup>
+Tokens on SaucerSwap fall into one of three classes: default, extended, or all.
 
 <CardGroup cols="2">
   <Card title="Default">
@@ -96,24 +101,6 @@ Tokens on SaucerSwap fall into one of three classes: default, extended, or untra
     * Token icon either via token metadata or Davinci Pics
   </Card>
 </CardGroup>
-
-### Extended Listing Instructions
-
-1. Create a liquidity pool containing your token + HBAR or another HTS token (e.g., SAUCE, USDC). There are no liquidity requirements for tokens on the extended list.
-
-2. Submit a[ request form](https://z30ev00547x.typeform.com/to/YBGqwGup).
-
-3. SaucerSwap Labs will add your token to the extended list within 4-5 business days of receiving the application.
-
-### Default Listing Instructions
-
-1. Complete a[ Sentinel report](https://sentinel.headstarter.org/) through HeadStarter. This involves answering basic questions about your project.
-
-2. Once the report is published and you and your community have added $100,000 of liquidity for your token, plus an equivalent value of paired token(s), submit a [governance RFC](https://gov.saucerswap.finance/) to begin the listing process.
-
-3. Following the RFC, submit a [governance proposal](https://www.saucerswap.finance/governance). The [SaucerSwap DAO](/governance/overview) will vote on your proposal. If it passes, an election will be triggered automatically and will be voted on for final approval from the DAO.
-
-4. If the election passes, SaucerSwap Labs will promptly add your token to the default list.
 
 ## Yield Farm (V1)
 
