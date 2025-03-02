@@ -34,8 +34,6 @@ title: "SaucerSwap V1"
   SaucerSwap V1 supports tokens with fractional fees but not those with fixed fees. In fractional fee tokens, the fee is deducted from the transaction amount, such as during a swap. However, for fixed fee tokens, this fee is applied separately. A workaround for fixed fees in SaucerSwap V1 is to set a fractional fee at 0% and use a fallback. For detailed guidance on implementing custom fees in the Hedera Token Service (HTS), refer to the [Hedera Docs](https://docs.hedera.com/hedera/sdks-and-apis/hedera-api/token-service/customfees).
 </Info>
 
-SaucerSwap V1 supports tokens with fractional fees but not those with fixed fees. In fractional fee tokens, the fee is deducted from the transaction amount, such as during a swap. However, for fixed fee tokens, this fee is applied separately. A workaround for fixed fees in SaucerSwap V1 is to set a fractional fee at 0% and use a fallback. For detailed guidance on implementing custom fees in the Hedera Token Service (HTS), refer to the [Hedera Docs](https://docs.hedera.com/hedera/sdks-and-apis/hedera-api/token-service/customfees).
-
 1. **Setting Ratio**
 
 * Input the initial amounts of TokenA and TokenB. The ratio between these tokens sets the pool's initial price. Aim to approximate market prices to avoid immediate arbitrage.
@@ -106,9 +104,11 @@ SaucerSwap V1 supports tokens with fractional fees but not those with fixed fees
 
 ![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FlfP48dUV58mQODlG1wH3%252FScreenshot%25202023-10-29%2520at%25205.03.15%25E2%2580%25AFPM.png)
 
-**Note:** In contrast to V2, where fees are manually claimed, fees in V1 directly accumulate in the pool, increasing the value of each LP token. To claim your share of earned fees, simply withdraw liquidity.
+<Info>
+  **Note:** In contrast to V2, where fees are manually claimed, fees in V1 directly accumulate in the pool, increasing the value of each LP token. To claim your share of earned fees, simply withdraw liquidity.
+</Info>
 
-## How to Manage a Farm: Written Guide
+### How to Manage a Farm: Written Guide
 
 1. **Prerequisites**
 
@@ -138,7 +138,9 @@ SaucerSwap V1 supports tokens with fractional fees but not those with fixed fees
 
 * Enter the number of LP tokens you want to stake for yield farming.
 
-**Note:** If you do not have LP tokens, you must first supply liquidity.
+<Info>
+  **Note:** If you do not have LP tokens, you must first supply liquidity.
+</Info>
 
 * Click "Approve & Stake" and complete the transaction in your wallet.
 
