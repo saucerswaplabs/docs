@@ -2,22 +2,48 @@
 title: "Partnership Inquiries"
 ---
 
-testing testing
 For general partnership inquiries, you can contact us via email: [outreach@saucerswap.finance](mailto:outreach@saucerswap.finance), or by completing a [request form](https://z30ev00547x.typeform.com/to/YBGqwGup).
 
-## Token Listing
+## Adding a Token[](#adding-a-token)
 
-The SaucerSwap interface is designed to be permissionless and inclusive, while also taking a firm stance against bad actors seeking to exploit the community. As such, several safeguards are in place to protect users and provide market clarity. One such safeguard is a tiered listing system, where all HTS tokens fit within one of three distinct classes: **default**, **extended**, or **untracked**.
+Anybody can 'list' a Hedera (HTS) token on SaucerSwap. You don't need to submit a request or ask permission; just create a liquidity pool, that's it. For V1 pool creation, see [Liquidity Pool Tutorials](https://docs.saucerswap.finance/get-started/saucerswap-tutorials/liquidity/saucerswap-v1).
 
-Anyone may initialize a liquidity pool with any two HTS tokens, regardless of whether these tokens are listed on the interface. If a token is not listed (i.e., **untracked**), a user can import it by pasting the Hedera token ID (e.g., *0.0.123456*) into the search bar of the token menu.
+Once there is at least 1 liquidity pool, users can then trade your token by entering the token ID (e.g. 0.0.12345)
 
-The **extended** list offers a fast and easy way for smaller projects to get their tokens listed on the interface without having to complete a due diligence process or meet liquidity requirements, thereby upholding the permissionless ethos of SaucerSwap.
+## How to Add Token Icon/Logo[](#how-to-add-token-icon-logo)
 
-The **default** list is reserved for larger and more established projects, including high-value assets bridged from other chains (e.g., WBTC\[hts], USDT\[hts]) and prominent Hedera projects (e.g., SAUCE, HST, DOVU). To be added to this list, the project's team must undergo a due diligence process led by HeadStarter, face scrutiny from the SaucerSwap DAO in the form of a vote, and meet liquidity requirements.
+Token information displayed on [saucerswap.finance](https://saucerswap.finance) is referenced from 2 sources:
 
-This tiered listing system empowers the community by making it easier for both hobbyist and funded developers to access liquidity for their tokens, while also maintaining trust and integrity in the Hedera DeFi ecosystem.
+* An IPFS or Arweave metadata link in the token's memo or metadata field, conforming to the [Hedera fungible token Metadata schema](https://hips.hedera.com/hip/hip-405#schema).
 
-Note that most projects within the Hedera DeFi ecosystem are best suited for the extended list.
+  * Note: updating metadata requires a token having an admin or metadata key
+
+* Token icon and information added to [Davinci Pics](https://davincigraph.io/#pics_home)
+
+  * Note: adding or updating Davinci Pics data requires connecting the token's treasury account ID (or the account ID which executed the token create transaction) to Davinci to authenticate.
+
+Token information displayed on [saucerswap.finance](https://saucerswap.finance) is referenced from 2 sources:
+
+<Info>
+  Token information is checked frequently and updated automatically.
+</Info>
+
+From either source, the following fields are currently supported:
+
+
+
+| Field                     | type   | description                                                        |
+| ------------------------- | ------ | ------------------------------------------------------------------ |
+| "lightLogo" or "darkLogo" | string | Token icon or logo image                                           |
+| "description"             | string | Description of the token                                           |
+| "website"                 | string | Token or project's website                                         |
+| "twitter"                 | string | Token or project's Twitter/X handle                                |
+| "discord"                 | string | Token or project's Discord invite url                              |
+| "telegram"                | string | Token or project's Telegram link url                               |
+| "sentinelReport"          | string | Published [Sentinel Report](https://sentinel.headstarter.org/) url |
+| "category"                | string | Category for the asset, e.g. meme, stablecoin, defi.               |
+
+
 
 ### Classes
 
@@ -28,12 +54,8 @@ Tokens on SaucerSwap fall into one of three classes: default, extended, or untra
     *
   </Card>
 
-  <Card title="Card" icon="sparkles">
-
-  </Card>
+  <Card title="Card" icon="sparkles" />
 </CardGroup>
-
-
 
 <CardGroup cols="2">
   <Card title="Default">
