@@ -32,16 +32,12 @@ SaucerSwap V2 inherits the Uniswap V3 concept of "ticks," partitioning the conti
 
 V2 offers a multi-tiered fee structure, allowing LPs to be appropriately compensated for taking on varying degrees of risk.
 
-
-
 | Fee Tier | Tick Spacing | Characteristic                                        | Example   |
 | -------- | ------------ | ----------------------------------------------------- | --------- |
 | 0.05%    | 10           | Highly stable pairs (Minimal price volatility)        | USDC/USDT |
 | 0.15%    | 30           | Moderately stable pairs (Low to medium volatility)    | USDC/HBAR |
 | 0.30%    | 60           | Volatile pairs (Significant price swings)             | LINK/HBAR |
 | 1.00%    | 200          | Highly volatile pairs (Unpredictable price movements) | JAM/HBAR  |
-
-
 
 * **Highly stable pairs:** These are typically stablecoin pairs where both assets aim to peg their value to an external stable source, like the U.S. dollar.
 
@@ -69,7 +65,9 @@ Where:
 
 The 7-day average *Fees* APR is displayed in the SaucerSwap interface.
 
-**Note:** Total APR = Fees APR+Reward APR, where Reward APR is sourced from [LARI](/protocol/saucerswap-v2#liquidity-aligned-reward-initiative-lari).
+<Info>
+  **Note:** Total APR = Fees APR+Reward APR, where Reward APR is sourced from [LARI](/protocol/saucerswap-v2#liquidity-aligned-reward-initiative-lari).
+</Info>
 
 ### Volatility Strategies
 
@@ -77,35 +75,14 @@ The SaucerSwap interface offers volatility strategies with preset price ranges t
 
 #### Focused Approach
 
-Fee Tier
 
-Price Range
 
-Tick Range
-
-0.05%
-
-± 0.30%
-
-± 30 ticks
-
-0.15%
-
-± 3.00%
-
-± 300 ticks
-
-0.30%
-
-± 5.00%
-
-± 500 ticks
-
-1.00%
-
-± 10.00%
-
-± 1,000 ticks
+| Fee Tier | Price Range | Tick Range    |
+| -------- | ----------- | ------------- |
+| 0.05%    | ± 0.30%     | ± 30 ticks    |
+| 0.15%    | ± 3.00%     | ± 300 ticks   |
+| 0.30%    | ± 5.00%     | ± 500 ticks   |
+| 1.00%    | ± 10.00%    | ± 1,000 ticks |
 
 * 0.05% Fee Tier: Narrowly set around stablecoin peg of 1:1.
 
