@@ -2,7 +2,6 @@
 title: "SaucerSwap V2"
 ---
 
-
 ## Core Concepts
 
 SaucerSwap V2 is an automated market maker (AMM) based on Uniswap V3 smart contracts, adapted to work with the Hedera Token Service (HTS) through the Hedera Smart Contract Service (HSCS). For technical information, refer to the [V2 Whitepaper](https://www.saucerswap.finance/whitepaper-v2.pdf).
@@ -34,8 +33,6 @@ SaucerSwap V2 inherits the Uniswap V3 concept of "ticks," partitioning the conti
 V2 offers a multi-tiered fee structure, allowing LPs to be appropriately compensated for taking on varying degrees of risk.
 
 Fee Tier
-
-
 
 Tick Spacing
 
@@ -91,7 +88,7 @@ In each swap, traders are charged a fee based on the pool's fee tier. As with Sa
 
 The Fees APR is calculated in a similar manner to V1, using the following formula:
 
-Fees APR=LBal​24h Volume ×(Fee×65​)​×365
+> *Fees* APR = ​(24*h* Volume × (Fee × 5/6)) / L<sub>Bal</sub> ​× 365
 
 Where:
 
