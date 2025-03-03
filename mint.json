@@ -77,8 +77,6 @@
           "pages": [
             "protocol/saucerswap-v2",
             "protocol/saucerswap-v2/lari-weights",
-            "external-link-1",
-            "external-link-2"
           ]
         },
         "protocol/single-sided-staking",
@@ -110,7 +108,6 @@
         "developerx/contract-deployments",
         "developerx/audits",
         "developerx/bug-bounty",
-        "external-link-3"
       ]
     },
     {
