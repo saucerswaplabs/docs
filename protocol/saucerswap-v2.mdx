@@ -92,13 +92,13 @@ The Fees APR is calculated in a similar manner to V1, using the following formul
 
 Where:
 
-* Fee can be 0.05%, 0.15%, 0.30%, or 1.00%.
+* *Fee* can be 0.05%, 0.15%, 0.30%, or 1.00%.
 
-* LBal​ represents the total liquidity (aggregate of positions) in a [balanced range](/protocol/saucerswap-v2#balanced-approach).
+* *L*<sub>Bal</sub>​ represents the total liquidity (aggregate of positions) in a [balanced range](/protocol/saucerswap-v2#balanced-approach).
 
-The 7-day average Fees APR is displayed in the SaucerSwap interface.
+The 7-day average *Fees* APR is displayed in the SaucerSwap interface.
 
-**Note:** Total APR=Fees APR+Reward APR, where Reward APR is sourced from [LARI](/protocol/saucerswap-v2#liquidity-aligned-reward-initiative-lari).
+**Note:** Total APR = Fees APR+Reward APR, where Reward APR is sourced from [LARI](/protocol/saucerswap-v2#liquidity-aligned-reward-initiative-lari).
 
 ### Volatility Strategies
 
@@ -248,9 +248,9 @@ Before the epoch begins, each pool is assigned a weight of token rewards. For ex
 
 During the epoch, 'liquidity hours,' representing liquidity in the active tick, are calculated for each position by closely monitoring a pool for two types of events: swap events, which occur when a trade is executed, and liquidity events, which happen when liquidity is either added (mint) or removed (burn).
 
-For a position of size L, defined within the tick interval \[*a, b*] and containing the active tick, we determine its liquidity at that tick, Lpool, pos​, using the formula:
+For a position of size L, defined within the tick interval [*a, b*] and containing the active tick, we determine its liquidity at that tick, *L*<sub>pool,pos</sub>​, using the formula:
 
-Lpool, pos​=b−aL​
+*L*<sub>pool,pos</sub>​ ​= *L* / (b - a)
 
 Next, we measure the time interval Δt between consecutive events (either swap or liquidity events), converting this duration into hours. The liquidity hours for a position during the ith interval are calculated as:
 
