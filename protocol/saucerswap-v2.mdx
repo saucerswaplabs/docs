@@ -250,15 +250,15 @@ During the epoch, 'liquidity hours,' representing liquidity in the active tick, 
 
 For a position of size L, defined within the tick interval [*a, b*] and containing the active tick, we determine its liquidity at that tick, *L*<sub>pool,pos</sub>​, using the formula:
 
-*L*<sub>pool,pos</sub>​ ​= *L* / (b - a)
+> *L*<sub>pool,pos</sub>​ ​= *L* / (b - a)
 
 Next, we measure the time interval Δt between consecutive events (either swap or liquidity events), converting this duration into hours. The liquidity hours for a position during the ith interval are calculated as:
 
-Spool, pos, i​=Lpool, pos​×Δti​
+> *S*<sub>pool,pos,*i*</sub> ​= *L*<sub>pool,pos</sub> ​× Δ*ti*​
 
 This process is repeated throughout the epoch. Each event emitted by the pool starts a new interval. The total liquidity hours for a position during an epoch are the sum of liquidity hours across all intervals:
 
-Tpool, pos​=j=1∑n​Spool, pos, j​
+> *T*<sub>pool,pos</sub> ​= ∑<sub>j=1</sub><sup>n</sup>*S*<sub>pool,pos,*j*​</sub>
 
 Where:
 
