@@ -104,7 +104,11 @@
         {
           "group": "🔮  Developer Resources",
           "pages": [
-            "developerx/developer-resources"
+            "v/developer/rest-api",
+            "v/developer/saucerswap-v1",
+            "v/developer/saucerswap-v2",
+            "v/developer/staking-operations",
+            "v/developer/whbar"
           ]
         },
         "developerx/contract-deployments",
