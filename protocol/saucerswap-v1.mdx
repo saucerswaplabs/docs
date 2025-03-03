@@ -57,19 +57,22 @@ In this example, the 0.3 HBAR fee from the trade gets split—0.25 HBAR goes to 
 
 The addition of 0.25 HBAR to the pool increases the value of each LP token. Liquidity providers can track accumulated fees through the 7-day average *Fees APR* displayed on the interface. Note that the LP token price is not immune to volatility; it is affected by the price movements of the underlyings—specifically HBAR and USDC in this instance.
 
-Fees APR = Liquidity24h Volume ×(Fee×65​)​×365
+Fees APR = 24*h* Volume x (Fee x 5/6) / Liquidity × 365
 
-Where Fee=0.30%.
+Where *Fee* = 0.30%.
 
-**Note:** Total APR=Fees APR+Reward APR, where Reward APR is sourced from [yield farming](/protocol/saucerswap-v1#yield-farm).
+<Info>
+  \*\*Note:\*\* \*Total\* AP R= \*Fees\* APR + \*Reward\* APR, where Reward APR is sourced from \[yield farming]\(/protocol/saucerswap-v1#yield-farm).
+</Info>
 
-## Yield Farm
+
+### Yield Farm
 
 Yield farming on SaucerSwap allows liquidity providers to stake their LP tokens in the Masterchef contract to earn dual rewards in both HBAR and SAUCE. The Masterchef contract handles LP token staking and unstaking, as well as the automated minting and distribution of SAUCE rewards, according to a pre-set emission schedule.
 
 Rewards are proportional to the size of the liquidity provider's stake, relative to the total staked assets in the pool, and influenced by the pool's weight of overall emissions. The interface tracks these rewards as Reward APR, calculated using the formula:
 
-Reward APR=Staked Liquidityw×EHBAR​×ESAUCE​​
+Reward APR = (*w* × E<sub>HBAR</sub> ​× E<sub>SAUCE</sub>​​) / Staked Liquidity
 
 Where:
 
