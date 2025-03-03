@@ -2,8 +2,6 @@
 title: "🔁 Liquidity Migration"
 ---
 
-1. [Archive](/archive)
-
 Note: the public liquidity migration will begin on December 1st at 11pm UTC.
 
 For SaucerSwap to take advantage of native staking rewards, a new WHBAR and router contract have been deployed. This requires users to migrate their liquidity from deprecated pools.
@@ -13,6 +11,8 @@ All liquidity pools containing the existing WHBAR token will be deprecated on De
 Unless otherwise done by a project founder on Wednesday, Nov 30th, the SaucerSwap team will seed pools with a small amount of liquidity for all HBAR pairs to ensure a smooth user experience. The one-time fee associated with creating other pools will be lowered to $10 for one week following the migration, after which it will be set back to $50.
 
 ## How to Migrate Liquidity: Instructional Video
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/bKsdErjQVSQ" title="YouTube video player" frameBorder="0" allow="accelerometer; autoPlay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
 
 ## How to Migrate Liquidity: Guide
 
@@ -43,5 +43,3 @@ With the introduction of native staking, the HBAR in this smart contract can be 
 The native staking mechanics of the WHBAR contract are described in the above figure. Here, the WHBAR contract is deployed, setting the stakedAccountId to a simple smart contract. This StakeToSetter contract has an admin key to select a node for staking and allows its beneficiary to withdraw the accrued rewards. The WHBAR contract will not have an admin key and will therefore be completely decentralized.
 
 Once daily, at a random time, an allocation of HBAR native staking rewards is pulled from an intermediary payment splitter contract. This HBAR is swapped for SAUCE in the BrewSaucer contract before being sent to the Infinity Pool. Since the ratio of SAUCE to xSAUCE in the pool increases, so does the relative value of xSAUCE.
-
-[PreviousEmission Schedule](/archive/old-tokenomics/emission-schedule)
