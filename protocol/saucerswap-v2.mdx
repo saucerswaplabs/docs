@@ -90,8 +90,6 @@ The SaucerSwap interface offers volatility strategies with preset price ranges t
 
 #### Balanced Approach
 
-
-
 | Fee Tier | Price Range | Tick Range    |
 | -------- | ----------- | ------------- |
 | 0.05%    | ± 1.00%     | ± 100 ticks   |
@@ -107,35 +105,12 @@ The SaucerSwap interface offers volatility strategies with preset price ranges t
 
 #### Relaxed Approach
 
-Fee tier
-
-Price Range
-
-Tick Range
-
-0.05%
-
-± 2.50%
-
-± 250 ticks
-
-0.15%
-
-± 20.00%
-
-± 2,000 ticks
-
-0.30%
-
-± 30.00%
-
-± 3,000 ticks
-
-1.00%
-
-± 60.00%
-
-± 6,000 ticks
+| Fee Tier | Price Range | Tick Range    |
+| -------- | ----------- | ------------- |
+| 0.05%    | ± 2.50%     | ± 250 ticks   |
+| 0.15%    | ± 20.00%    | ± 2,000 ticks |
+| 0.30%    | ± 30.00%    | ± 3,000 ticks |
+| 1.00%    | ± 60.00%    | ± 6,000 ticks |
 
 * 0.05% Fee Tier: Accounts for extreme market conditions.
 
@@ -143,7 +118,9 @@ Tick Range
 
 * 0.30% & 1.00% Fee Tiers: Based on longer-term technical indicators with a wider view due to greater unpredictability.
 
-**Note:** The min and max values of a tick range are first rounded to the nearest multiple of a pool's tick spacing before being converted into prices. As such, the volatility strategy parameters should be regarded as approximations.
+<Info>
+  **Note:** The min and max values of a tick range are first rounded to the nearest multiple of a pool's tick spacing before being converted into prices. As such, the volatility strategy parameters should be regarded as approximations.
+</Info>
 
 The volatility strategies aim to simplify the process of liquidity provision but do not guarantee enhanced performance or reduced risk of impermanent loss. It is strongly advised that liquidity providers actively manage their positions. Please be aware that the current preset ranges may be adjusted based on community feedback. Finally, using these volatility strategies is entirely optional, and LPs always have the choice to define a custom range.
 
@@ -241,8 +218,8 @@ We assume that, throughout the epoch, the price of the pool remains stable and s
 
 First, we calculate liquidity at the active tick for each position:
 
-> L<sub>USDC/USDT,Bob</sub> ​= 10,000/10 ​= 1,000
-> L<sub>USDC/USDT,Alice</sub> ​= 10,000/1,000 ​= 10
+> L<sub>USDC/USDT,Bob</sub> ​= 10,000 / 10 ​= 1,000
+> L<sub>USDC/USDT,Alice</sub> ​= 10,000 / 1,000 ​= 10
 
 In this example, we can assume Δ*t<sub>1​</sub>* = 336 hours because neither position falls out-of-range. Since there is only one interval, *S*<sub>USDC/USDT,pos,1</sub>​ = *T*<sub>USDC/USDT,pos</sub>​. The total liquidity hours for each position are therefore calculated as follows:
 
@@ -264,48 +241,15 @@ Bob's focused approach results in a reward of 99,010 SAUCE, while Alice's broade
 
 The entire 43.75% DAO allocation of Masterchef emissions (55.49 SAUCE / min) will go towards LARI for the first four epochs. For subsequent epochs, half the allocation will go towards LARI, while the other half is retained by the DAO for future use. For more information, see [Tokenomics](/tokenomics/overview).
 
-Epoch
 
-Weeks Since V2 Launch
 
-SAUCE Rewards
-
-1
-
-Nov 17 - Dec 1
-
-1,600,000
-
-2
-
-Dec 1 - Dec 15
-
-1,300,000
-
-3
-
-Dec 15 - Dec 29
-
-874,714
-
-4
-
-Dec 29 - Jan 15
-
-700,000
-
-5
-
-Jan 15 - Jan 29
-
-559,339
-
-...
-
-...
-
-559,339
+| Epoch | Weeks Since V2 Launch | SAUCE Rewards |
+| ----- | --------------------- | ------------- |
+| 1     | Nov 17 - Dec 1        | 1,600,000     |
+| 2     | Dec 1 - Dec 15        | 1,300,000     |
+| 3     | Dec 15 - Dec 29       | 874,714       |
+| 4     | Dec 29 - Jan 15       | 700,000       |
+| 5     | Jan 15 - Jan 29       | 559,339       |
+| ...   | ...                   | ...           |
 
 ![](/images/protocol/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FNHEN7cBNkVlYQeSdbcbi%252Flari.png)
-
-[PreviousFarm Weights](/protocol/saucerswap-v1/farm-weights)[NextLARI Weights](/protocol/saucerswap-v2/lari-weights)
