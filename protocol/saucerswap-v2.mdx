@@ -248,25 +248,25 @@ Before the epoch begins, each pool is assigned a weight of token rewards. For ex
 
 During the epoch, 'liquidity hours,' representing liquidity in the active tick, are calculated for each position by closely monitoring a pool for two types of events: swap events, which occur when a trade is executed, and liquidity events, which happen when liquidity is either added (mint) or removed (burn).
 
-For a position of size L, defined within the tick interval [*a, b*] and containing the active tick, we determine its liquidity at that tick, *L*<sub>pool,pos</sub>​, using the formula:
+For a position of size L, defined within the tick interval \[*a, b*] and containing the active tick, we determine its liquidity at that tick, *L*<sub>pool,pos</sub>​, using the formula:
 
 > *L*<sub>pool,pos</sub>​ ​= *L* / (b - a)
 
 Next, we measure the time interval Δt between consecutive events (either swap or liquidity events), converting this duration into hours. The liquidity hours for a position during the ith interval are calculated as:
 
-> *S*<sub>pool,pos,*i*</sub> ​= *L*<sub>pool,pos</sub> ​× Δ*ti*​
+> *S*<sub>pool,pos,*i*</sub> ​= *L*<sub>pool,pos</sub> ​× Δ*t*<sub>*i*</sub>
 
 This process is repeated throughout the epoch. Each event emitted by the pool starts a new interval. The total liquidity hours for a position during an epoch are the sum of liquidity hours across all intervals:
 
-> *T*<sub>pool,pos</sub> ​= ∑<sub>j=1</sub><sup>n</sup>*S*<sub>pool,pos,*j*​</sub>
+> *T*<sub>pool,pos</sub> ​= ∑<sup>n</sup><sub>j=1</sub>*S*<sub>pool,pos,*j*​</sub>
 
 Where:
 
-* Tpool, pos​ represents the total liquidity hours for a position during an epoch.
+* *T*<sub>pool,pos</sub> represents the total liquidity hours for a position during an epoch.
 
-* Spool, pos, j​ represents the liquidity hours for each interval j, from j=1 to n.
+* *S*<sub>pool,pos,*j*​</sub> represents the liquidity hours for each interval *j*, from *j* = 1 to *n*.
 
-* n represents the total number of intervals during which the position was active.
+* *n* represents the total number of intervals during which the position was active.
 
 Additional considerations:
 
@@ -278,25 +278,27 @@ Additional considerations:
 
 The reward allocation for a position is calculated as follows:
 
-Rpool, pos​=Tpool​Rpool​×Tpool, pos​​
+> *R*<sub>pool,pos</sub> ​= (*R*<sub>pool</sub> ​× *T*<sub>pool,pos</sub>) / *T*<sub>pool</sub>​​
 
 Where:
 
-* Rpool, pos​ represents the reward allocation, or the quantity of tokens earned by the position during an epoch.
+* *R*<sub>pool,pos</sub>​ represents the reward allocation, or the quantity of tokens earned by the position during an epoch.
 
-* Rpool​ represents the reward allocation for the pool, found [here](/protocol/saucerswap-v2/lari-weights).
+* *R*<sub>pool</sub>​ represents the reward allocation for the pool, found [here](/protocol/saucerswap-v2/lari-weights).
 
-* Tpool, pos​ represents the total liquidity hours for the position during an epoch.
+* *T*<sub>pool,pos</sub> represents the total liquidity hours for the position during an epoch.
 
-* Tpool​ represents the total liquidity hours for the pool, calculated by summing the total liquidity hours of every position Tpool, pos, j​, from j=1 to n, where n represents the total number of active positions in the pool throughout the epoch.
+* *T*<sub>pool</sub>​ represents the total liquidity hours for the pool, calculated by summing the total liquidity hours of every position
 
-Tpool​=j=1∑n​Tpool, pos, j​
+* *T*<sub>pool,pos,*j*</sub>​, from *j* = 1 to *n*, where n represents the total number of active positions in the pool throughout the epoch.
+
+> *T*<sub>pool</sub> ​= ∑<sup>n</sup><sub>j=1</sub>*T*<sub>pool,pos,*j*​</sub>
 
 As an aside, the estimated Reward APR displayed in the SaucerSwap interface is calculated as follows:
 
-Reward APR=Lpool​Rpool​×26.07145​
+> *Reward* APR = (*R*<sub>pool</sub> x 26.07145) / *L*<sub>pool</sub>
 
-Where Lpool​ represents the pool liquidity.
+Where *L*<sub>pool</sub> represents the pool liquidity.
 
 **3. Distribution:**
 
@@ -314,21 +316,20 @@ We assume that, throughout the epoch, the price of the pool remains stable and s
 
 First, we calculate liquidity at the active tick for each position:
 
-LUSDC/USDT, Bob​=1010,000​=1,000
+> L<sub>USDC/USDT,Bob</sub> ​= 10,000/10 ​= 1,000
+> L<sub>USDC/USDT,Alice</sub> ​= 10,000/1,000 ​= 10
 
-LUSDC/USDT, Alice​=1,00010,000​=10
+In this example, we can assume Δ*t<sub>1​</sub>* = 336 hours because neither position falls out-of-range. Since there is only one interval, *S*<sub>USDC/USDT,pos,1</sub>​ = *T*<sub>USDC/USDT,pos</sub>​. The total liquidity hours for each position are therefore calculated as follows:
 
-In this example, we can assume Δt1​=336 hours because neither position falls out-of-range. Since there is only one interval, SUSDC/USDT, pos, 1​=TUSDC/USDT, pos​. The total liquidity hours for each position are therefore calculated as follows:
+> *T*<sub>USDC/USDT,Bob</sub> ​= 1,000 × 336 = 336,000
 
-TUSDC/USDT, Bob​=1,000×336=336,000
-
-TUSDC/USDT, Alice​=10×336=3,360
+> *T*<sub>USDC/USDT,Alice</sub> = 10 × 336 = 3,360
 
 We can now determine the reward allocation in SAUCE for each position:
 
-RUSDC/USDT, Bob​=336,000+3,360100,000×336,000​=99,010
+> *R*<sub>USDC/USDT,Bob</sub> ​= (100,000 × 336,000) / (336,000 + 3,360) = 99,010
 
-RUSDC/USDT, Alice​=336,000+3,360100,000×3,360​=990
+> *R*<sub>USDC/USDT,Alice</sub> = (100,000 × 3,360) / (336,000 + 3,360) = 990
 
 Bob's focused approach results in a reward of 99,010 SAUCE, while Alice's broader approach yields her only 990 SAUCE. Bob’s decision to provide liquidity in a narrow, focused range where he anticipated price activity led him to outperform Alice in terms of rewards by a factor of 100. Alice, although safer in terms of exposure to price movement, did not capitalize as efficiently on the rewards during this particular epoch.
 
