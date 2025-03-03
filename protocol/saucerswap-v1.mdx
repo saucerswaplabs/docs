@@ -37,15 +37,17 @@ A trader wants to swap *s* = 100 HBAR for USDC in this pool. After applying the 
 
 The new reserves, *x′* and *y′*, must satisfy the invariant, *k*:
 
-*(x+s′)×(y−y′) = k*
+*(x + s′)×(y − y′) = k*
 
 Solving for *y′*:
 
-(10,000+99.7)×(1000−*y′*) = 10,000,000*y′* = 1000−10,099.7 / 10,000,000 ​≈ 9.9 USDC
+(10,000 + 99.7)×(1000−*y′*) = 10,000,000*y′* = 1000−10,099.7 / 10,000,000 ​≈ 9.9 USDC
 
 The trader receives about 9.9 USDC for 100 HBAR. This is slightly less than expected due to price impact. Price impact can be defined as the liquidity "cost" a trader incurs when executing a swap. This cost manifests as a less favorable exchange rate, since an adjustment in the token reserves, *x* and *y*, is needed to maintain the constant product, *k*. The price impact is calculated as follows:
 
-Initial PriceFinal PricePrice Impact​=xy​=10,000HBAR1000USDC​=0.1USDC/HBAR=(x+s)y′​=10,100HBAR990.1USDC​≈0.098USDC/HBAR=Initial PriceFinal Price−Initial Price​×100=0.10.098−0.1​×100≈−2%​
+Initial Price = *y*/*x* = 1000 USDC / 10,000 HBAR = 0.1 USDC/HBAR
+Final Price = *y′*/ (*x + s*) = 990.1 USDC / 10,100 HBAR ≈ 0.098 USDC/HBAR
+Price Impact​= (Final Price - Initial Price) / Initial Price x 100 = (0.098 - 0.1)/0.1 x 100 ≈ -2%
 
 This trade results in a price impact of approximately -2%.
 
@@ -79,5 +81,4 @@ Where:
 
 Current emission rates are 230.62 SAUCE/min and 0.78 HBAR/min. These are allocated to various liquidity pools through a [governance process](/governance/overview).
 
-
-$\pi \approx 3.14159$
+$ \pi \approx 3.14159 $
