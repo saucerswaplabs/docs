@@ -2,14 +2,13 @@
 title: "SaucerSwap V1"
 ---
 
-
 ## Core Concepts
 
 ### Introduction
 
 SaucerSwap V1 is an automated market maker (AMM) based on Uniswap V2 smart contracts, adapted to work with the Hedera Token Service (HTS) through the Hedera Smart Contract Service (HSCS). For technical information, refer to the [V1 Whitepaper](https://www.saucerswap.finance/whitepaper.pdf).
 
-The protocol uses a constant product formula, represented by xy=k, for its automated liquidity provision. x and y are the reserves of each token in a given liquidity pool, and *k* is the product of these reserves. The value of k remains constant during swaps, ensuring that the liquidity pool stays balanced and that every swap moves the price along a predetermined bonding curve.
+The protocol uses a constant product formula, represented by *xy=k*, for its automated liquidity provision. *x* and *y* are the reserves of each token in a given liquidity pool, and *k* is the product of these reserves. The value of *k* remains constant during swaps, ensuring that the liquidity pool stays balanced and that every swap moves the price along a predetermined bonding curve.
 
 Traders incur a 30 basis-point (0.30%) fee on each swap. Of this fee, 5/6 is allocated to liquidity providers, while the remaining 1/6 is directed to the protocol. The protocol utilizes its share for SAUCE token buybacks, which are subsequently distributed between the Infinity Pool and the DAO.
 
@@ -21,23 +20,30 @@ Understanding the mechanics of constant product AMMs is essential for traders an
 
 A liquidity provider decides to create a new pool for HBAR and USDC. Given that HBAR is trading at approximately 1/10 the price of USDC on secondary markets, they set an initial deposit ratio that reflects this market price: 10,000 HBAR and 1,000 USDC. If the price is off, arbitrageurs will correct it at the expense of the liquidity provider.
 
-The constant product k  **for this pool is calculated using the initial reserves of each token:
+The constant product *k* for this pool is calculated using the initial reserves of each token:
 
-HBAR reserves: xUSDC reserves: yk​=10,000HBAR=1000USDC=x×y=10,000HBAR×1,000USDC=10,000,000​
+HBAR reserves: *x* ​= 10,000 HBAR
+USDC reserves: *y* = 1000 USDC
+               *k* = *x* × *y*
+                  \= 10,000 HBAR × 1,000 USDC
+                  \= 10,000,000
+​
 
 #### Performing a Swap
 
-A trader wants to swap s=100 HBAR for USDC in this pool. After applying the SaucerSwap protocol's 0.30% fee, the effective amount s′ is:
+A trader wants to swap *s* = 100 HBAR for USDC in this pool. After applying the SaucerSwap protocol'*s* 0.30% fee, the effective amount *s′* is:
 
-s′=s×(1−0.003)=100HBAR×0.997=99.7HBAR
+*s′* = *s* × (1−0.003) = 100 HBAR × 0.997 = 99.7 HBAR
 
-The new reserves, x′ and y′, must satisfy the invariant, k:
+The new reserves, *x′* and *y′*, must satisfy the invariant, *k*:
 
-(x+s′)×(y−y′)=k
+*(x+s′)×(y−y′) = k*
 
-Solving for y′:
+Solving for *y′*:
 
-(10,000+99.7)×(1000−y′)=10,000,000y′=1000−10,099.710,000,000​≈9.9USDC
+(10,000+99.7)×(1000−*y′*) = 10,000,000*y′* = 1000−10,099.7 / 10,000,000 ​≈ 9.9 USDC
+
+
 
 The trader receives about 9.9 USDC for 100 HBAR. This is slightly less than expected due to price impact. Price impact can be defined as the liquidity "cost" a trader incurs when executing a swap. This cost manifests as a less favorable exchange rate, since an adjustment in the token reserves, x and y, is needed to maintain the constant product, k. The price impact is calculated as follows:
 
