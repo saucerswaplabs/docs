@@ -1,8 +1,6 @@
 ---
-title: "Overview"
+title: "🗳️ Overview"
 ---
-
-
 
 The SaucerSwap decentralized autonomous organization (DAO) governs key aspects of the protocol, including the allocation of rewards, creation of liquidity pools, adjustments to tokenomics, and management of the protocol's treasury. The DAO's decisions are made collectively by community members who hold SAUCE and xSAUCE tokens.
 
@@ -10,7 +8,7 @@ The SaucerSwap decentralized autonomous organization (DAO) governs key aspects o
 
 The DAO influences the protocol through token-weighted voting, with each vote cast using the Hedera Consensus Service (HCS). Community members connect their wallets to the SaucerSwap Interface to sign and submit voting messages to a designated topic ID in JSON format. SaucerSwap retrieves the voter’s historical balances of SAUCE and xSAUCE at a specified UNIX timestamp via the Hedera mirror node. Although users may vote multiple times, only the final vote is counted.
 
-Voting Power=SAUCE bal +(xSAUCE bal ×conversion rate)
+> Voting Power = SAUCE bal + (xSAUCE bal × conversion rate)
 
 Where:
 
@@ -56,7 +54,7 @@ During the RFC phase, community members present and discuss proposed changes on 
 
 * **Voting Mechanism:** Single-choice voting with snapshots of account balances taken every one minute.
 
-After the RFC phase, a refined proposal can be submitted, provided the proposer has at least 100k units of voting power (SAUCE and xSAUCE). The proposal is posted on the Governance Forum and submitted to the SaucerSwap voting interface for a two-day voting period. Proposals must achieve a quorum of 10M units of voting power to advance to the Election phase. Voting includes a "No change" option and uses single-choice voting, with snapshots of account balances taken every one minute.
+After the RFC phase, a refined proposal can be submitted, provided the proposer has at least 100k units of voting power (SAUCE and xSAUCE). The proposal is posted on the Governance Forum and submitted to the SaucerSwap voting interface for a two-day voting period. Proposals must achieve a quorum of 5M units of voting power to advance to the Election phase. Voting includes a "No change" option and uses single-choice voting, with snapshots of account balances taken every one minute.
 
 ### **Phase 3: Election**
 
@@ -76,7 +74,7 @@ After the RFC phase, a refined proposal can be submitted, provided the proposer 
 
 * **Voting Mechanism:** Single-choice voting with snapshots of account balances taken every one minute.
 
-The Election phase is triggered automatically if a proposal passes the Proposal phase. This phase involves a community-wide vote over two days, finalizing the decision. The ballot typically includes the proposal that met quorum and majority, alongside a "No change" option. Voting is conducted via HCS, and only the final vote of each user is counted. An Election must achieve a quorum of 40M units of voting power and a majority vote for enactment.
+The Election phase is triggered automatically if a proposal passes the Proposal phase. This phase involves a community-wide vote over two days, finalizing the decision. The ballot typically includes the proposal that met quorum and majority, alongside a "No change" option. Voting is conducted via HCS, and only the final vote of each user is counted. An Election must achieve a quorum of 15M units of voting power and a majority vote for enactment.
 
 ## Governance Scope
 
@@ -126,14 +124,16 @@ The following accounts and contracts are under the DAO’s control, enabling the
 
    * **Duration:** 2 days.
 
-   * **Requirements:** 100k voting power creation threshold; 10M voting power quorum.
+   * **Requirements:** 100k voting power creation threshold; 5M voting power quorum.
 
 3. **Election Phase**
 
-   * **Requirements:** 40M voting power quorum for enactment.
+   * **Requirements:** 15M voting power quorum for enactment.
 
    * **Duration:** 2 days.
 
    * **Purpose:** Final community vote on proposals.
 
-Note: Proto-governance, previously conducted in Discord using Planck Epoch Collectible (PEC) NFTs, is replaced by the on-chain token-weighted voting system described above.
+<Info>
+  Note: Proto-governance, previously conducted in Discord using Planck Epoch Collectible (PEC) NFTs, is replaced by the on-chain token-weighted voting system described above.
+</Info>
