@@ -1,0 +1,86 @@
+---
+title: "Check if a Pool Exists"
+---
+
+1. [SaucerSwap V2](/developer/saucerswap-v2)
+2. [Liquidity Operations](/developer/saucerswap-v2/liquidity-operations)
+
+Check if a V2 liquidity pool for two sets of HTS tokens with a specific swap fee tier exists on-chain.
+
+Checking if the liquidity pool with the matching fee tier exists using SaucerSwap's REST API is also a suitable alternative. For more information, see [Get all Liquidity Pools (V2)](/developer/saucerswap-v2/liquidity-operations/fetch-all-pools).
+
+***
+
+Function name: **getPool**
+
+⛽ *No gas cost*
+
+Parameter Name
+
+Description
+
+**address token0**
+
+The contract address of either token0 or token1
+
+**address token1**
+
+The contract address of the other token
+
+**uint24 fee**
+
+The fee collected upon every swap in the pool, denominated in hundredths of a bip
+
+<Accordion title="Solidity Interface">
+  ```
+  //IUniswapV3Factory.sol
+
+  /// @notice Returns the pool address for a given pair of tokens and a fee, or address 0 if it does not exist
+  /// @dev tokenA and tokenB may be passed in either token0/token1 or token1/token0 order
+  /// @param tokenA The contract address of either token0 or token1
+  /// @param tokenB The contract address of the other token
+  /// @param fee The fee collected upon every swap in the pool, denominated in hundredths of a bip
+  /// @return pool The pool address
+  function getPool(
+    address tokenA,
+    address tokenB,
+    uint24 fee
+  ) external view returns (address pool);
+  ```
+</Accordion>
+
+When working with HBAR, use the WHBAR (Wrapped HBAR) token address for either tokenA or tokenB.
+
+The ordering of tokens for token0 and token1 does not matter.
+
+If the pool does not exist, a zero address will be returned.
+
+### Code Overview
+
+<Tabs>
+  <Tab title="Typescript">
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+
+    * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
+  </Tab>
+
+  <Tab title>
+    ```
+    import * as ethers from 'ethers'; //V6
+
+    //Set one of Hedera's JSON RPC Relay as the provider
+    const provider = new ethers.JsonRpcProvider(hederaJsonRelayUrl, '', {
+      batchMaxCount: 1, //workaround for V6
+    });
+
+    //load ABI data containing the Factory's getPool function
+    const interfaces = new ethers.Interface(abi);
+
+    const factoryContract = new ethers.Contract(factoryEvmAddress, interfaces.fragments, provider);
+    const result = await factoryContract.getPool(token0, token1, fee); //(token1, token0, fee) will give same result
+    const poolEvmAddress = result; //address pool
+    ```
+  </Tab>
+</Tabs>
+
+[PreviousFetch all Pools](/developer/saucerswap-v2/liquidity-operations/fetch-all-pools)[NextFetch Pool Token Ratio](/developer/saucerswap-v2/liquidity-operations/fetch-pool-token-ratio)

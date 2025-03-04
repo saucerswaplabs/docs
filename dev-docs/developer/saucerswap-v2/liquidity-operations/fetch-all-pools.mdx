@@ -1,0 +1,94 @@
+---
+title: "Fetch all Pools"
+---
+
+1. [SaucerSwap V2](/developer/saucerswap-v2)
+2. [Liquidity Operations](/developer/saucerswap-v2/liquidity-operations)
+
+Retrieve all V2 liquidity pools via SaucerSwap REST API
+
+SaucerSwap offers a public [REST API](/developer/rest-api) endpoint to retrieve all liquidity pools, accompanied by useful metadata for each pool, including liquidity pool reserves, and their associated tokens. Use the following URL options to access the data.
+
+Hedera Network
+
+URL
+
+Mainnet
+
+[https://api.saucerswap.finance/v2/pools/](https://api.saucerswap.finance/v2/pools/)
+
+Testnet
+
+[https://test-api.saucerswap.finance/v2/pools/](https://test-api.saucerswap.finance/v2/pools/)
+
+Previewnet
+
+*Not supported*
+
+For Saucerswap V1 liquidity pools, see [Fetch all pools (V1)](/developer/saucerswap-v1/liquidity-operations/fetch-all-pools).
+
+### Data JSON Schema
+
+<CodeGroup>
+  ```typescript Typescript
+  type ApiLiquidityPoolV2 = {
+    id: number;
+    contractId: string;
+    tokenA: ApiToken;
+    amountA: string; //total amount for tokenA, in smallest unit
+    tokenB: ApiToken;
+    amountB: string; //total amount for tokenB, in smallest unit
+    fee: number;
+    sqrtRatioX96: string;
+    tickCurrent: number;
+    liquidity: string;
+  }
+
+  type ApiToken = {
+    decimals: number
+    icon?: string
+    id: string
+    name: string
+    price: string
+    priceUsd: number
+    symbol: string
+    dueDiligenceComplete: boolean
+    isFeeOnTransferToken: boolean
+    timestampSecondsLastListingChange: number
+    description: string | null
+    website: string | null
+    twitterHandle: string | null
+    sentinelReport: string | null
+  }
+  ```
+</CodeGroup>
+
+### Code Overview
+
+⛽ *No gas cost*
+
+<CodeGroup>
+  ```typescript-1 Typescript
+  const url = 'https://api.saucerswap.finance/v2/pools/';  
+  const response = await axios.get(url);
+  const pools = response.data;
+  for (const pool of pools as ApiLiquidityPoolV2[] ) {
+
+    const symbolA = pool.tokenA.symbol;
+    const symbolB = pool.tokenB.symbol;
+    const feeTier = pool.fee / 10_000.0;
+    const currTick = pool.tickCurrent;
+    const liquidity = pool.liquidity;
+
+    let output = '';
+    output += `Pool id: ${pool.id}`;
+    output += ` - ${symbolA}/${symbolB} @ ${feeTier}%`;
+    output += ` - Current tick: ${currTick}`;
+    output += `, Liquidity: ${liquidity}`;
+
+    console.log(output);
+  }
+  ```
+</CodeGroup>
+
+[PreviousLiquidity Operations](/developer/saucerswap-v2/liquidity-operations)[NextCheck if a Pool Exists](/developer/saucerswap-v2/liquidity-operations/check-if-a-pool-exists)

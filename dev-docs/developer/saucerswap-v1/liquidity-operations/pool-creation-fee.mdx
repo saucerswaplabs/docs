@@ -1,0 +1,64 @@
+---
+title: "Pool Creation Fee"
+---
+
+1. [SaucerSwap V1](/developer/saucerswap-v1)
+2. [Liquidity Operations](/developer/saucerswap-v1/liquidity-operations)
+
+Fetch the pool creation fee from the Factory contract.
+
+The following code demonstrates how to accurately the current pool creation fee in HBAR using a combination of JSON RPC and REST API. The pool creation fee is used when [creating a new liquidity pool](/developer/saucerswap-v1/liquidity-operations/create-a-new-pool).
+
+The current fee for creating V1 liquidity pools is $50 USD, paid in HBAR. The exchange rate information is used to accurately determine the equivalent value in HBAR.
+
+The **pairCreateFee()** function will return the current fee expressed in **Tinycent** (US).
+
+⛽ *No gas cost*
+
+<Tabs>
+  <Tab title="JSON RPC">
+    **Resources:**
+  </Tab>
+
+  <Tab title>
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+
+    * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
+
+    * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
+  </Tab>
+
+  <Tab title>
+    ```
+    import * as ethers from 'ethers'; //V6
+
+    //Set one of Hedera's JSON RPC Relay as the provider
+    const provider = new ethers.JsonRpcProvider(hederaJsonRelayUrl, '', {
+      batchMaxCount: 1, //workaround for V6
+    });
+
+    //load ABI data containing Factory's pairCreateFee function
+    const interfaces = new ethers.Interface(abi);
+
+    //get pool creation fee in tinycent
+    const factoryContract = new ethers.Contract(factoryEvmAddress, interfaces.fragments, provider);
+    const result = await factoryContract.pairCreateFee();
+    const tinycent = Number(result); //amount in tinycent (US)
+
+    //get the current exchange rate via REST API
+    const url = `${mirrorNodeBaseUrl}/api/v1/network/exchangerate`;
+    const response = await axios.get(url);
+    const currentRate = response.data.current_rate;
+    const centEquivalent = Number(currentRate.cent_equivalent);
+    const hbarEquivalent = Number(currentRate.hbar_equivalent);
+    const centToHbarRatio = centEquivalent/hbarEquivalent;
+
+    //calculate the fee in terms of HBAR
+    const tinybar = BigNumber(tinycent / centToHbarRatio).decimalPlaces(0);
+    const poolCreateFeeInHbar = Hbar.from(tinybar, HbarUnit.Tinybar);
+    console.log(`Pool creation fee: ${poolCreateFeeInHbar.toString(HbarUnit.Hbar)}`);
+    ```
+  </Tab>
+</Tabs>
+
+[PreviousCheck if a Pool Exists](/developer/saucerswap-v1/liquidity-operations/check-if-a-pool-exists)[NextCreate a New Pool](/developer/saucerswap-v1/liquidity-operations/create-a-new-pool)

@@ -1,0 +1,437 @@
+---
+title: "Removing Liquidity"
+---
+
+1. [SaucerSwap V1](/developer/saucerswap-v1)
+2. [Liquidity Operations](/developer/saucerswap-v1/liquidity-operations)
+
+Remove liquidity from an existing token/token liquidity pool.
+
+Outlined below are three methods to remove liquidity from an existing pool:
+
+* [Removing HBAR/token liquidity](/developer/saucerswap-v1/liquidity-operations/removing-liquidity#removing-hbar-token-liquidity)
+
+* [Removing token/token liquidity](/developer/saucerswap-v1/liquidity-operations/removing-liquidity#removing-token-token-liquidity)
+
+* [Removing HBAR/token liquidity for tokens with custom fees](/developer/saucerswap-v1/liquidity-operations/removing-liquidity#removing-hbar-token-liquidity-supporting-tokens-with-custom-fees)
+
+**Contract ID:** [SaucerSwapV1RouterV3](https://hashscan.io/mainnet/contract/0.0.3045981)
+
+A spender allowance for the router is required for the LP token.
+
+removeLiquidity supports HTS tokens with custom fees.
+
+***
+
+## Removing HBAR/Token Liquidity
+
+Remove liquidity from an existing HBAR/token liquidity pool.
+
+Function name: **removeLiquidityETH**
+
+⛽ *Recommended gas: 2,800,000 gwei (\~ $0.24 USD)*
+
+Parameter Name
+
+Description
+
+**address token**
+
+EVM address of the token paired with HBAR
+
+**uint liquidity**
+
+LP liquidity amount to remove
+
+**uint amountTokenMin**
+
+The minimum token amount to receive in its smallest unit
+
+**uint amountETHMin**
+
+The minimum HBAR amount to receive in its smallest unit
+
+**address to**
+
+EVM address to receive the tokens
+
+**uint deadline**
+
+Deadline in Unix seconds
+
+<Accordion title="Solidity Interface & Function Body">
+  ```
+  //IUniswapV2Router01.sol
+
+  function removeLiquidityETH(
+    address token,
+    uint liquidity,
+    uint amountTokenMin,
+    uint amountETHMin,
+    address to,
+    uint deadline
+  ) external returns (uint amountToken, uint amountETH);
+  ```
+
+  ```
+  //UniswapV2Router02.sol
+
+  function removeLiquidityETH(
+    address token,
+    uint liquidity,
+    uint amountTokenMin,
+    uint amountETHMin,
+    address to,
+    uint deadline
+  ) public virtual override ensure(deadline) returns (uint amountToken, uint amountETH) {
+    safeAssociateToken(address(this), token);
+    (amountToken, amountETH) = removeLiquidity( 
+      token,
+      whbar, 
+      liquidity,
+      amountTokenMin,
+      amountETHMin,
+      address(this), // used to be msg.sender
+      deadline
+    );
+    safeTransferToken(token, address(this), to, amountToken);
+    safeApproveToken(whbar, WHBAR, amountETH);
+    IWHBAR(WHBAR).withdraw(address(this), to, amountETH);
+    safeDissociateToken(address(this), token);
+  }
+  ```
+</Accordion>
+
+The **removeLiquidityETH** function operates in HBAR but derives its name from Uniswap on Ethereum. This name was kept to simplify integration for developers versed in Uniswap tools.
+
+### Code Overview
+
+<Tabs>
+  <Tab title="Typescript">
+    **Resources:**
+  </Tab>
+
+  <Tab title>
+    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+
+    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
+
+    * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
+
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
+  </Tab>
+
+  <Tab title>
+    ```
+    import { 
+      ContractFunctionParameters, 
+      ContractExecuteTransaction, 
+      AccountAllowanceApproveTransaction,
+      .. 
+    } from '@hashgraph/sdk';
+
+    //Client pre-checks:
+    // - Router contract has spender allowance the LP token
+
+    const params = new ContractFunctionParameters();
+    params.addAddress(tokenAddress); //address token  
+    params.addUint256(lpTokenAmountToRemove); //uint liquidity
+    params.addUint256(amountTokenMin); //uint amountTokenMin
+    params.addUint256(amountETHMin); //uint amountETHMin
+    params.addAddress(toSoli); //address to
+    params.addUint256(deadline); //uint deadline
+        
+    const response = await new ContractExecuteTransaction()
+     .setContractId(routerContractId)
+     .setGas(gasLim)
+     .setFunction('removeLiquidityETH', params)
+     .execute(client);
+     
+    const record = await response.getRecord(client);
+    const result = record.contractFunctionResult!;
+    const values = result.getResult(['uint','uint']);
+    const amountToken = values[0]; //uint amountToken
+    const amountHBAR = values[1]; //uint amountETH
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+## Removing Token/Token Liquidity
+
+Remove liquidity from an existing token/token liquidity pool.
+
+Function name: **removeLiquidity**
+
+⛽ *Recommended gas: 1,600,000 gwei (\~ $0.14 USD)*
+
+Parameter Name
+
+Description
+
+**address tokenA**
+
+EVM address of the first HTS token
+
+**address tokenB**
+
+EVM address of the second HTS token
+
+**uint liquidity**
+
+LP liquidity amount to remove in its smallest unit
+
+**uint amountAMin**
+
+The minimum amount for the first token in its smallest unit
+
+**uint amountBMin**
+
+The minimum amount for the second token in its smallest unit
+
+**address to**
+
+EVM address to receive the tokens
+
+**uint deadline**
+
+Deadline in Unix seconds
+
+<Accordion title="Solidity Interface & Function Body">
+  ```
+  //IUniswapV2Router01.sol
+
+  function addLiquidity(
+    address tokenA,
+    address tokenB,
+    uint amountADesired,
+    uint amountBDesired,
+    uint amountAMin,
+    uint amountBMin,
+    address to,
+    uint deadline
+  ) external returns (uint amountA, uint amountB, uint liquidity);
+  ```
+
+  ```
+  //UniswapV2Router02.sol
+
+  function addLiquidityNewPool(
+    address tokenA,
+    address tokenB,
+    uint amountADesired,
+    uint amountBDesired,
+    uint amountAMin,
+    uint amountBMin,
+    address to,
+    uint deadline
+  ) external virtual payable override ensure(deadline) returns (uint amountA, uint amountB, uint liquidity) {
+    
+    require (IUniswapV2Factory(factory).getPair(tokenA, tokenB) == address(0), "UniswapV2Router: POOL ALREADY EXISTS");
+    address pair = IUniswapV2Factory(factory).createPair{value: msg.value}(tokenA, tokenB);
+    
+    (amountA, amountB) = _addLiquidity(tokenA, tokenB, amountADesired, amountBDesired, amountAMin, amountBMin);
+
+    safeTransferToken(
+      tokenA, msg.sender, pair, amountA
+    );
+    safeTransferToken(
+      tokenB, msg.sender, pair, amountB
+    );
+    liquidity = IUniswapV2Pair(pair).mint(to);
+  }
+  ```
+</Accordion>
+
+### Code Overview
+
+<Tabs>
+  <Tab title="Typescript">
+    **Resources:**
+  </Tab>
+
+  <Tab title>
+    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+
+    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
+
+    * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
+
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
+  </Tab>
+
+  <Tab title>
+    ```
+    import { 
+      ContractFunctionParameters, 
+      ContractExecuteTransaction,
+      AccountAllowanceApproveTransaction,
+      .. 
+    } from '@hashgraph/sdk';
+
+    //Client pre-checks:
+    // - Router contract has spender allowance for the LP token
+
+    const params = new ContractFunctionParameters();
+    params.addAddress(tokenAAddress); //address tokenA
+    params.addAddress(tokenBAddress); //address tokenB
+    params.addUint256(amountADesired); //uint amountADesired
+    params.addUint256(amountBDesired); //uint amountBDesired
+    params.addUint256(amountAMin); //uint amountAMin
+    params.addUint256(amountBMin); //uint amountBMin
+    params.addAddress(toAddress); //address to
+    params.addUint256(deadline); //uint deadline
+        
+    const response = await new ContractExecuteTransaction()
+     .setContractId(routerContractId)
+     .setGas(gasLim)
+     .setFunction('addLiquidityNewPool', params)
+     .execute(client);
+     
+    const record = await response.getRecord(client);
+    const result = record.contractFunctionResult!;
+    const values = result.getResult(['uint','uint']);
+    const amountA = values[0]; //uint amountA
+    const amountB = values[1]; //uint amountB
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+## Removing HBAR/Token Liquidity Supporting Tokens with Custom Fees
+
+Remove liquidity from an existing HBAR/token liquidity pool supporting HTS tokens with custom fees on transfer.
+
+Function name: **removeLiquidityETHSupportingFeeOnTransferTokens**
+
+⛽ *Recommended gas: 3,000,000 gwei (\~ $0.26 USD)*
+
+Parameter Name
+
+Description
+
+**address token**
+
+EVM address of the token paired with HBAR
+
+**uint liquidity**
+
+LP liquidity amount to remove in its smallest unit
+
+**uint amountTokenMin**
+
+The minimum token amount to receive in its smallest unit
+
+**uint amountETHMin**
+
+The minimum HBAR amount to receive in its smallest unit
+
+**address to**
+
+EVM address to receive the tokens
+
+**uint deadline**
+
+Deadline in Unix seconds
+
+<Accordion title="Solidity Interface & Function Body">
+  ```
+  //IUniswapV2Router01.sol
+
+  function removeLiquidityETHSupportingFeeOnTransferTokens(
+    address token,
+    uint liquidity,
+    uint amountTokenMin,
+    uint amountETHMin,
+    address to,
+    uint deadline
+  ) external returns (uint amountETH);
+  ```
+
+  ```
+  //UniswapV2Router02.sol
+
+  function removeLiquidityETHSupportingFeeOnTransferTokens(
+    address token,
+    uint liquidity,
+    uint amountTokenMin,
+    uint amountETHMin,
+    address to,
+    uint deadline
+  ) public virtual override ensure(deadline) returns (uint amountETH) {
+      safeAssociateToken(address(this), token);
+      (, amountETH) = removeLiquidity(
+        token,
+        whbar, 
+        liquidity,
+        amountTokenMin,
+        amountETHMin,
+        address(this),
+        deadline
+      );
+      uint256 amountToSend = IERC20(token).balanceOf(address(this));
+      require(amountToSend >= amountTokenMin, 'UniswapV2Router: INSUFFICIENT_A_AMOUNT_FOT'); // second slippage check
+      safeTransferToken(token, address(this), to, amountToSend);
+      safeApproveToken(whbar, WHBAR, amountETH);
+      IWHBAR(WHBAR).withdraw(address(this), to, amountETH);
+      safeDissociateToken(address(this), token);
+  }
+  ```
+</Accordion>
+
+The **removeLiquidityETHSupportingFeeOnTransferTokens** function operates in HBAR but derives its name from Uniswap on Ethereum. This name was kept to simplify integration for developers versed in Uniswap tools.
+
+### Code Overview
+
+<Tabs>
+  <Tab title="Typescript SDK">
+    **Resources:**
+  </Tab>
+
+  <Tab title>
+    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+
+    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
+
+    * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
+
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
+  </Tab>
+
+  <Tab title>
+    ```
+    import { 
+      ContractFunctionParameters, 
+      ContractExecuteTransaction,
+      AccountAllowanceApproveTransaction,
+      .. 
+    } from '@hashgraph/sdk';
+
+    //Client pre-checks:
+    // - Router contract has spender allowance for the LP token
+
+    const params = new ContractFunctionParameters();
+    params.addAddress(tokenAddress); //address token  
+    params.addUint256(lpTokenAmountToRemove); //uint liquidity
+    params.addUint256(amountTokenMin); //uint amountTokenMin
+    params.addUint256(amountETHMin); //uint amountETHMin
+    params.addAddress(toAddress); //address to
+    params.addUint256(deadline); //uint deadline
+        
+    const response = await new ContractExecuteTransaction()
+     .setContractId(routerContractId)
+     .setGas(gasLim)
+     .setFunction('removeLiquidityETHSupportingFeeOnTransferTokens', params)
+     .execute(client);
+     
+    const record = await response.getRecord(client);
+    const result = record.contractFunctionResult!;
+    const values = result.getResult(['uint']);
+    const amountHBAR = values[1]; //uint amountETH
+    ```
+  </Tab>
+</Tabs>
+
+[PreviousAdding Liquidity](/developer/saucerswap-v1/liquidity-operations/adding-liquidity)[NextSaucerSwap V2](/developer/saucerswap-v2)

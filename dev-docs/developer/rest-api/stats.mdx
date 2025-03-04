@@ -1,0 +1,216 @@
+---
+title: "Stats"
+---
+
+1. [REST API](/developer/rest-api)
+
+REST APIs for SaucerSwap statistics.
+
+Access the SaucerSwap API using the following base URLs for testnet and mainnet environments:
+
+Hedera Network
+
+Base URL
+
+Mainnet
+
+[https://api.saucerswap.finance/](https://api.saucerswap.finance/v2/pools/)
+
+Testnet
+
+[https://test-api.saucerswap.finance/](https://test-api.saucerswap.finance/v2/pools/)
+
+Previewnet
+
+*Not supported*
+
+### General statistics
+
+get
+
+/stats
+
+Test it
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/stats'
+```
+
+<Tabs />
+
+```
+{
+  "circulatingSauce": "526531284317600",
+  "swapTotal": "1600796",
+  "tvl": "55577479377624950",
+  "tvlUsd": 26773811.729033,
+  "volumeTotal": "372768795310667371",
+  "volumeTotalUsd": 220524200.282553
+}
+```
+
+Successful response
+
+### Single-Sided Staking statistics
+
+get
+
+/stats/sss
+
+Test it
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/stats/sss'
+```
+
+<Tabs />
+
+```
+{
+  "avg5day": 0.0462,
+  "id": 146206,
+  "ratio": 1.1172,
+  "sauce": "242601707456381",
+  "timestampSeconds": "1697616900",
+  "xsauce": "217150119725425"
+}
+```
+
+Successful response
+
+### Get historical HBAR price data (minutely)
+
+get
+
+/stats/hbarHistoricalPrices
+
+Test it
+
+Query parameters
+
+fromintegerrequired
+
+From Unix seconds
+
+Example: `1697600000`
+
+tointegerrequired
+
+To Unix seconds
+
+Example: `1697610000`
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/stats/hbarHistoricalPrices?from=1697600000&to=1697610000'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "id": 548294,
+    "priceUsd": 0.04830379666666667,
+    "timestampSeconds": 1697599980
+  }
+]
+```
+
+Successful response
+
+### Get platform historical liquidity or volume data
+
+get
+
+/stats/platformData
+
+Test it
+
+Query parameters
+
+fromintegerrequired
+
+From Unix seconds
+
+Example: `1697600000`
+
+tointegerrequired
+
+To Unix seconds
+
+Example: `1697610000`
+
+intervalstring · enumrequired
+
+Example: `HOUR`
+
+Options: `HOUR`, `DAY`, `WEEK`
+
+fieldstring · enumrequired
+
+Example: `LIQUIDITY`
+
+Options: `LIQUIDITY`, `VOLUME`
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/stats/platformData?from=1697600000&to=1697610000&interval=HOUR&field=LIQUIDITY'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "valueHbar": 46701854905030720,
+    "timestampSeconds": 1697598000
+  }
+]
+```
+
+Successful response
+
+[PreviousREST API](/developer/rest-api)[NextFarms](/developer/rest-api/farms)

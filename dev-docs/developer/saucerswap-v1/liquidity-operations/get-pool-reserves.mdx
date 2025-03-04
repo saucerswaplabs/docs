@@ -1,0 +1,124 @@
+---
+title: "Get Pool Reserves"
+---
+
+1. [SaucerSwap V1](/developer/saucerswap-v1)
+2. [Liquidity Operations](/developer/saucerswap-v1/liquidity-operations)
+
+Get current reserves for one or many pools.
+
+Below are the common methods to get the current liquidity reserves:
+
+* [Get a pool reserves via REST API](/developer/saucerswap-v1/liquidity-operations/get-pool-reserves#get-a-pair-reserves-via-rest-api)
+
+* [Get a pool reserves via JSON RPC](/developer/saucerswap-v1/liquidity-operations/get-pool-reserves#get-a-pair-reserves-via-json-rpc)
+
+Getting the reserves data for a liquidity pool using SaucerSwap's REST API is also a suitable alternative. For more information, see [Get liquidity pool reserves (V1)](/developer/saucerswap-v1/liquidity-operations/get-pool-reserves). The pool metadata includes the reserve data.
+
+To track updates to liquidity pool reserves in near real-time, see [Track LP updates (V1)](/developer/saucerswap-v1/liquidity-operations/track-pool-updates).
+
+***
+
+## Get Pool Reserves via REST API
+
+Fetch all HTS token balances for a pool via Mirror Node's REST API.
+
+### Code Overview
+
+<Tabs>
+  <Tab title="Typescript">
+    **Resources:**
+  </Tab>
+
+  <Tab title>
+    * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
+  </Tab>
+
+  <Tab title>
+    ```
+    const apiUrl = `/api/v1/accounts/${poolContractId}/tokens`;  
+    const response = await axios.get(`${mirrorNodeBaseUrl}${apiUrl}`);
+    const tokens = response.data.tokens;
+
+    for (const token of tokens ) {
+      console.log(`Token id: ${token.token_id}, Reserve: ${token.balance}`);
+    }
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+## Get Pool Reserves via JSON RPC
+
+Fetch all HTS token balances for a pool using the getReserves() solidity function via Mirror Node's JSON RPC Relay.
+
+Function name: **getReserves**
+
+⛽ *No gas cost*
+
+<Accordion title="Solidity Interface & Function Body">
+  ```
+  //IUniswapV2Pair.sol
+
+  function getReserves() external view returns (
+    uint112 reserve0, 
+    uint112 reserve1, 
+    uint32 blockTimestampLast
+  );
+  ```
+
+  ```
+  //UniswapV2Pair.sol
+
+  function getReserves()
+    public
+    view
+    returns (
+      uint112 _reserve0,
+      uint112 _reserve1,
+      uint32 _blockTimestampLast
+    )
+  {
+    _reserve0 = reserve0;
+    _reserve1 = reserve1;
+    _blockTimestampLast = blockTimestampLast;
+  }
+  ```
+</Accordion>
+
+### Code Overview
+
+<Tabs>
+  <Tab title="JSON RPC">
+    **Resources:**
+  </Tab>
+
+  <Tab title>
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+
+    * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
+  </Tab>
+
+  <Tab title>
+    ```
+    import * as ethers from 'ethers'; //V6
+
+    //Set one of Hedera's JSON RPC Relay as the provider
+    const provider = new ethers.JsonRpcProvider(hederaJsonRelayUrl, '', {
+      batchMaxCount: 1, //workaround for V6
+    });
+
+    //load abi data containing Pair's getReserves() function
+    const interfaces = new ethers.Interface(abi);
+
+    const poolContract = new ethers.Contract(poolAddress, interfaces.fragments, provider);
+    const result = await poolContract.getReserves();
+    const reserve0 = result.reserve0; //in token's smallest unit
+    const reserve1 = result.reserve1; //in token's smallest unit
+    const block = result.blockTimestampLast;
+    ```
+  </Tab>
+</Tabs>
+
+[PreviousCreate a New Pool](/developer/saucerswap-v1/liquidity-operations/create-a-new-pool)[NextTrack Pool Updates](/developer/saucerswap-v1/liquidity-operations/track-pool-updates)

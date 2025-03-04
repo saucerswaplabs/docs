@@ -1,0 +1,771 @@
+---
+title: "Pools (V1)"
+---
+
+1. [REST API](/developer/rest-api)
+
+REST APIs for V1 pools on SaucerSwap
+
+Access the SaucerSwap API using the following base URLs for testnet and mainnet environments:
+
+Hedera Network
+
+Base URL
+
+Mainnet
+
+[https://api.saucerswap.finance/](https://api.saucerswap.finance/v2/pools/)
+
+Testnet
+
+[https://test-api.saucerswap.finance/](https://test-api.saucerswap.finance/v2/pools/)
+
+Previewnet
+
+*Not supported*
+
+### Get the latest candlestick data for pool by id
+
+get
+
+/pools/conversionRates/latest/*\{poolId}*
+
+Test it
+
+Path parameters
+
+poolIdintegerrequired
+
+Pool ID
+
+Example: `1`
+
+Query parameters
+
+intervalstring · enumrequired
+
+Data interval
+
+Example: `HOUR`
+
+Options: `FIVEMIN`, `HOUR`, `DAY`, `WEEK`
+
+invertedboolean · default: false
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/pools/conversionRates/latest/{poolId}?interval=HOUR'
+```
+
+<Tabs />
+
+```
+{
+  "id": 2,
+  "poolId": 1,
+  "open": 0.0482115316666979,
+  "high": 0.0482115316666979,
+  "low": 0.04819650172584323,
+  "close": 0.04819650172584323,
+  "avg": 118.56339424557434,
+  "volume": "0",
+  "liquidity": "9668737245792",
+  "volumeUsd": "0",
+  "liquidityUsd": "4653.53",
+  "timestampSeconds": 1697618460,
+  "startTimestampSeconds": 1697616000
+}
+```
+
+Successful response
+
+### Get historical candlestick data for pool by id
+
+get
+
+/pools/conversionRates/*\{poolId}*
+
+Test it
+
+Path parameters
+
+poolIdintegerrequired
+
+Pool ID
+
+Example: `1`
+
+Query parameters
+
+fromintegerrequired
+
+From Unix seconds
+
+Example: `1697600000`
+
+tointegerrequired
+
+To Unix seconds
+
+Example: `1697610000`
+
+intervalstring · enumrequired
+
+Data interval
+
+Example: `HOUR`
+
+Options: `FIVEMIN`, `HOUR`, `DAY`, `WEEK`
+
+invertedboolean · default: false
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/pools/conversionRates/{poolId}?from=1697600000&to=1697610000&interval=HOUR'
+```
+
+<Tabs />
+
+```
+{
+  "id": 2,
+  "poolId": 1,
+  "open": 0.0482115316666979,
+  "high": 0.0482115316666979,
+  "low": 0.04819650172584323,
+  "close": 0.04819650172584323,
+  "avg": 118.56339424557434,
+  "volume": "0",
+  "liquidity": "9668737245792",
+  "volumeUsd": "0",
+  "liquidityUsd": "4653.53",
+  "timestampSeconds": 1697618460,
+  "startTimestampSeconds": 1697616000
+}
+```
+
+Successful response
+
+### Get yearly volume and liquidity for pool by id
+
+get
+
+/pools/yearly/*\{poolId}*
+
+Test it
+
+Path parameters
+
+poolIdintegerrequired
+
+Example: `1`
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/pools/yearly/{poolId}'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "poolId": 502,
+    "timestampSeconds": 1697760000,
+    "liquidity": "1268297620467",
+    "volume": "178297285042"
+  }
+]
+```
+
+Successful response
+
+### Get monthly volume and liquidity for pool by id
+
+get
+
+/pools/monthly/*\{poolId}*
+
+Test it
+
+Path parameters
+
+poolIdintegerrequired
+
+Example: `1`
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/pools/monthly/{poolId}'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "poolId": 502,
+    "timestampSeconds": 1697760000,
+    "liquidity": "1268297620467",
+    "volume": "178297285042"
+  }
+]
+```
+
+Successful response
+
+### Get weekly volume and liquidity for a pool by id
+
+get
+
+/pools/weekly/*\{poolId}*
+
+Test it
+
+Path parameters
+
+poolIdintegerrequired
+
+Example: `1`
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/pools/weekly/{poolId}'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "poolId": 502,
+    "timestampSeconds": 1697760000,
+    "liquidity": "1268297620467",
+    "volume": "178297285042"
+  }
+]
+```
+
+Successful response
+
+### Get daily volume and liquidity for a pool by id
+
+get
+
+/pools/daily/*\{poolId}*
+
+Test it
+
+Path parameters
+
+poolIdintegerrequired
+
+Example: `1`
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/pools/daily/{poolId}'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "poolId": 502,
+    "timestampSeconds": 1697760000,
+    "liquidity": "1268297620467",
+    "volume": "178297285042"
+  }
+]
+```
+
+Successful response
+
+### Get yearly volume and liquidity for pools
+
+get
+
+/pools/yearly
+
+Test it
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/pools/yearly'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "poolId": 502,
+    "timestampSeconds": 1697760000,
+    "liquidity": "1268297620467",
+    "volume": "178297285042"
+  }
+]
+```
+
+Successful response
+
+### Get monthly volume and liquidity for pools
+
+get
+
+/pools/monthly
+
+Test it
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/pools/monthly'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "poolId": 502,
+    "timestampSeconds": 1697760000,
+    "liquidity": "1268297620467",
+    "volume": "178297285042"
+  }
+]
+```
+
+Successful response
+
+### Get weekly volume and liquidity for pools
+
+get
+
+/pools/weekly
+
+Test it
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/pools/weekly'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "poolId": 502,
+    "timestampSeconds": 1697760000,
+    "liquidity": "1268297620467",
+    "volume": "178297285042"
+  }
+]
+```
+
+Successful response
+
+### Get daily volume and liquidity for pools
+
+get
+
+/pools/daily
+
+Test it
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/pools/daily'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "poolId": 502,
+    "timestampSeconds": 1697760000,
+    "liquidity": "1268297620467",
+    "volume": "178297285042"
+  }
+]
+```
+
+Successful response
+
+### Get default listed pool data
+
+get
+
+/pools/known
+
+Test it
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/pools/known'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "id": 213,
+    "contractId": "0.0.1465865",
+    "lpToken": {
+      "id": "0.0.1465866",
+      "name": "SS-LP SAUCE - XSAUCE",
+      "symbol": "SAUCE - XSAUCE",
+      "decimals": 8,
+      "priceUsd": 3.7760690082569948
+    },
+    "lpTokenReserve": "23490447137584",
+    "tokenA": {
+      "id": "0.0.731861",
+      "name": "SAUCE",
+      "symbol": "SAUCE",
+      "decimals": 6,
+      "priceUsd": 0.01760954,
+      "description": "SaucerSwap is an open source and non-custodial AMM protocol native to Hedera.",
+      "website": "https://www.saucerswap.finance/",
+      "sentinelReport": "https://sentinel.headstarter.org/details/saucerswap",
+      "twitterHandle": "SaucerSwapLabs",
+      "timestampSecondsLastListingChange": 0
+    },
+    "tokenReserveA": "25185652046087",
+    "tokenB": {
+      "id": "0.0.1460200",
+      "name": "xSAUCE",
+      "symbol": "XSAUCE",
+      "decimals": 6,
+      "priceUsd": 0.01959459,
+      "description": "SaucerSwap is an open source and non-custodial AMM protocol native to Hedera.",
+      "website": "https://www.saucerswap.finance/",
+      "sentinelReport": "https://sentinel.headstarter.org/details/saucerswap",
+      "twitterHandle": "SaucerSwapLabs",
+      "timestampSecondsLastListingChange": 0
+    },
+    "tokenReserveB": "22634187941347"
+  }
+]
+```
+
+Successful response
+
+### Get detailed data for a pool by id
+
+get
+
+/pools/*\{poolId}*
+
+Test it
+
+Path parameters
+
+poolIdintegerrequired
+
+Example: `1`
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/pools/{poolId}'
+```
+
+<Tabs />
+
+```
+{
+  "id": 213,
+  "contractId": "0.0.1465865",
+  "lpToken": {
+    "id": "0.0.1465866",
+    "name": "SS-LP SAUCE - XSAUCE",
+    "symbol": "SAUCE - XSAUCE",
+    "decimals": 8,
+    "priceUsd": 3.7760690082569948
+  },
+  "lpTokenReserve": "23490447137584",
+  "tokenA": {
+    "id": "0.0.731861",
+    "name": "SAUCE",
+    "symbol": "SAUCE",
+    "decimals": 6,
+    "priceUsd": 0.01760954,
+    "description": "SaucerSwap is an open source and non-custodial AMM protocol native to Hedera.",
+    "website": "https://www.saucerswap.finance/",
+    "sentinelReport": "https://sentinel.headstarter.org/details/saucerswap",
+    "twitterHandle": "SaucerSwapLabs",
+    "timestampSecondsLastListingChange": 0
+  },
+  "tokenReserveA": "25185652046087",
+  "tokenB": {
+    "id": "0.0.1460200",
+    "name": "xSAUCE",
+    "symbol": "XSAUCE",
+    "decimals": 6,
+    "priceUsd": 0.01959459,
+    "description": "SaucerSwap is an open source and non-custodial AMM protocol native to Hedera.",
+    "website": "https://www.saucerswap.finance/",
+    "sentinelReport": "https://sentinel.headstarter.org/details/saucerswap",
+    "twitterHandle": "SaucerSwapLabs",
+    "timestampSecondsLastListingChange": 0
+  },
+  "tokenReserveB": "22634187941347"
+}
+```
+
+Successful response
+
+### Get detailed data for all pools
+
+get
+
+/pools/full
+
+Test it
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/pools/full'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "id": 213,
+    "contractId": "0.0.1465865",
+    "lpToken": {
+      "id": "0.0.1465866",
+      "name": "SS-LP SAUCE - XSAUCE",
+      "symbol": "SAUCE - XSAUCE",
+      "decimals": 8,
+      "priceUsd": 3.7760690082569948
+    },
+    "lpTokenReserve": "23490447137584",
+    "tokenA": {
+      "id": "0.0.731861",
+      "name": "SAUCE",
+      "symbol": "SAUCE",
+      "decimals": 6,
+      "priceUsd": 0.01760954,
+      "description": "SaucerSwap is an open source and non-custodial AMM protocol native to Hedera.",
+      "website": "https://www.saucerswap.finance/",
+      "sentinelReport": "https://sentinel.headstarter.org/details/saucerswap",
+      "twitterHandle": "SaucerSwapLabs",
+      "timestampSecondsLastListingChange": 0
+    },
+    "tokenReserveA": "25185652046087",
+    "tokenB": {
+      "id": "0.0.1460200",
+      "name": "xSAUCE",
+      "symbol": "XSAUCE",
+      "decimals": 6,
+      "priceUsd": 0.01959459,
+      "description": "SaucerSwap is an open source and non-custodial AMM protocol native to Hedera.",
+      "website": "https://www.saucerswap.finance/",
+      "sentinelReport": "https://sentinel.headstarter.org/details/saucerswap",
+      "twitterHandle": "SaucerSwapLabs",
+      "timestampSecondsLastListingChange": 0
+    },
+    "tokenReserveB": "22634187941347"
+  }
+]
+```
+
+Successful response
+
+### Get compact data for all pools
+
+get
+
+/pools
+
+Test it
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/pools'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "id": 213,
+    "contractId": "0.0.1465865",
+    "lpToken": {
+      "id": "0.0.1465866",
+      "name": "SS-LP SAUCE - XSAUCE",
+      "symbol": "SAUCE - XSAUCE",
+      "decimals": 8,
+      "priceUsd": 3.7760690082569948
+    },
+    "lpTokenReserve": "23490447137584",
+    "tokenA": {
+      "id": "0.0.731861",
+      "name": "SAUCE",
+      "symbol": "SAUCE",
+      "decimals": 6,
+      "priceUsd": 0.01760954
+    },
+    "tokenReserveA": "25185652046087",
+    "tokenB": {
+      "id": "0.0.1460200",
+      "name": "xSAUCE",
+      "symbol": "XSAUCE",
+      "decimals": 6,
+      "priceUsd": 0.01959459
+    },
+    "tokenReserveB": "22634187941347"
+  }
+]
+```
+
+Successful response
+
+[PreviousTokens](/developer/rest-api/tokens)[NextPools and Positions (V2)](/developer/rest-api/pools-and-positions-v2)

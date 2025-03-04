@@ -1,0 +1,231 @@
+---
+title: "Track Pool Updates"
+---
+
+1. [SaucerSwap V1](/developer/saucerswap-v1)
+2. [Liquidity Operations](/developer/saucerswap-v1/liquidity-operations)
+
+Near real-time monitoring of liquidity reserve balance changes.
+
+Below are the common methods to track updates in liquidity reserve balances:
+
+* [Polling Sync events for all pools](/developer/saucerswap-v1/liquidity-operations/track-pool-updates#polling-sync-events-for-all-pairs)
+
+* [Polling Sync events for a pool](/developer/saucerswap-v1/liquidity-operations/track-pool-updates#polling-sync-events-for-a-pair)
+
+* Subscription using eth\_subscribe (coming later - [HIP-694](https://hips.hedera.com/hip/hip-694))
+
+For production environments, it's highly recommended to use a paid Mirror Node provider for commercial and high-traffic purposes. While Hedera's public mirror node offers free REST API and JSON API endpoints, they have global rate limits. These are best suited for development or low rate usage scenarios.
+
+***
+
+## Polling Sync Events for all Pools
+
+⛽ *No gas cost*
+
+Whenever the reserve values for a pool contract are updated, either due to liquidity changes or a swap, a Sync event is emitted from the contract, containing the updated reserve values for the token pair. The following code demonstrates how to listen for Sync events for **all pools** using REST API or JSON RPC.
+
+Listening to 'Sync' events without specifying an address in the filter data will return logs for all pools on SaucerSwap, as well as other DEXs on Hedera that share the same 'topic0' hash signature for the 'Sync' event. To identify and filter specific pools, extract the pool's EVM address from the log.
+
+<Tabs>
+  <Tab title="JSON RPC">
+    **Resources:**
+  </Tab>
+
+  <Tab title="REST API">
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+
+    * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
+  </Tab>
+
+  <Tab title>
+    ```
+    import * as ethers from 'ethers'; //V6
+
+    //Set one of Hedera's JSON RPC Relay as the provider
+    const provider = new ethers.JsonRpcProvider(hederaJsonRelayUrl, '', {
+      batchMaxCount: 1, //workaround for V6
+    });
+
+    //load ABI data containing the Sync event
+    const abiInterface = new ethers.Interface(abi);
+
+    const filter = {
+      topics: [interfaces.getEvent('Sync')!.topicHash], //topic0 filter
+      fromBlock: fromBlock,
+      toBlock: toBlock,
+    };
+
+    const logs = await provider.getLogs(filter);
+    for (const log of logs) {
+      const parsedLog = interfaces.parseLog({ topics: log.topics.slice(), data: log.data });
+      const {reserve0, reserve1} = parsedLog!.args; //reserve values in smallest unit
+      const poolAddress = log.address;
+      console.log(`Pool: ${poolAddress}, reserve0: ${reserve0}, reserve1: ${reserve1}`);
+    });
+    ```
+  </Tab>
+
+  <Tab title>
+    **Resources:**
+  </Tab>
+
+  <Tab title>
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+
+    * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
+  </Tab>
+
+  <Tab title>
+    ```
+    import * as ethers from 'ethers'; //V6
+
+    //load ABI data containing the Sync event
+    const interfaces = new ethers.Interface(abi);
+
+    let params = `timestamp=gte:${unixFrom}&timestamp=lte:${unixTo}`;  
+    params += `&topic0=${interfaces.getEvent('Sync')!.topicHash}`;
+
+    const url = `${config.mirrorNodeBaseUrl}/api/v1/contracts/results/logs?${params}`;  
+    const response = await axios.get(url);
+    const logs = response.data.logs;
+
+    for (const log of logs) {
+      const {reserve0, reserve1} = interfaces.decodeEventLog('Sync', log.data);
+      console.log(`Pair: ${log.address}, reserve0: ${reserve0}, reserve1: ${reserve1}`);
+    }
+    ```
+  </Tab>
+</Tabs>
+
+**Resources:**
+
+* [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+
+* [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
+
+```
+import * as ethers from 'ethers'; //V6
+
+//load ABI data containing the Sync event
+const interfaces = new ethers.Interface(abi);
+
+let params = `timestamp=gte:${unixFrom}&timestamp=lte:${unixTo}`;  
+params += `&topic0=${interfaces.getEvent('Sync')!.topicHash}`;
+
+const url = `${config.mirrorNodeBaseUrl}/api/v1/contracts/results/logs?${params}`;  
+const response = await axios.get(url);
+const logs = response.data.logs;
+
+for (const log of logs) {
+  const {reserve0, reserve1} = interfaces.decodeEventLog('Sync', log.data);
+  console.log(`Pair: ${log.address}, reserve0: ${reserve0}, reserve1: ${reserve1}`);
+}
+```
+
+***
+
+## Polling Sync Events for a Pool
+
+⛽ *No gas cost*
+
+Whenever the reserve values for a pool contract are updated, either due to liquidity changes or a swap, a Sync event is emitted from the contract, containing the updated reserve values for the token pair. The following code demonstrates how to listen for Sync events for **a specific pool** using REST API or JSON RPC.
+
+<Tabs>
+  <Tab title="JSON RPC">
+    **Resources:**
+  </Tab>
+
+  <Tab title="REST API">
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+
+    * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
+  </Tab>
+
+  <Tab title>
+    ```
+    import * as ethers from 'ethers'; //V6
+
+    //Set one of Hedera's JSON RPC Relay as the provider
+    const provider = new ethers.JsonRpcProvider(hederaJsonRelayUrl, '', {
+      batchMaxCount: 1, //workaround for V6
+    });
+
+    //load ABI data containing the Sync event
+    const interfaces = new ethers.Interface(abi);
+
+    const filter = {
+      topics: [interfaces.getEvent('Sync')!.topicHash], //topic0 filter
+      fromBlock: fromBlock,
+      toBlock: toBlock,
+      address: poolEvmAddress, //pool address starting with 0x
+    };
+
+    const logs = await provider.getLogs(filter);
+    for (const log of logs) {
+      const parsedLog = interfaces.parseLog({ topics: log.topics.slice(), data: log.data });
+      const {reserve0, reserve1} = parsedLog!.args; //reserve values in smallest unit
+      const poolAddress = log.address;
+      console.log(`reserve0: ${reserve0}, reserve1: ${reserve1}`);
+    });
+    ```
+  </Tab>
+
+  <Tab title>
+    **Resources:**
+  </Tab>
+
+  <Tab title>
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+
+    * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
+  </Tab>
+
+  <Tab title>
+    ```
+    import * as ethers from 'ethers'; //V6
+
+    //load ABI data containing the Sync event
+    const interfaces = new ethers.Interface(abi);
+
+    let params = `timestamp=gte:${unixFrom}&timestamp=lte:${unixTo}`;  
+    params += `&topic0=${interfaces.getEvent('Sync')!.topicHash}`;
+
+    const url = `${config.mirrorNodeBaseUrl}/api/v1/contracts/${contractIdEvm}/results/logs?${params}`;  
+    const response = await axios.get(url);
+    const logs = response.data.logs;
+
+    for (const log of logs) {
+      const {reserve0, reserve1} = interfaces.decodeEventLog('Sync', log.data);
+      console.log(`reserve0: ${reserve0}, reserve1: ${reserve1}`);
+    }
+    ```
+  </Tab>
+</Tabs>
+
+**Resources:**
+
+* [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+
+* [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
+
+```
+import * as ethers from 'ethers'; //V6
+
+//load ABI data containing the Sync event
+const interfaces = new ethers.Interface(abi);
+
+let params = `timestamp=gte:${unixFrom}&timestamp=lte:${unixTo}`;  
+params += `&topic0=${interfaces.getEvent('Sync')!.topicHash}`;
+
+const url = `${config.mirrorNodeBaseUrl}/api/v1/contracts/${contractIdEvm}/results/logs?${params}`;  
+const response = await axios.get(url);
+const logs = response.data.logs;
+
+for (const log of logs) {
+  const {reserve0, reserve1} = interfaces.decodeEventLog('Sync', log.data);
+  console.log(`reserve0: ${reserve0}, reserve1: ${reserve1}`);
+}
+```
+
+[PreviousGet Pool Reserves](/developer/saucerswap-v1/liquidity-operations/get-pool-reserves)[NextAdding Liquidity](/developer/saucerswap-v1/liquidity-operations/adding-liquidity)

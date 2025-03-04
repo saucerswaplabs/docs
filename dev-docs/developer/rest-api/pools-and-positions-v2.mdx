@@ -1,0 +1,324 @@
+---
+title: "Pools and Positions (V2)"
+---
+
+1. [REST API](/developer/rest-api)
+
+REST APIs for SaucerSwap V2 pools and positions
+
+Access the SaucerSwap API using the following base URLs for testnet and mainnet environments:
+
+Hedera Network
+
+Base URL
+
+Mainnet
+
+[https://api.saucerswap.finance/](https://api.saucerswap.finance/v2/pools/)
+
+Testnet
+
+[https://test-api.saucerswap.finance/](https://test-api.saucerswap.finance/v2/pools/)
+
+Previewnet
+
+*Not supported*
+
+### Get all liquidity positions by account id
+
+get
+
+/v2/nfts/*\{accountId}*/positions
+
+Test it
+
+Path parameters
+
+accountIdstringrequired
+
+Hedera account id
+
+Example: `0.0.12345`
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/v2/nfts/{accountId}/positions'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "tokenSN": 160,
+    "accountId": "0.0.12345",
+    "deleted": false,
+    "createdAt": "1697779560.762467685",
+    "updatedAt": "1698287867.747005303",
+    "fee": 3000,
+    "tickUpper": -1620,
+    "tickLower": -2820,
+    "liquidity": "3249809842",
+    "feeGrowthInside0LastX128": "2546890053379859378523505791149585",
+    "feeGrowthInside1LastX128": "1232345435623984092384092380932840",
+    "tokensOwed0": "10",
+    "tokensOwed1": "20",
+    "token0": {
+      "decimals": 8,
+      "icon": "/images/tokens/hbar.png",
+      "id": "0.0.59042",
+      "name": "WHBAR [new]",
+      "price": "100000000",
+      "priceUsd": 0.0598982,
+      "symbol": "HBAR",
+      "dueDiligenceComplete": true,
+      "isFeeOnTransferToken": false,
+      "description": "Hedera is a public, open source, proof-of-stake network, with native cryptocurrency HBAR...",
+      "website": "https://hedera.com/",
+      "twitterHandle": "hedera",
+      "timestampSecondsLastListingChange": 0
+    },
+    "token1": {
+      "decimals": 6,
+      "icon": "/images/tokens/sauce.png",
+      "id": "0.0.61266",
+      "name": "SAUCE",
+      "price": "24609831",
+      "priceUsd": 0.0147408436767304,
+      "symbol": "SAUCE",
+      "dueDiligenceComplete": true,
+      "isFeeOnTransferToken": false,
+      "description": "SaucerSwap is an open source and non-custodial AMM protocol native to Hedera...",
+      "website": "https://www.saucerswap.finance/",
+      "twitterHandle": "SaucerSwapLabs",
+      "timestampSecondsLastListingChange": 1
+    }
+  }
+]
+```
+
+Successful response
+
+### Get detailed data for a SaucerSwap V2 pool by id
+
+get
+
+/v2/pools/*\{poolId}*
+
+Test it
+
+Path parameters
+
+poolIdintegerrequired
+
+Example: `1`
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/v2/pools/{poolId}'
+```
+
+<Tabs />
+
+```
+{
+  "id": 1,
+  "contractId": "0.0.3948521",
+  "amountA": "6313040",
+  "amountB": "6313042",
+  "fee": 500,
+  "sqrtRatioX96": "79228162514992909706099547250",
+  "tickCurrent": 0,
+  "liquidity": "10878982596",
+  "tokenA": {
+    "decimals": 6,
+    "icon": "/images/tokens/usdc.png",
+    "id": "0.0.456858",
+    "name": "USD Coin",
+    "price": "1678944894",
+    "priceUsd": 1.00375771,
+    "symbol": "USDC",
+    "dueDiligenceComplete": true,
+    "isFeeOnTransferToken": false,
+    "description": "USDC is a fully collateralized U.S. dollar stablecoin. USDC is the bridge between dollars and trading on cryptocurrency exchanges...",
+    "website": "https://www.circle.com/en/usdc-multichain/hedera",
+    "twitterHandle": "circle",
+    "timestampSecondsLastListingChange": 0
+  },
+  "tokenB": {
+    "decimals": 6,
+    "icon": "/images/tokens/usdc.png",
+    "id": "0.0.1055459",
+    "name": "USD Coin",
+    "price": "1681384187",
+    "priceUsd": 1.00521604,
+    "symbol": "USDC[hts]",
+    "dueDiligenceComplete": true,
+    "isFeeOnTransferToken": false,
+    "description": "USDC is a fully collateralized U.S. dollar stablecoin...",
+    "website": "https://www.circle.com/en/usdc-multichain/ethereum",
+    "twitterHandle": "circle",
+    "timestampSecondsLastListingChange": 0
+  }
+}
+```
+
+Successful response
+
+### Get detailed data for all SaucerSwap V2 pools
+
+get
+
+/v2/pools/full
+
+Test it
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/v2/pools/full'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "id": 1,
+    "contractId": "0.0.3948521",
+    "amountA": "6313040",
+    "amountB": "6313042",
+    "fee": 500,
+    "sqrtRatioX96": "79228162514992909706099547250",
+    "tickCurrent": 0,
+    "liquidity": "10878982596",
+    "tokenA": {
+      "decimals": 6,
+      "icon": "/images/tokens/usdc.png",
+      "id": "0.0.456858",
+      "name": "USD Coin",
+      "price": "1678944894",
+      "priceUsd": 1.00375771,
+      "symbol": "USDC",
+      "dueDiligenceComplete": true,
+      "isFeeOnTransferToken": false,
+      "description": "USDC is a fully collateralized U.S. dollar stablecoin. USDC is the bridge between dollars and trading on cryptocurrency exchanges...",
+      "website": "https://www.circle.com/en/usdc-multichain/hedera",
+      "twitterHandle": "circle",
+      "timestampSecondsLastListingChange": 0
+    },
+    "tokenB": {
+      "decimals": 6,
+      "icon": "/images/tokens/usdc.png",
+      "id": "0.0.1055459",
+      "name": "USD Coin",
+      "price": "1681384187",
+      "priceUsd": 1.00521604,
+      "symbol": "USDC[hts]",
+      "dueDiligenceComplete": true,
+      "isFeeOnTransferToken": false,
+      "description": "USDC is a fully collateralized U.S. dollar stablecoin...",
+      "website": "https://www.circle.com/en/usdc-multichain/ethereum",
+      "twitterHandle": "circle",
+      "timestampSecondsLastListingChange": 0
+    }
+  }
+]
+```
+
+Successful response
+
+### Get compact data for all SaucerSwap V2 pools
+
+get
+
+/v2/pools
+
+Test it
+
+Responses
+
+200
+
+Successful response
+
+application/json
+
+<Tabs />
+
+```
+curl -L \
+  --url '/v2/pools'
+```
+
+<Tabs />
+
+```
+[
+  {
+    "id": 1,
+    "contractId": "0.0.3948521",
+    "amountA": "6313040",
+    "amountB": "6313042",
+    "fee": 500,
+    "sqrtRatioX96": "79228162514992909706099547250",
+    "tickCurrent": 0,
+    "liquidity": "10878982596",
+    "tokenA": {
+      "decimals": 6,
+      "icon": "/images/tokens/usdc.png",
+      "id": "0.0.456858",
+      "name": "USD Coin",
+      "price": "1678944894",
+      "priceUsd": 1.00375771,
+      "symbol": "USDC",
+      "dueDiligenceComplete": true,
+      "isFeeOnTransferToken": false
+    },
+    "tokenB": {
+      "decimals": 6,
+      "icon": "/images/tokens/usdc.png",
+      "id": "0.0.1055459",
+      "name": "USD Coin",
+      "price": "1681384187",
+      "priceUsd": 1.00521604,
+      "symbol": "USDC[hts]",
+      "dueDiligenceComplete": true,
+      "isFeeOnTransferToken": false
+    }
+  }
+]
+```
+
+Successful response
+
+[PreviousPools (V1)](/developer/rest-api/pools-v1)[NextSaucerSwap V1](/developer/saucerswap-v1)

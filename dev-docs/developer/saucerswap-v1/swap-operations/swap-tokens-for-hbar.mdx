@@ -1,0 +1,397 @@
+---
+title: "Swap Tokens for HBAR"
+---
+
+1. [SaucerSwap V1](/developer/saucerswap-v1)
+2. [Swap Operations](/developer/saucerswap-v1/swap-operations)
+
+Swap HTS fungible tokens for HBAR.
+
+Below are three methods available to swap tokens for tokens:
+
+* [Swap exact tokens for HBAR](/developer/saucerswap-v1/swap-operations/swap-tokens-for-hbar#swap-exact-tokens-for-hbar)
+
+* [Swap tokens for exact HBAR](/developer/saucerswap-v1/swap-operations/swap-tokens-for-hbar#swap-tokens-for-exact-hbar)
+
+* [Swap exact tokens supporting custom fees for HBAR](/developer/saucerswap-v1/swap-operations/swap-tokens-for-hbar#swap-exact-tokens-supporting-custom-fees-for-hbar)
+
+**Contract ID:** [SaucerSwapV1RouterV3](https://hashscan.io/mainnet/contract/0.0.3045981)
+
+The **swapExactTokensForETH** and **swapTokensForExactETH** function trades in HBAR but derives its name from Uniswap on Ethereum. This name was kept to simplify integration for developers versed in Uniswap tools.
+
+Granting an spender allowance to the router contract **is required** when the input token is not native HBAR for security reasons enforced at the native code layer. Ensure that the allowance amount is in token's smallest unit.
+
+Consider the token's decimal places when determining input amounts.
+
+The input values should be in the token's smallest unit. For the SAUCE token, which has 6 decimal places, an input of 123.45 SAUCE should be entered as 123450000 (123.45 multiplied by 10^6).
+
+When providing HBAR in the path array, use the wrapped HBAR token ID ([WHBAR](https://hashscan.io/mainnet/token/0.0.1456986)).
+
+***
+
+## Swap Exact Tokens for HBAR
+
+Swap an exact amount of tokens for a minimum HBAR amount.
+
+Solidity function name: **swapExactTokensForETH**
+
+Parameter Name
+
+Description
+
+**uint amountIn**
+
+The input token amount in its smallest unit
+
+**uint amountOutMin**
+
+The minimum token amount to receive in its smallest unit
+
+**address\[] calldata path**
+
+An ordered list of token EVM addresses
+
+**address to**
+
+EVM address for the token recipient
+
+**uint deadline**
+
+Deadline in Unix seconds
+
+<Accordion title="Solidity Interface & Function Body">
+  ```
+  //IUniswapV2Router01.sol
+
+  function swapExactTokensForETH(
+    uint amountIn,
+    uint amountOutMin,
+    address[] calldata path,
+    address to,
+    uint deadline
+  ) external returns (uint[] memory amounts);
+  ```
+
+  ```
+  //UniswapV2Router02.sol
+
+  function swapExactTokensForETH(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline)
+    external
+    virtual
+    override
+    ensure(deadline)
+    returns (uint[] memory amounts)
+  {
+    require(path[path.length - 1] == whbar, 'UniswapV2Router: INVALID_PATH');
+    amounts = UniswapV2Library.getAmountsOut(factory, amountIn, path);
+    require(amounts[amounts.length - 1] >= amountOutMin, 'UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT');
+
+    safeTransferToken(
+      path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]
+    );
+
+    _swap(amounts, path, address(this));   
+    safeApproveToken(whbar, WHBAR, amounts[amounts.length - 1]);  
+    IWHBAR(WHBAR).withdraw(address(this), to, amounts[amounts.length - 1]);
+  }
+  ```
+</Accordion>
+
+Set the minimum output token amount (**amountOutMin**) with caution.
+
+A high minimum might lead to a swap failure due to insufficient liquidity or rapid price movements. Conversely, setting the minimum too low can expose you to significant slippage, potentially resulting in a financial loss as you might receive far fewer tokens than expected.
+
+### Code Overview
+
+<Tabs>
+  <Tab title="Typescript">
+    **Resources:**
+  </Tab>
+
+  <Tab title>
+    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+
+    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
+
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
+  </Tab>
+
+  <Tab title>
+    ```
+    import { 
+      ContractFunctionParameters, 
+      ContractExecuteTransaction,
+      AccountAllowanceApproveTransaction,
+      .. 
+    } from '@hashgraph/sdk';
+
+    //Client pre-checks:
+    // - Router contract has spender allowance for the input token
+
+    const params = new ContractFunctionParameters();
+    params.addUint256(amountIn); //uint amountIn
+    params.addUint256(amountOutMin); //uint amountOutMin
+    params.addAddressArray(tokenPath); //address[] calldata path
+    params.addAddress(toAddress); //address to
+    params.addUint256(deadline); //uint deadline
+        
+    const response = await new ContractExecuteTransaction()
+     .setContractId(routerContractId)
+     .setGas(gasLim)
+     .setFunction('swapExactTokensForETH', params)
+     .execute(client);
+     
+    const record = await response.getRecord(client);
+    const result = record.contractFunctionResult!;
+    const values = result.getResult(['uint[]']);
+    const amounts = values[0]; //uint[] amounts
+    const finalOutputAmount = amounts[amounts.length - 1];
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+## Swap Tokens for Exact HBAR
+
+Swap a maximum amount of tokens to receive an exact HBAR amount.
+
+<Accordion title="Solidity Interface & Function Body">
+  ```
+  //IUniswapV2Router01.sol
+
+  function swapTokensForExactETH(
+    uint amountOut,
+    uint amountInMax,
+    address[] calldata path,
+    address to,
+    uint deadline
+  ) external returns (uint[] memory amounts);
+  ```
+
+  ```
+  //UniswapV2Router02.sol
+
+  function swapTokensForExactETH(uint amountOut, uint amountInMax, address[] calldata path, address to, uint deadline)
+    external
+    virtual
+    override
+    ensure(deadline)
+    returns (uint[] memory amounts)
+  {
+    require(path[path.length - 1] == whbar, 'UniswapV2Router: INVALID_PATH');
+    amounts = UniswapV2Library.getAmountsIn(factory, amountOut, path);
+    require(amounts[0] <= amountInMax, 'UniswapV2Router: EXCESSIVE_INPUT_AMOUNT');
+    safeTransferToken(
+      path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]
+    );
+    
+    _swap(amounts, path, address(this));
+    safeApproveToken(whbar, WHBAR, amounts[amounts.length - 1]);     
+    IWHBAR(WHBAR).withdraw(address(this), to, amounts[amounts.length - 1]);
+  }
+  ```
+</Accordion>
+
+Function name: **swapTokensForExactETH**
+
+Parameter Name
+
+Description
+
+**uint amountOut**
+
+The exact output HBAR amount to receive in its smallest unit
+
+**uint amountInMax**
+
+The maximum allowed input amount in its smallest unit
+
+**address\[] calldata path**
+
+An ordered list of token EVM addresses
+
+**address to**
+
+EVM address for the token recipient
+
+**uint deadline**
+
+Deadline in Unix seconds
+
+Set the maximum input token amount (**amountInMax**) with caution.
+
+A low maximum might lead to a swap failure if the required liquidity surpasses this limit or due to rapid price movements. Conversely, setting it too high can expose you to significant slippage, potentially leading to a financial loss as you might spend far more tokens than expected.
+
+### Code Overview
+
+<Tabs>
+  <Tab title="Typescript">
+    **Resources:**
+  </Tab>
+
+  <Tab title>
+    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+
+    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
+
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
+  </Tab>
+
+  <Tab title>
+    ```
+    import { 
+      ContractFunctionParameters, 
+      ContractExecuteTransaction,
+      AccountAllowanceApproveTransaction
+      .. 
+    } from '@hashgraph/sdk';
+
+    //Client pre-checks:
+    // - Router contract has spender allowance for the input token
+
+    const params = new ContractFunctionParameters();
+    params.addUint256(amountOut); //uint amountOut
+    params.addUint256(amountInMax); //uint amountInMax
+    params.addAddressArray(tokenPath); //address[] calldata path
+    params.addAddress(toAddress); //address to
+    params.addUint256(deadline); //uint deadline
+        
+    const response = await new ContractExecuteTransaction()
+     .setContractId(routerContractId)
+     .setGas(gasLim)
+     .setFunction('swapTokensForExactETH', params)
+     .execute(client);
+     
+    const record = await response.getRecord(client);
+    const result = record.contractFunctionResult!;
+    const values = result.getResult(['uint[]']);
+    const amounts = values[0]; //uint[] amounts
+    const finalInputAmount = amounts[0];
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+## Swap Exact Tokens Supporting Custom Fees for HBAR
+
+Swap an exact amount of tokens, supporting HTS tokens with custom fees on token transfer, for a minimum HBAR amount.
+
+Solidity function name: **swapExactTokensForETHSupportingFeeOnTransferTokens**
+
+Parameter Name
+
+Description
+
+**uint amountIn**
+
+The input token amount in its smallest unit
+
+**uint amountOutMin**
+
+The minimum token amount to receive in its smallest unit
+
+**address\[] calldata path**
+
+An ordered list of token EVM addresses
+
+**address to**
+
+EVM address for the token recipient
+
+**uint deadline**
+
+Deadline in Unix seconds
+
+<Accordion title="Solidity Interface & Function Body">
+  ```
+  //IUniswapV2Router02.sol
+
+  function swapExactTokensForETHSupportingFeeOnTransferTokens(
+    uint amountIn,
+    uint amountOutMin,
+    address[] calldata path,
+    address to,
+    uint deadline
+  ) external;
+  ```
+
+  ```
+  //UniswapV2Router02.sol
+
+  function swapExactTokensForETHSupportingFeeOnTransferTokens(
+    uint amountIn,
+    uint amountOutMin,
+    address[] calldata path,
+    address to,
+    uint deadline
+  )
+    external
+    virtual
+    override
+    ensure(deadline)
+  {
+    require(path[path.length - 1] == whbar, 'UniswapV2Router: INVALID_PATH');
+    uint startAmount = IERC20(whbar).balanceOf(address(this));
+    safeTransferToken(
+      path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amountIn
+    );
+    _swapSupportingFeeOnTransferTokens(path, address(this));
+    uint endAmount = IERC20(whbar).balanceOf(address(this));
+    uint amountOut = endAmount.sub(startAmount);
+    require(amountOut >= amountOutMin, 'UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT');
+    safeApproveToken(whbar, WHBAR, amountOut);
+    IWHBAR(WHBAR).withdraw(address(this), to, amountOut);
+  }
+  ```
+</Accordion>
+
+Set the minimum output token amount (**amountOutMin**) with caution.
+
+A high minimum might lead to a swap failure due to insufficient liquidity or rapid price movements. Conversely, setting the minimum too low can expose you to significant slippage, potentially resulting in a financial loss as you might receive far fewer tokens than expected.
+
+### Code Overview
+
+<Tabs>
+  <Tab title="Typescript">
+    **Resources:**
+  </Tab>
+
+  <Tab title>
+    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+
+    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
+
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
+  </Tab>
+
+  <Tab title>
+    ```
+    import { 
+      ContractFunctionParameters, 
+      ContractExecuteTransaction,
+      AccountAllowanceApproveTransaction,
+      .. 
+    } from '@hashgraph/sdk';
+
+    //Client pre-checks:
+    // - Router contract has spender allowance for the input token
+
+    const params = new ContractFunctionParameters();
+    params.addUint256(amountIn); //uint amountIn
+    params.addUint256(amountOutMin); //uint amountOutMin
+    params.addAddressArray(tokenPath); //address[] calldata path
+    params.addAddress(toAddress); //address to
+    params.addUint256(deadline); //uint deadline
+        
+    await new ContractExecuteTransaction()
+     .setContractId(routerContractId)
+     .setGas(gasLim)
+     .setFunction('swapExactTokensForTokensSupportingFeeOnTransferTokens', params)
+     .execute(client);
+    ```
+  </Tab>
+</Tabs>
+
+[PreviousSwap Tokens for Tokens](/developer/saucerswap-v1/swap-operations/swap-tokens-for-tokens)[NextTrack Swap Events](/developer/saucerswap-v1/swap-operations/track-swap-events)

@@ -1,0 +1,87 @@
+---
+title: "Unwrap WHBAR for HBAR"
+---
+
+1. [WHBAR](/developer/whbar)
+
+Withdraw Wrapped HBAR (WHBAR) tokens to retrieve HBAR native cryptocurrency at a 1:1 ratio.
+
+**Contract ID:** [WhbarHelper](https://docs.saucerswap.finance/developerx/contract-deployments)
+
+Granting a spender allowance to the **WhbarHelper** contract **is required** for the contract to transfer the [**WHBAR**](https://hashscan.io/mainnet/token/0.0.1456986) token from the user's wallet to the contract.
+
+***
+
+Function name: **unwrapWhbar**
+
+Parameter Name
+
+Description
+
+**uint256 wad**
+
+WHBAR token amount in its smallest unit
+
+<Accordion title="Solidity Function Body">
+  ```
+  /// @notice Safely unwrap whbar to msg.sender
+  /// @dev This contract needs an allowance from msg.sender to transfer the whbar token
+  /// @param wad The amount to unwrap
+  function unwrapWhbar(uint wad) public {
+    require(wad > 0, "WhbarHelper: wad cannot be lt zero");
+    // transfer the whbar to this contract
+    HederaTokenHelper.safeTransferFrom(whbarToken, msg.sender, address(this), wad);
+    
+    // approve sending the whbar to the whbar contract
+    HederaTokenHelper.safeApprove(whbarToken, whbarContract, wad);
+    
+    // use withdraw(address src, address dst, uint wad) and use this contract and msg.sender to withdraw
+    // to the contract caller
+    IWHBAR(whbarContract).withdraw(address(this), msg.sender, wad);
+  }
+  ```
+</Accordion>
+
+### Code Overview
+
+⛽ *Recommended gas: 1,000,000 gwei (\~ $*&#x30;.085 *USD)*
+
+<Tabs>
+  <Tab title="JSON RPC">
+    **Resources:**
+  </Tab>
+
+  <Tab title>
+    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+
+    * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
+
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
+  </Tab>
+
+  <Tab title>
+    ```
+    import { 
+      ContractExecuteTransaction,
+      TokenAssociateTransaction,
+      Hbar,
+      HbarUnit,  
+      .. 
+    } from '@hashgraph/sdk';
+
+    //Client pre-checks:
+    // - WhbarHelper contract has spender allowance for WHBAR token
+
+    const params = new ContractFunctionParameters();
+    params.addUint256(withdrawAmount); //amount in token's smallest unit
+
+    await new ContractExecuteTransaction()
+      .setContractId(whbarHelperContractId)
+      .setGas(gasLim)
+      .setFunction('unwrapWhbar', params)
+      .execute(client);
+    ```
+  </Tab>
+</Tabs>
+
+[PreviousWrap HBAR for WHBAR](/developer/whbar/wrap-hbar-for-whbar)
