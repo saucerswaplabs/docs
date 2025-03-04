@@ -23,10 +23,15 @@
     {
       "group": "Contact",
       "pages": [
-        "contact",
-        "contact/partnership-inquiries",
-        "contact/user-support",
-        "contact/socials"
+        {
+          "group": "📞  Contact",
+          "pages": [
+            "contact",
+            "contact/partnership-inquiries",
+            "contact/user-support",
+            "contact/socials"
+            
+        }
       ]
     },
     {
