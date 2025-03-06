@@ -1,5 +1,360 @@
 ---
-title: 'New file'
-description: 'Description of your new file.'
+title: "New Liquidity Position"
 ---
 
+1. [SaucerSwap V2](/developer/saucerswap-v2)
+2. [Liquidity Operations](/developer/saucerswap-v2/liquidity-operations)
+
+Mint a new liquidity position for an existing pool.
+
+**Contract ID:** [SaucerSwapV2NonfungiblePositionManager](https://hashscan.io/mainnet/contract/0.0.4053945)
+
+See [Liquidity position fee](/developer/saucerswap-v2/liquidity-operations/liquidity-position-fee) for an example of how to obtain the current fee, payable in HBAR, for minting a new liquidity position or adding more liquidity to an existing one.
+
+Ensure the recipient has associated the [SaucerSwapV2 LP NFT ID](https://hashscan.io/mainnet/token/0.0.4054027) representing the liquidity positions before minting a new position.
+
+When working with HBAR, use the [Wrapped HBAR token ID](https://hashscan.io/mainnet/token/0.0.1456986) and include the HBAR amount in the setPayableAmount() method for the ContractExecuteTransaction call.
+
+***
+
+Function name: **mint**
+
+⛽ *Recommended gas: 900,000 gwei (\~ $*&#x30;.077 *USD)*
+
+Struct Parameter Name
+
+Description
+
+**address token0**
+
+EVM address of the first token
+
+**address token1**
+
+EVM address of the second token
+
+**int24 tickLower**
+
+The lower end of the tick range for the position
+
+**int24 tickUpper**
+
+The upper end of the tick range for the position
+
+**uint256 amount0Desired**
+
+The maximum amount for the first token in its smallest unit
+
+**uint256 amount1Desired**
+
+The maximum amount for the second token in its smallest unit
+
+**uint256 amount0Min**
+
+The minimum amount for the first token in its smallest unit
+
+**uint256 amount1Min**
+
+The minimum amount for the second token in its smallest unit
+
+**address recipient**
+
+EVM address to receive the new liquidity position.
+
+**uint deadline**
+
+Deadline in Unix seconds
+
+<Accordion title="Solidity Interface & Function Body">
+  ```
+  //INonfungiblePositionManager.sol
+
+  struct MintParams {
+    address token0;
+    address token1;
+    uint24 fee;
+    int24 tickLower;
+    int24 tickUpper;
+    uint256 amount0Desired;
+    uint256 amount1Desired;
+    uint256 amount0Min;
+    uint256 amount1Min;
+    address recipient;
+    uint256 deadline;
+  }
+
+  /// @notice Creates a new position wrapped in a NFT
+  /// @dev Call this when the pool does exist and is initialized. Note that if the pool is created but not initialized
+  /// a method does not exist, i.e. the pool is assumed to be initialized.
+  /// @param params The params necessary to mint a position, encoded as `MintParams` in calldata
+  /// @return tokenSN The token serial number of the new position
+  /// @return liquidity The amount of liquidity for this position
+  /// @return amount0 The amount of token0
+  /// @return amount1 The amount of token1
+  function mint(MintParams calldata params)
+    external
+    payable
+    returns (
+      uint256 tokenSN,
+      uint128 liquidity,
+      uint256 amount0,
+      uint256 amount1
+  );
+  ```
+
+  ```
+  //NonfungiblePositionManager.sol
+
+  /// @inheritdoc INonfungiblePositionManager
+  function mint(MintParams calldata params)
+    external
+    payable
+    override
+    checkDeadline(params.deadline)
+    returns (
+      uint256 tokenSN,
+      uint128 liquidity,
+      uint256 amount0,
+      uint256 amount1
+    )
+  {
+
+    IUniswapV3Pool pool;
+    (liquidity, amount0, amount1, pool) = addLiquidity(
+      AddLiquidityParams({
+        token0: params.token0,
+        token1: params.token1,
+        fee: params.fee,
+        recipient: address(this),
+        tickLower: params.tickLower,
+        tickUpper: params.tickUpper,
+        amount0Desired: params.amount0Desired,
+        amount1Desired: params.amount1Desired,
+        amount0Min: params.amount0Min,
+        amount1Min: params.amount1Min
+      })
+    );
+
+    tokenSN = _nextSN++;
+
+    { // stack too deep
+    bytes memory metadataBytes = abi.encodePacked(baseUrl, HexStrings.toHexStringNoPrefix(tokenSN, 7)); // 14 digits in the url
+    require(metadataBytes.length <= 100, 'metadata too long');
+
+    bytes[] memory array = new bytes[](1);
+    array[0] = metadataBytes;
+    NFTHelper.safeMintTokens(nft, 0, array);
+    IERC721(nft).transferFrom(address(this), params.recipient, tokenSN);
+    }
+    
+    bytes32 positionKey = PositionKey.compute(address(this), params.tickLower, params.tickUpper);
+    (, uint256 feeGrowthInside0LastX128, uint256 feeGrowthInside1LastX128, , ) = pool.positions(positionKey);
+
+    // idempotent set
+    uint80 poolId = cachePoolKey(
+      address(pool),
+      PoolAddress.PoolKey({token0: params.token0, token1: params.token1, fee: params.fee})
+    );
+
+    _positions[tokenSN] = Position({
+      poolId: poolId,
+      tickLower: params.tickLower,
+      tickUpper: params.tickUpper,
+      liquidity: liquidity,
+      feeGrowthInside0LastX128: feeGrowthInside0LastX128,
+      feeGrowthInside1LastX128: feeGrowthInside1LastX128,
+      tokensOwed0: 0,
+      tokensOwed1: 0
+    });
+
+    emit IncreaseLiquidity(tokenSN, liquidity, amount0, amount1);
+  }
+  ```
+</Accordion>
+
+***
+
+### Code Overview
+
+The following code demonstrates how to create a new liquidity position with a price range being +/- 5% from the current token price, and receive a NFT representing the position.
+
+See [Fetch pool token ratio](/developer/saucerswap-v2/liquidity-operations/fetch-pool-token-ratio) for an example how to retrieve the latest data construct the Pool object using the Uniswap SDK library.
+
+See [Fetch all pools](/developer/saucerswap-v2/liquidity-operations/fetch-all-pools) to retrieve the pool address, token pairs, fee tier, token IDs and decimal places for the target pool of interest.
+
+The **refundETH** function operates in HBAR, but its name is derived from Uniswap on Ethereum. The name was retained to simplify integration for developers familiar with Uniswap tools. It is used to refund any excess HBAR when setting up a new liquidity position.
+
+Hedera's EVM chain ID can be retrieved from [https://chainlist.org](https://chainlist.org/?testnets=true\&search=Hedera).
+
+The following code is intended for guidance purposes, and does not include checks and safeguards.
+
+<Tabs>
+  <Tab title="Typescript">
+    **Resources:**
+  </Tab>
+
+  <Tab title>
+    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+
+    * [Uniswap V3 SDK](https://docs.uniswap.org/sdk/v3/overview)
+
+    * [Fetch all pools](/developer/saucerswap-v2/liquidity-operations/fetch-all-pools)
+
+    * [Fetch pool token ratio](/developer/saucerswap-v2/liquidity-operations/fetch-pool-token-ratio)
+
+    * [Liquidity position fee](/developer/saucerswap-v2/liquidity-operations/liquidity-position-fee)
+
+    * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
+
+    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
+
+    * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
+
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
+  </Tab>
+
+  <Tab title>
+    ```
+    import * as ethers from 'ethers'; //V6
+    import { Pool, Position, nearestUsableTick, priceToClosestTick } from '@uniswap/v3-sdk';
+    import { Fraction, Percent, Token, Price } from '@uniswap/sdk-core';
+    import { ContractExecuteTransaction, .. } from '@hashgraph/sdk';
+
+    //Client pre-checks:
+    // - NFT token id is associated
+    // - Router contract has spender allowance for the input HTS tokens
+
+    //Set one of Hedera's JSON RPC Relay as the provider
+    const provider = new ethers.JsonRpcProvider(hederaJsonRelayUrl, '', {
+      batchMaxCount: 1, //workaround for V6
+    });
+
+    //load the ABI data containing liquidity() and slot0()
+    const abiInterfaces = new ethers.Interface(abi);
+
+    //construct the pool contract
+    const poolContract = new ethers.Contract(poolEvmAddress, 
+      abiInterfaces.fragments, provider);
+
+    //construct the tokens
+    //For Hedera chain id, see https://chainlist.org/?testnets=true&search=Hedera
+    const token0 = new Token(hederaChainId, token0Address, token0Decimals);
+    const token1 = new Token(hederaChainId, token1Address, token1Decimals);
+
+    //get current slot0 and liquidity data from JSON-RPC Relay
+    const [slot0, poolLiquidity] = await Promise.all([
+      poolContract.slot0(),
+      poolContract.liquidity()
+    ]);
+
+    //construct the pool using the latest data
+    const pool = new Pool(
+      token0, token1, 
+      feeTier, slot0.sqrtPriceX96.toString(),
+      poolLiquidity.toString(), Number(slot0.tick)
+    );
+
+    //Get current token0 price in terms of token1
+    const currentPrice = pool.token0Price;
+
+    //Get amount0 in token's smallest unit
+    const amount0 = BigNumber(input0).times(Math.pow(10, token0Decimals)).toFixed(0);
+
+    //get the upper price (+5% from current in this example)
+    const multiplier = new Fraction(105, 100); //1.05 (105%)
+    const priceFraction = currentPrice.asFraction.multiply(multiplier);
+    const upperPrice = new Price(
+      currentPrice.baseCurrency,
+      currentPrice.quoteCurrency,
+      priceFraction.denominator,
+      priceFraction.numerator
+    );
+
+    //get the upper tick based on the target upper price
+    const tickUpperApprox = priceToClosestTick(upperPrice);
+
+    //calculate the delta between the current tick and the upper
+    const tickDelta = tickUpperApprox - pool.tickCurrent;
+
+    //get the lower tick based on the delta from current tick
+    const tickLowerApprox = pool.tickCurrent - tickDelta;
+
+    //get the nearest valid tick values
+    const tickUpper = nearestUsableTick(tickUpperApprox, pool.tickSpacing);
+    const tickLower = nearestUsableTick(tickLowerApprox, pool.tickSpacing);
+
+    //construct a position using the SDK
+    // - use fromAmount0() if amount0 needs to be exact
+    // - use fromAmount1() if amount1 needs to be exact
+    // - use fromAmounts() if amount0 and amount1 do not need to be exact
+    const position = Position.fromAmount0({
+      pool: pool,
+      tickUpper: tickUpper,
+      tickLower: tickLower,
+      amount0: amount0,
+      useFullPrecision: true
+    });
+
+    //get the mint amounts based on what the router will give us
+    const amount0Mint = position.mintAmounts.amount0.toString();
+    const amount1Mint = position.mintAmounts.amount1.toString();
+
+    //calculate the minimum amounts factoring in the price slippage % and range
+    const priceSlippagePercent = new Percent(1, 100); //1% price slippage
+    const minAmounts = position.mintAmountsWithSlippage(priceSlippagePercent);
+    const amount0Min = minAmounts.amount0.toString();
+    const amount1Min = minAmounts.amount1.toString();
+
+    //MintParams struct
+    const params = {
+      token0: token0Address, //0x..
+      token1: token1Address, //0x..
+      fee: feeTier, //500, 1500, 3000 or 10000
+      tickLower: tickLower, //lower tick of the range
+      tickUpper: tickUpper, //upper tick of the range
+      amount0Desired: amount0Mint, //in smallest unit
+      amount1Desired: amount1Mint, //in smallest unit
+      amount0Min: amount0Min, //in smallest unit
+      amount1Min: amount1Min, //in smallest unit
+      recipient: recipientAddress, //0x..
+      deadline: deadline, //Unix seconds
+    };
+
+    //construct encoded data for each function
+    const mintEncoded = abiInterfaces.encodeFunctionData('mint', [params]);  
+    const refundEthEncoded = abiInterfaces.encodeFunctionData('refundETH');
+
+    //build encoded data for multicall
+    const encodedData = abiInterfaces.encodeFunctionData('multicall', [[mintEncoded, refundEthEncoded]]);  
+    const encodedDataAsUint8Array = hexToUint8Array(encodedData.substring(2));
+
+    //Give spender allowance for both tokens to the NFT Manager contract if needed.
+    //To avoid having to ask for allowance each time, request max allowance.
+    //If the token is HBAR, no spender allowance is required.
+    //Use Hedera's REST API to get current allowances for an account.
+    await yourGrantSpenderAllowanceFunc(..);
+
+    //Execute the paid contract call
+    const response = await new ContractExecuteTransaction()
+      .setPayableAmount(inputHbar) //mint fee + HBAR token amount if used
+      .setContractId(nftManagerContractId)
+      .setGas(gasGwei)
+      .setFunctionParameters(encodedDataAsUint8Array)
+      .execute(client);
+
+    //Fetch the result
+    const record = await response.getRecord(client);    
+    const result = record.contractFunctionResult!;
+    const results = abiInterfaces.decodeFunctionResult('multicall', result.bytes)[0];
+    const mintResult = abiInterfaces.decodeFunctionResult('mint', results[0]);;
+
+    //Retrieve the NFT token SN, liquidity and amounts for informative purposes
+    const tokenSN = Number(mintResult.tokenSN);
+    const liquidity = BigNumber(mintResult.liquidity);
+    const amount0 = BigNumber(mintResult.amount0);
+    const amount1 = BigNumber(mintResult.amount1);
+    ```
+  </Tab>
+</Tabs>
+
+[PreviousLiquidity Position Fee](/developer/saucerswap-v2/liquidity-operations/liquidity-position-fee)[NextIncreasing Liquidity](/developer/saucerswap-v2/liquidity-operations/increasing-liquidity)

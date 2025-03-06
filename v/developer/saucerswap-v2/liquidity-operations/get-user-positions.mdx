@@ -1,5 +1,98 @@
 ---
-title: 'New file'
-description: 'Description of your new file.'
+title: "Get User Positions"
 ---
 
+1. [SaucerSwap V2](/developer/saucerswap-v2)
+2. [Liquidity Operations](/developer/saucerswap-v2/liquidity-operations)
+
+Get all liquidity positions for an account.
+
+SaucerSwap offers a public [REST API](/developer/rest-api) endpoint to retrieve all positions for a user, accompanied by useful metadata for each position, including liquidity and fees earned, and their associated tokens. Use the following URL options to access the data.
+
+Hedera Network
+
+URL (where 0.0.xxxx is user's Hedera account, eg. 0.0.1234)
+
+Mainnet
+
+https\://api.saucerswap.finance/V2/nfts/0.0.xxxx/positions
+
+Testnet
+
+https\://test-api.saucerswap.finance/V2/nfts/0.0.xxxx/positions
+
+Previewnet
+
+*Not supported*
+
+### Data JSON Schema
+
+<CodeGroup>
+  ```typescript Typescript
+  type ApiNftPositionV2 = {
+    tokenSN: number
+    accountId: string
+    token0: ApiToken | undefined
+    token1: ApiToken | undefined
+    fee: number
+    tickLower: number
+    tickUpper: number
+    liquidity: number
+    feeGrowthInside0LastX128: number
+    feeGrowthInside1LastX128: number
+    tokensOwed0: number
+    tokensOwed1: number
+    createdAt: number
+    updatedAt: number
+    lastSyncedAt: number
+    deleted: boolean
+  }
+
+  type ApiToken = {
+    decimals: number
+    icon?: string
+    id: string
+    name: string
+    price: string
+    priceUsd: number
+    symbol: string
+    dueDiligenceComplete: boolean
+    isFeeOnTransferToken: boolean
+    timestampSecondsLastListingChange: number
+    description: string | null
+    website: string | null
+    twitterHandle: string | null
+    sentinelReport: string | null
+  }
+  ```
+</CodeGroup>
+
+### Code Overview
+
+⛽ *No gas cost*
+
+<CodeGroup>
+  ```typescript-1 Typescript
+  const accountId = '0.0.1234';
+  const url = `https://api.saucerswap.finance/V2/nfts/${accountId}/positions`;  
+  const response = await axios.get(url);
+  const positions = response.data;
+  for (const position of positions as ApiNftPositionV2[] ) {
+
+    const symbol0 = position.token0?.symbol;
+    const symbol1 = position.token1?.symbol;
+    const feeTier = position.fee / 10_000.0;
+    const tickLower = position.tickLower;
+    const tickUpper = position.tickLower;
+
+    let output = '';
+    output += `NFT SN: ${position.tokenSN}`;
+    output += ` - ${symbol0}/${symbol1} @ ${feeTier}%`;
+    output += ` - Tick range: ${tickLower} to ${tickUpper}`;
+
+    console.log(output);
+  }
+  ```
+</CodeGroup>
+
+[PreviousIncreasing Liquidity](/developer/saucerswap-v2/liquidity-operations/increasing-liquidity)[NextClaiming Fees](/developer/saucerswap-v2/liquidity-operations/claiming-fees)

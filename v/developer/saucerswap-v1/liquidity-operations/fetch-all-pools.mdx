@@ -1,5 +1,95 @@
 ---
-title: 'New file'
-description: 'Description of your new file.'
+title: "Fetch All Pools"
 ---
 
+1. [SaucerSwap V1](/developer/saucerswap-v1)
+2. [Liquidity Operations](/developer/saucerswap-v1/liquidity-operations)
+
+Get all V1 liquidity pools via SaucerSwap REST API.
+
+SaucerSwap offers a public REST API endpoint to retrieve all liquidity pools, accompanied by useful metadata for each pool, including liquidity pool reserves, and their associated tokens. Use the following URL options to access the data.
+
+Hedera Network
+
+URL
+
+Mainnet
+
+[https://api.saucerswap.finance/pools/](https://api.saucerswap.finance/pools/)
+
+Testnet
+
+[https://test-api.saucerswap.finance/pools/](https://test-api.saucerswap.finance/pools/)
+
+Previewnet
+
+Not supported
+
+For Saucerswap V2 liquidity pools, refer to [Get V2 liquidity pools](/developer/saucerswap-v2/liquidity-operations/fetch-all-pools).
+
+### Data JSON Schema
+
+<CodeGroup>
+  ```typescript Typescript
+  interface ApiLiquidityPool {
+    id: number;
+    contractId: string;
+    lpToken: ApiLPToken;
+    lpTokenReserve: string; //in smallest unit
+    tokenA: ApiToken;
+    tokenReserveA: string; //in smallest unit
+    tokenB: ApiToken;
+    tokenReserveB: string; //in smallest unit
+  }
+
+  interface ApiLPToken {
+    decimals: number;
+    id: string;
+    name: string;
+    symbol: string;
+    priceUsd: string;
+  }
+
+  interface ApiToken {
+    decimals: number;
+    icon: string | null;
+    id: string;
+    name: string;
+    price: string;
+    priceUsd: number;
+    symbol: string;
+    dueDiligenceComplete: boolean;
+    isFeeOnTransferToken: boolean;
+    description: string | null;
+    website: string | null;
+    sentinelReport: string | null;
+    twitterHandle: string | null;
+    timestampSecondsLastListingChange: number;
+  }
+  ```
+</CodeGroup>
+
+### Code Overview
+
+⛽ *No gas cost*
+
+<CodeGroup>
+  ```typescript-1 Typescript
+  const url = 'https://api.saucerswap.finance/pools/';  
+  const response = await axios.get(url);
+  const pools = response.data;
+  for (const pool of pools as ApiLiquidityPool[] ) {
+   
+    const symbolA = pool.tokenA.symbol;
+    const symbolB = pool.tokenB.symbol;
+
+    let output = '';
+    output += `Pool id: ${pool.id}`;
+    output += ` - ${poolcontractId} (${symbolA}/${symbolB})`;
+
+    console.log(output);
+  }
+  ```
+</CodeGroup>
+
+[PreviousLiquidity Operations](/developer/saucerswap-v1/liquidity-operations)[NextCheck if a Pool Exists](/developer/saucerswap-v1/liquidity-operations/check-if-a-pool-exists)
