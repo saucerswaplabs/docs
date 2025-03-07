@@ -109,13 +109,97 @@
         {
           "group": "🔮  Developer Resources",
           "pages": [
-            "v/developer/rest-api",
-            "v/developer/saucerswap-v1",
-            "v/developer/saucerswap-v2",
-            "v/developer/staking-operations",
-            "v/developer/whbar"
-          ]
-        },
+            {
+            "group": "REST API",
+            "pages": [
+              "v/developer/rest-api",
+              "v/developer/rest-api/stats",
+              "v/developer/rest-api/farms",
+              "v/developer/rest-api/tokens",
+              "v/developer/rest-api/pools-v1",
+              "v/developer/rest-api/pools-and-positions-v2"
+              ]
+              },
+             {
+        "group": "SaucerSwap V1",
+        "pages": [
+          "v/developer/saucerswap-v1",
+          {
+            "group": "Swap Operations",
+            "pages": [
+              "v/developer/saucerswap-v1/swap-operations",
+              "v/developer/saucerswap-v1/swap-operations/swap-quote",
+              "v/developer/saucerswap-v1/swap-operations/swap-hbar-for-tokens",
+              "v/developer/saucerswap-v1/swap-operations/swap-tokens-for-tokens",
+              "v/developer/saucerswap-v1/swap-operations/swap-tokens-for-hbar",
+              "v/developer/saucerswap-v1/swap-operations/track-swap-events"
+            ]
+          },
+          {
+            "group": "Liquidity Operations",
+            "pages": [
+              "v/developer/saucerswap-v1/liquidity-operations",
+              "v/developer/saucerswap-v1/liquidity-operations/fetch-all-pools",
+              "v/developer/saucerswap-v1/liquidity-operations/check-if-a-pool-exists",
+              "v/developer/saucerswap-v1/liquidity-operations/pool-creation-fee",
+              "v/developer/saucerswap-v1/liquidity-operations/create-a-new-pool",
+              "v/developer/saucerswap-v1/liquidity-operations/get-pool-reserves",
+              "v/developer/saucerswap-v1/liquidity-operations/track-pool-updates",
+              "v/developer/saucerswap-v1/liquidity-operations/adding-liquidity",
+              "v/developer/saucerswap-v1/liquidity-operations/removing-liquidity"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "SaucerSwap V2",
+        "pages": [
+          "v/developer/saucerswap-v2",
+          {
+            "group": "Swap Operations",
+            "pages": [
+              "v/developer/saucerswap-v2/swap-operations",
+              "v/developer/saucerswap-v2/swap-operations/swap-quote",
+              "v/developer/saucerswap-v2/swap-operations/swap-hbar-for-tokens",
+              "v/developer/saucerswap-v2/swap-operations/swap-tokens-for-tokens",
+              "v/developer/saucerswap-v2/swap-operations/swap-tokens-for-hbar",
+              "v/developer/saucerswap-v2/swap-operations/track-swap-events"
+            ]
+          },
+          {
+            "group": "Liquidity Operations",
+            "pages": [
+              "v/developer/saucerswap-v2/liquidity-operations",
+              "v/developer/saucerswap-v2/liquidity-operations/fetch-all-pools",
+              "v/developer/saucerswap-v2/liquidity-operations/check-if-a-pool-exists",
+              "v/developer/saucerswap-v2/liquidity-operations/fetch-pool-token-ratio",
+              "v/developer/saucerswap-v2/liquidity-operations/liquidity-position-fee",
+              "v/developer/saucerswap-v2/liquidity-operations/new-liquidity-position",
+              "v/developer/saucerswap-v2/liquidity-operations/increasing-liquidity",
+              "v/developer/saucerswap-v2/liquidity-operations/get-user-positions",
+              "v/developer/saucerswap-v2/liquidity-operations/claiming-fees",
+              "v/developer/saucerswap-v2/liquidity-operations/decreasing-liquidity"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Staking Operations",
+        "pages": [
+          "v/developer/staking-operations",
+          "v/developer/staking-operations/single-sided-staking",
+          "v/developer/staking-operations/yield-farming"
+        ]
+      },
+      {
+        "group": "WHBAR",
+        "pages": [
+          "v/developer/whbar",
+          "v/developer/whbar/wrap-hbar-for-whbar",
+          "v/developer/whbar/unwrap-whbar-for-hbar"
+        ]
+      }
+        ,
         "developerx/contract-deployments",
         "developerx/audits",
         "developerx/bug-bounty",
