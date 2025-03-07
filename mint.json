@@ -134,6 +134,45 @@
             "developerx/bug-bounty",
             "external-link-3"
       ]
+    },
+    {
+      "group": "Contributors",
+      "pages": [
+        "contributors/saucerswap-labs",
+        "contributors/careers",
+        "contributors/community",
+        "contributors/galactic-pioneers"
+      ]
+    },
+    {
+      "group": "Resources",
+      "pages": [
+        "resources/brand-assets",
+        "resources/glossary",
+        "resources/analytics"
+      ]
+    },
+    {
+      "group": "Legal",
+      "pages": [
+        "legal/terms-of-service",
+        "legal/privacy-policy"
+      ]
+    },
+    {
+      "group": "Archive",
+      "pages": [
+        "archive/proto-governance",
+        {
+          "group": "🦕 Old Tokenomics",
+          "pages": [
+            "archive/old-tokenomics",
+            "archive/old-tokenomics/initial-supply-breakdown",
+            "archive/old-tokenomics/emission-schedule"
+          ]
+        },
+        "archive/liquidity-migration"
+      ]
     }
   ]
 }
