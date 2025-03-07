@@ -81,7 +81,7 @@
             {
               "group": "SaucerSwap V2",
               "pages": [
-                "developer/saucerswap-v2",
+                "v/developer/saucerswap-v2",
                 {
                   "group": "Swap Operations",
                   "pages": [
