@@ -6,15 +6,17 @@ Near real-time monitoring of liquidity reserve balance changes.
 
 Below are the common methods to track updates in liquidity reserve balances:
 
-* [Polling Sync events for all pools](/developer/saucerswap-v1/liquidity-operations/track-pool-updates#polling-sync-events-for-all-pairs)
+* [Polling Sync events for all pools](/v/developer/saucerswap-v1/liquidity-operations/track-pool-updates#polling-sync-events-for-all-pairs)
 
-* [Polling Sync events for a pool](/developer/saucerswap-v1/liquidity-operations/track-pool-updates#polling-sync-events-for-a-pair)
+* [Polling Sync events for a pool](/v/developer/saucerswap-v1/liquidity-operations/track-pool-updates#polling-sync-events-for-a-pair)
 
 * Subscription using eth\_subscribe (coming later - [HIP-694](https://hips.hedera.com/hip/hip-694))
 
-For production environments, it's highly recommended to use a paid Mirror Node provider for commercial and high-traffic purposes. While Hedera's public mirror node offers free REST API and JSON API endpoints, they have global rate limits. These are best suited for development or low rate usage scenarios.
+<Info>
+  For production environments, it's highly recommended to use a paid Mirror Node provider for commercial and high-traffic purposes. While Hedera's public mirror node offers free REST API and JSON API endpoints, they have global rate limits. These are best suited for development or low rate usage scenarios.
+</Info>
 
-***
+
 
 ## Polling Sync Events for all Pools
 
@@ -22,21 +24,21 @@ For production environments, it's highly recommended to use a paid Mirror Node p
 
 Whenever the reserve values for a pool contract are updated, either due to liquidity changes or a swap, a Sync event is emitted from the contract, containing the updated reserve values for the token pair. The following code demonstrates how to listen for Sync events for **all pools** using REST API or JSON RPC.
 
-Listening to 'Sync' events without specifying an address in the filter data will return logs for all pools on SaucerSwap, as well as other DEXs on Hedera that share the same 'topic0' hash signature for the 'Sync' event. To identify and filter specific pools, extract the pool's EVM address from the log.
+<Note>
+  Listening to 'Sync' events without specifying an address in the filter data will return logs for all pools on SaucerSwap, as well as other DEXs on Hedera that share the same 'topic0' hash signature for the 'Sync' event. To identify and filter specific pools, extract the pool's EVM address from the log.
+</Note>
+
+***
 
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-  </Tab>
 
-  <Tab title="REST API">
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-  </Tab>
 
-  <Tab title>
-    ```
+    ```typescript
     import * as ethers from 'ethers'; //V6
 
     //Set one of Hedera's JSON RPC Relay as the provider
@@ -61,20 +63,18 @@ Listening to 'Sync' events without specifying an address in the filter data will
       console.log(`Pool: ${poolAddress}, reserve0: ${reserve0}, reserve1: ${reserve1}`);
     });
     ```
+
+
   </Tab>
 
-  <Tab title>
+  <Tab title="REST API">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-  </Tab>
 
-  <Tab title>
-    ```
+    ```typescript
     import * as ethers from 'ethers'; //V6
 
     //load ABI data containing the Sync event
@@ -95,33 +95,6 @@ Listening to 'Sync' events without specifying an address in the filter data will
   </Tab>
 </Tabs>
 
-**Resources:**
-
-* [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
-* [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-
-```
-import * as ethers from 'ethers'; //V6
-
-//load ABI data containing the Sync event
-const interfaces = new ethers.Interface(abi);
-
-let params = `timestamp=gte:${unixFrom}&timestamp=lte:${unixTo}`;  
-params += `&topic0=${interfaces.getEvent('Sync')!.topicHash}`;
-
-const url = `${config.mirrorNodeBaseUrl}/api/v1/contracts/results/logs?${params}`;  
-const response = await axios.get(url);
-const logs = response.data.logs;
-
-for (const log of logs) {
-  const {reserve0, reserve1} = interfaces.decodeEventLog('Sync', log.data);
-  console.log(`Pair: ${log.address}, reserve0: ${reserve0}, reserve1: ${reserve1}`);
-}
-```
-
-***
-
 ## Polling Sync Events for a Pool
 
 ⛽ *No gas cost*
@@ -131,15 +104,11 @@ Whenever the reserve values for a pool contract are updated, either due to liqui
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-  </Tab>
 
-  <Tab title="REST API">
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-  </Tab>
 
-  <Tab title>
     ```
     import * as ethers from 'ethers'; //V6
 
@@ -166,19 +135,17 @@ Whenever the reserve values for a pool contract are updated, either due to liqui
       console.log(`reserve0: ${reserve0}, reserve1: ${reserve1}`);
     });
     ```
+
+
   </Tab>
 
-  <Tab title>
+  <Tab title="REST API">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-  </Tab>
 
-  <Tab title>
     ```
     import * as ethers from 'ethers'; //V6
 
@@ -197,30 +164,7 @@ Whenever the reserve values for a pool contract are updated, either due to liqui
       console.log(`reserve0: ${reserve0}, reserve1: ${reserve1}`);
     }
     ```
+
+
   </Tab>
 </Tabs>
-
-**Resources:**
-
-* [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
-* [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-
-```
-import * as ethers from 'ethers'; //V6
-
-//load ABI data containing the Sync event
-const interfaces = new ethers.Interface(abi);
-
-let params = `timestamp=gte:${unixFrom}&timestamp=lte:${unixTo}`;  
-params += `&topic0=${interfaces.getEvent('Sync')!.topicHash}`;
-
-const url = `${config.mirrorNodeBaseUrl}/api/v1/contracts/${contractIdEvm}/results/logs?${params}`;  
-const response = await axios.get(url);
-const logs = response.data.logs;
-
-for (const log of logs) {
-  const {reserve0, reserve1} = interfaces.decodeEventLog('Sync', log.data);
-  console.log(`reserve0: ${reserve0}, reserve1: ${reserve1}`);
-}
-```
