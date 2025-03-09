@@ -6,17 +6,21 @@ Get a token swap quote based on an input or output value.
 
 Below are the two methods to get a quote for a swap from a given route:
 
-* [Get output quote from exact input amount](/developer/saucerswap-v2/swap-operations/swap-quote#get-output-quote-from-exact-input-amount)
+* [Get output quote from exact input amount](/v/developer/saucerswap-v2/swap-operations/swap-quote#get-output-quote-from-exact-input-amount)
 
-* [Get input quote from exact output amount](/developer/saucerswap-v2/swap-operations/swap-quote#get-output-quote-from-exact-input-amount)
+* [Get input quote from exact output amount](/v/developer/saucerswap-v2/swap-operations/swap-quote#get-output-quote-from-exact-input-amount)
 
-**Contract ID:** [SaucerSwapV2QuoterV2](https://hashscan.io/mainnet/contract/0.0.3949424)
+<Info>
+  **Contract ID:** [SaucerSwapV2QuoterV2](https://hashscan.io/mainnet/contract/0.0.3949424)
+</Info>
 
-When providing HBAR in the path array, use the wrapped HBAR token ID ([WHBAR](https://hashscan.io/mainnet/token/0.0.1456986)).
+<Info>
+  When providing HBAR in the path array, use the wrapped HBAR token ID ([WHBAR](https://hashscan.io/mainnet/token/0.0.1456986)).
+</Info>
 
-For production environments, it's highly recommended to use a paid Mirror Node provider for commercial and high-traffic purposes. While Hedera's public mirror node offers free REST API and JSON API endpoints, they have global rate limits. These are best suited for development or low rate usage scenarios.
-
-***
+<Info>
+  For production environments, it's highly recommended to use a paid Mirror Node provider for commercial and high-traffic purposes. While Hedera's public mirror node offers free REST API and JSON API endpoints, they have global rate limits. These are best suited for development or low rate usage scenarios.
+</Info>
 
 ## Get Output Quote from Exact Input Amount
 
@@ -24,17 +28,10 @@ Get the output amount from a given exact input amount and a swap route.
 
 Function name: **quoteExactInput** ⛽ *No gas cost*
 
-Parameter Name
-
-Description
-
-**bytes path**
-
-Route path containing pair swap fees
-
-**uint256 amountIn**
-
-Exact input amount in token's smallest unit
+| Parameter Name       | Description                                 |
+| -------------------- | ------------------------------------------- |
+| **bytes path**       | Route path containing pair swap fees        |
+| **uint256 amountIn** | Exact input amount in token's smallest unit |
 
 <Accordion title="Solidity Interface & Function Body">
   ```
@@ -110,22 +107,20 @@ Exact input amount in token's smallest unit
   ```
 </Accordion>
 
-The data passed to the 'path' parameter follows this format: \[token, fee, token, fee, token, ...], with each 'token' in the route being 20 bytes long and each 'fee' being 3 bytes long. Example, 0x0001F4 for a 0.05% fee.
+<Info>
+  The data passed to the 'path' parameter follows this format: \[token, fee, token, fee, token, ...], with each 'token' in the route being 20 bytes long and each 'fee' being 3 bytes long. Example, 0x0001F4 for a 0.05% fee.
+</Info>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-  </Tab>
 
-  <Tab title="REST API">
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-  </Tab>
 
-  <Tab title>
     ```
     //Typescript
     import * as ethers from 'ethers'; //V6
@@ -162,21 +157,18 @@ The data passed to the 'path' parameter follows this format: \[token, fee, token
 
     const decoded = abiInterfaces.decodeFunctionResult('quoteExactInput', result); 
     const finalOutputAmount = decoded.amountOut; //in token's smallest unit
+
     ```
   </Tab>
 
-  <Tab title>
+  <Tab title="REST API">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-  </Tab>
 
-  <Tab title>
-    ```
+    ```typescript
     //Typescript
     import * as ethers from 'ethers'; //V6
 
@@ -215,49 +207,6 @@ The data passed to the 'path' parameter follows this format: \[token, fee, token
   </Tab>
 </Tabs>
 
-**Resources:**
-
-* [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
-* [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-
-```
-//Typescript
-import * as ethers from 'ethers'; //V6
-
-//load ABI data containing QuoterV2 functions
-const abiInterfaces = new ethers.Interface(abi);
-
-//QuoterV2.sol contract
-const quoterContract = ContractId.fromString(config.quoter);
-
-//swap path
-const path:string[] = [];
-path.push(inputToken.toSolidityAddress());
-path.push(feeHexStr);
-path.push(outputToken.toSolidityAddress());
-
-//get encoded Uint8Array data for path hex
-const encodedPathData = hexToUint8Array(path.join(''));
-
-//quoteExactInput params
-const params = [encodedPathData, inputAmountInSmallestUnit];
-
-//Get encoded function data
-const encodedData = abiInterfaces.encodeFunctionData(interfaces.getFunction('quoteExactInput')!, params);    
-
-const url = `${mirrorNodeBaseUrl}/api/v1/contracts/call`;
-const data = {
-  'block': 'latest',
-  'data': encodedData,
-  'to': quoterContract.toSolidityAddress(),
-};
-
-const response = await axios.post(url, data, { headers: {'content-type': 'application/json'} });
-const result = abiInterfaces.decodeFunctionResult('quoteExactInput', response.data.result); 
-const finalAmountOut = result.amountOut; //in token's smallest unit
-```
-
 ***
 
 ## Get Input Quote from Exact Output Amount
@@ -266,17 +215,10 @@ Get the input amount from a given exact output amount and a swap route.
 
 Function name: **quoteExactOutput** ⛽ *No gas cost*
 
-Parameter Name
-
-Description
-
-**bytes path**
-
-Route path containing pair swap fees, reversed
-
-**uint256 amountOut**
-
-Exact output amount in token's smallest unit
+| Parameter Name        | Description                                    |
+| --------------------- | ---------------------------------------------- |
+| **bytes path**        | Route path containing pair swap fees, reversed |
+| **uint256 amountOut** | Exact output amount in token's smallest unit   |
 
 <Accordion title="Solidity Interface & Function Body">
   ```
@@ -360,22 +302,20 @@ Exact output amount in token's smallest unit
   ```
 </Accordion>
 
-The data passed to the 'path' parameter follows this format: \[token, fee, token, fee, token, ...], but **reversed** (i.e. the first token in the array should be output token), with each 'token' in the route being 20 bytes long and each 'fee' being 3 bytes long. Example, `0x000BB8` for a 0.30% fee.
+<Info>
+  The data passed to the 'path' parameter follows this format: \[token, fee, token, fee, token, ...], but **reversed** (i.e. the first token in the array should be output token), with each 'token' in the route being 20 bytes long and each 'fee' being 3 bytes long. Example, `0x000BB8` for a 0.30% fee.
+</Info>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-  </Tab>
 
-  <Tab title="REST API">
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-  </Tab>
 
-  <Tab title>
     ```
     //Typescript
     import * as ethers from 'ethers'; //V6
@@ -419,17 +359,13 @@ The data passed to the 'path' parameter follows this format: \[token, fee, token
     ```
   </Tab>
 
-  <Tab title>
+  <Tab title="REST API">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-  </Tab>
 
-  <Tab title>
     ```
     //Typescript
     import * as ethers from 'ethers'; //V6
@@ -470,48 +406,3 @@ The data passed to the 'path' parameter follows this format: \[token, fee, token
     ```
   </Tab>
 </Tabs>
-
-**Resources:**
-
-* [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
-* [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-
-```
-//Typescript
-import * as ethers from 'ethers'; //V6
-
-//load ABI data containing QuoterV2 functions
-const abiInterfaces = new ethers.Interface(abi);
-
-//QuoterV2.sol contract
-const quoterContract = ContractId.fromString(config.quoter);
-
-const path:string[] = [];
-path.push(inputToken.toSolidityAddress());
-path.push(feeHexStr);
-path.push(outputToken.toSolidityAddress());
-
-//reverse the path
-path.reverse();
-
-//get encoded Uint8Array data for path hex
-const encodedPathData = hexToUint8Array(path.join(''));
-
-//quoteExactOutput params
-const params = [encodedPathData, outputAmountInSmallestUnit];
-
-//Get encoded function data
-const encodedData = abiInterfaces.encodeFunctionData(interfaces.getFunction('quoteExactOutput')!, params);    
-
-const url = `${mirrorNodeBaseUrl}/api/v1/contracts/call`;
-const data = {
-  'block': 'latest',
-  'data': encodedData,
-  'to': quoterContract.toSolidityAddress(),
-};
-
-const response = await axios.post(url, data, { headers: {'content-type': 'application/json'} });
-const result = abiInterfaces.decodeFunctionResult('quoteExactOutput', response.data.result); 
-const finalAmountIn = result.amountIn; //in token's smallest unit
-```
