@@ -6,19 +6,23 @@ Remove liquidity from an existing token/token liquidity pool.
 
 Outlined below are three methods to remove liquidity from an existing pool:
 
-* [Removing HBAR/token liquidity](/developer/saucerswap-v1/liquidity-operations/removing-liquidity#removing-hbar-token-liquidity)
+* [Removing HBAR/token liquidity](/v/developer/saucerswap-v1/liquidity-operations/removing-liquidity#removing-hbar-token-liquidity)
 
-* [Removing token/token liquidity](/developer/saucerswap-v1/liquidity-operations/removing-liquidity#removing-token-token-liquidity)
+* [Removing token/token liquidity](/v/developer/saucerswap-v1/liquidity-operations/removing-liquidity#removing-token-token-liquidity)
 
-* [Removing HBAR/token liquidity for tokens with custom fees](/developer/saucerswap-v1/liquidity-operations/removing-liquidity#removing-hbar-token-liquidity-supporting-tokens-with-custom-fees)
+* [Removing HBAR/token liquidity for tokens with custom fees](/v/developer/saucerswap-v1/liquidity-operations/removing-liquidity#removing-hbar-token-liquidity-supporting-tokens-with-custom-fees)
 
-**Contract ID:** [SaucerSwapV1RouterV3](https://hashscan.io/mainnet/contract/0.0.3045981)
+<Info>
+  **Contract ID:** [SaucerSwapV1RouterV3](https://hashscan.io/mainnet/contract/0.0.3045981)
+</Info>
 
-A spender allowance for the router is required for the LP token.
+<Info>
+  A spender allowance for the router is required for the LP token.
+</Info>
 
-removeLiquidity supports HTS tokens with custom fees.
-
-***
+<Info>
+  removeLiquidity supports HTS tokens with custom fees.
+</Info>
 
 ## Removing HBAR/Token Liquidity
 
@@ -28,33 +32,14 @@ Function name: **removeLiquidityETH**
 
 ⛽ *Recommended gas: 2,800,000 gwei (\~ $0.24 USD)*
 
-Parameter Name
-
-Description
-
-**address token**
-
-EVM address of the token paired with HBAR
-
-**uint liquidity**
-
-LP liquidity amount to remove
-
-**uint amountTokenMin**
-
-The minimum token amount to receive in its smallest unit
-
-**uint amountETHMin**
-
-The minimum HBAR amount to receive in its smallest unit
-
-**address to**
-
-EVM address to receive the tokens
-
-**uint deadline**
-
-Deadline in Unix seconds
+| Parameter Name          | Description                                              |
+| ----------------------- | -------------------------------------------------------- |
+| **address token**       | EVM address of the token paired with HBAR                |
+| **uint liquidity**      | LP liquidity amount to remove                            |
+| **uint amountTokenMin** | The minimum token amount to receive in its smallest unit |
+| **uint amountETHMin**   | The minimum HBAR amount to receive in its smallest unit  |
+| **address to**          | EVM address to receive the tokens                        |
+| **uint deadline**       | Deadline in Unix seconds                                 |
 
 <Accordion title="Solidity Interface & Function Body">
   ```
@@ -99,27 +84,25 @@ Deadline in Unix seconds
   ```
 </Accordion>
 
-The **removeLiquidityETH** function operates in HBAR but derives its name from Uniswap on Ethereum. This name was kept to simplify integration for developers versed in Uniswap tools.
+<Info>
+  The **removeLiquidityETH** function operates in HBAR but derives its name from Uniswap on Ethereum. This name was kept to simplify integration for developers versed in Uniswap tools.
+</Info>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="Typescript">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
 
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
 
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
 
-    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
-  </Tab>
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)&#x20;
 
-  <Tab title>
-    ```
+    ```typescript
     import { 
       ContractFunctionParameters, 
       ContractExecuteTransaction, 
@@ -163,37 +146,15 @@ Function name: **removeLiquidity**
 
 ⛽ *Recommended gas: 1,600,000 gwei (\~ $0.14 USD)*
 
-Parameter Name
-
-Description
-
-**address tokenA**
-
-EVM address of the first HTS token
-
-**address tokenB**
-
-EVM address of the second HTS token
-
-**uint liquidity**
-
-LP liquidity amount to remove in its smallest unit
-
-**uint amountAMin**
-
-The minimum amount for the first token in its smallest unit
-
-**uint amountBMin**
-
-The minimum amount for the second token in its smallest unit
-
-**address to**
-
-EVM address to receive the tokens
-
-**uint deadline**
-
-Deadline in Unix seconds
+| Parameter Name      | Description                                                  |
+| ------------------- | ------------------------------------------------------------ |
+| **address tokenA**  | EVM address of the first HTS token                           |
+| **address tokenB**  | EVM address of the second HTS token                          |
+| **uint liquidity**  | LP liquidity amount to remove in its smallest unit           |
+| **uint amountAMin** | The minimum amount for the first token in its smallest unit  |
+| **uint amountBMin** | The minimum amount for the second token in its smallest unit |
+| **address to**      | EVM address to receive the tokens                            |
+| **uint deadline**   | Deadline in Unix seconds                                     |
 
 <Accordion title="Solidity Interface & Function Body">
   ```
@@ -246,20 +207,16 @@ Deadline in Unix seconds
 <Tabs>
   <Tab title="Typescript">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
 
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
 
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
 
-    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
-  </Tab>
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function) &#x20;
 
-  <Tab title>
-    ```
+    ```typescript
     import { 
       ContractFunctionParameters, 
       ContractExecuteTransaction,
@@ -305,33 +262,14 @@ Function name: **removeLiquidityETHSupportingFeeOnTransferTokens**
 
 ⛽ *Recommended gas: 3,000,000 gwei (\~ $0.26 USD)*
 
-Parameter Name
-
-Description
-
-**address token**
-
-EVM address of the token paired with HBAR
-
-**uint liquidity**
-
-LP liquidity amount to remove in its smallest unit
-
-**uint amountTokenMin**
-
-The minimum token amount to receive in its smallest unit
-
-**uint amountETHMin**
-
-The minimum HBAR amount to receive in its smallest unit
-
-**address to**
-
-EVM address to receive the tokens
-
-**uint deadline**
-
-Deadline in Unix seconds
+| Parameter Name          | Description                                              |
+| ----------------------- | -------------------------------------------------------- |
+| **address token**       | EVM address of the token paired with HBAR                |
+| **uint liquidity**      | LP liquidity amount to remove in its smallest unit       |
+| **uint amountTokenMin** | The minimum token amount to receive in its smallest unit |
+| **uint amountETHMin**   | The minimum HBAR amount to receive in its smallest unit  |
+| **address to**          | EVM address to receive the tokens                        |
+| **uint deadline**       | Deadline in Unix seconds                                 |
 
 <Accordion title="Solidity Interface & Function Body">
   ```
@@ -378,26 +316,24 @@ Deadline in Unix seconds
   ```
 </Accordion>
 
-The **removeLiquidityETHSupportingFeeOnTransferTokens** function operates in HBAR but derives its name from Uniswap on Ethereum. This name was kept to simplify integration for developers versed in Uniswap tools.
+<Info>
+  The **removeLiquidityETHSupportingFeeOnTransferTokens** function operates in HBAR but derives its name from Uniswap on Ethereum. This name was kept to simplify integration for developers versed in Uniswap tools.
+</Info>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="Typescript SDK">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
 
-    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
+    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)&#x20;
 
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
 
-    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
-  </Tab>
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)&#x20;
 
-  <Tab title>
     ```
     import { 
       ContractFunctionParameters, 
@@ -428,5 +364,9 @@ The **removeLiquidityETHSupportingFeeOnTransferTokens** function operates in HBA
     const values = result.getResult(['uint']);
     const amountHBAR = values[1]; //uint amountETH
     ```
+
+
   </Tab>
 </Tabs>
+
+###
