@@ -4,25 +4,15 @@ title: "Fetch all Pools"
 
 Retrieve all V2 liquidity pools via SaucerSwap REST API
 
-SaucerSwap offers a public [REST API](/developer/rest-api) endpoint to retrieve all liquidity pools, accompanied by useful metadata for each pool, including liquidity pool reserves, and their associated tokens. Use the following URL options to access the data.
+SaucerSwap offers a public [REST API](/v/developer/rest-api) endpoint to retrieve all liquidity pools, accompanied by useful metadata for each pool, including liquidity pool reserves, and their associated tokens. Use the following URL options to access the data.
 
-Hedera Network
+| Hedera Network | URL                                                                                            |
+| -------------- | ---------------------------------------------------------------------------------------------- |
+| Mainnet        | [https://api.saucerswap.finance/v2/pools/](https://api.saucerswap.finance/v2/pools/)           |
+| Testnet        | [https://test-api.saucerswap.finance/v2/pools/](https://test-api.saucerswap.finance/v2/pools/) |
+| Previewnet     | *Not supported*                                                                                |
 
-URL
-
-Mainnet
-
-[https://api.saucerswap.finance/v2/pools/](https://api.saucerswap.finance/v2/pools/)
-
-Testnet
-
-[https://test-api.saucerswap.finance/v2/pools/](https://test-api.saucerswap.finance/v2/pools/)
-
-Previewnet
-
-*Not supported*
-
-For Saucerswap V1 liquidity pools, see [Fetch all pools (V1)](/developer/saucerswap-v1/liquidity-operations/fetch-all-pools).
+For Saucerswap V1 liquidity pools, see [Fetch all pools (V1)](/v/developer/saucerswap-v1/liquidity-operations/fetch-all-pools).
 
 ### Data JSON Schema
 
@@ -65,7 +55,7 @@ For Saucerswap V1 liquidity pools, see [Fetch all pools (V1)](/developer/saucers
 ⛽ *No gas cost*
 
 <CodeGroup>
-  ```typescript-1 Typescript
+  ```typescript Typescript
   const url = 'https://api.saucerswap.finance/v2/pools/';  
   const response = await axios.get(url);
   const pools = response.data;
