@@ -6,19 +6,29 @@ Swap HTS fungible tokens for HBAR
 
 Below are two methods available to swap tokens for HBAR:
 
-* [Swap exact tokens for HBAR](/developer/saucerswap-v2/swap-operations/swap-tokens-for-hbar#swap-exact-tokens-for-hbar)
+* [Swap exact tokens for HBAR](/v/developer/saucerswap-v2/swap-operations/swap-tokens-for-hbar#swap-exact-tokens-for-hbar)
 
-* [Swap tokens for exact HBAR](/developer/saucerswap-v2/swap-operations/swap-tokens-for-hbar#swap-tokens-for-exact-hbar)
+* [Swap tokens for exact HBAR](/v/developer/saucerswap-v2/swap-operations/swap-tokens-for-hbar#swap-tokens-for-exact-hbar)
 
-**Contract ID:** [SaucerSwapV2SwapRouter](https://hashscan.io/mainnet/contract/0.0.3949434)
+<Info>
+  **Contract ID:** [SaucerSwapV2SwapRouter](https://hashscan.io/mainnet/contract/0.0.3949434)
+</Info>
 
-Consider the token's decimal places when determining input and output values.
+<Info>
+  Consider the token's decimal places when determining input and output values.
 
-Input and output amounts passed to the solidity function should all be in the token's smallest unit. For the SAUCE token, which has 6 decimal places, an input of 123.45 SAUCE should be entered as 123450000 (123.45 multiplied by 10^6).
 
-Granting an spender allowance to the router contract **is required** when the input token is not native HBAR for security reasons enforced at the native code layer. Ensure that the allowance amount is in token's smallest unit.
 
-When providing HBAR in the path array, use the Wrapped HBAR token ID ([WHBAR](https://hashscan.io/mainnet/token/0.0.1456986)).
+  Input and output amounts passed to the solidity function should all be in the token's smallest unit. For the SAUCE token, which has 6 decimal places, an input of 123.45 SAUCE should be entered as 123450000 (123.45 multiplied by 10^6).
+</Info>
+
+<Info>
+  Granting an spender allowance to the router contract **is required** when the input token is not native HBAR for security reasons enforced at the native code layer. Ensure that the allowance amount is in token's smallest unit.
+</Info>
+
+<Info>
+  When providing HBAR in the path array, use the Wrapped HBAR token ID ([WHBAR](https://hashscan.io/mainnet/token/0.0.1456986)).
+</Info>
 
 ***
 
@@ -26,31 +36,15 @@ When providing HBAR in the path array, use the Wrapped HBAR token ID ([WHBAR](ht
 
 Swap an exact amount of tokens for a minimum HBAR amount.
 
-Solidity function name:  \*\*\*\***exactInput**
+Solidity function name: **exactInput**
 
-Struct Parameter Name
-
-Description
-
-**bytes path**
-
-A bytes array representing a route path including fees data
-
-**address recipient**
-
-EVM address of the token recipient
-
-**uint256 deadline**
-
-Deadline in Unix seconds
-
-**uint256 amountIn**
-
-The exact input token amount in its smallest unit
-
-**uint256 amountOutMinimum**
-
-The minimum token amount to receive in its smallest unit
+| Struct Parameter Name        | Description                                                 |
+| ---------------------------- | ----------------------------------------------------------- |
+| **bytes path**               | A bytes array representing a route path including fees data |
+| **address recipient**        | EVM address of the token recipient                          |
+| **uint256 deadline**         | Deadline in Unix seconds                                    |
+| **uint256 amountIn**         | The exact input token amount in its smallest unit           |
+| **uint256 amountOutMinimum** | The minimum token amount to receive in its smallest unit    |
 
 <Accordion title="Solidity Interface & Function Body">
   ```
@@ -109,39 +103,45 @@ The minimum token amount to receive in its smallest unit
   ```
 </Accordion>
 
-Set the minimum output token amount (**amountOutMinimum**) with caution.
+<Note>
+  Set the minimum output token amount (**amountOutMinimum**) with caution.
 
-A high minimum might lead to a swap failure due to insufficient liquidity or rapid price movements. Conversely, setting the minimum too low can expose you to significant slippage, potentially resulting in a financial loss as you might receive far fewer tokens than expected.
 
-The data passed to the 'path' parameter follows this format: \[token, fee, token, fee, token, ...], with each 'token' in the route being 20 bytes long and each 'fee' being 3 bytes long. Example, 0x0001F4 for a 0.05% fee.
 
-Include **unwrapWHBAR** function in your call to convert the Wrapped HBAR (WHBAR) output token back into the native HBAR cryptocurrency following the swap.
+  A high minimum might lead to a swap failure due to insufficient liquidity or rapid price movements. Conversely, setting the minimum too low can expose you to significant slippage, potentially resulting in a financial loss as you might receive far fewer tokens than expected.
+</Note>
 
-For the ExactInputParams **recipient**, use the SwapRouter contract address. This is required for unwrapWHBAR to function correctly. The unwrapped HBAR will then be sent to the user's recipient address.
+<Info>
+  The data passed to the 'path' parameter follows this format: \[token, fee, token, fee, token, ...], with each 'token' in the route being 20 bytes long and each 'fee' being 3 bytes long. Example, 0x0001F4 for a 0.05% fee.
+</Info>
 
-When the output token is not HBAR, use the user's address as the **recipient** instead.
+<Info>
+  Include **unwrapWHBAR** function in your call to convert the Wrapped HBAR (WHBAR) output token back into the native HBAR cryptocurrency following the swap.
+</Info>
+
+<Note>
+  For the ExactInputParams **recipient**, use the SwapRouter contract address. This is required for unwrapWHBAR to function correctly. The unwrapped HBAR will then be sent to the user's recipient address.
+
+
+
+  When the output token is not HBAR, use the user's address as the **recipient** instead.
+</Note>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="Typescript">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
 
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
-  </Tab>
 
-  <Tab title>
     *Note: The Hedera Typescript SDK currently does not support passing complex contract function parameters. Instead, use Ethers.js or Web3.js to obtain the encoded function data and pass that data as a function parameter.*
-  </Tab>
 
-  <Tab title>
-    ```
+    ```typescript
     import * as ethers from 'ethers'; //V6
     //import {..} from @hashgraph/sdk
 
@@ -197,29 +197,13 @@ Swap a maximum amount of tokens to receive an exact HBAR amount.
 
 Solidity function name: **exactOutput**
 
-Schema Parameter Name
-
-Description
-
-**bytes path**
-
-A bytes array representing a route path including fees data
-
-**address recipient**
-
-EVM address for the token recipient
-
-**uint256 deadline**
-
-Deadline in Unix seconds
-
-**uint256 amountOut**
-
-The exact output amount to receive in its smallest unit
-
-**uint256 amountInMaximum**
-
-The maximum allowed input amount in its smallest unit
+| Schema Parameter Name       | Description                                                 |
+| --------------------------- | ----------------------------------------------------------- |
+| **bytes path**              | A bytes array representing a route path including fees data |
+| **address recipient**       | EVM address for the token recipient                         |
+| **uint256 deadline**        | Deadline in Unix seconds                                    |
+| **uint256 amountOut**       | The exact output amount to receive in its smallest unit     |
+| **uint256 amountInMaximum** | The maximum allowed input amount in its smallest unit       |
 
 <Accordion title="Solidity Interface & Function Body">
   ```
@@ -266,39 +250,45 @@ The maximum allowed input amount in its smallest unit
   ```
 </Accordion>
 
-Set the maximum input token amount (**amountInMaximum**) with caution.
+<Note>
+  Set the maximum input token amount (**amountInMaximum**) with caution.
 
-A low maximum might lead to a swap failure if the required liquidity surpasses this limit or due to rapid price movements. Conversely, setting it too high can expose you to significant slippage, potentially leading to a financial loss as you might spend far more tokens than expected.
 
-The data passed to the 'path' parameter follows this format: \[token, fee, token, fee, token, ...], but **reversed** (i.e. the first token in the array should be output token), with each 'token' in the route being 20 bytes long and each 'fee' being 3 bytes long. Example, `0x000BB8 (3000)` for a 0.30% fee.
 
-Include **unwrapWHBAR** function in your call to convert the Wrapped HBAR output token back into the native HBAR cryptocurrency following the swap.
+  A low maximum might lead to a swap failure if the required liquidity surpasses this limit or due to rapid price movements. Conversely, setting it too high can expose you to significant slippage, potentially leading to a financial loss as you might spend far more tokens than expected.
+</Note>
 
-For the ExactInputParams **recipient**, use the SwapRouter contract address. This is required for unwrapWHBAR to function correctly. The unwrapped HBAR will then be sent to the user's recipient address.
+<Info>
+  The data passed to the 'path' parameter follows this format: \[token, fee, token, fee, token, ...], but **reversed** (i.e. the first token in the array should be output token), with each 'token' in the route being 20 bytes long and each 'fee' being 3 bytes long. Example, `0x000BB8 (3000)` for a 0.30% fee.
+</Info>
 
-When the output token is not HBAR, use the user's address as the **recipient** instead.
+<Info>
+  Include **unwrapWHBAR** function in your call to convert the Wrapped HBAR output token back into the native HBAR cryptocurrency following the swap.
+</Info>
+
+<Note>
+  For the ExactInputParams **recipient**, use the SwapRouter contract address. This is required for unwrapWHBAR to function correctly. The unwrapped HBAR will then be sent to the user's recipient address.
+
+
+
+  When the output token is not HBAR, use the user's address as the **recipient** instead.
+</Note>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="Typescript">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
 
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
-  </Tab>
 
-  <Tab title>
     *Note: The Hedera Typescript SDK currently does not support passing complex contract function parameters. Instead, use Ethers.js or Web3.js to obtain the encoded function data and pass that data as a function parameter.*
-  </Tab>
 
-  <Tab title>
-    ```
+    ```typescript
     import * as ethers from 'ethers'; //V6
     //import {..} from @hashgraph/sdk
 
