@@ -65,17 +65,7 @@ Function name: **getAmountsOut**
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-  </Tab>
 
-  <Tab title="REST API">
-    **Resources:**
-
-    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
-    * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-  </Tab>
-
-  <Tab title>
     ```
     //Typescript
     import * as ethers from 'ethers'; //V6
@@ -101,20 +91,18 @@ Function name: **getAmountsOut**
     const amounts = result; //uint[] amounts
     const finalOutputAmount = amounts[amounts.length - 1]; //in token's smallest unit
     ```
+
+
   </Tab>
 
-  <Tab title>
+  <Tab title="REST API">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-  </Tab>
 
-  <Tab title>
-    ```
+    ```typescript
     //Typescript
     import * as ethers from 'ethers'; //V6
 
@@ -143,35 +131,14 @@ Function name: **getAmountsOut**
     const response = await axios.post(url, data, { headers: {'content-type': 'application/json'} });
     const amounts = abiInterfaces.decodeFunctionResult('getAmountsOut', response.data.result)[0]; //uint[] amounts
     const finalOutputAmount = amounts[amounts.length - 1]; //in token's smallest unit
+
     ```
+
+
   </Tab>
 </Tabs>
 
-```typescript
-//Typescript
-import * as ethers from 'ethers'; //V6
-
-//Set one of Hedera's JSON RPC Relay as the provider
-const provider = new ethers.JsonRpcProvider(hederaJsonRelayUrl, '', {
-  batchMaxCount: 1, //workaround for V6
-});
-
-//ABI data for the getAmountsOut
-const abi = ['function getAmountsOut(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts)'];
-
-//Load the ABI
-const abiInterfaces = new ethers.Interface(abi);
-
-//Example route
-const tokenIn = '0x' + TokenId.fromString(whbarTokenId).toSolidityAddress();
-const tokenOut = '0x' + TokenId.fromString(sauceTokenId).toSolidityAddress();
-const route = [tokenIn, tokenOut];
-
-const routerContract = new ethers.Contract(routerEvmAddress, abiInterfaces.fragments, provider);
-const result = await routerContract.getAmountsOut(inputAmountInSmallestUnit, route);
-const amounts = result; //uint[] amounts
-const finalOutputAmount = amounts[amounts.length - 1]; //in token's smallest unit
-```
+###
 
 ***
 
@@ -222,17 +189,7 @@ Function name: **getAmountsIn**
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-  </Tab>
 
-  <Tab title="REST API">
-    **Resources:**
-
-    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
-    * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-  </Tab>
-
-  <Tab title>
     ```
     //Typescript
     import * as ethers from 'ethers'; //V6
@@ -258,20 +215,18 @@ Function name: **getAmountsIn**
     const amounts = results; //uint[] amounts
     const finalInputAmount = amounts[0]; //in token's smallest unit
     ```
+
+
   </Tab>
 
-  <Tab title>
+  <Tab title="REST API">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-  </Tab>
 
-  <Tab title>
-    ```
+    ```typescript
     //Typescript
     import * as ethers from 'ethers'; //V6
 
@@ -301,36 +256,9 @@ Function name: **getAmountsIn**
     const amounts = abiInterfaces.decodeFunctionResult('getAmountsIn', response.data.result)[0]; //uint[] amounts
     const finalInputAmount = amounts[0]; //in token's smallest unit
     ```
+
+
   </Tab>
 </Tabs>
 
-```typescript
-//Typescript
-import * as ethers from 'ethers'; //V6
-
-//ABI data for the getAmountsIn
-const abi = ['function getAmountsIn(uint amountOut, address[] calldata path) external view returns (uint[] memory amounts)'];
-
-//Load the ABI
-const abiInterfaces = new ethers.Interface(abi);
-
-//Example route (WHBAR > SAUCE)
-const tokenIn = '0x' + TokenId.fromString(whbarTokenId).toSolidityAddress();
-const tokenOut = '0x' + TokenId.fromString(sauceTokenId).toSolidityAddress();
-const route = [tokenIn, tokenOut];
-
-const routerContract = ContractId.fromString(config.router);
-const params = [outputAmountInSmallestUnit, route];
-const encodedData = abiInterfaces.encodeFunctionData(abiInterfaces.getFunction('getAmountsIn')!, params);    
-
-const url = `${mirrorNodeBaseUrl}/api/v1/contracts/call`;
-const data = {
-  'block': 'latest',
-  'data': encodedData,
-  'to': routerContract.toSolidityAddress(),
-};
- 
-const response = await axios.post(url, data, { headers: {'content-type': 'application/json'} });
-const amounts = abiInterfaces.decodeFunctionResult('getAmountsIn', response.data.result)[0]; //uint[] amounts
-const finalInputAmount = amounts[0]; //in token's smallest unit
-```
+###
