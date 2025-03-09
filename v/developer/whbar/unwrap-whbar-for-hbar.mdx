@@ -4,21 +4,21 @@ title: "Unwrap WHBAR for HBAR"
 
 Withdraw Wrapped HBAR (WHBAR) tokens to retrieve HBAR native cryptocurrency at a 1:1 ratio.
 
-**Contract ID:** [WhbarHelper](https://docs.saucerswap.finance/developerx/contract-deployments)
+<Info>
+  **Contract ID:** [WhbarHelper](https://docs.saucerswap.finance/developerx/contract-deployments)
+</Info>
 
-Granting a spender allowance to the **WhbarHelper** contract **is required** for the contract to transfer the [**WHBAR**](https://hashscan.io/mainnet/token/0.0.1456986) token from the user's wallet to the contract.
+<Info>
+  Granting a spender allowance to the **WhbarHelper** contract **is required** for the contract to transfer the [**WHBAR**](https://hashscan.io/mainnet/token/0.0.1456986) token from the user's wallet to the contract.
+</Info>
 
 ***
 
 Function name: **unwrapWhbar**
 
-Parameter Name
-
-Description
-
-**uint256 wad**
-
-WHBAR token amount in its smallest unit
+| Parameter Name  | Description                             |
+| --------------- | --------------------------------------- |
+| **uint256 wad** | WHBAR token amount in its smallest unit |
 
 <Accordion title="Solidity Function Body">
   ```
@@ -47,17 +47,13 @@ WHBAR token amount in its smallest unit
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
 
     * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
 
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
-  </Tab>
 
-  <Tab title>
     ```
     import { 
       ContractExecuteTransaction,
@@ -79,5 +75,7 @@ WHBAR token amount in its smallest unit
       .setFunction('unwrapWhbar', params)
       .execute(client);
     ```
+
+
   </Tab>
 </Tabs>

@@ -4,11 +4,13 @@ title: "Wrap HBAR for WHBAR"
 
 Deposit HBAR native cryptocurrency to retrieve Wrapped HBAR (WHBAR) tokens at a 1:1 ratio.
 
-Contract ID: [WhbarHelper](https://docs.saucerswap.finance/developer/contract-deployments)
+<Info>
+  Contract ID: [WhbarHelper](https://docs.saucerswap.finance/developer/contract-deployments)
+</Info>
 
-Ensure that the [**WHBAR**](https://hashscan.io/mainnet/token/0.0.1456986)  \*\*\*\*token ID is associated with the account prior to calling the deposit function. Failure to do so will result in a `TOKEN_NOT_ASSOCIATED_TO_ACCOUNT` error
-
-***
+<Info>
+  Ensure that the [**WHBAR**](https://hashscan.io/mainnet/token/0.0.1456986)  \*\*\*\*token ID is associated with the account prior to calling the deposit function. Failure to do so will result in a `TOKEN_NOT_ASSOCIATED_TO_ACCOUNT` error
+</Info>
 
 Function name: **deposit**
 
@@ -28,17 +30,13 @@ Function name: **deposit**
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
 
     * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
 
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
-  </Tab>
 
-  <Tab title>
     ```
     import { 
       ContractExecuteTransaction,
@@ -60,5 +58,7 @@ Function name: **deposit**
      .setFunction('deposit')
      .execute(client);
     ```
+
+
   </Tab>
 </Tabs>
