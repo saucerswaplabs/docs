@@ -91,7 +91,7 @@ Solidity function name: **swapExactETHForTokens**
   <Tab title="Typescript">
     **Resources:**
 
-    * [**Hedera JavaScript SDK**](https://github.com/hashgraph/hedera-sdk-js)
+    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
 
     * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
 
@@ -130,6 +130,164 @@ Solidity function name: **swapExactETHForTokens**
   </Tab>
 </Tabs>
 
-###
+## Swap HBAR for Exact Tokens
 
-###
+Swap a maximum amount of HBAR to receive an exact tokens amount
+
+Solidity function name: **swapETHForExactTokens**
+
+| Parameter Name               | Description                                             |
+| ---------------------------- | ------------------------------------------------------- |
+| **uint amountOut**           | The exact output amount to receive in its smallest unit |
+| **address\[] calldata path** | An ordered list of token EVM addresses                  |
+| **address to**               | EVM address for the token recipient                     |
+| **uint deadline**            | Deadline in Unix seconds                                |
+
+<Accordion title="Solidity Interface & Function Body">
+  ```
+  //IUniswapV2Router01.sol
+
+  function swapETHForExactTokens(
+    uint amountOut, 
+    address[] calldata path, 
+    address to, 
+    uint deadline
+  ) external payable returns (uint[] memory amounts);
+  ```
+
+  [Hedera TypeScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+
+  ```
+  //UniswapV2Router02.sol
+
+  function swapETHForExactTokens(uint amountOut, address[] calldata path, address to, uint deadline)
+    external
+    virtual
+    override
+    payable
+    ensure(deadline)
+    returns (uint[] memory amounts)
+  {
+    require(path[0] == whbar, 'UniswapV2Router: INVALID_PATH');
+    amounts = UniswapV2Library.getAmountsIn(factory, amountOut, path);
+    require(amounts[0] <= msg.value, 'UniswapV2Router: EXCESSIVE_INPUT_AMOUNT');
+    IWHBAR(WHBAR).deposit{value: amounts[0]}(msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]));
+    _swap(amounts, path, to);
+    // refund dust eth, if any
+    if (msg.value > amounts[0]) TransferHelper.safeTransferETH(msg.sender, msg.value - amounts[0]);
+  }
+  ```
+</Accordion>
+
+<Note>
+  Set the maximum HBAR amount (**payable**) with caution.
+
+
+
+  A low maximum might lead to a swap failure if the required liquidity surpasses this limit or due to rapid price movements. Conversely, setting it too high can expose you to significant slippage, potentially leading to a financial loss as you might spend far more HBAR than expected.
+</Note>
+
+### Code Overview
+
+<Tabs>
+  <Tab title="Typescript">
+    Resources:
+
+    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+
+    * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
+
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
+  </Tab>
+</Tabs>
+
+```typescript
+import { 
+      ContractFunctionParameters, 
+      ContractExecuteTransaction,
+      TokenAssociateTransaction,
+      .. 
+    } from '@hashgraph/sdk';
+
+    const params = new ContractFunctionParameters();
+    params.addUint256(amountOut); //uint amountOut
+    params.addAddressArray(tokenPath); //address[] calldata path
+    params.addAddress(toAddress); //address to
+    params.addUint256(deadline); //uint deadline
+        
+    const response = await new ContractExecuteTransaction()
+     .setPayableAmount(inputHbar)
+     .setContractId(routerContractId)
+     .setGas(gasLim)
+     .setFunction('swapETHForExactTokens', params)
+     .execute(client);
+     
+    const record = await response.getRecord(client);
+    const result = record.contractFunctionResult!;
+    const values = result.getResult(['uint[]']);
+    const amounts = values[0]; //uint[] amounts
+    const finalInputAmount = amounts[0];
+```
+
+## Swap Exact HBAR for Tokens Supporting Custom Fees
+
+Swap an exact amount of HBAR for a minimum token amount, supporting HTS tokens with custom fees on token transfer.
+
+Solidity function name: **swapExactETHForTokensSupportingFeeOnTransferTokens**
+
+| Parameter name               | Description                                              |
+| ---------------------------- | -------------------------------------------------------- |
+| **uint amountOutMin**        | The minimum token amount to receive in its smallest unit |
+| **address\[] calldata path** | An ordered list of token EVM addresses                   |
+| **address to**               | EVM address for the token recipient                      |
+| **uint deadline**            | Deadline in Unix seconds                                 |
+
+<Accordion title="Solidity Interface & Function Body">
+  ```
+  //IUniswapV2Router02.sol
+
+  function swapExactETHForTokensSupportingFeeOnTransferTokens(
+    uint amountOutMin,
+    address[] calldata path,
+    address to,
+    uint deadline
+  ) external payable;
+  ```
+
+  ```
+  //UniswapV2Router02.sol
+
+  function swapExactETHForTokensSupportingFeeOnTransferTokens(
+    uint amountOutMin,
+    address[] calldata path,
+    address to,
+    uint deadline
+  )
+    external
+    virtual
+    override
+    payable
+    ensure(deadline)
+  {
+    require(path[0] == whbar, 'UniswapV2Router: INVALID_PATH');
+    uint amountIn = msg.value;
+    IWHBAR(WHBAR).deposit{value: amountIn}(msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]));
+    uint balanceBefore = IERC20(path[path.length - 1]).balanceOf(to);
+    _swapSupportingFeeOnTransferTokens(path, to);
+    require(
+      IERC20(path[path.length - 1]).balanceOf(to).sub(balanceBefore) >= amountOutMin,
+      'UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT'
+    );
+  }
+  ```
+</Accordion>
+
+<Note>
+  Set the minimum output token amount (**amountOutMin**) with caution.
+
+
+
+  A high minimum might lead to a swap failure due to insufficient liquidity or rapid price movements. Conversely, setting the minimum too low can expose you to significant slippage, potentially resulting in a financial loss as you might receive far fewer tokens than expected.
+</Note>
+
+### Code Overview
