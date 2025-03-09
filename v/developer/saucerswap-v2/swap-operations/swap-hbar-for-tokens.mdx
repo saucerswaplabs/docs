@@ -104,8 +104,6 @@ Solidity function name:  **exactInput**
 <Note>
   Set the minimum output token amount (**amountOutMinimum**) with caution.
 
-
-
   A high minimum might lead to a swap failure due to insufficient liquidity or rapid price movements. Conversely, setting the minimum too low can expose you to significant slippage, potentially resulting in a financial loss as you might receive far fewer tokens than expected.
 </Note>
 
@@ -118,6 +116,69 @@ Solidity function name:  **exactInput**
 </Info>
 
 ### Code Overview
+
+<Tabs>
+  <Tab title="Typescript">
+    **Resources:**
+
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+
+    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+
+    * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
+
+    *Note: The Hedera Typescript SDK currently does not support passing complex contract function parameters. Instead, use Ethers.js or Web3.js to obtain the encoded function data and pass that data as a function parameter.*
+
+    ```
+    import * as ethers from 'ethers'; //V6
+    import {
+      ContractExecuteTransaction,
+      TokenAssociateTransaction, 
+      .. 
+    } from '@hashgraph/sdk';
+
+    //Client pre-checks:
+    // - Output token is associated
+
+    //load ABI data containing SwapRouter, PeripheryPayments and Multicall functions
+    const abiInterfaces = new ethers.Interface(abi); 
+
+    //ExactInputParams
+    const params = {
+      path: routeDataWithFee, //'0x...'
+      recipient: recipientAddress, //'0x...' - user's recipient address
+      deadline: deadline, //Unix seconds
+      amountIn: inputTinybar, //in Tinybar
+      amountOutMinimum: outputAmountMin//in token's smallest unit
+    };
+
+    //encode each function individually
+    const swapEncoded = abiInterfaces.encodeFunctionData('exactInput', [params]);
+    const refundHBAREncoded = abiInterfaces.encodeFunctionData('refundETH');
+
+    //multi-call parameter: bytes[]
+    const multiCallParam = [swapEncoded, refundHBAREncoded];
+
+    //get encoded data for the multicall involving both functions
+    const encodedData = abiInterfaces.encodeFunctionData('multicall', [multiCallParam]);  
+
+    //get encoded data as Uint8Array
+    const encodedDataAsUint8Array = hexToUint8Array(encodedData);
+
+    const response = await new ContractExecuteTransaction()
+     .setPayableAmount(Hbar.from(inputTinybar, HbarUnit.Tinybar))
+     .setContractId(swapRouterContractId)
+     .setGas(gasLim)
+     .setFunctionParameters(encodedDataAsUint8Array)
+     .execute(client);
+     
+    const record = await response.getRecord(client);
+    const result = record.contractFunctionResult!;
+    const values = result.getResult(['uint256']);
+    const amountOut = values[0]; //uint256 amountOut
+    ```
+  </Tab>
+</Tabs>
 
 ***
 
@@ -184,8 +245,6 @@ Solidity function name: **exactOutput**
 <Note>
   Set the maximum input token amount (**amountInMaximum**) with caution.
 
-
-
   A low maximum might lead to a swap failure if the required liquidity surpasses this limit or due to rapid price movements. Conversely, setting it too high can expose you to significant slippage, potentially leading to a financial loss as you might spend far more tokens than expected.
 </Note>
 
@@ -194,3 +253,66 @@ Solidity function name: **exactOutput**
 </Info>
 
 ### Code Overview
+
+<Tabs>
+  <Tab title="Typescript">
+    **Resources:**
+
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+
+    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+
+    * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
+
+    ```
+    import * as ethers from 'ethers'; //V6
+    import {
+      ContractExecuteTransaction, 
+      TokenAssociateTransaction,
+      .. 
+    } from '@hashgraph/sdk';
+
+    //Client pre-checks:
+    // - Output token is associated
+
+    //load ABI data containing SwapRouter, PeripheryPayments and Multicall functions
+    const abiInterfaces = new ethers.Interface(abi); 
+
+    //ExactOutputParams
+    const params = {
+      path: routeDataWithFee, //'0x...' (reversed route path)
+      recipient: recipientAddress, //'0x...' - user's recipient address
+      deadline: deadline, //Unix seconds
+      amountOut: outputAmount, //in token's smallest unit
+      amountInMaximum: inputTinybarMax //in Tinybar
+    };
+
+    //encode each function individually
+    const swapEncoded = abiInterfaces.encodeFunctionData('exactOutput', [params]);
+    const refundHBAREncoded = abiInterfaces.encodeFunctionData('refundETH');
+
+    //multi-call parameter: bytes[]
+    const multiCallParam = [swapEncoded, refundHBAREncoded];
+
+    //get encoded data for the multicall involving both functions
+    const encodedData = abiInterfaces.encodeFunctionData('multicall', [multiCallParam]);  
+
+    //get encoded data as Uint8Array
+    const encodedDataAsUint8Array = hexToUint8Array(encodedData);
+
+    const response = await new ContractExecuteTransaction()
+     .setPayableAmount(Hbar.from(inputTinybarMax, HbarUnit.Tinybar))
+     .setContractId(swapRouterContractId)
+     .setGas(gasLim)
+     .setFunctionParameters(encodedDataAsUint8Array)
+     .execute(client);
+     
+    const record = await response.getRecord(client);
+    const result = record.contractFunctionResult!;
+    const values = result.getResult(['uint256']);
+    const amountIn = values[0]; //uint256 amountIn
+    ```
+  </Tab>
+</Tabs>
+
+###
