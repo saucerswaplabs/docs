@@ -6,19 +6,23 @@ Farm LP tokens for additional yield.
 
 Outlined below are the common operations associated with yield farming:
 
-* [Deposit LP tokens to a farm](/developer/staking-operations/yield-farming#deposit-lp-tokens-to-a-farm)
+* [Deposit LP tokens to a farm](/v/developer/staking-operations/yield-farming#deposit-lp-tokens-to-a-farm)
 
-* [Get user's current farm reward](/developer/staking-operations/yield-farming#get-users-current-farm-reward)
+* [Get user's current farm reward](/v/developer/staking-operations/yield-farming#get-users-current-farm-reward)
 
-* [Withdraw LP tokens from a farm](/developer/staking-operations/yield-farming#withdraw-lp-tokens-from-a-farm)
+* [Withdraw LP tokens from a farm](/v/developer/staking-operations/yield-farming#withdraw-lp-tokens-from-a-farm)
 
-Contract ID: [Masterchef](https://hashscan.io/mainnet/contract/0.0.1077627)
+<Info>
+  Contract ID: [Masterchef](https://hashscan.io/mainnet/contract/0.0.1077627)
+</Info>
 
-Query [https://api.saucerswap.finance/farms/](https://api.saucerswap.finance/farms/) for all eligible farm pool IDs.
+<Info>
+  Query [https://api.saucerswap.finance/farms/](https://api.saucerswap.finance/farms/) for all eligible farm pool IDs.
+</Info>
 
-Query [https://api.saucerswap.finance/pools/](https://api.saucerswap.finance/pools/) for all available pool IDs
-
-***
+<Info>
+  Query [https://api.saucerswap.finance/pools/](https://api.saucerswap.finance/pools/) for all available pool IDs
+</Info>
 
 ## Deposit LP Tokens to a Farm
 
@@ -28,17 +32,10 @@ Function name: **deposit**
 
 ⛽ *Recommended gas: 210,000 gwei (\~ $0.018 USD)*
 
-Parameter Name
-
-Description
-
-**uint256 \_pid**
-
-Liquidity pool id
-
-**uint256 \_amount**
-
-LP token amount in its smallest unit
+| Parameter Name       | Description                          |
+| -------------------- | ------------------------------------ |
+| **uint256 \_pid**    | Liquidity pool id                    |
+| **uint256 \_amount** | LP token amount in its smallest unit |
 
 <Accordion title="Solidity Function Body">
   ```
@@ -82,26 +79,26 @@ LP token amount in its smallest unit
   ```
 </Accordion>
 
-A spender allowance for the Farm contract is required for the LP token.
+<Info>
+  A spender allowance for the Farm contract is required for the LP token.
+</Info>
 
-It costs $0.25 USD, payable in HBAR, to deposit the tokens into a farm. To get the current deposit creation fee, call the **depositFee()** method from the Farm contract. This will will return the current value expressed in Tinycent. To accurately convert this value to Tinybar, query the exchange rate from /api/v1/network/exchangerate
+<Info>
+  It costs $0.25 USD, payable in HBAR, to deposit the tokens into a farm. To get the current deposit creation fee, call the **depositFee()** method from the Farm contract. This will will return the current value expressed in Tinycent. To accurately convert this value to Tinybar, query the exchange rate from /api/v1/network/exchangerate
+</Info>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="Typescript SDK">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
 
-    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
+    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance) &#x20;
 
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
-  </Tab>
 
-  <Tab title>
     ```
     import { 
       ContractFunctionParameters, 
@@ -127,8 +124,6 @@ It costs $0.25 USD, payable in HBAR, to deposit the tokens into a farm. To get t
   </Tab>
 </Tabs>
 
-***
-
 ## Get User's Current Farm Reward
 
 Get current HBAR and SAUCE yield reward values for a user
@@ -137,17 +132,10 @@ Function name: **pendingSauce**
 
 ⛽ *No gas cost*
 
-Parameter Name
-
-Description
-
-**uint256 \_pid**
-
-Liquidity pool id
-
-**address \_user**
-
-User's solidity address
+| Parameter Name     | Description             |
+| ------------------ | ----------------------- |
+| **uint256 \_pid**  | Liquidity pool id       |
+| **address \_user** | User's solidity address |
 
 <Accordion title="Solidity Function Body">
   ```
@@ -177,16 +165,12 @@ User's solidity address
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-  </Tab>
 
-  <Tab title>
-    ```
+    ```typescript
     import * as ethers from 'ethers'; //V6
 
     //Set one of Hedera's JSON RPC Relay as the provider
@@ -206,8 +190,6 @@ User's solidity address
   </Tab>
 </Tabs>
 
-***
-
 ## Withdraw LP Tokens from a Farm
 
 Withdraw any amount of LP tokens from an existing farm.
@@ -216,17 +198,10 @@ Function name: **withdraw**
 
 ⛽ *Recommended gas: 190,000 gwei (\~ $0.016 USD)*
 
-Parameter Name
-
-Description
-
-**uint256 \_pid**
-
-Liquidity pool id
-
-**uint256 \_amount**
-
-LP token amount in its smallest unit
+| Parameter Name       | Description                          |
+| -------------------- | ------------------------------------ |
+| **uint256 \_pid**    | Liquidity pool id                    |
+| **uint256 \_amount** | LP token amount in its smallest unit |
 
 <Accordion title="Solidity Function Body">
   ```
@@ -268,15 +243,11 @@ LP token amount in its smallest unit
 <Tabs>
   <Tab title="Typescript">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
 
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
-  </Tab>
 
-  <Tab title>
     ```
     import { 
       ContractFunctionParameters, 
@@ -296,3 +267,4 @@ LP token amount in its smallest unit
     ```
   </Tab>
 </Tabs>
+
