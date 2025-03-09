@@ -4,28 +4,28 @@ title: "Pool Creation Fee"
 
 Fetch the pool creation fee from the Factory contract.
 
-The following code demonstrates how to accurately the current pool creation fee in HBAR using a combination of JSON RPC and REST API. The pool creation fee is used when [creating a new liquidity pool](/developer/saucerswap-v1/liquidity-operations/create-a-new-pool).
+The following code demonstrates how to accurately the current pool creation fee in HBAR using a combination of JSON RPC and REST API. The pool creation fee is used when [creating a new liquidity pool](/v/developer/saucerswap-v1/liquidity-operations/create-a-new-pool).
 
-The current fee for creating V1 liquidity pools is $50 USD, paid in HBAR. The exchange rate information is used to accurately determine the equivalent value in HBAR.
+<Info>
+  The current fee for creating V1 liquidity pools is $50 USD, paid in HBAR. The exchange rate information is used to accurately determine the equivalent value in HBAR.
+</Info>
 
-The **pairCreateFee()** function will return the current fee expressed in **Tinycent** (US).
+<Info>
+  The **pairCreateFee()** function will return the current fee expressed in **Tinycent** (US).
+</Info>
 
 ⛽ *No gas cost*
 
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-  </Tab>
 
-  <Tab title>
     ```
     import * as ethers from 'ethers'; //V6
 
@@ -55,5 +55,7 @@ The **pairCreateFee()** function will return the current fee expressed in **Tiny
     const poolCreateFeeInHbar = Hbar.from(tinybar, HbarUnit.Tinybar);
     console.log(`Pool creation fee: ${poolCreateFeeInHbar.toString(HbarUnit.Hbar)}`);
     ```
+
+
   </Tab>
 </Tabs>
