@@ -16,8 +16,6 @@ Below are the common methods to track updates in liquidity reserve balances:
   For production environments, it's highly recommended to use a paid Mirror Node provider for commercial and high-traffic purposes. While Hedera's public mirror node offers free REST API and JSON API endpoints, they have global rate limits. These are best suited for development or low rate usage scenarios.
 </Info>
 
-
-
 ## Polling Sync Events for all Pools
 
 ⛽ *No gas cost*
@@ -63,8 +61,6 @@ Whenever the reserve values for a pool contract are updated, either due to liqui
       console.log(`Pool: ${poolAddress}, reserve0: ${reserve0}, reserve1: ${reserve1}`);
     });
     ```
-
-
   </Tab>
 
   <Tab title="REST API">
@@ -135,8 +131,6 @@ Whenever the reserve values for a pool contract are updated, either due to liqui
       console.log(`reserve0: ${reserve0}, reserve1: ${reserve1}`);
     });
     ```
-
-
   </Tab>
 
   <Tab title="REST API">
@@ -164,7 +158,5 @@ Whenever the reserve values for a pool contract are updated, either due to liqui
       console.log(`reserve0: ${reserve0}, reserve1: ${reserve1}`);
     }
     ```
-
-
   </Tab>
 </Tabs>

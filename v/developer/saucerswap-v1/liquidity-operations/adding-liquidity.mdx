@@ -6,19 +6,29 @@ Add liquidity to an existing HBAR/token liquidity pool.
 
 Outlined below are two methods to add liquidity to an existing pool on SaucerSwap:
 
-* [Adding HBAR/token liquidity](/developer/saucerswap-v1/liquidity-operations/adding-liquidity#adding-hbar-token-liquidity)
+* [Adding HBAR/token liquidity](/v/developer/saucerswap-v1/liquidity-operations/adding-liquidity#adding-hbar-token-liquidity)
 
-* [Adding token/token liquidity](/developer/saucerswap-v1/liquidity-operations/adding-liquidity#adding-token-token-liquidity)
+* [Adding token/token liquidity](/v/developer/saucerswap-v1/liquidity-operations/adding-liquidity#adding-token-token-liquidity)
 
-**Contract ID:** [SaucerSwapV1RouterV3](https://hashscan.io/mainnet/contract/0.0.3045981)
+<Info>
+  **Contract ID:** [SaucerSwapV1RouterV3](https://hashscan.io/mainnet/contract/0.0.3045981)
+</Info>
 
-To create a new liquidity pool, see [Creating a new liquidity pool](/developer/saucerswap-v1/liquidity-operations/create-a-new-pool).
+<Info>
+  To create a new liquidity pool, see [Creating a new liquidity pool](/v/developer/saucerswap-v1/liquidity-operations/create-a-new-pool).
+</Info>
 
-Ensure that the client has the LP token associated before adding liquidity.
+<Info>
+  Ensure that the client has the LP token associated before adding liquidity.
+</Info>
 
-A spender allowance for the Router contract is required for HTS tokens.
+<Info>
+  A spender allowance for the Router contract is required for HTS tokens.
+</Info>
 
-Both **addLiquidityETH** and **addLiquidity** support HTS tokens containing custom fees.
+<Check>
+  Both **addLiquidityETH** and **addLiquidity** support HTS tokens containing custom fees.
+</Check>
 
 ***
 
@@ -30,33 +40,14 @@ Function name: **addLiquidityETH**
 
 ⛽ *Recommended gas: 240,000 gwei (\~ $0.020 USD)*
 
-Parameter Name
-
-Description
-
-**address token**
-
-EVM address of the token to pool with HBAR
-
-**uint amountTokenDesired**
-
-The maximum token amount in its smallest unit
-
-**uint amountTokenMin**
-
-The minimum token amount in its smallest unit
-
-**uint amountETHMin**
-
-The minimum HBAR amount in its smallest unit
-
-**address to**
-
-EVM address to receive the liquidity tokens
-
-**uint deadline**
-
-Deadline in Unix seconds
+| Parameter Name              | Description                                   |
+| --------------------------- | --------------------------------------------- |
+| **address token**           | EVM address of the token to pool with HBAR    |
+| **uint amountTokenDesired** | The maximum token amount in its smallest unit |
+| **uint amountTokenMin**     | The minimum token amount in its smallest unit |
+| **uint amountETHMin**       | The minimum HBAR amount in its smallest unit  |
+| **address to**              | EVM address to receive the liquidity tokens   |
+| **uint deadline**           | Deadline in Unix seconds                      |
 
 <Accordion title="Solidity Interface & Function Body">
   ```
@@ -106,29 +97,27 @@ Deadline in Unix seconds
   ```
 </Accordion>
 
-The **addLiquidityETH** function operates in HBAR but derives its name from Uniswap on Ethereum. This name was kept to simplify integration for developers versed in Uniswap tools.
+<Info>
+  The **addLiquidityETH** function operates in HBAR but derives its name from Uniswap on Ethereum. This name was kept to simplify integration for developers versed in Uniswap tools.
+</Info>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="Typescript">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
 
-    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
+    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)&#x20;
 
     * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
 
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
 
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
-  </Tab>
 
-  <Tab title>
-    ```
+    ```typescript
     import { 
       ContractFunctionParameters, 
       ContractExecuteTransaction,
@@ -163,6 +152,8 @@ The **addLiquidityETH** function operates in HBAR but derives its name from Unis
     const amountHBAR = values[1]; //uint amountETH
     const liqudity = values[2]; //uint liquidity
     ```
+
+
   </Tab>
 </Tabs>
 
@@ -176,41 +167,16 @@ Function name: **addLiquidity**
 
 ⛽ *Recommended gas: 240,000 gwei (\~ $0.020 USD)*
 
-Parameter Name
-
-Description
-
-**address tokenA**
-
-EVM address of the first HTS token
-
-**address tokenB**
-
-EVM address of the second HTS token
-
-**uint amountADesired**
-
-The maximum amount for the first token in its smallest unit
-
-**uint amountBDesired**
-
-The maximum amount for the second token in its smallest unit
-
-**uint amountAMin**
-
-The minimum amount for the first token in its smallest unit
-
-**uint amountBMin**
-
-The minimum amount for the second token in its smallest unit
-
-**address to**
-
-EVM address to receive the liquidity tokens
-
-**uint deadline**
-
-Deadline in Unix seconds
+| Parameter Name          | Description                                                  |
+| ----------------------- | ------------------------------------------------------------ |
+| **address tokenA**      | EVM address of the first HTS token                           |
+| **address tokenB**      | EVM address of the second HTS token                          |
+| **uint amountADesired** | The maximum amount for the first token in its smallest unit  |
+| **uint amountBDesired** | The maximum amount for the second token in its smallest unit |
+| **uint amountAMin**     | The minimum amount for the first token in its smallest unit  |
+| **uint amountBMin**     | The minimum amount for the second token in its smallest unit |
+| **address to**          | EVM address to receive the liquidity tokens                  |
+| **uint deadline**       | Deadline in Unix seconds                                     |
 
 <Accordion title="Solidity Interface & Function Body">
   ```
@@ -261,11 +227,9 @@ Deadline in Unix seconds
 ### Code Overview
 
 <Tabs>
-  <Tab title="Typescript ">
+  <Tab title="Typescript">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
 
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
@@ -274,10 +238,8 @@ Deadline in Unix seconds
 
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
 
-    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
-  </Tab>
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)&#x20;
 
-  <Tab title>
     ```
     import { 
       ContractFunctionParameters, 
@@ -314,5 +276,9 @@ Deadline in Unix seconds
     const amountB = values[1]; //uint amountB
     const liquidity = values[2]; //uint liquidity
     ```
+
+
   </Tab>
 </Tabs>
+
+###
