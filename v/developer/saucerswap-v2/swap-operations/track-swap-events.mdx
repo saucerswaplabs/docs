@@ -6,11 +6,13 @@ Near real-time monitoring of swap events.
 
 Below are the common methods to monitor swap events:
 
-* [Polling Swap events for all pairs](/developer/saucerswap-v2/swap-operations/track-swap-events#polling-swap-events-for-all-pairs)
+* [Polling Swap events for all pairs](/v/developer/saucerswap-v2/swap-operations/track-swap-events#polling-swap-events-for-all-pairs)
 
 * Subscription using eth\_subscribe (coming later - [HIP-694](https://hips.hedera.com/hip/hip-694))
 
-For production environments, it's highly recommended to use a paid Mirror Node provider for commercial and high-traffic purposes. While Hedera's public mirror node offers free REST API and JSON API endpoints, they have global rate limits. These are best suited for development or low rate usage scenarios.
+<Info>
+  For production environments, it's highly recommended to use a paid Mirror Node provider for commercial and high-traffic purposes. While Hedera's public mirror node offers free REST API and JSON API endpoints, they have global rate limits. These are best suited for development or low rate usage scenarios.
+</Info>
 
 ***
 
@@ -20,22 +22,22 @@ For production environments, it's highly recommended to use a paid Mirror Node p
 
 Every time a user executes a swap, the contract emits a 'Swap' event with the updated reserve values for the token pair. The following code demonstrates how to listen to these 'Swap' events for all pairs using either the REST API or JSON RPC.
 
-Listening to 'Swap' events without specifying an address in the filter data will return logs for all pairs on SaucerSwap, as well as other DEXs on Hedera that share the same 'topic0' hash signature for the 'Swap' event. To identify and filter specific pairs, extract the pair's EVM address from the log.
+<Note>
+  Listening to 'Swap' events without specifying an address in the filter data will return logs for all pairs on SaucerSwap, as well as other DEXs on Hedera that share the same 'topic0' hash signature for the 'Swap' event. To identify and filter specific pairs, extract the pair's EVM address from the log.
+</Note>
 
-When a swap involves multiple liquidity pairs, a successful smart contract call will emit multiple 'Swap' events. To determine the route used, as well as the initial input amount and the final output amount, aggregate all the 'Swap' event logs.
+<Info>
+  When a swap involves multiple liquidity pairs, a successful smart contract call will emit multiple 'Swap' events. To determine the route used, as well as the initial input amount and the final output amount, aggregate all the 'Swap' event logs.
+</Info>
 
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-  </Tab>
 
-  <Tab title="REST API">
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-  </Tab>
 
-  <Tab title>
     ```
     import * as ethers from 'ethers'; //V6
 
@@ -87,19 +89,17 @@ When a swap involves multiple liquidity pairs, a successful smart contract call 
       }
     });
     ```
+
+
   </Tab>
 
-  <Tab title>
+  <Tab title="REST API">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-  </Tab>
 
-  <Tab title>
     ```
     import * as ethers from 'ethers'; //V6
 
@@ -144,56 +144,7 @@ When a swap involves multiple liquidity pairs, a successful smart contract call 
       }
     });
     ```
+
+
   </Tab>
 </Tabs>
-
-**Resources:**
-
-* [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
-* [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-
-```
-import * as ethers from 'ethers'; //V6
-
-//load ABI data containing the Swap event
-const abiInterfaces = new ethers.Interface(abi);
-
-let params = `timestamp=gte:${unixFrom}&timestamp=lte:${unixTo}`;  
-params += `&topic0=${abiInterface.getEvent('Swap')!.topicHash}`;
-
-const url = `${mirrorNodeBaseUrl}/api/v1/contracts/results/logs?${params}`;  
-const response = await axios.get(url);
-const logs = response.data.logs;
-
-//group logs on transaction hash
-const groupedLogs:any = {};
-for (const log of logs) {     
-  const tnxHash = log.transaction_hash;     
-  if (!groupedLogs[tnxHash]) {
-    groupedLogs[tnxHash] = [];
-  }
-  groupedLogs[tnxHash].push(log);
-}
-
-Object.keys(groupedLogs).forEach(tnxHash => {
-  console.log(`\nTransaction hash: ${tnxHash}`);
-  for (const log of groupedLogs[tnxHash]) {
-    const pairEvmAddress = log.address; //use this to get token0 and token1 data
-
-    const parsedLog = abiInterfaces.parseLog({ topics: log.topics.slice(), data: log.data });
-    const result = parsedLog!.args;
-
-    let output = '';
-    output += `Pair: ${pairEvmAddress}`;
-    output += `, timestamp: ${log.timestamp}`;
-    output += `, amountIn: ${result.amount0}`;
-    output += `, amountOut: ${result.amount1}`;
-    output += `, sqrtPriceX96: ${result.sqrtPriceX96}`;
-    output += `, liquidity: ${result.liquidity}`;
-    output += `, tick: ${result.tick}`;
-
-    console.log(output);
-  }
-});
-```

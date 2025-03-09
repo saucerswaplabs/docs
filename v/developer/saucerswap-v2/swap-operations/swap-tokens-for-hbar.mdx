@@ -17,8 +17,6 @@ Below are two methods available to swap tokens for HBAR:
 <Info>
   Consider the token's decimal places when determining input and output values.
 
-
-
   Input and output amounts passed to the solidity function should all be in the token's smallest unit. For the SAUCE token, which has 6 decimal places, an input of 123.45 SAUCE should be entered as 123450000 (123.45 multiplied by 10^6).
 </Info>
 
@@ -106,8 +104,6 @@ Solidity function name: **exactInput**
 <Note>
   Set the minimum output token amount (**amountOutMinimum**) with caution.
 
-
-
   A high minimum might lead to a swap failure due to insufficient liquidity or rapid price movements. Conversely, setting the minimum too low can expose you to significant slippage, potentially resulting in a financial loss as you might receive far fewer tokens than expected.
 </Note>
 
@@ -121,8 +117,6 @@ Solidity function name: **exactInput**
 
 <Note>
   For the ExactInputParams **recipient**, use the SwapRouter contract address. This is required for unwrapWHBAR to function correctly. The unwrapped HBAR will then be sent to the user's recipient address.
-
-
 
   When the output token is not HBAR, use the user's address as the **recipient** instead.
 </Note>
@@ -253,8 +247,6 @@ Solidity function name: **exactOutput**
 <Note>
   Set the maximum input token amount (**amountInMaximum**) with caution.
 
-
-
   A low maximum might lead to a swap failure if the required liquidity surpasses this limit or due to rapid price movements. Conversely, setting it too high can expose you to significant slippage, potentially leading to a financial loss as you might spend far more tokens than expected.
 </Note>
 
@@ -268,8 +260,6 @@ Solidity function name: **exactOutput**
 
 <Note>
   For the ExactInputParams **recipient**, use the SwapRouter contract address. This is required for unwrapWHBAR to function correctly. The unwrapped HBAR will then be sent to the user's recipient address.
-
-
 
   When the output token is not HBAR, use the user's address as the **recipient** instead.
 </Note>
