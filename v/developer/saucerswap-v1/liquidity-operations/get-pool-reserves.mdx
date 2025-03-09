@@ -6,15 +6,17 @@ Get current reserves for one or many pools.
 
 Below are the common methods to get the current liquidity reserves:
 
-* [Get a pool reserves via REST API](/developer/saucerswap-v1/liquidity-operations/get-pool-reserves#get-a-pair-reserves-via-rest-api)
+* [Get a pool reserves via REST API](/v/developer/saucerswap-v1/liquidity-operations/get-pool-reserves#get-a-pair-reserves-via-rest-api)
 
-* [Get a pool reserves via JSON RPC](/developer/saucerswap-v1/liquidity-operations/get-pool-reserves#get-a-pair-reserves-via-json-rpc)
+* [Get a pool reserves via JSON RPC](/v/developer/saucerswap-v1/liquidity-operations/get-pool-reserves#get-a-pair-reserves-via-json-rpc)
 
-Getting the reserves data for a liquidity pool using SaucerSwap's REST API is also a suitable alternative. For more information, see [Get liquidity pool reserves (V1)](/developer/saucerswap-v1/liquidity-operations/get-pool-reserves). The pool metadata includes the reserve data.
+<Check>
+  Getting the reserves data for a liquidity pool using SaucerSwap's REST API is also a suitable alternative. For more information, see [Get liquidi](/v/developer/saucerswap-v1/liquidity-operations/get-pool-reserves)[ty pool reserves (V1)](/v/developer/saucerswap-v1/liquidity-operations/get-pool-reserves). The pool metadata includes the reserve data.
+</Check>
 
-To track updates to liquidity pool reserves in near real-time, see [Track LP updates (V1)](/developer/saucerswap-v1/liquidity-operations/track-pool-updates).
-
-***
+<Info>
+  To track updates to liquidity pool reserves in near real-time, see [Track LP updates (V1)](/v/developer/saucerswap-v1/liquidity-operations/track-pool-updates).
+</Info>
 
 ## Get Pool Reserves via REST API
 
@@ -25,14 +27,10 @@ Fetch all HTS token balances for a pool via Mirror Node's REST API.
 <Tabs>
   <Tab title="Typescript">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-  </Tab>
 
-  <Tab title>
-    ```
+    ```typescript
     const apiUrl = `/api/v1/accounts/${poolContractId}/tokens`;  
     const response = await axios.get(`${mirrorNodeBaseUrl}${apiUrl}`);
     const tokens = response.data.tokens;
@@ -89,16 +87,12 @@ Function name: **getReserves**
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-  </Tab>
 
-  <Tab title>
-    ```
+    ```typescript
     import * as ethers from 'ethers'; //V6
 
     //Set one of Hedera's JSON RPC Relay as the provider
