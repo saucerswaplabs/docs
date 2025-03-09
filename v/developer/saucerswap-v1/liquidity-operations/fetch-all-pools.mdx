@@ -6,23 +6,15 @@ Get all V1 liquidity pools via SaucerSwap REST API.
 
 SaucerSwap offers a public REST API endpoint to retrieve all liquidity pools, accompanied by useful metadata for each pool, including liquidity pool reserves, and their associated tokens. Use the following URL options to access the data.
 
-Hedera Network
+| Hedera Network | URL                                                                                      |
+| -------------- | ---------------------------------------------------------------------------------------- |
+| Mainnet        | [https://api.saucerswap.finance/pools/](https://api.saucerswap.finance/pools/)           |
+| Testnet        | [https://test-api.saucerswap.finance/pools/](https://test-api.saucerswap.finance/pools/) |
+| Previewnet     | *Not Supported*                                                                          |
 
-URL
-
-Mainnet
-
-[https://api.saucerswap.finance/pools/](https://api.saucerswap.finance/pools/)
-
-Testnet
-
-[https://test-api.saucerswap.finance/pools/](https://test-api.saucerswap.finance/pools/)
-
-Previewnet
-
-Not supported
-
-For Saucerswap V2 liquidity pools, refer to [Get V2 liquidity pools](/developer/saucerswap-v2/liquidity-operations/fetch-all-pools).
+<Info>
+  For Saucerswap V2 liquidity pools, refer to [Get V2 liquidity pools](/v/developer/saucerswap-v2/liquidity-operations/fetch-all-pools).
+</Info>
 
 ### Data JSON Schema
 
@@ -71,7 +63,7 @@ For Saucerswap V2 liquidity pools, refer to [Get V2 liquidity pools](/developer/
 ⛽ *No gas cost*
 
 <CodeGroup>
-  ```typescript-1 Typescript
+  ```typescript Typescript
   const url = 'https://api.saucerswap.finance/pools/';  
   const response = await axios.get(url);
   const pools = response.data;
