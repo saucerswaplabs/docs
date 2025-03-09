@@ -51,15 +51,7 @@ Function name: **getPair**
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-  </Tab>
 
-  <Tab title>
-    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
-    * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-  </Tab>
-
-  <Tab title>
     ```
     import * as ethers from 'ethers'; //V6
 
@@ -75,21 +67,9 @@ Function name: **getPair**
     const result = await factoryContract.getPair(tokenA, tokenB); //(tokenB, tokenA) will give same result
     const poolEvmAddress = result; //address pool
     ```
+
+
   </Tab>
 </Tabs>
 
-```typescript
-import * as ethers from 'ethers'; //V6
-
-//Set one of Hedera's JSON RPC Relay as the provider
-const provider = new ethers.JsonRpcProvider(hederaJsonRelayUrl, '', {
-  batchMaxCount: 1, //workaround for V6
-});
-
-//load ABI data containing the Factory's getPair function
-const interfaces = new ethers.Interface(abi);
-
-const factoryContract = new ethers.Contract(factoryEvmAddress, interfaces.fragments, provider);
-const result = await factoryContract.getPair(tokenA, tokenB); //(tokenB, tokenA) will give same result
-const poolEvmAddress = result; //address pool
-```
+###
