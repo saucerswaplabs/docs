@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://api.saucerswap.finance/v2/pools/"
     }
   ],
   "security": [
@@ -21,7 +21,7 @@
   "paths": {
     "/plants": {
       "get": {
-        "description": "Returns all plants from the system that the user has access to",
+        "description": "SaucerSwap teseting",
         "parameters": [
           {
             "name": "limit",
