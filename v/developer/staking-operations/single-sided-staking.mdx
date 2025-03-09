@@ -6,33 +6,32 @@ Single-sided staking operations for the SAUCE HTS token.
 
 Outlined below are the common operations associated with single-sided staking:
 
-* [Get xSAUCE amount from SAUCE](/developer/staking-operations/single-sided-staking#get-xsauce-amount-from-sauce)
+* [Get xSAUCE amount from SAUCE](/v/developer/staking-operations/single-sided-staking#get-xsauce-amount-from-sauce)
 
-* [Stake SAUCE tokens for xSAUCE](/developer/staking-operations/single-sided-staking#stake-sauce-tokens-for-xsauce)
+* [Stake SAUCE tokens for xSAUCE](/v/developer/staking-operations/single-sided-staking#stake-sauce-tokens-for-xsauce)
 
-* [Get SAUCE amount from xSAUCE](/developer/staking-operations/single-sided-staking#get-sauce-amount-from-xsauce)
+* [Get SAUCE amount from xSAUCE](/v/developer/staking-operations/single-sided-staking#get-sauce-amount-from-xsauce)
 
-* [Unstake xSAUCE tokens for SAUCE](/developer/staking-operations/single-sided-staking#unstake-xsauce-tokens-for-sauce)
+* [Unstake xSAUCE tokens for SAUCE](/v/developer/staking-operations/single-sided-staking#unstake-xsauce-tokens-for-sauce)
 
-**Contract ID:** [Mothership](https://hashscan.io/mainnet/contract/0.0.1460199)
+<Info>
+  **Contract ID:** [Mothership](https://hashscan.io/mainnet/contract/0.0.1460199)
+</Info>
 
-Refer to [Single-sided staking](https://docs.saucerswap.finance/features/single-sided-staking) for a more detailed documentation.
+<Info>
+  Refer to [Single-sided staking](/protocol/single-sided-staking) for a more detailed documentation.
+</Info>
 
 ***
-
 ## Get xSAUCE Amount from SAUCE
 
 Get the calculated xSAUCE amount from a given SAUCE amount.
 
 Function name: **sauceForxSauce** ⛽ *No gas cost*
 
-Parameter Name
-
-Description
-
-**uint256 \_sauceAmount**
-
-SAUCE amount in its smallest unit
+| Parameter Name            | Description                       |
+| ------------------------- | --------------------------------- |
+| **uint256 \_sauceAmount** | SAUCE amount in its smallest unit |
 
 <Accordion title="Solidity Function Body">
   ```
@@ -56,16 +55,12 @@ SAUCE amount in its smallest unit
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-  </Tab>
 
-  <Tab title>
-    ```
+    ```typescript
     //Typescript
     import * as ethers from 'ethers'; //V6
 
@@ -93,13 +88,9 @@ Stake any amount of SAUCE tokens in exchange for xSAUCE tokens.
 
 Function name: **enter** ⛽ *Recommended gas: 100,000 gwei (\~ $0.009 USD)*
 
-Parameter Name
-
-Description
-
-**uint256 \_amount**
-
-The amount of SAUCE to stake in its smallest unit
+| Parameter Name       | Description                                       |
+| -------------------- | ------------------------------------------------- |
+| **uint256 \_amount** | The amount of SAUCE to stake in its smallest unit |
 
 <Accordion title="Solidity Function Body">
   ```
@@ -124,31 +115,33 @@ The amount of SAUCE to stake in its smallest unit
   ```
 </Accordion>
 
-A spender allowance for the Mothership contract is required for the SAUCE token.
+<Info>
+  A spender allowance for the Mothership contract is required for the SAUCE token.
+</Info>
 
-Ensure that the client has the [xSAUCE token ID](https://hashscan.io/mainnet/token/0.0.1460200) associated beforehand.
+<Info>
+  Ensure that the client has the [xSAUCE token ID](https://hashscan.io/mainnet/token/0.0.1460200) associated beforehand.
+</Info>
 
-To calculate the amount of xSAUCE tokens a user will receive from a given SAUCE amount, use the[ **sauceForXSauce()**](/developer/staking-operations/single-sided-staking#get-xsauce-amount-from-sauce) Solidity function in MotherShip.sol. Alternatively calculate the amount using the current SAUCE/xSAUCE ratio value.
+<Info>
+  To calculate the amount of xSAUCE tokens a user will receive from a given SAUCE amount, use the[ **sauceForXSauce()**](/developer/staking-operations/single-sided-staking#get-xsauce-amount-from-sauce) Solidity function in MotherShip.sol. Alternatively calculate the amount using the current SAUCE/xSAUCE ratio value.
+</Info>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="Typescript">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
 
-    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
+    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)&#x20;
 
     * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
 
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
-  </Tab>
 
-  <Tab title>
-    ```
+    ```typescript
     import { 
       ContractFunctionParameters, 
       ContractExecuteTransaction,
@@ -181,13 +174,9 @@ Get the calculated SAUCE amount from a given xSAUCE amount
 
 Function name: **xSauceForSauce** ⛽ *No gas cost*
 
-Parameter Name
-
-Description
-
-**uint256 \_xSauceAmount**
-
-xSAUCE amount in its smallest unit
+| Parameter Name             | Description                        |
+| -------------------------- | ---------------------------------- |
+| **uint256 \_xSauceAmount** | xSAUCE amount in its smallest unit |
 
 <Accordion title="Solidity Function Body">
   ```
@@ -205,16 +194,12 @@ xSAUCE amount in its smallest unit
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-  </Tab>
 
-  <Tab title>
-    ```
+    ```typescript
     //Typescript
     import * as ethers from 'ethers'; //V6
 
@@ -233,7 +218,6 @@ xSAUCE amount in its smallest unit
     ```
   </Tab>
 </Tabs>
-
 ***
 
 ## Unstake xSAUCE Tokens for SAUCE
@@ -242,13 +226,9 @@ Unstake any amount of xSAUCE tokens in exchange for SAUCE tokens.
 
 Function name: **leave** ⛽ *Recommended gas: 100,000 gwei (\~ $0.009 USD)*
 
-Parameter Name
-
-Description
-
-**uint256 \_share**
-
-The amount of xSAUCE to unstake in its smallest unit
+| Parameter Name      | Description                                          |
+| ------------------- | ---------------------------------------------------- |
+| **uint256 \_share** | The amount of xSAUCE to unstake in its smallest unit |
 
 <Accordion title="Solidity Function Body">
   ```
@@ -264,28 +244,28 @@ The amount of xSAUCE to unstake in its smallest unit
   ```
 </Accordion>
 
-To calculate the amount of SAUCE tokens a user will receive from a given xSAUCE amount, use the [**x**S**auceForSauce()**](/developer/staking-operations/single-sided-staking#get-sauce-amount-from-xsauce) Solidity function in MotherShip.sol. Alternatively calculate the output amount using the current SAUCE/xSAUCE ratio value.
+<Info>
+  To calculate the amount of SAUCE tokens a user will receive from a given xSAUCE amount, use the [**x**S**auceForSauce()**](/developer/staking-operations/single-sided-staking#get-sauce-amount-from-xsauce) Solidity function in MotherShip.sol. Alternatively calculate the output amount using the current SAUCE/xSAUCE ratio value.
+</Info>
 
-Ensure that the client has the [SAUCE token ID](https://hashscan.io/mainnet/token/0.0.731861) associated beforehand.
+<Info>
+  Ensure that the client has the [SAUCE token ID](https://hashscan.io/mainnet/token/0.0.731861) associated beforehand.
+</Info>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="Typescript">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
 
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
 
-    * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
+    * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account) &#x20;
 
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
-  </Tab>
 
-  <Tab title>
     ```
     import { 
       ContractFunctionParameters, 
@@ -309,3 +289,5 @@ Ensure that the client has the [SAUCE token ID](https://hashscan.io/mainnet/toke
     ```
   </Tab>
 </Tabs>
+
+###
