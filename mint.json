@@ -31,6 +31,74 @@
       ]
     },
     {
+      "group": "Get Started",
+      "pages": [
+        "get-started/faq",
+        {
+          "group": "🌐  Hedera Guide",
+          "pages": [
+            "get-started/hedera-guide",
+            "get-started/hedera-guide/create-hedera-wallet",
+            "get-started/hedera-guide/get-hbar",
+            "get-started/hedera-guide/bridge-to-hedera"
+          ]
+        },
+        {
+          "group": "🎓  SaucerSwap Tutorials",
+          "pages": [
+            "get-started/saucerswap-tutorials",
+            "get-started/saucerswap-tutorials/swap",
+            {
+              "group": "Liquidity",
+              "pages": [
+                "get-started/saucerswap-tutorials/liquidity",
+                "get-started/saucerswap-tutorials/liquidity/saucerswap-v1",
+                "get-started/saucerswap-tutorials/liquidity/saucerswap-v2"
+              ]
+            },
+            "get-started/saucerswap-tutorials/single-sided-staking"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Protocol",
+      "pages": [
+        "protocol/saucerswap-v1",
+        {
+          "group": "⚖️  SaucerSwap V1",
+          "pages": [
+            "protocol/saucerswap-v1",
+            "protocol/saucerswap-v1/farm-weights",
+            "external-link-0"
+          ]
+        },
+        {
+          "group": "🌊  SaucerSwap V2",
+          "pages": [
+            "protocol/saucerswap-v2",
+            "protocol/saucerswap-v2/lari-weights",
+            "external-link-1",
+            "external-link-2"
+          ]
+        },
+        "protocol/single-sided-staking",
+        "protocol/community-pools"
+      ]
+    },
+    {
+      "group": "Governance",
+      "pages": [
+        "governance/overview"
+      ]
+    },
+    {
+      "group": "Tokenomics",
+      "pages": [
+        "tokenomics/overview"
+      ]
+    },
+    {
       "group": "Developer",
       "pages": [
         {
