@@ -4,23 +4,13 @@ title: "Get User Positions"
 
 Get all liquidity positions for an account.
 
-SaucerSwap offers a public [REST API](/developer/rest-api) endpoint to retrieve all positions for a user, accompanied by useful metadata for each position, including liquidity and fees earned, and their associated tokens. Use the following URL options to access the data.
+SaucerSwap offers a public [REST API](/v/developer/rest-api) endpoint to retrieve all positions for a user, accompanied by useful metadata for each position, including liquidity and fees earned, and their associated tokens. Use the following URL options to access the data.
 
-Hedera Network
-
-URL (where 0.0.xxxx is user's Hedera account, eg. 0.0.1234)
-
-Mainnet
-
-https://api.saucerswap.finance/V2/nfts/0.0.xxxx/positions
-
-Testnet
-
-https://test-api.saucerswap.finance/V2/nfts/0.0.xxxx/positions
-
-Previewnet
-
-*Not supported*
+| Hedera Network | URL (where 0.0.xxxx is user's Hedera account, eg. 0.0.1234)    |
+| -------------- | -------------------------------------------------------------- |
+| Mainnet        | https://api.saucerswap.finance/V2/nfts/0.0.xxxx/positions      |
+| Testnet        | https://test-api.saucerswap.finance/V2/nfts/0.0.xxxx/positions |
+| Previewnet     | *Not supported*                                                |
 
 ### Data JSON Schema
 
@@ -69,7 +59,7 @@ Previewnet
 ⛽ *No gas cost*
 
 <CodeGroup>
-  ```typescript-1 Typescript
+  ```typescript Typescript
   const accountId = '0.0.1234';
   const url = `https://api.saucerswap.finance/V2/nfts/${accountId}/positions`;  
   const response = await axios.get(url);
