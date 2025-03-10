@@ -4,9 +4,13 @@ title: "Claiming Fees"
 
 Claim the swap fees from an existing liquidity position.
 
-**Contract ID:** [SaucerSwapV2NonfungiblePositionManager](https://hashscan.io/mainnet/contract/0.0.4053945)
+<Info>
+  **Contract ID:** [SaucerSwapV2NonfungiblePositionManager](https://hashscan.io/mainnet/contract/0.0.4053945)
+</Info>
 
-See [Get user positions](/developer/saucerswap-v2/liquidity-operations/get-user-positions) for details how to retrieve all positions of a user including fees earned if any.
+<Info>
+  See [Get user positions](/v/developer/saucerswap-v2/liquidity-operations/get-user-positions) for details how to retrieve all positions of a user including fees earned if any.
+</Info>
 
 ***
 
@@ -14,25 +18,12 @@ Function name: **collect**
 
 ⛽ *Recommended gas:* 300,000 gwei (\~ $0.026 USD)
 
-Struct Parameter Name
-
-Description
-
-**uint256 tokenSN**
-
-The serial number of the token for which liquidity is being increased
-
-**address recipient**
-
-EVM address to receive the claimed swap fees
-
-**uint256 amount0Max**
-
-The maximum amount for the first token in its smallest unit
-
-**uint256 amount1Max**
-
-The maximum amount for the second token in its smallest unit
+| Struct Parameter Name  | Description                                                           |
+| ---------------------- | --------------------------------------------------------------------- |
+| **uint256 tokenSN**    | The serial number of the token for which liquidity is being increased |
+| **address recipient**  | EVM address to receive the claimed swap fees                          |
+| **uint256 amount0Max** | The maximum amount for the first token in its smallest unit           |
+| **uint256 amount1Max** | The maximum amount for the second token in its smallest unit          |
 
 <Accordion title="Solidity Interface & Function Body">
   ```
@@ -133,14 +124,14 @@ The maximum amount for the second token in its smallest unit
 
 The following code demonstrates how to claim all swap fees from a pool.
 
-When claiming fees from a pool that involves HBAR, include **unwrapWHBAR** in your multicall to convert the Wrapped HBAR (WHBAR) output token back into the native HBAR cryptocurrency.
+<Info>
+  When claiming fees from a pool that involves HBAR, include **unwrapWHBAR** in your multicall to convert the Wrapped HBAR (WHBAR) output token back into the native HBAR cryptocurrency.
+</Info>
 
 <Tabs>
   <Tab title="Typescript">
     **Resources:**
-  </Tab>
 
-  <Tab title>
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
 
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
@@ -150,9 +141,7 @@ When claiming fees from a pool that involves HBAR, include **unwrapWHBAR** in yo
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
-  </Tab>
 
-  <Tab title>
     ```
     import * as ethers from 'ethers'; //V6
     import { Pool, Position, nearestUsableTick, priceToClosestTick } from '@uniswap/v3-sdk';
@@ -206,5 +195,7 @@ When claiming fees from a pool that involves HBAR, include **unwrapWHBAR** in yo
     const amount0 = BigNumber(collectResult.amount0);
     const amount1 = BigNumber(collectResult.amount1);
     ```
+
+
   </Tab>
 </Tabs>
