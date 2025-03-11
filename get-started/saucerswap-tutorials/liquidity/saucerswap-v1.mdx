@@ -8,27 +8,29 @@ title: "SaucerSwap V1"
 
 * Launch the web-app and connect your [wallet](/get-started/hedera-guide/create-hedera-wallet).
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FMNbzjzWhdNEtPL046jMJ%252FConnect%2520Wallet.png)
+![](/images/connect-wallet.avif)
+
+
 
 <Frame caption="HashPack was used in this example.">
-  <img src="/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FGTaDZkL81hys1Q7HeInE%252FConnect%2520Wallet%25202.png" />
+  <img src="/images/approve-connect.png" />
 </Frame>
 
 * Ensure you have sufficient [HBAR](/get-started/hedera-guide/get-hbar) for network fees and tokens for liquidity provision.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FOgLx9Ii7eAZZQZ5cv3A4%252FPortfolio%2520-%2520Tokens.png)
+![](/images/portfolio-view.avif)
 
 2\. **Navigate Interface**
 
 * Head over to the "Liquidity" page and click the the "Create Pool" button, then click "Create V1 Pool".
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252F17TDZWiucCdpNQW9IpUs%252FCaptura%2520de%2520pantalla%25202025-01-01%2520a%2520la%28s%29%252017.50.39.png)
+![](/images/liquidity.avif)
 
 * Choose the tokens you intend to pool by clicking on Token A "Select a Token", and Token B "Select a Token"; and selecting the tokens you wish to pool either by scrolling through the list, or entering the token ID or name in the search bar.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252Fgko3VdW3YzHDfSypO1wa%252FCaptura%2520de%2520pantalla%25202025-01-01%2520a%2520la%28s%29%252018.26.04.png)
+![](/images/create-pool.webp)
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FfDaizmd9cHFd90iUcyHd%252FCaptura%2520de%2520pantalla%25202025-01-01%2520a%2520la%28s%29%252018.28.58.png)
+![](/images/select-token.png)
 
 <Info>
   SaucerSwap V1 supports tokens with fractional fees but not those with fixed fees. In fractional fee tokens, the fee is deducted from the transaction amount, such as during a swap. However, for fixed fee tokens, this fee is applied separately. A workaround for fixed fees in SaucerSwap V1 is to set a fractional fee at 0% and use a fallback. For detailed guidance on implementing custom fees in the Hedera Token Service (HTS), refer to the [Hedera Docs](https://docs.hedera.com/hedera/sdks-and-apis/hedera-api/token-service/customfees).
@@ -38,7 +40,7 @@ title: "SaucerSwap V1"
 
 * Input the initial amounts of TokenA and TokenB. The ratio between these tokens sets the pool's initial price. Aim to approximate market prices to avoid immediate arbitrage.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FpSV0nCSjLTRhZdBFU0cq%252FCaptura%2520de%2520pantalla%25202025-01-01%2520a%2520la%28s%29%252018.31.17.png)
+![](/images/set-ratio.png)
 
 4\. **Pool Fee**
 
@@ -48,7 +50,7 @@ title: "SaucerSwap V1"
 
 * Confirm all details and click the "Approve & Supply" button to create the pool. You can now view the pool's information on its new subpage.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252Foc2KbILKRMm98O2lOALC%252FScreenshot%25202023-10-29%2520at%25204.43.40%25E2%2580%25AFPM.png)
+![](/images/approve-supply.png)
 
 ## How to Manage a Position: Written Guide
 
@@ -66,9 +68,9 @@ title: "SaucerSwap V1"
 
 * Existing positions are accessible via either the "V1 Positions" tab of the "Portfolio" page or directly from the "Liquidity" page.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FQkYvAjqk1OUdYq4cYTWs%252FScreenshot%25202023-10-29%2520at%25204.48.14%25E2%2580%25AFPM.png)
+![](/images/liquidity-view.avif)
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FPYQrsb56ptddC5YkNYMT%252FScreenshot%25202023-10-29%2520at%25204.46.01%25E2%2580%25AFPM.png)
+![](/images/view-positions.avif)
 
 ### Supply Liquidity
 
@@ -76,9 +78,9 @@ title: "SaucerSwap V1"
 
 * Inside the "Manage Position" tab, select "Supply."
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FdhPQpUyZYhBsXXOshzUI%252FScreenshot%25202023-10-29%2520at%25204.50.40%25E2%2580%25AFPM.png)
+![](/images/manage.png)
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252F26gP7JrtbgkDuvPJlr9x%252FScreenshot%25202023-10-29%2520at%25204.52.11%25E2%2580%25AFPM.png)
+![](/images/supply-position.png)
 
 2\. **Add Liquidity**
 
@@ -86,7 +88,7 @@ title: "SaucerSwap V1"
 
 * Click "Approve & Supply" and complete the transaction in your wallet.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FLYfRDVJQqZtT1VbicOdL%252FScreenshot%25202023-10-29%2520at%25204.53.17%25E2%2580%25AFPM.png)
+![](/images/add-liquidity.png)
 
 ### Withdraw Liquidity
 
@@ -94,7 +96,7 @@ title: "SaucerSwap V1"
 
 * Inside the "Manage Position" tab, select "Withdraw," and locate the "Remove Liquidity" section.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FdhcueNXB6iE2hzRNdcAB%252FScreenshot%25202023-10-29%2520at%25205.01.57%25E2%2580%25AFPM.png)
+![](/images/withdraw.png)
 
 2\. **Remove Liquidity**
 
@@ -102,7 +104,7 @@ title: "SaucerSwap V1"
 
 * Click "Approve & Withdraw" and complete the transaction in your wallet.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FlfP48dUV58mQODlG1wH3%252FScreenshot%25202023-10-29%2520at%25205.03.15%25E2%2580%25AFPM.png)
+![](/images/approve-withdraw.png)
 
 <Info>
   **Note:** In contrast to V2, where fees are manually claimed, fees in V1 directly accumulate in the pool, increasing the value of each LP token. To claim your share of earned fees, simply withdraw liquidity.
@@ -120,11 +122,13 @@ title: "SaucerSwap V1"
 
 * Pools with farm rewards are found on the "Liquidity" page.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FZAWIa03NG3CWPk0uWalh%252FScreenshot%25202023-10-29%2520at%25205.06.03%25E2%2580%25AFPM.png)
+![](/images/manage-farm.avif)
+
+
 
 * Existing farm positions are accessible via either the "V1 Farm" tab of the "Portfolio" page or directly from the "Liquidity" page.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252Fh4kBWD6ChBIsuWzhq5yV%252FScreenshot%25202023-10-29%2520at%25205.09.01%25E2%2580%25AFPM.png)
+![](/images/view-farms.avif)
 
 ### Stake Liquidity
 
@@ -132,7 +136,7 @@ title: "SaucerSwap V1"
 
 * Inside the "Manage Position" tab, select "Supply" and locate the "Stake Liquidity" section.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FGaItVhplbLztfNPELfMx%252FScreenshot%25202023-10-29%2520at%25205.11.27%25E2%2580%25AFPM.png)
+![](/images/stake-liquidity.png)
 
 2\. **Stake Liquidity**
 
@@ -144,7 +148,7 @@ title: "SaucerSwap V1"
 
 * Click "Approve & Stake" and complete the transaction in your wallet.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FAL8GYpRWnLQKk6C1V3Wr%252FScreenshot%25202023-10-29%2520at%25205.13.38%25E2%2580%25AFPM.png)
+![](/images/approve-stake.png)
 
 ### Unstake Liquidity
 
@@ -152,7 +156,7 @@ title: "SaucerSwap V1"
 
 * Inside the "Manage Position" tab, select "Withdraw" and locate the "Unstake Liquidity" section.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252F0RONjycQMXHY9SN4cBRY%252FScreenshot%25202023-10-29%2520at%25205.15.22%25E2%2580%25AFPM.png)
+![](/images/unstake.png)
 
 2\. **Unstake Liquidity**
 
@@ -160,7 +164,7 @@ title: "SaucerSwap V1"
 
 * Click "Unstake" and approve the transaction in your wallet.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FP4Px2amGEN45QYVAMbol%252FScreenshot%25202023-10-29%2520at%25205.16.45%25E2%2580%25AFPM.png)
+![](/images/unstake-approve.png)
 
 ### Harvest Rewards
 
@@ -168,7 +172,7 @@ title: "SaucerSwap V1"
 
 * To harvest your farm rewards, go to the "Harvest Rewards" tab within the pool subpage.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FFhuiFEpCIKVtHEFMw2uW%252FScreenshot%25202023-10-29%2520at%25205.18.30%25E2%2580%25AFPM.png)
+![](/images/harvest-rewards.png)
 
 2\. **Harvest Rewards**
 
@@ -178,4 +182,4 @@ title: "SaucerSwap V1"
 
 * Complete the transaction in your wallet.
 
-![](/images/get-started/saucerswap-tutorials/liquidity/files%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F5hXF6kx1TaOoCMAhLCv3%252Fuploads%252FLvF2qtcZP3yfhy6hLOCw%252FScreenshot%25202023-10-29%2520at%25205.19.22%25E2%2580%25AFPM.png)
+![](/images/approve-harvest.png)
