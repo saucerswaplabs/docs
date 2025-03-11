@@ -2,7 +2,6 @@
 title: "🥩 Single-Sided Staking"
 ---
 
-
 Within the SaucerSwap ecosystem, the Infinity Pool allows for single-sided staking of the SAUCE token. Upon depositing SAUCE into the pool, participants receive a receipt token known as xSAUCE. The conversion rate between SAUCE and xSAUCE was initialized at 1:1 and is designed to increase over time. This growth is enabled by automatic compounding in the Infinity Pool, fueled by SAUCE buybacks and allocations from the Masterchef contract.
 
 ## Threefold Yield Mechanism
@@ -31,13 +30,12 @@ Consider this hypothetical:
 
 The APR for single-sided staking is determined using the following formula:
 
-> Infinity Pool APR =[*R<sub>i</sub>* / ​*R<sub>f</sub>* ​​− 1 ] × 365
+> Infinity Pool APR =\[*R<sub>i</sub>* / ​*R<sub>f</sub>* ​​− 1 ] × 365
 
 Where:
 
 * *R* represents the exchange rate, given by *SAUCE/xSAUCE* in the Infinity Pool.
 
-* *R<sub>i</sub>*​ and *R<sub>f</sub>*​ represent the exchange rates at the initial and final times, respectively.
+* *R<sub>i</sub>*&#x200B; and *R<sub>f</sub>*&#x200B; represent the exchange rates at the initial and final times, respectively.
 
 * The rate updates once per day at random, implying Δt≈24h.
-
