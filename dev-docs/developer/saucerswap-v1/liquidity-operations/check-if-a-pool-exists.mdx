@@ -11,11 +11,11 @@ When adding a new or existing liquidity pool, the initial step is typically to v
 
 Checking if the liquidity pool exists using SaucerSwap's REST API is also a suitable alternative. For more information, see [Get V1 liquidity pools](/developer/saucerswap-v1/liquidity-operations/fetch-all-pools)
 
-***
+---
 
 ## Get the Existing Liquidity Pool if it Exists
 
-⛽ *No gas cost*
+⛽ _No gas cost_
 
 Get the existing liquidity pool's CREATE2 EVM address if it exists. If the pool does not exist on-chain, a zero address will be returned.
 
@@ -36,7 +36,7 @@ EVM address of the second token
 <Accordion title="Solidity Interface">
   ```
   //IUniswapV2Factory.sol
-
+  
   function getPair(
     address tokenA,
     address tokenB
@@ -54,25 +54,22 @@ The ordering of tokens for tokenA and tokenB does not matter.
   <Tab title="JSON RPC">
     **Resources:**
   </Tab>
-
   <Tab title>
-    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
-    * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
+    - [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+    - [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
   </Tab>
-
   <Tab title>
     ```
     import * as ethers from 'ethers'; //V6
-
+    
     //Set one of Hedera's JSON RPC Relay as the provider
     const provider = new ethers.JsonRpcProvider(hederaJsonRelayUrl, '', {
       batchMaxCount: 1, //workaround for V6
     });
-
+    
     //load ABI data containing the Factory's getPair function
     const interfaces = new ethers.Interface(abi);
-
+    
     const factoryContract = new ethers.Contract(factoryEvmAddress, interfaces.fragments, provider);
     const result = await factoryContract.getPair(tokenA, tokenB); //(tokenB, tokenA) will give same result
     const poolEvmAddress = result; //address pool
