@@ -8,21 +8,13 @@ REST APIs for SaucerSwap statistics.
 
 Access the SaucerSwap API using the following base URLs for testnet and mainnet environments:
 
-Hedera Network
+| **Hedera Network** | **Base URL**                                                                     |
+| ------------------ | -------------------------------------------------------------------------------- |
+| Mainnet            | [**https://api.saucerswap.finance/**](https://api.saucerswap.finance/)           |
+| Testnet            | [**https://test-api.saucerswap.finance/**](https://test-api.saucerswap.finance/) |
+| Previewnet         | _Not supported_                                                                  |
 
-Base URL
-
-Mainnet
-
-[https://api.saucerswap.finance/](https://api.saucerswap.finance/v2/pools/)
-
-Testnet
-
-[https://test-api.saucerswap.finance/](https://test-api.saucerswap.finance/v2/pools/)
-
-Previewnet
-
-*Not supported*
+/l
 
 ### General statistics
 
@@ -40,14 +32,18 @@ Successful response
 
 application/json
 
-<Tabs />
+<Tabs>
+  
+</Tabs>
 
 ```
 curl -L \
   --url '/stats'
 ```
 
-<Tabs />
+<Tabs>
+  
+</Tabs>
 
 ```
 {
@@ -78,14 +74,18 @@ Successful response
 
 application/json
 
-<Tabs />
+<Tabs>
+  
+</Tabs>
 
 ```
 curl -L \
   --url '/stats/sss'
 ```
 
-<Tabs />
+<Tabs>
+  
+</Tabs>
 
 ```
 {
@@ -130,14 +130,18 @@ Successful response
 
 application/json
 
-<Tabs />
+<Tabs>
+  
+</Tabs>
 
 ```
 curl -L \
   --url '/stats/hbarHistoricalPrices?from=1697600000&to=1697610000'
 ```
 
-<Tabs />
+<Tabs>
+  
+</Tabs>
 
 ```
 [
@@ -193,14 +197,18 @@ Successful response
 
 application/json
 
-<Tabs />
+<Tabs>
+  
+</Tabs>
 
 ```
 curl -L \
   --url '/stats/platformData?from=1697600000&to=1697610000&interval=HOUR&field=LIQUIDITY'
 ```
 
-<Tabs />
+<Tabs>
+  
+</Tabs>
 
 ```
 [

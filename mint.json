@@ -106,7 +106,6 @@
             {
               "group": "REST API",
               "pages": [
-                "v/developer/rest-api",
                 "v/developer/rest-api/stats",
                 "v/developer/rest-api/farms",
                 "v/developer/rest-api/tokens",
@@ -117,7 +116,6 @@
             {
               "group": "SaucerSwap V1",
               "pages": [
-                "v/developer/saucerswap-v1",
                 {
                   "group": "Swap Operations",
                   "pages": [
@@ -132,7 +130,6 @@
                 {
                   "group": "Liquidity Operations",
                   "pages": [
-                    "v/developer/saucerswap-v1/liquidity-operations",
                     "v/developer/saucerswap-v1/liquidity-operations/fetch-all-pools",
                     "v/developer/saucerswap-v1/liquidity-operations/check-if-a-pool-exists",
                     "v/developer/saucerswap-v1/liquidity-operations/pool-creation-fee",
@@ -148,7 +145,6 @@
             {
               "group": "SaucerSwap V2",
               "pages": [
-                "v/developer/saucerswap-v2",
                 {
                   "group": "Swap Operations",
                   "pages": [
@@ -163,7 +159,6 @@
                 {
                   "group": "Liquidity Operations",
                   "pages": [
-                    "v/developer/saucerswap-v2/liquidity-operations",
                     "v/developer/saucerswap-v2/liquidity-operations/fetch-all-pools",
                     "v/developer/saucerswap-v2/liquidity-operations/check-if-a-pool-exists",
                     "v/developer/saucerswap-v2/liquidity-operations/fetch-pool-token-ratio",
@@ -180,7 +175,6 @@
             {
               "group": "Staking Operations",
               "pages": [
-                "v/developer/staking-operations",
                 "v/developer/staking-operations/single-sided-staking",
                 "v/developer/staking-operations/yield-farming"
               ]
