@@ -1,0 +1,245 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "SaucerSwap",
+  "colors": {
+    "primary": "#0D9373",
+    "light": "#55D799",
+    "dark": "#0D9373"
+  },
+  "favicon": "/~/files/v0/b/gitbook-x-prod.appspot.com/o/collections/aBf6JnIPeeDq8E21sP47/icon/086L3zN4YJkTwYjV4TmV/alien_head_v2.png",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Home",
+        "pages": [
+          "home"
+        ]
+      },
+      {
+        "group": "Roadmap",
+        "pages": [
+          "roadmap"
+        ]
+      },
+      {
+        "group": "Contact",
+        "pages": [
+          {
+            "group": "📞 Contact",
+            "pages": [
+              "contact",
+              "contact/partnership-inquiries",
+              "contact/user-support",
+              "contact/socials"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Get Started",
+        "pages": [
+          "get-started/faq",
+          {
+            "group": "🌐  Hedera Guide",
+            "pages": [
+              "get-started/hedera-guide",
+              "get-started/hedera-guide/create-hedera-wallet",
+              "get-started/hedera-guide/get-hbar",
+              "get-started/hedera-guide/bridge-to-hedera"
+            ]
+          },
+          {
+            "group": "🎓  SaucerSwap Tutorials",
+            "pages": [
+              "get-started/saucerswap-tutorials",
+              "get-started/saucerswap-tutorials/swap",
+              {
+                "group": "Liquidity",
+                "pages": [
+                  "get-started/saucerswap-tutorials/liquidity",
+                  "get-started/saucerswap-tutorials/liquidity/saucerswap-v1",
+                  "get-started/saucerswap-tutorials/liquidity/saucerswap-v2"
+                ]
+              },
+              "get-started/saucerswap-tutorials/single-sided-staking"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Protocol",
+        "pages": [
+          {
+            "group": "⚖️  SaucerSwap V1",
+            "pages": [
+              "protocol/saucerswap-v1",
+              "protocol/saucerswap-v1/farm-weights",
+              "external-link-0"
+            ]
+          },
+          {
+            "group": "🌊  SaucerSwap V2",
+            "pages": [
+              "protocol/saucerswap-v2",
+              "protocol/saucerswap-v2/lari-weights",
+              "external-link-1",
+              "external-link-2"
+            ]
+          },
+          "protocol/single-sided-staking",
+          "protocol/community-pools"
+        ]
+      },
+      {
+        "group": "Governance",
+        "pages": [
+          "governance/overview"
+        ]
+      },
+      {
+        "group": "Tokenomics",
+        "pages": [
+          "tokenomics/overview"
+        ]
+      },
+      {
+        "group": "Developer",
+        "pages": [
+          {
+            "group": "🔮 Developer Resources",
+            "pages": [
+              {
+                "group": "REST API",
+                "pages": [
+                  "v/developer/rest-api/stats",
+                  "v/developer/rest-api/farms",
+                  "v/developer/rest-api/tokens",
+                  "v/developer/rest-api/pools-v1",
+                  "v/developer/rest-api/pools-and-positions-v2"
+                ]
+              },
+              {
+                "group": "SaucerSwap V1",
+                "pages": [
+                  {
+                    "group": "Swap Operations",
+                    "pages": [
+                      "v/developer/saucerswap-v1/swap-operations",
+                      "v/developer/saucerswap-v1/swap-operations/swap-quote",
+                      "v/developer/saucerswap-v1/swap-operations/swap-hbar-for-tokens",
+                      "v/developer/saucerswap-v1/swap-operations/swap-tokens-for-tokens",
+                      "v/developer/saucerswap-v1/swap-operations/swap-tokens-for-hbar",
+                      "v/developer/saucerswap-v1/swap-operations/track-swap-events"
+                    ]
+                  },
+                  {
+                    "group": "Liquidity Operations",
+                    "pages": [
+                      "v/developer/saucerswap-v1/liquidity-operations/fetch-all-pools",
+                      "v/developer/saucerswap-v1/liquidity-operations/check-if-a-pool-exists",
+                      "v/developer/saucerswap-v1/liquidity-operations/pool-creation-fee",
+                      "v/developer/saucerswap-v1/liquidity-operations/create-a-new-pool",
+                      "v/developer/saucerswap-v1/liquidity-operations/get-pool-reserves",
+                      "v/developer/saucerswap-v1/liquidity-operations/track-pool-updates",
+                      "v/developer/saucerswap-v1/liquidity-operations/adding-liquidity",
+                      "v/developer/saucerswap-v1/liquidity-operations/removing-liquidity"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "SaucerSwap V2",
+                "pages": [
+                  {
+                    "group": "Swap Operations",
+                    "pages": [
+                      "v/developer/saucerswap-v2/swap-operations",
+                      "v/developer/saucerswap-v2/swap-operations/swap-quote",
+                      "v/developer/saucerswap-v2/swap-operations/swap-hbar-for-tokens",
+                      "v/developer/saucerswap-v2/swap-operations/swap-tokens-for-tokens",
+                      "v/developer/saucerswap-v2/swap-operations/swap-tokens-for-hbar",
+                      "v/developer/saucerswap-v2/swap-operations/track-swap-events"
+                    ]
+                  },
+                  {
+                    "group": "Liquidity Operations",
+                    "pages": [
+                      "v/developer/saucerswap-v2/liquidity-operations/fetch-all-pools",
+                      "v/developer/saucerswap-v2/liquidity-operations/check-if-a-pool-exists",
+                      "v/developer/saucerswap-v2/liquidity-operations/fetch-pool-token-ratio",
+                      "v/developer/saucerswap-v2/liquidity-operations/liquidity-position-fee",
+                      "v/developer/saucerswap-v2/liquidity-operations/new-liquidity-position",
+                      "v/developer/saucerswap-v2/liquidity-operations/increasing-liquidity",
+                      "v/developer/saucerswap-v2/liquidity-operations/get-user-positions",
+                      "v/developer/saucerswap-v2/liquidity-operations/claiming-fees",
+                      "v/developer/saucerswap-v2/liquidity-operations/decreasing-liquidity"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Staking Operations",
+                "pages": [
+                  "v/developer/staking-operations/single-sided-staking",
+                  "v/developer/staking-operations/yield-farming"
+                ]
+              },
+              {
+                "group": "WHBAR",
+                "pages": [
+                  "v/developer/whbar",
+                  "v/developer/whbar/wrap-hbar-for-whbar",
+                  "v/developer/whbar/unwrap-whbar-for-hbar"
+                ]
+              }
+            ]
+          },
+          "developerx/contract-deployments",
+          "developerx/audits",
+          "developerx/bug-bounty",
+          "external-link-3"
+        ]
+      },
+      {
+        "group": "Contributors",
+        "pages": [
+          "contributors/saucerswap-labs",
+          "contributors/careers",
+          "contributors/community",
+          "contributors/galactic-pioneers"
+        ]
+      },
+      {
+        "group": "Resources",
+        "pages": [
+          "resources/brand-assets",
+          "resources/glossary",
+          "resources/analytics"
+        ]
+      },
+      {
+        "group": "Legal",
+        "pages": [
+          "legal/terms-of-service",
+          "legal/privacy-policy"
+        ]
+      },
+      {
+        "group": "Archive",
+        "pages": [
+          "archive/proto-governance",
+          {
+            "group": "🦕 Old Tokenomics",
+            "pages": [
+              "archive/old-tokenomics",
+              "archive/old-tokenomics/initial-supply-breakdown",
+              "archive/old-tokenomics/emission-schedule"
+            ]
+          },
+          "archive/liquidity-migration"
+        ]
+      }
+    ]
+  }
+}
