@@ -1,0 +1,61 @@
+---
+title: "Authentication"
+description: "Learn how to make authenticated requests to the REST API using an API key over HTTPS"
+---
+
+### Getting an API Key
+
+Our team can provision an API key with the appropriate access and monthly limits to suite your project needs. To learn more and request an API key, please contact [larry@saucerswap.finance](mailto:larry@saucerswap.finance)
+
+### Connecting to the REST API
+
+Once our teams has provisioned an API key, you can start making requests to our REST API over HTTPS. API Key authentication is done via HTTP headers. 
+Example request:
+
+```
+curl -i -H "x-api-key: api97fc5465e2444870648b1791c0463" \
+  --url https://api.saucerswap.finance/tokens
+```
+Example response(with response headers):
+```
+HTTP/2 200 
+date: Thu, 17 Apr 2025 11:03:06 GMT
+content-type: application/json; charset=utf-8
+content-length: 92697
+...
+...
+x-ratelimit-limit: 10000
+x-ratelimit-remaining: 8250
+x-ratelimit-additional-total: 0
+x-ratelimit-reset: 1746071999999
+...
+...
+
+[
+  {
+    "id": "0.0.731861",
+    "icon": "/images/tokens/sauce.svg",
+    "symbol": "SAUCE",
+    "decimals": 6,
+    "price": "36806544",
+    "priceUsd": 0.01760954,
+    "dueDiligenceComplete": true,
+    "isFeeOnTransferToken": false
+  }
+]
+```
+
+### Understanding Authentication Headers
+
+#### Request Headers
+1. `x-api-key`
+   You will use this header to pass your API key to our system for validation and authorization with every request. The key is a 32 character string we provision for you.
+#### Response Headers
+1. `x-ratelimit-limit`
+   This response header communicates the total number of requests you can make in a month. This limit is determined by conversations you have with our team at time of provisioning.
+3. `x-ratelimit-remaining`
+   As you make requests throughout the month this value will go down. You can use this value programmatically to, for example, alert your team of potentially a need for a higher limit or to self-throttle.
+5. `x-ratelimit-additional-total`
+   There are circumstances where, perhaps, you may need more requests than what was discussed with our team at time of API key provisioning. If you think this might happen on occasion, please bring this up with our team. When that happens, you will see this value increase with each request over the limit.
+7. `x-ratelimit-reset`
+   This header value represents the time in millisecnods when usage statistics will reset. This typically points to the end of the current month.
