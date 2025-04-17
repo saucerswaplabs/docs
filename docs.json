@@ -112,6 +112,7 @@
               {
                 "group": "REST API",
                 "pages": [
+                  "v/developer/rest-api/authentication",
                   "v/developer/rest-api/stats",
                   "v/developer/rest-api/farms-new",
                   "v/developer/rest-api/farms",
