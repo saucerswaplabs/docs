@@ -2,6 +2,9 @@ openapi: 3.0.0
 info:
   title: SaucerSwap REST API
   version: 1.0.0
+servers:
+  - url: https://api.saucerswap.finance
+  - url: https://test-api.saucerswap.finance
 paths:
   /stats:
     get:
@@ -80,7 +83,7 @@ paths:
                     type: string
                     example: '217150119725425'
                     description: 'XSAUCE amount in its smallest unit'  
-  /stats/hbar-price-history:
+  /stats/hbarHistoricalPrices:
     get:
       summary: Get historical HBAR price data (minutely)
       tags:
@@ -92,14 +95,14 @@ paths:
           schema:
             type: integer
             example: 1697600000      
-          description: 'From Unix seconds'      
+          description: 'From unix seconds'      
         - name: to
           in: query
           required: true
           schema:
             type: integer
-            example: 1697610000 
-          description: 'To Unix seconds'    
+            example: 1697610000
+          description: 'To unix seconds'    
       responses:
         '200':
           description: Successful response
@@ -119,7 +122,7 @@ paths:
                     timestampSeconds:
                       type: integer
                       example: 1697599980    
-  /stats/platform-data-history:
+  /stats/platformData:
     get:
       summary: Get platform historical liquidity or volume data
       tags:
@@ -130,21 +133,22 @@ paths:
           required: true
           schema:
             type: integer
-            example: 1697600000      
-          description: 'From Unix seconds'      
+            example: 1697600000     
+          description: 'From unix seconds'      
         - name: to
           in: query
           required: true
           schema:
             type: integer
-            example: 1697610000 
-          description: 'To Unix seconds'           
+            example: 1697610000
+          description: 'To unix seconds'           
         - name: interval
           in: query
           required: true
           schema:
             type: string
             example: 'HOUR'
+            default: 'HOUR'
             enum:
               - HOUR
               - DAY
@@ -155,6 +159,7 @@ paths:
           schema:
             type: string
             example: 'LIQUIDITY'
+            default: 'LIQUIDITY'
             enum:
               - LIQUIDITY
               - VOLUME
@@ -189,34 +194,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Farm'  
-  /farms/{farmId}/accounts:
-    get:
-      tags:
-        - 'Farms'
-      summary: 'Get all account LP token amounts for a farm by id [ NEW ]'
-      parameters:
-        - name: farmId
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 1
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/FarmAccount'
-  /farms/account/{accountId}:
+  /farms/totals/{accountId}:
     get:
       tags:
         - 'Farms'
       summary: Get LP token amounts in farms by account id
       parameters:
         - name: accountId
+          description: Hedera account id (shard.realm.account)
           in: path
           required: true
           schema:
@@ -235,7 +220,21 @@ paths:
     get:
       tags:
         - 'Tokens'
-      summary: Get all token data
+      summary: Get compact token data
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TokenCompact'
+  /tokens/full:
+    get:
+      tags:
+        - 'Tokens'
+      summary: Get detailed token data
       responses:
         '200':
           description: Successful response
@@ -245,6 +244,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Token'
+  /tokens/{tokenId}:
+    get:
+      tags:
+        - 'Tokens'
+      summary: Get detailed token data by id
+      parameters:
+        - name: tokenId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '0.0.731861'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Token'
   /tokens/known:
     get:
       tags:
@@ -259,7 +278,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Token'
-  /tokens/known/price-change:
+  /tokens/default:
     get:
       tags:
         - 'Tokens'
@@ -341,7 +360,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TokenPVL'
-  /tokens/{tokenId}/daily:
+  /tokens/daily/{tokenId}:
     get:
       tags:
         - 'Tokens'
@@ -362,7 +381,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TokenPVL'
-  /tokens/{tokenId}/weekly:
+  /tokens/weekly/{tokenId}:
     get:
       tags:
         - 'Tokens'
@@ -383,7 +402,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TokenPVL'
-  /tokens/{tokenId}/monthly:
+  /tokens/monthly/{tokenId}:
     get:
       tags:
         - 'Tokens'
@@ -404,7 +423,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TokenPVL'
-  /tokens/{tokenId}/yearly:
+  /tokens/yearly/{tokenId}:
     get:
       tags:
         - 'Tokens'
@@ -425,7 +444,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TokenPVL'
-  /tokens/{tokenId}/associated-pools:
+  /tokens/associated-pools/{tokenId}:
     get:
       tags:
         - 'Tokens'
@@ -446,7 +465,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pool'
-  /tokens/{tokenId}/ohlc:
+  /tokens/prices/{tokenId}:
     get:
       tags:
         - 'Tokens'
@@ -464,14 +483,14 @@ paths:
           schema:
             type: integer
             example: 1697600000      
-          description: 'From Unix seconds'      
+          description: 'From unix seconds'      
         - name: to
           in: query
           required: true
           schema:
             type: integer
             example: 1697610000 
-          description: 'To Unix seconds'
+          description: 'To unix seconds'
         - name: interval
           in: query
           required: true
@@ -492,7 +511,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TokenCandlestickData'
-  /tokens/{tokenId}/ohlc/latest:
+  /tokens/prices/latest/{tokenId}:
     get:
       tags:
         - 'Tokens'
@@ -524,32 +543,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TokenCandlestickData'
-  /tokens/{tokenId}/price-usd-history:
+  /tokens/ohlcv/latest:
     get:
       tags:
         - 'Tokens'
-      summary: Get USD price history for a token by id
-      parameters:
-        - name: tokenId
-          in: path
-          required: true
-          schema:
-            type: string
-            example: '0.0.731861'
-        - name: from
-          in: query
-          required: true
-          schema:
-            type: integer
-            example: 1697600000      
-          description: 'From Unix seconds'      
-        - name: to
-          in: query
-          required: true
-          schema:
-            type: integer
-            example: 1697610000 
-          description: 'To Unix seconds'
+      summary: Get latest candlestick data for all tokens
+      parameters:        
         - name: interval
           in: query
           required: true
@@ -569,20 +568,12 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    priceUsd:
-                      type: number
-                      format: float
-                      example: 0.017734458589574
-                    timestampSeconds:
-                      type: integer
-                      example: 1697601600
+                  $ref: '#/components/schemas/TokenCandlestickData'
   /pools:
     get:
       tags:
         - 'Pools'
-      summary: Get all pool data
+      summary: Get compact data for all pools
       responses:
         '200':
           description: Successful response
@@ -591,7 +582,41 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pool'                  
+                  $ref: '#/components/schemas/PoolCompact'
+  /pools/full:
+    get:
+      tags:
+        - 'Pools'
+      summary: Get detailed data for all pools
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pool'
+  /pools/{poolId}:
+    get:
+      tags:
+        - 'Pools'
+      summary: Get detailed data for a pool by id
+      parameters:
+        - name: poolId
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Pool'
   /pools/known:
     get:
       tags:
@@ -662,7 +687,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PoolVL'
-  /pools/{poolId}/daily:
+  /pools/daily/{poolId}:
     get:
       tags:
         - 'Pools'
@@ -683,7 +708,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PoolVL'  
-  /pools/{poolId}/weekly:
+  /pools/weekly/{poolId}:
     get:
       tags:
         - 'Pools'
@@ -704,7 +729,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PoolVL'
-  /pools/{poolId}/monthly:
+  /pools/monthly/{poolId}:
     get:
       tags:
         - 'Pools'
@@ -725,7 +750,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PoolVL'
-  /pools/{poolId}/yearly:
+  /pools/yearly/{poolId}:
     get:
       tags:
         - 'Pools'
@@ -746,7 +771,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PoolVL'  
-  /pools/{poolId}/ohlc:
+  /pools/conversionRates/{poolId}:
     get:
       tags:
         - 'Pools'
@@ -765,14 +790,14 @@ paths:
           schema:
             type: integer
             example: 1697600000      
-          description: 'From Unix seconds'      
+          description: 'From unix seconds'      
         - name: to
           in: query
           required: true
           schema:
             type: integer
             example: 1697610000 
-          description: 'To Unix seconds'
+          description: 'To unix seconds'
         - name: interval
           in: query
           required: true
@@ -798,7 +823,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CandlestickData'
-  /pools/{poolId}/ohlc/latest:
+  /pools/conversionRates/latest/{poolId}:
     get:
       tags:
         - 'Pools'
@@ -840,7 +865,7 @@ paths:
     get:
       tags:
         - 'SaucerSwap V2'
-      summary: Get data for all SaucerSwap V2 pools
+      summary: Get compact data for all SaucerSwap V2 pools
       responses:
         '200':
           description: Successful response
@@ -849,7 +874,41 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/PoolV2'  
+                  $ref: '#/components/schemas/PoolV2Compact'  
+  /v2/pools/full:
+    get:
+      tags:
+        - 'SaucerSwap V2'
+      summary: Get detailed data for all SaucerSwap V2 pools
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PoolV2' 
+  /v2/pools/{poolId}:
+    get:
+      tags:
+        - 'SaucerSwap V2'
+      summary: Get detailed data for a SaucerSwap V2 pool by id
+      parameters:
+        - name: poolId
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PoolV2'
   /v2/nfts/{accountId}/positions:
     get:
       tags:
@@ -857,12 +916,13 @@ paths:
       summary: Get all liquidity positions by account id
       parameters:
         - name: accountId
+          description: Hedera account id (shard.realm.account)
           in: path
           required: true
           schema:
             type: string
             example: '0.0.12345'
-          description: 'Hedera account id'
+            description: 'Hedera account id'
       responses:
         '200':
           description: Successful response
@@ -872,16 +932,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PositionV2'
-
 components:
   schemas:
     Farm:
       type: object
       properties:
         id:
+          description: "SaucerSwap farm id"
           type: integer
           example: 14
         poolId:
+          description: "SaucerSwap pool id"
           type: integer
           example: 35
         sauceEmissions:
@@ -905,15 +966,19 @@ components:
       type: object
       properties:
         farmId:
+          description: "SaucerSwap farm id"
           type: integer 
           example: 14
         poolId:
+          description: "SaucerSwap pool id"
           type: integer 
           example: 35
         accountId:
+          description: Hedera account id (shard.realm.account)
           type: string
           example: '0.0.12345'
         timestamp:
+          description: "Timestamp in unix seconds.nano"
           type: number
           format: float
           example: '1682469351.387795003'
@@ -950,6 +1015,42 @@ components:
           example: '25185652046087'
         tokenB:
           $ref: '#/components/schemas/TokenB'
+        tokenReserveB:
+          type: string
+          description: 'Token B reserve in its smallest unit'
+          example: '22634187941347'
+      required:
+        - id
+        - contractId
+        - lpToken
+        - lpTokenReserve
+        - tokenA
+        - tokenReserveA
+        - tokenB
+        - tokenReserveB
+    PoolCompact:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 213
+        contractId:
+          type: string
+          example: '0.0.1465865'
+        lpToken:
+          $ref: '#/components/schemas/LPToken'
+        lpTokenReserve:
+          type: string
+          description: 'LP token reserve in its smallest unit'
+          example: '23490447137584'
+        tokenA:
+          $ref: '#/components/schemas/TokenACompact'
+        tokenReserveA:
+          type: string
+          description: 'Token A reserve in its smallest unit'
+          example: '25185652046087'
+        tokenB:
+          $ref: '#/components/schemas/TokenBCompact'
         tokenReserveB:
           type: string
           description: 'Token B reserve in its smallest unit'
@@ -1039,6 +1140,74 @@ components:
         - sqrtRatioX96
         - tickCurrent
         - liquidity
+    PoolV2Compact:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        contractId:
+          type: string
+          example: "0.0.3948521"
+        tokenA:
+          $ref: '#/components/schemas/TokenACompact'
+          example:
+            decimals: 6
+            icon: "/images/tokens/usdc.png"
+            id: "0.0.456858"
+            name: "USD Coin"
+            price: "1678944894"
+            priceUsd: 1.00375771
+            symbol: "USDC"
+            dueDiligenceComplete: true
+            isFeeOnTransferToken: false            
+        tokenB:
+          $ref: '#/components/schemas/TokenBCompact'
+          example:
+            decimals: 6
+            icon: "/images/tokens/usdc.png"
+            id: "0.0.1055459"
+            name: "USD Coin"
+            price: "1681384187"
+            priceUsd: 1.00521604
+            symbol: "USDC[hts]"
+            dueDiligenceComplete: true
+            isFeeOnTransferToken: false
+        amountA:
+          type: string
+          example: "6313040"
+          description: 'Total amount for token A'
+        amountB:
+          type: string
+          example: "6313042"
+          description: 'Total amount for token B'
+        fee:
+          type: integer
+          example: 500
+          description: 'Swap fee tier for the pool, denoted in basis points'
+        sqrtRatioX96:
+          type: string
+          example: "79228162514992909706099547250"
+          description: 'Encoded square root of price ratio between tokens in the pool as a Q64.96 number'
+        tickCurrent:
+          type: integer
+          example: 0
+          description: 'Current active tick index, representing a specific price point in the pool'
+        liquidity:
+          type: string
+          example: "10878982596"
+          description: 'Total liquidity for the pool'
+      required:
+        - id
+        - contractId
+        - tokenA
+        - tokenB
+        - amountA
+        - amountB
+        - fee
+        - sqrtRatioX96
+        - tickCurrent
+        - liquidity
     PositionV2:
       type: object
       required:
@@ -1065,7 +1234,7 @@ components:
         accountId:
           type: string
           example: "0.0.12345"
-          description: 'Hedera account id'
+          description: Hedera account id (shard.realm.account)
         deleted:
           type: boolean
           example: false
@@ -1153,7 +1322,21 @@ components:
         priceUsd: 3.77606900825699466528
     TokenA:
       allOf:
-        - $ref: '#/components/schemas/TokenSimple'
+        - $ref: '#/components/schemas/Token'
+      example:
+        id: '0.0.731861'
+        name: 'SAUCE'
+        symbol: 'SAUCE'
+        decimals: 6
+        priceUsd: 0.01760954
+        description: 'SaucerSwap is an open source and non-custodial AMM protocol native to Hedera.'
+        website: 'https://www.saucerswap.finance/'
+        sentinelReport: 'https://sentinel.headstarter.org/details/saucerswap'
+        twitterHandle: SaucerSwapLabs
+        timestampSecondsLastListingChange: 0
+    TokenACompact:
+      allOf:
+        - $ref: '#/components/schemas/TokenCompact'
       example:
         id: '0.0.731861'
         name: 'SAUCE'
@@ -1162,7 +1345,21 @@ components:
         priceUsd: 0.01760954
     TokenB:
       allOf:
-        - $ref: '#/components/schemas/TokenSimple'
+        - $ref: '#/components/schemas/Token'
+      example:
+        id: '0.0.1460200'
+        name: 'xSAUCE'
+        symbol: 'XSAUCE'
+        decimals: 6
+        priceUsd: 0.01959459
+        description: 'SaucerSwap is an open source and non-custodial AMM protocol native to Hedera.'
+        website: 'https://www.saucerswap.finance/'
+        sentinelReport: 'https://sentinel.headstarter.org/details/saucerswap'
+        twitterHandle: SaucerSwapLabs
+        timestampSecondsLastListingChange: 0
+    TokenBCompact:
+      allOf:
+        - $ref: '#/components/schemas/TokenCompact'
       example:
         id: '0.0.1460200'
         name: 'xSAUCE'
@@ -1246,10 +1443,52 @@ components:
         - icon
         - decimals
         - price
+        - priceUsd        
+        - dueDiligenceComplete
+        - isFeeOnTransferToken
+        - description
+        - website
+        - sentinelReport
+        - twitterHandle
+        - timestampSecondsLastListingChange
+    TokenCompact:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '0.0.731861'
+        icon:
+          type: string
+          example: '/images/tokens/sauce.svg'
+        symbol:
+          type: string
+          example: 'SAUCE'
+        decimals:
+          type: integer
+          example: 6
+        price:
+          type: string
+          example: '36806544'
+        priceUsd:
+          type: number
+          format: float
+          example: 0.01760954        
+        dueDiligenceComplete:
+          type: boolean
+          example: true
+        isFeeOnTransferToken:
+          type: boolean
+          example: false
+      required:
+        - id
+        - name
+        - icon
+        - symbol
+        - decimals
+        - price
         - priceUsd
         - dueDiligenceComplete
         - isFeeOnTransferToken
-        - timestampSecondsLastListingChange
     TokenStats:
       type: object
       properties:
