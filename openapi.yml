@@ -66,6 +66,7 @@ paths:
                   id:
                     type: integer
                     example: 146206
+                    description: ''
                   ratio:
                     type: number
                     format: float
@@ -95,14 +96,14 @@ paths:
           schema:
             type: integer
             example: 1697600000      
-          description: 'From unix seconds'      
+            description: 'From unix seconds'      
         - name: to
           in: query
           required: true
           schema:
             type: integer
             example: 1697610000
-          description: 'To unix seconds'    
+            description: 'To unix seconds'    
       responses:
         '200':
           description: Successful response
@@ -115,12 +116,15 @@ paths:
                   properties:
                     id:
                       type: integer
+                      description: ''
                       example: 548294
                     priceUsd:
                       type: number
+                      description: 'HBAR price in USD'
                       example: 0.04830379666666667
                     timestampSeconds:
                       type: integer
+                      description: 'Unix timestamp in seconds'
                       example: 1697599980    
   /stats/platformData:
     get:
@@ -144,6 +148,7 @@ paths:
           description: 'To unix seconds'           
         - name: interval
           in: query
+          description: 'Data interval'
           required: true
           schema:
             type: string
@@ -156,6 +161,7 @@ paths:
         - name: field
           in: query
           required: true
+          description: 'Data type'
           schema:
             type: string
             example: 'LIQUIDITY'
@@ -201,7 +207,7 @@ paths:
       summary: Get LP token amounts in farms by account id
       parameters:
         - name: accountId
-          description: Hedera account id (shard.realm.account)
+          description: Hedera account id (shard.realm.num)
           in: path
           required: true
           schema:
@@ -251,6 +257,7 @@ paths:
       summary: Get detailed token data by id
       parameters:
         - name: tokenId
+          description: 'Token id (shard.realm.num)'
           in: path
           required: true
           schema:
@@ -368,6 +375,7 @@ paths:
       parameters:
         - name: tokenId
           in: path
+          description: 'Token id (shard.realm.num)'
           required: true
           schema:
             type: string
@@ -388,6 +396,7 @@ paths:
       summary: Get weekly price, volume and liquidity for token by id
       parameters:
         - name: tokenId
+          description: 'Token id (shard.realm.num)'
           in: path
           required: true
           schema:
@@ -409,6 +418,7 @@ paths:
       summary: Get monthly price, volume and liquidity for token by id
       parameters:
         - name: tokenId
+          description: 'Token id (shard.realm.num)'
           in: path
           required: true
           schema:
@@ -430,6 +440,7 @@ paths:
       summary: Get yearly price, volume and liquidity for token by id
       parameters:
         - name: tokenId
+          description: 'Token id (shard.realm.num)'
           in: path
           required: true
           schema:
@@ -451,6 +462,7 @@ paths:
       summary: Get associated pools containing the token by id
       parameters:
         - name: tokenId
+          description: 'Token id (shard.realm.num)'
           in: path
           required: true
           schema:
@@ -472,6 +484,7 @@ paths:
       summary: Get historical candlestick data for token by id
       parameters:
         - name: tokenId
+          description: 'Token id (shard.realm.num)'
           in: path
           required: true
           schema:
@@ -493,6 +506,7 @@ paths:
           description: 'To unix seconds'
         - name: interval
           in: query
+          description: 'Data interval'
           required: true
           schema:
             type: string
@@ -518,6 +532,7 @@ paths:
       summary: Get the latest candlestick data for token by id
       parameters:
         - name: tokenId
+          description: 'Token id (shard.realm.num)'
           in: path
           required: true
           schema:
@@ -525,6 +540,7 @@ paths:
             example: '0.0.731861'        
         - name: interval
           in: query
+          description: 'Data interval'
           required: true
           schema:
             type: string
@@ -550,6 +566,7 @@ paths:
       summary: Get latest candlestick data for all tokens
       parameters:        
         - name: interval
+          description: 'Data interval'
           in: query
           required: true
           schema:
@@ -604,6 +621,7 @@ paths:
       summary: Get detailed data for a pool by id
       parameters:
         - name: poolId
+          description: 'Saucerswap pool id'
           in: path
           required: true
           schema:
@@ -694,6 +712,7 @@ paths:
       summary: Get daily volume and liquidity for a pool by id
       parameters:
         - name: poolId
+          description: 'Saucerswap pool id'
           in: path
           required: true
           schema:
@@ -715,6 +734,7 @@ paths:
       summary: Get weekly volume and liquidity for a pool by id
       parameters:
         - name: poolId
+          description: 'Saucerswap pool id'
           in: path
           required: true
           schema:
@@ -736,6 +756,7 @@ paths:
       summary: Get monthly volume and liquidity for pool by id
       parameters:
         - name: poolId
+          description: 'Saucerswap pool id'
           in: path
           required: true
           schema:
@@ -757,6 +778,7 @@ paths:
       summary: Get yearly volume and liquidity for pool by id
       parameters:
         - name: poolId
+          description: 'Saucerswap pool id'
           in: path
           required: true
           schema:
@@ -783,7 +805,7 @@ paths:
           schema:
             type: integer   
             example: 1
-          description: 'Pool ID'
+          description: 'Saucerswap pool id'
         - name: from
           in: query
           required: true
@@ -830,12 +852,12 @@ paths:
       summary: Get the latest candlestick data for pool by id
       parameters:
         - name: poolId
+          description: 'SaucerSwap pool id'
           in: path
           required: true
           schema:
             type: integer
             example: 1
-          description: 'Pool ID'
         - name: interval
           in: query
           required: true
@@ -850,6 +872,7 @@ paths:
           description: 'Data interval'
         - name: inverted
           in: query
+          description: 'Invert the data?'
           required: false
           schema:
             type: boolean
@@ -896,6 +919,7 @@ paths:
       summary: Get detailed data for a SaucerSwap V2 pool by id
       parameters:
         - name: poolId
+          description: 'Saucerswap pool id'
           in: path
           required: true
           schema:
@@ -916,13 +940,12 @@ paths:
       summary: Get all liquidity positions by account id
       parameters:
         - name: accountId
-          description: Hedera account id (shard.realm.account)
+          description: Hedera account id (shard.realm.num)
           in: path
           required: true
           schema:
             type: string
             example: '0.0.12345'
-            description: 'Hedera account id'
       responses:
         '200':
           description: Successful response
@@ -938,11 +961,11 @@ components:
       type: object
       properties:
         id:
-          description: "SaucerSwap farm id"
+          description: 'SaucerSwap farm id'
           type: integer
           example: 14
         poolId:
-          description: "SaucerSwap pool id"
+          description: 'SaucerSwap pool id'
           type: integer
           example: 35
         sauceEmissions:
@@ -956,6 +979,7 @@ components:
         totalStaked:
           type: string
           example: '955338445589'
+          description: 'Total staked LP amount in its smallest unit'
       required:
        - id
        - poolId
@@ -966,24 +990,24 @@ components:
       type: object
       properties:
         farmId:
-          description: "SaucerSwap farm id"
+          description: 'SaucerSwap farm id'
           type: integer 
           example: 14
         poolId:
-          description: "SaucerSwap pool id"
+          description: 'SaucerSwap pool id'
           type: integer 
           example: 35
         accountId:
-          description: Hedera account id (shard.realm.account)
+          description: Hedera account id (shard.realm.num)
           type: string
           example: '0.0.12345'
         timestamp:
-          description: "Timestamp in unix seconds.nano"
+          description: 'Timestamp in unix seconds.nano'
           type: number
           format: float
           example: '1682469351.387795003'
         staked:
-          description: "Staked LP amount in its smallest unit"
+          description: 'Staked LP amount in its smallest unit'
           type: string
           example: '95533844'
       required:
@@ -998,9 +1022,11 @@ components:
         id:
           type: integer
           example: 213
+          description: Pool id
         contractId:
           type: string
           example: '0.0.1465865'
+          description: Contract id (shard.realm.num)
         lpToken:
           $ref: '#/components/schemas/LPToken'
         lpTokenReserve:
@@ -1034,9 +1060,11 @@ components:
         id:
           type: integer
           example: 213
+          description: Pool id
         contractId:
           type: string
           example: '0.0.1465865'
+          description: Contract id (shard.realm.num)
         lpToken:
           $ref: '#/components/schemas/LPToken'
         lpTokenReserve:
@@ -1070,48 +1098,50 @@ components:
         id:
           type: integer
           example: 1
+          description: Pool id
         contractId:
           type: string
-          example: "0.0.3948521"
+          description: Contract id (shard.realm.num)
+          example: '0.0.3948521'
         tokenA:
           $ref: '#/components/schemas/TokenA'
           example:
-            decimals: 6
-            icon: "/images/tokens/usdc.png"
-            id: "0.0.456858"
-            name: "USD Coin"
-            price: "1678944894"
+            decimals: 6            
+            icon: '/images/tokens/usdc.png'
+            id: '0.0.456858'
+            name: 'USD Coin'
+            price: '1678944894'
             priceUsd: 1.00375771
-            symbol: "USDC"
+            symbol: 'USDC'
             dueDiligenceComplete: true
             isFeeOnTransferToken: false
-            description: "USDC is a fully collateralized U.S. dollar stablecoin. USDC is the bridge between dollars and trading on cryptocurrency exchanges..."
-            website: "https://www.circle.com/en/usdc-multichain/hedera"
-            twitterHandle: "circle"
+            description: 'USDC is a fully collateralized U.S. dollar stablecoin. USDC is the bridge between dollars and trading on cryptocurrency exchanges...'
+            website: 'https://www.circle.com/en/usdc-multichain/hedera'
+            twitterHandle: 'circle'
             timestampSecondsLastListingChange: 0
         tokenB:
           $ref: '#/components/schemas/TokenB'
           example:
             decimals: 6
-            icon: "/images/tokens/usdc.png"
-            id: "0.0.1055459"
-            name: "USD Coin"
-            price: "1681384187"
+            icon: '/images/tokens/usdc.png'
+            id: '0.0.1055459'
+            name: 'USD Coin'
+            price: '1681384187'
             priceUsd: 1.00521604
-            symbol: "USDC[hts]"
+            symbol: 'USDC[hts]'
             dueDiligenceComplete: true
             isFeeOnTransferToken: false
-            description: "USDC is a fully collateralized U.S. dollar stablecoin..."
-            website: "https://www.circle.com/en/usdc-multichain/ethereum"
-            twitterHandle: "circle"
+            description: 'USDC is a fully collateralized U.S. dollar stablecoin...'
+            website: 'https://www.circle.com/en/usdc-multichain/ethereum'
+            twitterHandle: 'circle'
             timestampSecondsLastListingChange: 0
         amountA:
           type: string
-          example: "6313040"
+          example: '6313040'
           description: 'Total amount for token A'
         amountB:
           type: string
-          example: "6313042"
+          example: '6313042'
           description: 'Total amount for token B'
         fee:
           type: integer
@@ -1119,7 +1149,7 @@ components:
           description: 'Swap fee tier for the pool, denoted in basis points'
         sqrtRatioX96:
           type: string
-          example: "79228162514992909706099547250"
+          example: '79228162514992909706099547250'
           description: 'Encoded square root of price ratio between tokens in the pool as a Q64.96 number'
         tickCurrent:
           type: integer
@@ -1127,7 +1157,7 @@ components:
           description: 'Current active tick index, representing a specific price point in the pool'
         liquidity:
           type: string
-          example: "10878982596"
+          example: '10878982596'
           description: 'Total liquidity for the pool'
       required:
         - id
@@ -1146,40 +1176,42 @@ components:
         id:
           type: integer
           example: 1
+          description: Pool id
         contractId:
           type: string
-          example: "0.0.3948521"
+          example: '0.0.3948521'
+          description: Contract id (shard.realm.num)
         tokenA:
           $ref: '#/components/schemas/TokenACompact'
           example:
             decimals: 6
-            icon: "/images/tokens/usdc.png"
-            id: "0.0.456858"
-            name: "USD Coin"
-            price: "1678944894"
+            icon: '/images/tokens/usdc.png'
+            id: '0.0.456858'
+            name: 'USD Coin'
+            price: '1678944894'
             priceUsd: 1.00375771
-            symbol: "USDC"
+            symbol: 'USDC'
             dueDiligenceComplete: true
             isFeeOnTransferToken: false            
         tokenB:
           $ref: '#/components/schemas/TokenBCompact'
           example:
             decimals: 6
-            icon: "/images/tokens/usdc.png"
-            id: "0.0.1055459"
-            name: "USD Coin"
-            price: "1681384187"
+            icon: '/images/tokens/usdc.png'
+            id: '0.0.1055459'
+            name: 'USD Coin'
+            price: '1681384187'
             priceUsd: 1.00521604
-            symbol: "USDC[hts]"
+            symbol: 'USDC[hts]'
             dueDiligenceComplete: true
             isFeeOnTransferToken: false
         amountA:
           type: string
-          example: "6313040"
+          example: '6313040'
           description: 'Total amount for token A'
         amountB:
           type: string
-          example: "6313042"
+          example: '6313042'
           description: 'Total amount for token B'
         fee:
           type: integer
@@ -1187,7 +1219,7 @@ components:
           description: 'Swap fee tier for the pool, denoted in basis points'
         sqrtRatioX96:
           type: string
-          example: "79228162514992909706099547250"
+          example: '79228162514992909706099547250'
           description: 'Encoded square root of price ratio between tokens in the pool as a Q64.96 number'
         tickCurrent:
           type: integer
@@ -1195,7 +1227,7 @@ components:
           description: 'Current active tick index, representing a specific price point in the pool'
         liquidity:
           type: string
-          example: "10878982596"
+          example: '10878982596'
           description: 'Total liquidity for the pool'
       required:
         - id
@@ -1233,51 +1265,51 @@ components:
           description: "NFT serial number representing user's position"
         accountId:
           type: string
-          example: "0.0.12345"
-          description: Hedera account id (shard.realm.account)
+          example: '0.0.12345'
+          description: Hedera account id (shard.realm.num)
         deleted:
           type: boolean
           example: false
           description: 'True if this position was deleted otherwise false'
         createdAt:
           type: string
-          example: "1697779560.762467685"
+          example: '1697779560.762467685'
           description: 'Unix timestamp when this position was created'
         updatedAt:
           type: string
-          example: "1698287867.747005303"
+          example: '1698287867.747005303'
           description: 'Unix timestamp when this position was updated'
         token0:
           $ref: '#/components/schemas/Token'
           example:
             decimals: 8
-            icon: "/images/tokens/hbar.png"
-            id: "0.0.59042"
-            name: "WHBAR [new]"
-            price: "100000000"
+            icon: '/images/tokens/hbar.png'
+            id: '0.0.59042'
+            name: 'WHBAR [new]'
+            price: '100000000'
             priceUsd: 0.0598982
-            symbol: "HBAR"
+            symbol: 'HBAR'
             dueDiligenceComplete: true
             isFeeOnTransferToken: false
-            description: "Hedera is a public, open source, proof-of-stake network, with native cryptocurrency HBAR..."
-            website: "https://hedera.com/"
-            twitterHandle: "hedera"
+            description: 'Hedera is a public, open source, proof-of-stake network, with native cryptocurrency HBAR...'
+            website: 'https://hedera.com/'
+            twitterHandle: 'hedera'
             timestampSecondsLastListingChange: 0
         token1:
           $ref: '#/components/schemas/Token'
           example:
             decimals: 6
-            icon: "/images/tokens/sauce.png"
-            id: "0.0.61266"
-            name: "SAUCE"
-            price: "24609831"
+            icon: '/images/tokens/sauce.png'
+            id: '0.0.61266'
+            name: 'SAUCE'
+            price: '24609831'
             priceUsd: 0.0147408436767304
-            symbol: "SAUCE"
+            symbol: 'SAUCE'
             dueDiligenceComplete: true
             isFeeOnTransferToken: false
-            description: "SaucerSwap is an open source and non-custodial AMM protocol native to Hedera..."
-            website: "https://www.saucerswap.finance/"
-            twitterHandle: "SaucerSwapLabs"
+            description: 'SaucerSwap is an open source and non-custodial AMM protocol native to Hedera...'
+            website: 'https://www.saucerswap.finance/'
+            twitterHandle: 'SaucerSwapLabs'
             timestampSecondsLastListingChange: 1
         fee:
           type: integer
@@ -1293,23 +1325,23 @@ components:
           description: "Lower end of the position's price range"
         liquidity:
           type: string
-          example: "3249809842"
+          example: '3249809842'
           description: 'The amount of liquidity provided by the position'
         feeGrowthInside0LastX128:
           type: string
-          example: "2546890053379859378523505791149585"
-          description: "Accumulated fee growth for token0 inside the tick range since the last time liquidity was added or removed"
+          example: '2546890053379859378523505791149585'
+          description: 'Accumulated fee growth for token0 inside the tick range since the last time liquidity was added or removed'
         feeGrowthInside1LastX128:
           type: string
-          example: "1232345435623984092384092380932840"
-          description: "Accumulated fee growth for token1 inside the tick range since the last time liquidity was added or removed"
+          example: '1232345435623984092384092380932840'
+          description: 'Accumulated fee growth for token1 inside the tick range since the last time liquidity was added or removed'
         tokensOwed0:
           type: string
-          example: "10"
+          example: '10'
           description: "Total amount of token0 owed to the position due to fees generated from swaps within the position's price range"
         tokensOwed1:
           type: string
-          example: "20"
+          example: '20'
           description: "Total amount of token1 owed to the position due to fees generated from swaps within the position's price range"
     LPToken:
       allOf:
@@ -1371,18 +1403,23 @@ components:
       properties:
         id:
           type: string
+          description: 'Token id (shard.realm.num)'
           example: '0.0.731861'
         name:
           type: string
+          description: 'Token name'
           example: 'SAUCE'
         symbol:
           type: string
+          description: 'Token syymbol'
           example: 'SAUCE'
         decimals:
           type: integer
+          description: 'Token decimal places'
           example: 6
         priceUsd:
           type: number
+          description: 'Token price in terms of USD'
           format: float
           example: 0.01760954
       required:
@@ -1396,46 +1433,60 @@ components:
       properties:
         id:
           type: string
+          description: 'Token id (shard.realm.num)'
           example: '0.0.731861'
         name:
           type: string
+          description: 'Token name'
           example: 'SAUCE'
         symbol:
           type: string
+          description: 'Token symbol'
           example: 'SAUCE'
         icon:
           type: string
+          description: 'Relative path to the token icon'
           example: '/images/tokens/sauce.svg'
         decimals:
           type: integer
+          description: 'Token decimal places'
           example: 6
         price:
           type: string
           example: '36806544'
+          description: ''
         priceUsd:
           type: number
+          description: 'Token price in terms of USD'
           example: 0.01763457
         dueDiligenceComplete:
           type: boolean
+          description: 'Token due diligence completed?'
           example: true
         isFeeOnTransferToken:
           type: boolean
+          description: 'Token has fees on transfer?'
           example: false
         description:
-          type: string
+          type: string          
+          description: 'Token description'
           example: 'SaucerSwap is an open source and non-custodial AMM protocol native to Hedera.'
         website:
           type: string
+          description: 'Token website link'
           example: 'https://www.saucerswap.finance/'
         sentinelReport:
           type: string
+          description: 'Token sentinel report link'
           example: 'https://sentinel.headstarter.org/details/saucerswap'
         twitterHandle:
           type: string
+          description: 'Token sentinel report link'
           example: SaucerSwapLabs
         timestampSecondsLastListingChange:
           type: integer
           example: 0
+          description: ''
       required:
         - id
         - name
@@ -1456,28 +1507,36 @@ components:
       properties:
         id:
           type: string
+          description: 'Token id (shard.realm.num)'
           example: '0.0.731861'
         icon:
           type: string
+          description: 'Relative path to token icon'
           example: '/images/tokens/sauce.svg'
         symbol:
           type: string
+          description: 'Token symbol'
           example: 'SAUCE'
         decimals:
           type: integer
+          description: 'Token decimal places'
           example: 6
         price:
           type: string
           example: '36806544'
+          description: ''
         priceUsd:
           type: number
           format: float
+          description: 'Token price in USD'
           example: 0.01760954        
         dueDiligenceComplete:
           type: boolean
+          description: 'Token due diligence completed?'
           example: true
         isFeeOnTransferToken:
           type: boolean
+          description: 'Token has fees on transfer?'
           example: false
       required:
         - id
@@ -1494,28 +1553,35 @@ components:
       properties:
         id:
           type: string
+          description: 'Token id (shard.realm.num)'
           example: '0.0.731861'
         symbol:
           type: string
+          description: 'Token symbol'
           example: 'SAUCE'
         priceUsd:
           type: number
+          description: 'Token price in USD'
           format: float
           example: 0.0177
         liquidityUsd:
           type: number
+          description: 'Token liquidity in USD'
           format: float
           example: 2880053.73
         priceChangeHour:
           type: number
+          description: 'Price change % for the past hour'
           format: float
           example: 0.01
         priceChangeDay:
           type: number
+          description: 'Price change % for the past day'
           format: float
           example: 0.04
         priceChangeWeek:
           type: number
+          description: 'Price change % for the past week'
           format: float
           example: 0.11
       required:
@@ -1532,6 +1598,7 @@ components:
         id:
           type: integer
           example: 1
+          description: ''
         volume:
           type: number
           format: float
@@ -1546,9 +1613,11 @@ components:
         poolId:
           type: integer
           example: 502
+          description: 'Pool id'
         timestampSeconds:
           type: integer
           example: 1697760000
+          description: 'Timestamp in unix seconds'
         liquidity:
           type: string
           example: '1268297620467'
@@ -1572,10 +1641,11 @@ components:
         tokenId:
           type: string
           example: '0.0.731861'
-          description: 'Token ID'
+          description: 'Token id (shard.realm.num)'
         price:
           type: string
           example: '36334886'
+          description: ''
         liquidity:
           type: string
           example: '5971792596548121'
@@ -1596,42 +1666,55 @@ components:
         id:
           type: integer
           example: 2
+          description: ''
         poolId:
           type: integer
           example: 1
+          description: ''
         open:
           type: number
           example: 0.0482115316666979
+          description: ''
         high:
           type: number
           example: 0.0482115316666979
+          description: ''
         low:
           type: number
           example: 0.04819650172584323
+          description: ''
         close:
           type: number
           example: 0.04819650172584323
+          description: ''
         avg:
           type: number
           example: 118.56339424557434
+          description: ''
         volume:
           type: string
-          example: "0"
+          example: '0'
+          description: ''
         liquidity:
           type: string
-          example: "9668737245792"
+          example: '9668737245792'
+          description: ''
         volumeUsd:
           type: string
-          example: "0"
+          example: '0'
+          description: 'Candlestick volume in usd'
         liquidityUsd:
           type: string
-          example: "4653.53"
+          example: '4653.53'
+          description: 'Candlestick liquidity in usd'
         timestampSeconds:
           type: integer
           example: 1697618460
+          description: ''
         startTimestampSeconds:
           type: integer
           example: 1697616000
+          description: 'Start timestamp in unix seconds'
       required:
         - id
         - poolId
@@ -1652,64 +1735,82 @@ components:
         id:
           type: integer
           example: 83
+          description: ''
         tokenId:
           type: string
-          example: "0.0.731861"
+          example: '0.0.731861'
+          description: 'Token id (shard.realm.num)'
         open:
           type: integer
           example: 36358807
+          description: ''
         openUsd:
           type: number
           format: float
           example: 0.017246927356274498
+          description: 'Candlestick opening value in usd'
         high:
           type: integer
           example: 36370090
+          description: ''
         highUsd:
           type: number
           format: float
           example: 0.017248478665373164
+          description: 'Candlestick high value in usd'
         low:
           type: integer
-          example: 36334867
+          example: 36334867 
+          description: ''         
         lowUsd:
           type: number
           format: float
           example: 0.0169388611613325
+          description: 'Candlestick low value in usd'
         close:
           type: integer
           example: 36353193
+          description: ''
         closeUsd:
           type: number
           format: float
           example: 0.0169388611613325
+          description: 'Candlestick closing value in usd'
         avg:
           type: number
           format: float
           example: 36347000.92028988
+          description: ''
         avgUsd:
           type: number
           format: float
           example: 0.017085609229304164
+          description: 'Candlestick average value in usd'
         volume:
           type: string
-          example: "4484168318250"
+          example: '4484168318250'
+          description: ''
         liquidity:
           type: string
-          example: "5976854242691456"
+          example: '5976854242691456'
+          description: ''
         volumeUsd:
           type: number
           format: float
           example: 2110.33
+          description: 'Candlestick volume in usd'
         liquidityUsd:
           format: float
           example: 2784930.18
+          description: 'Candlestick liquidity in usd'
         timestampSeconds:
           type: integer
           example: 1697681880
+          description: 'End timestamp in unix seconds'
         startTimestampSeconds:
           type: integer
           example: 1697673600
+          description: 'Start timestamp in unix seconds'
       required:
         - id
         - tokenId
@@ -1733,8 +1834,8 @@ components:
       type: object
       additionalProperties:
         type: number
-        description: "24-hours price change percentage for the given tokenId"
+        description: '24-hours price change percentage for the given tokenId'
       example:
-        "0.0.731861": -2.5351798847046836
-        "0.0.786931": 4.047875243039449
-        "0.0.629591": -12.223518441429796
+        '0.0.731861': -2.5351798847046836
+        '0.0.786931': 4.047875243039449
+        '0.0.629591': -12.223518441429796
