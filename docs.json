@@ -112,6 +112,7 @@
               {
                 "group": "REST API",
                 "pages": [
+                  "v/developer/rest-api/authentication",
                   {
                     "group": "Stats",
                     "pages": [
