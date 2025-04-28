@@ -1,43 +1,39 @@
 ---
 title: "Wrap HBAR for WHBAR"
+description: Deposit HBAR native cryptocurrency to retrieve Wrapped HBAR (WHBAR) tokens at a 1:1 ratio
 ---
 
-Deposit HBAR native cryptocurrency to retrieve Wrapped HBAR (WHBAR) tokens at a 1:1 ratio.
-
 <Info>
-  Contract ID: [WhbarHelper](/developerx/contract-deployments)
+  Contract ID: [WhbarHelper](https://hashscan.io/mainnet/contract/0.0.5808826)
 </Info>
 
-<Info>
+<Warning>
   Ensure that the [**WHBAR**](https://hashscan.io/mainnet/token/0.0.1456986)  \*\*\*\*token ID is associated with the account prior to calling the deposit function. Failure to do so will result in a `TOKEN_NOT_ASSOCIATED_TO_ACCOUNT` error
-</Info>
+</Warning>
 
 Function name: **deposit**
 
-<Accordion title="Solidity Function Body">
-  ```
-  //WhbarHelper.sol
+<CodeGroup>
+  ```solidity WhbarHelper.sol
   function deposit() public payable {
     IWHBAR(whbarContract).deposit{value: msg.value}(msg.sender, msg.sender);
   }
   ```
-</Accordion>
+</CodeGroup>
 
 ### Code Overview
 
 ⛽ *Recommended gas: 100,000 gwei (\~ $0.009 USD)*
 
 <Tabs>
-  <Tab title="JSON RPC">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
     * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
-
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
 
-    ```
+    ```typescript Typescript
     import { 
       ContractExecuteTransaction,
       TokenAssociateTransaction,

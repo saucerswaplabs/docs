@@ -1,8 +1,7 @@
 ---
 title: "Decreasing Liquidity"
+description: Decrease liquidity or completely exit an existing liquidity position
 ---
-
-Decrease liquidity or completely exit an existing liquidity position.
 
 <Info>
   **Contract ID:** [SaucerSwapV2NonfungiblePositionManager](https://hashscan.io/mainnet/contract/0.0.4053945)
@@ -18,16 +17,14 @@ Function name: **decreaseLiquidity**
 
 | Struct Parameter Name  | Description                                                           |
 | ---------------------- | --------------------------------------------------------------------- |
-| **uint256 tokenSN**    | The serial number of the token for which liquidity is being increased |
-| **uint128 liquidity**  | Liquidity amount to remove                                            |
-| **uint256 amount0Min** | The minimum amount for the first token in its smallest unit           |
-| **uint256 amount1Min** | The minimum amount for the second token in its smallest unit          |
-| **uint256 deadline**   | Deadline in Unix seconds                                              |
+| *uint256 tokenSN*      | The serial number of the token for which liquidity is being increased |
+| *uint128 liquidity*    | Liquidity amount to remove                                            |
+| *uint256 amount0Min*   | The minimum amount for the first token in its smallest unit           |
+| *uint256 amount1Min*   | The minimum amount for the second token in its smallest unit          |
+| *uint256 deadline*     | Deadline in Unix seconds                                              |
 
-<Accordion title="Solidity Interface & Function Body">
-  ```
-  //INonfungiblePositionManager.sol
-
+<CodeGroup>
+  ```solidity INonfungiblePositionManager.sol
   struct DecreaseLiquidityParams {
     uint256 tokenSN;
     uint128 liquidity;
@@ -50,9 +47,7 @@ Function name: **decreaseLiquidity**
     returns (uint256 amount0, uint256 amount1);
   ```
 
-  ```
-  //NonfungiblePositionManager.sol
-
+  ```solidity NonfungiblePositionManager.sol
   /// @inheritdoc INonfungiblePositionManager
   function decreaseLiquidity(DecreaseLiquidityParams calldata params)
     external
@@ -105,49 +100,44 @@ Function name: **decreaseLiquidity**
     emit DecreaseLiquidity(params.tokenSN, params.liquidity, amount0, amount1);
   }
   ```
-</Accordion>
+</CodeGroup>
 
 ### Code Overview
 
 The following code demonstrates how to remove all liquidity from an existing position, collect the swap fees, and return the deposit amounts.
 
-<Info>
+<Tip>
   When removing liquidity from a pool that involves HBAR, include **unwrapWHBAR** in your call to convert the Wrapped HBAR (WHBAR) output token back into the native HBAR cryptocurrency.
-</Info>
+</Tip>
 
-<Info>
+<Tip>
   Call the **collect** function after removing the liquidity to withdraw the amounts to the recipient address. It will also collect any swap fees earned in the position.
-</Info>
+</Tip>
 
-<Info>
+<Note>
   To burn the NFT after completely exiting the position, include **burn** in the multi-call. See [Burning the NFT](/v/developer/saucerswap-v2/liquidity-operations/decreasing-liquidity#burning-the-nft-position).
-</Info>
+</Note>
 
 <Info>
   Hedera's EVM chain ID can be retrieved from [https://chainlist.org](https://chainlist.org/?testnets=true\&search=Hedera).
 </Info>
 
-<Note>
+<Warning>
   The following code is intended for guidance purposes and does not include checks and safeguards.
-</Note>
+</Warning>
 
 <Tabs>
-  <Tab title="Typescript">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
     * [Uniswap V3 SDK](https://docs.uniswap.org/sdk/v3/overview)
-
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
 
-    ```typescript
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
     import { Pool, Position, nearestUsableTick, priceToClosestTick } from '@uniswap/v3-sdk';
     import { Fraction, Percent, Token, Price } from '@uniswap/sdk-core';
@@ -274,17 +264,17 @@ The following code demonstrates how to remove all liquidity from an existing pos
 
 After completely exiting a position, you may burn the NFT position if it is no longer needed. The following code demonstrates how to set a spender allowance for the NFT and include the burn function in the multicall.
 
-<Info>
-  A spender allowance for the NFT Manager contract must be approved by the token holder to enable the contract to retrieve the NFT to burn it.
-</Info>
+<Note>
+  A Note allowance for the NFT Manager contract must be approved by the token holder to enable the contract to retrieve the NFT to burn it.
+</Note>
 
 <Tabs>
-  <Tab title="Typescript">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
 
-    ```
+    ```typescript Typescript
     //Updated code to include burning of the NFT token
 
     //Construct encoded data for each function

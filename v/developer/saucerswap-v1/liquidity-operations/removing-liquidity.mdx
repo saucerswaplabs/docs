@@ -1,28 +1,24 @@
 ---
 title: "Removing Liquidity"
+description: Remove liquidity from an existing token/token liquidity pool
 ---
 
-Remove liquidity from an existing token/token liquidity pool.
-
 Outlined below are three methods to remove liquidity from an existing pool:
-
 * [Removing HBAR/token liquidity](/v/developer/saucerswap-v1/liquidity-operations/removing-liquidity#removing-hbar%2Ftoken-liquidity)
-
 * [Removing token/token liquidity](/v/developer/saucerswap-v1/liquidity-operations/removing-liquidity#removing-token%2Ftoken-liquidity)
-
 * [Removing HBAR/token liquidity for tokens with custom fees](/v/developer/saucerswap-v1/liquidity-operations/removing-liquidity#removing-hbar%2Ftoken-liquidity-supporting-tokens-with-custom-fees)
 
 <Info>
   **Contract ID:** [SaucerSwapV1RouterV3](https://hashscan.io/mainnet/contract/0.0.3045981)
 </Info>
 
-<Info>
+<Note>
   A spender allowance for the router is required for the LP token.
-</Info>
+</Note>
 
-<Info>
+<Check>
   removeLiquidity supports HTS tokens with custom fees.
-</Info>
+</Check>
 
 ## Removing HBAR/Token Liquidity
 
@@ -32,19 +28,17 @@ Function name: **removeLiquidityETH**
 
 ⛽ *Recommended gas: 2,800,000 gwei (\~ $0.24 USD)*
 
-| Parameter Name          | Description                                              |
-| ----------------------- | -------------------------------------------------------- |
-| **address token**       | EVM address of the token paired with HBAR                |
-| **uint liquidity**      | LP liquidity amount to remove                            |
-| **uint amountTokenMin** | The minimum token amount to receive in its smallest unit |
-| **uint amountETHMin**   | The minimum HBAR amount to receive in its smallest unit  |
-| **address to**          | EVM address to receive the tokens                        |
-| **uint deadline**       | Deadline in Unix seconds                                 |
+| Parameter Name        | Description                                              |
+| --------------------- | -------------------------------------------------------- |
+| *address token*       | EVM address of the token paired with HBAR                |
+| *uint liquidity*      | LP liquidity amount to remove                            |
+| *uint amountTokenMin* | The minimum token amount to receive in its smallest unit |
+| *uint amountETHMin*   | The minimum HBAR amount to receive in its smallest unit  |
+| *address to*          | EVM address to receive the tokens                        |
+| *uint deadline*       | Deadline in Unix seconds                                 |
 
-<Accordion title="Solidity Interface & Function Body">
-  ```
-  //IUniswapV2Router01.sol
-
+<CodeGroup>
+  ```solidity IUniswapV2Router01.sol
   function removeLiquidityETH(
     address token,
     uint liquidity,
@@ -55,9 +49,7 @@ Function name: **removeLiquidityETH**
   ) external returns (uint amountToken, uint amountETH);
   ```
 
-  ```
-  //UniswapV2Router02.sol
-
+  ```solidity UniswapV2Router02.sol
   function removeLiquidityETH(
     address token,
     uint liquidity,
@@ -82,7 +74,7 @@ Function name: **removeLiquidityETH**
     safeDissociateToken(address(this), token);
   }
   ```
-</Accordion>
+</CodeGroup>
 
 <Info>
   The **removeLiquidityETH** function operates in HBAR but derives its name from Uniswap on Ethereum. This name was kept to simplify integration for developers versed in Uniswap tools.
@@ -91,18 +83,14 @@ Function name: **removeLiquidityETH**
 ### Code Overview
 
 <Tabs>
-  <Tab title="Typescript">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
-
-    * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)&#x20;
 
-    ```typescript
+    ```typescript Typescript
     import { 
       ContractFunctionParameters, 
       ContractExecuteTransaction, 
@@ -146,20 +134,18 @@ Function name: **removeLiquidity**
 
 ⛽ *Recommended gas: 1,600,000 gwei (\~ $0.14 USD)*
 
-| Parameter Name      | Description                                                  |
-| ------------------- | ------------------------------------------------------------ |
-| **address tokenA**  | EVM address of the first HTS token                           |
-| **address tokenB**  | EVM address of the second HTS token                          |
-| **uint liquidity**  | LP liquidity amount to remove in its smallest unit           |
-| **uint amountAMin** | The minimum amount for the first token in its smallest unit  |
-| **uint amountBMin** | The minimum amount for the second token in its smallest unit |
-| **address to**      | EVM address to receive the tokens                            |
-| **uint deadline**   | Deadline in Unix seconds                                     |
+| Parameter Name    | Description                                                  |
+| ----------------- | ------------------------------------------------------------ |
+| *address tokenA*  | EVM address of the first HTS token                           |
+| *address tokenB*  | EVM address of the second HTS token                          |
+| *uint liquidity*  | LP liquidity amount to remove in its smallest unit           |
+| *uint amountAMin* | The minimum amount for the first token in its smallest unit  |
+| *uint amountBMin* | The minimum amount for the second token in its smallest unit |
+| *address to*      | EVM address to receive the tokens                            |
+| *uint deadline*   | Deadline in Unix seconds                                     |
 
-<Accordion title="Solidity Interface & Function Body">
-  ```
-  //IUniswapV2Router01.sol
-
+<CodeGroup>
+  ```solidity IUniswapV2Router01.sol
   function addLiquidity(
     address tokenA,
     address tokenB,
@@ -172,9 +158,7 @@ Function name: **removeLiquidity**
   ) external returns (uint amountA, uint amountB, uint liquidity);
   ```
 
-  ```
-  //UniswapV2Router02.sol
-
+  ```solidity UniswapV2Router02.sol
   function addLiquidityNewPool(
     address tokenA,
     address tokenB,
@@ -200,23 +184,20 @@ Function name: **removeLiquidity**
     liquidity = IUniswapV2Pair(pair).mint(to);
   }
   ```
-</Accordion>
+</CodeGroup>
 
 ### Code Overview
 
 <Tabs>
-  <Tab title="Typescript">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
-
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function) &#x20;
 
-    ```typescript
+    ```typescript Typescript
     import { 
       ContractFunctionParameters, 
       ContractExecuteTransaction,
@@ -262,19 +243,17 @@ Function name: **removeLiquidityETHSupportingFeeOnTransferTokens**
 
 ⛽ *Recommended gas: 3,000,000 gwei (\~ $0.26 USD)*
 
-| Parameter Name          | Description                                              |
-| ----------------------- | -------------------------------------------------------- |
-| **address token**       | EVM address of the token paired with HBAR                |
-| **uint liquidity**      | LP liquidity amount to remove in its smallest unit       |
-| **uint amountTokenMin** | The minimum token amount to receive in its smallest unit |
-| **uint amountETHMin**   | The minimum HBAR amount to receive in its smallest unit  |
-| **address to**          | EVM address to receive the tokens                        |
-| **uint deadline**       | Deadline in Unix seconds                                 |
+| Parameter Name        | Description                                              |
+| --------------------- | -------------------------------------------------------- |
+| *address token*       | EVM address of the token paired with HBAR                |
+| *uint liquidity*      | LP liquidity amount to remove in its smallest unit       |
+| *uint amountTokenMin* | The minimum token amount to receive in its smallest unit |
+| *uint amountETHMin*   | The minimum HBAR amount to receive in its smallest unit  |
+| *address to*          | EVM address to receive the tokens                        |
+| *uint deadline*       | Deadline in Unix seconds                                 |
 
-<Accordion title="Solidity Interface & Function Body">
-  ```
-  //IUniswapV2Router01.sol
-
+<CodeGroup>
+  ```solidity IUniswapV2Router01.sol
   function removeLiquidityETHSupportingFeeOnTransferTokens(
     address token,
     uint liquidity,
@@ -285,9 +264,7 @@ Function name: **removeLiquidityETHSupportingFeeOnTransferTokens**
   ) external returns (uint amountETH);
   ```
 
-  ```
-  //UniswapV2Router02.sol
-
+  ```solidity UniswapV2Router02.sol
   function removeLiquidityETHSupportingFeeOnTransferTokens(
     address token,
     uint liquidity,
@@ -314,7 +291,7 @@ Function name: **removeLiquidityETHSupportingFeeOnTransferTokens**
       safeDissociateToken(address(this), token);
   }
   ```
-</Accordion>
+</CodeGroup>
 
 <Info>
   The **removeLiquidityETHSupportingFeeOnTransferTokens** function operates in HBAR but derives its name from Uniswap on Ethereum. This name was kept to simplify integration for developers versed in Uniswap tools.
@@ -323,18 +300,15 @@ Function name: **removeLiquidityETHSupportingFeeOnTransferTokens**
 ### Code Overview
 
 <Tabs>
-  <Tab title="Typescript SDK">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)&#x20;
-
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
-
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)&#x20;
 
-    ```
+    ```typescript Typescript
     import { 
       ContractFunctionParameters, 
       ContractExecuteTransaction,
@@ -364,9 +338,5 @@ Function name: **removeLiquidityETHSupportingFeeOnTransferTokens**
     const values = result.getResult(['uint']);
     const amountHBAR = values[1]; //uint amountETH
     ```
-
-
   </Tab>
 </Tabs>
-
-###

@@ -1,18 +1,15 @@
 ---
 title: "Track Swap Events"
+description: Near real-time monitoring of swap events
 ---
 
-Near real-time monitoring of swap events.
-
 Below are the common methods to monitor swap events:
-
 * [Polling Swap events for all pairs](/v/developer/saucerswap-v2/swap-operations/track-swap-events#polling-swap-events-for-all-pairs)
-
 * Subscription using eth\_subscribe (coming later - [HIP-694](https://hips.hedera.com/hip/hip-694))
 
-<Info>
+<Tip>
   For production environments, it's highly recommended to use a paid Mirror Node provider for commercial and high-traffic purposes. While Hedera's public mirror node offers free REST API and JSON API endpoints, they have global rate limits. These are best suited for development or low rate usage scenarios.
-</Info>
+</Tip>
 
 ***
 
@@ -22,23 +19,22 @@ Below are the common methods to monitor swap events:
 
 Every time a user executes a swap, the contract emits a 'Swap' event with the updated reserve values for the token pair. The following code demonstrates how to listen to these 'Swap' events for all pairs using either the REST API or JSON RPC.
 
-<Note>
+<Warning>
   Listening to 'Swap' events without specifying an address in the filter data will return logs for all pairs on SaucerSwap, as well as other DEXs on Hedera that share the same 'topic0' hash signature for the 'Swap' event. To identify and filter specific pairs, extract the pair's EVM address from the log.
-</Note>
+</Warning>
 
-<Info>
+<Note>
   When a swap involves multiple liquidity pairs, a successful smart contract call will emit multiple 'Swap' events. To determine the route used, as well as the initial input amount and the final output amount, aggregate all the 'Swap' event logs.
-</Info>
+</Note>
 
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
-    ```
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //Set one of Hedera's JSON RPC Relay as the provider
@@ -89,18 +85,15 @@ Every time a user executes a swap, the contract emits a 'Swap' event with the up
       }
     });
     ```
-
-
   </Tab>
 
   <Tab title="REST API">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
 
-    ```
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //load ABI data containing the Swap event

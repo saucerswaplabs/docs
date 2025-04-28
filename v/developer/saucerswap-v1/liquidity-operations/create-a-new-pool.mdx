@@ -15,21 +15,21 @@ There are two methods to add a new liquidity pool:
   **Contract ID:** [SaucerSwapV1RouterV3](https://hashscan.io/mainnet/contract/0.0.3045981)
 </Info>
 
-<Info>
+<Tip>
   See [Pool creation fee](/v/developer/saucerswap-v1/liquidity-operations/pool-creation-fee) to get the current pool creation fee.
-</Info>
+</Tip>
 
-<Info>
+<Tip>
   Ensure that the liquidity pool does not exist on-chain prior to creation of the new pool. See [Check for an existing pool](/v/developer/saucerswap-v1/liquidity-operations/check-if-a-pool-exists).
-</Info>
+</Tip>
 
-<Info>
+<Note>
   Increase the client's max token auto-association by one to receive the incoming LP token.
-</Info>
+</Note>
 
-<Info>
+<Note>
   To add liquidity to an existing pool, see [Adding liquidity](/v/developer/saucerswap-v1/liquidity-operations/adding-liquidity).
-</Info>
+</Note>
 
 <Check>
   Both methods supports HTS tokens with custom fees.
@@ -45,19 +45,17 @@ Function name: **addLiquidityETHNewPool**
 
 ⛽ *Recommended gas: 3,200,000 gwei (\~ $0.27 USD)*
 
-| Parameter Name              | Description                                            |
-| --------------------------- | ------------------------------------------------------ |
-| **address token**           | EVM address of the token to pair with HBAR             |
-| **uint amountTokenDesired** | The maximum token amount in its smallest unit          |
-| **uint amountTokenMin**     | The minimum token amount in its smallest unit          |
-| **uint amountETHMin**       | The minimum HBAR amount in its smallest unit (tinybar) |
-| **address to**              | EVM address to receive the new liquidity tokens        |
-| **uint deadline**           | Deadline in Unix seconds                               |
+| Parameter Name            | Description                                            |
+| ------------------------- | ------------------------------------------------------ |
+| *address token*           | EVM address of the token to pair with HBAR             |
+| *uint amountTokenDesired* | The maximum token amount in its smallest unit          |
+| *uint amountTokenMin*     | The minimum token amount in its smallest unit          |
+| *uint amountETHMin*       | The minimum HBAR amount in its smallest unit (tinybar) |
+| *address to*              | EVM address to receive the new liquidity tokens        |
+| *uint deadline*           | Deadline in Unix seconds                               |
 
-<Accordion title="Solidity Interface & Function Body">
-  ```
-  //IUniswapV2Router01.sol
-
+<CodeGroup>
+  ```solidity IUniswapV2Router01.sol
   function addLiquidityETHNewPool(
     address token,
     uint amountTokenDesired,
@@ -68,9 +66,7 @@ Function name: **addLiquidityETHNewPool**
   ) external payable returns (uint amountToken, uint amountETH, uint liquidity);
   ```
 
-  ```
-  //UniswapV2Router02.sol
-
+  ```solidity UniswapV2Router02.sol
   function addLiquidityETHNewPool(
     address token,
     uint amountTokenDesired,
@@ -95,11 +91,11 @@ Function name: **addLiquidityETHNewPool**
     if (msg.value - feeInTinybars > amountETH) TransferHelper.safeTransferETH(msg.sender, msg.value - feeInTinybars - amountETH);
   }
   ```
-</Accordion>
+</CodeGroup>
 
-<Info>
+<Note>
   A spender allowance for the router is required for the HTS token.
-</Info>
+</Note>
 
 <Info>
   The **addLiquidityETHNewPool** function operates in HBAR but derives its name from Uniswap on Ethereum. This name was kept to simplify integration for developers versed in Uniswap tools.
@@ -108,18 +104,15 @@ Function name: **addLiquidityETHNewPool**
 ### Code Overview
 
 <Tabs>
-  <Tab title="Typescript">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
-
     * [Token auto-association](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/update-an-account)
-
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function) &#x20;
 
-    ```typescript
+    ```typescript Typescript
     import { 
       ContractFunctionParameters, 
       ContractExecuteTransaction,
@@ -167,21 +160,19 @@ Function name: **addLiquidityNewPool**
 
 ⛽*Recommended gas: 3,200,000 gwei (\~ $0.27 USD)*
 
-| Parameter Name          | Description                                                  |
-| ----------------------- | ------------------------------------------------------------ |
-| **address tokenA**      | EVM address of the first HTS token                           |
-| **address tokenB**      | EVM address of the second HTS token                          |
-| **uint amountADesired** | The maximum amount for the first token in its smallest unit  |
-| **uint amountBDesired** | The maximum amount for the second token in its smallest unit |
-| **uint amountAMin**     | The minimum amount for the first token in its smallest unit  |
-| **uint amountBMin**     | The minimum amount for the second token in its smallest unit |
-| **address to**          | EVM address to receive the new liquidity tokens              |
-| **uint deadline**       | Deadline in Unix seconds                                     |
+| Parameter Name        | Description                                                  |
+| --------------------- | ------------------------------------------------------------ |
+| *address tokenA*      | EVM address of the first HTS token                           |
+| *address tokenB*      | EVM address of the second HTS token                          |
+| *uint amountADesired* | The maximum amount for the first token in its smallest unit  |
+| *uint amountBDesired* | The maximum amount for the second token in its smallest unit |
+| *uint amountAMin*     | The minimum amount for the first token in its smallest unit  |
+| *uint amountBMin*     | The minimum amount for the second token in its smallest unit |
+| *address to*          | EVM address to receive the new liquidity tokens              |
+| *uint deadline*       | Deadline in Unix seconds                                     |
 
-<Accordion title="Solidity Interface & Function Body">
-  ```
-  //IUniswapV2Router01.sol
-
+<CodeGroup>
+  ```solidity IUniswapV2Router01.sol
   function addLiquidityNewPool(
     address tokenA,
     address tokenB,
@@ -194,9 +185,7 @@ Function name: **addLiquidityNewPool**
   ) external payable returns (uint amountA, uint amountB, uint liquidity);
   ```
 
-  ```
-  //UniswapV2Router02.sol
-
+  ```solidity UniswapV2Router02.sol
   function addLiquidityNewPool(
     address tokenA,
     address tokenB,
@@ -222,27 +211,24 @@ Function name: **addLiquidityNewPool**
     liquidity = IUniswapV2Pair(pair).mint(to);
   }
   ```
-</Accordion>
+</CodeGroup>
 
-<Info>
+<Note>
   A spender allowance for the router is required for both HTS tokens.
-</Info>
+</Note>
 
 ### Code Overview
 
 <Tabs>
-  <Tab title="Typescript SDK">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
-
     * [Token auto-association](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/update-an-account)
-
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
 
-    ```
+    ```typescript Typescript
     import { 
       ContractFunctionParameters, 
       ContractExecuteTransaction,

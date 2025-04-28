@@ -1,24 +1,23 @@
 ---
 title: "Increasing Liquidity"
+description: Adding more liquidity to an existing liquidity position
 ---
-
-Adding more liquidity to an existing liquidity position.
 
 <Info>
   **Contract ID:** [SaucerSwapV2NonfungiblePositionManager](https://hashscan.io/mainnet/contract/0.0.4053945)
 </Info>
 
-<Info>
+<Note>
   See [Liquidity position fee](/v/developer/saucerswap-v2/liquidity-operations/liquidity-position-fee) for an example of how to obtain the current fee, payable in HBAR, for minting a new liquidity position or adding more liquidity to an existing one.
-</Info>
+</Note>
 
-<Info>
+<Note>
   See [New liquidity position](/v/developer/saucerswap-v2/liquidity-operations/new-liquidity-position) for creating a new liquidity position.
-</Info>
+</Note>
 
-<Info>
+<Tip>
   When working with HBAR, use the [Wrapped HBAR token ID](https://hashscan.io/mainnet/token/0.0.1456986) and include the HBAR amount in the setPayableAmount() method for the ContractExecuteTransaction call.
-</Info>
+</Tip>
 
 ***
 
@@ -26,19 +25,17 @@ Function name: **increaseLiquidity**
 
 ⛽ *Recommended gas: 330,000 gwei* (\~ $0.028 USD)
 
-| Struct Parameter Name      | Description                                                           |
-| -------------------------- | --------------------------------------------------------------------- |
-| **uint256 tokenSN**        | The serial number of the token for which liquidity is being increased |
-| **uint256 amount0Desired** | The maximum amount for the first token in its smallest unit           |
-| **uint256 amount1Desired** | The maximum amount for the second token in its smallest unit          |
-| **uint256 amount0Min**     | The minimum amount for the first token in its smallest unit           |
-| **uint256 amount1Min**     | The minimum amount for the second token in its smallest unit          |
-| **uint deadline**          | Deadline in Unix seconds                                              |
+| Struct Parameter Name    | Description                                                           |
+| ------------------------ | --------------------------------------------------------------------- |
+| *uint256 tokenSN*        | The serial number of the token for which liquidity is being increased |
+| *uint256 amount0Desired* | The maximum amount for the first token in its smallest unit           |
+| *uint256 amount1Desired* | The maximum amount for the second token in its smallest unit          |
+| *uint256 amount0Min*     | The minimum amount for the first token in its smallest unit           |
+| *uint256 amount1Min*     | The minimum amount for the second token in its smallest unit          |
+| *uint deadline*          | Deadline in Unix seconds                                              |
 
-<Accordion title="Solidity Interface & Function Body">
-  ```
-  //INonfungiblePositionManager.sol
-
+<CodeGroup>
+  ```solidity INonfungiblePositionManager.sol
   struct IncreaseLiquidityParams {
     uint256 tokenSN;
     uint256 amount0Desired;
@@ -68,9 +65,7 @@ Function name: **increaseLiquidity**
   );
   ```
 
-  ```
-  //NonfungiblePositionManager.sol
-
+  ```solidity NonfungiblePositionManager.sol
   /// @inheritdoc INonfungiblePositionManager
   function increaseLiquidity(IncreaseLiquidityParams calldata params)
     external
@@ -131,53 +126,46 @@ Function name: **increaseLiquidity**
     emit IncreaseLiquidity(params.tokenSN, liquidity, amount0, amount1);
   }
   ```
-</Accordion>
+</CodeGroup>
 
 ### Code Overview
 
 The following code demonstrates how to add more liquidity to an existing position.
 
-<Info>
+<Note>
   See [Fetch pool token ratio](/v/developer/saucerswap-v2/liquidity-operations/fetch-pool-token-ratio) for an example how to retrieve the latest data construct the Pool object using the Uniswap SDK library.
-</Info>
+</Note>
 
-<Info>
+<Note>
   See [Fetch all pools](/v/developer/saucerswap-v2/liquidity-operations/fetch-all-pools) to retrieve the pool address, token pairs, fee tier, token IDs and decimal places for the target pool of interest.
-</Info>
+</Note>
 
 <Info>
   The **refundETH** function uses HBAR, but its name is derived from Uniswap on Ethereum. The name was retained to simplify integration for developers familiar with Uniswap tools. It is used to refund any excess HBAR when setting up a new liquidity position.
 </Info>
 
-<Info>
+<Tip>
   Hedera's EVM chain ID can be retrieved from [https://chainlist.org](https://chainlist.org/?testnets=true\&search=Hedera).
-</Info>
+</Tip>
 
-<Note>
+<Warning>
   The following code is intended for guidance purposes and does not include checks and safeguards.
-</Note>
+</Warning>
 
 <Tabs>
-  <Tab title="Typescript">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
     * [Uniswap V3 SDK](https://docs.uniswap.org/sdk/v3/overview)
-
     * [Fetch all pools](https://docs.saucerswap.finance/developer/saucerswap-v2/liquidity-operations/fetch-all-pools)
-
     * [Fetch pool token ratio](https://docs.saucerswap.finance/developer/saucerswap-v2/liquidity-operations/fetch-pool-token-ratio)
-
     * [Liquidity position fee](https://docs.saucerswap.finance/developer/saucerswap-v2/liquidity-operations/liquidity-position-fee)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
-
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
 
-    ```
+    ```Typescript typescript
     import * as ethers from 'ethers'; //V6
     import { Pool, Position, nearestUsableTick, priceToClosestTick } from '@uniswap/v3-sdk';
     import { Fraction, Percent, Token, Price } from '@uniswap/sdk-core';

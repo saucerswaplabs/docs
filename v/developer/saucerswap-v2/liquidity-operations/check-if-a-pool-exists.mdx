@@ -1,12 +1,11 @@
 ---
 title: "Check if a Pool Exists"
+description: Check if a V2 liquidity pool for two sets of HTS tokens with a specific swap fee tier exists on-chain
 ---
 
-Check if a V2 liquidity pool for two sets of HTS tokens with a specific swap fee tier exists on-chain.
-
-<Check>
+<Tip>
   Checking if the liquidity pool with the matching fee tier exists using SaucerSwap's REST API is also a suitable alternative. For more information, see [Get all Liquidity Pools (V2)](/v/developer/saucerswap-v2/liquidity-operations/fetch-all-pools).
-</Check>
+</Tip>
 
 ***
 
@@ -14,16 +13,14 @@ Function name: **getPool**
 
 ⛽ *No gas cost*
 
-| Parameter Name     | Description                                                                       |
-| ------------------ | --------------------------------------------------------------------------------- |
-| **address token0** | The contract address of either token0 or token1                                   |
-| **address token1** | The contract address of the other token                                           |
-| **uint24 fee**     | The fee collected upon every swap in the pool, denominated in hundredths of a bip |
+| Parameter Name   | Description                                                                       |
+| ---------------- | --------------------------------------------------------------------------------- |
+| *address token0* | The contract address of either token0 or token1                                   |
+| *address token1* | The contract address of the other token                                           |
+| *uint24 fee*     | The fee collected upon every swap in the pool, denominated in hundredths of a bip |
 
-<Accordion title="Solidity Interface">
-  ```
-  //IUniswapV3Factory.sol
-
+<CodeGroup>
+  ```solidity IUniswapV3Factory.sol
   /// @notice Returns the pool address for a given pair of tokens and a fee, or address 0 if it does not exist
   /// @dev tokenA and tokenB may be passed in either token0/token1 or token1/token0 order
   /// @param tokenA The contract address of either token0 or token1
@@ -36,31 +33,30 @@ Function name: **getPool**
     uint24 fee
   ) external view returns (address pool);
   ```
-</Accordion>
+</CodeGroup>
 
-<Info>
+<Tip>
   When working with HBAR, use the WHBAR (Wrapped HBAR) token address for either tokenA or tokenB.
-</Info>
+</Tip>
 
-<Info>
+<Note>
   The ordering of tokens for token0 and token1 does not matter.
-</Info>
+</Note>
 
-<Info>
+<Note>
   If the pool does not exist, a zero address will be returned.
-</Info>
+</Note>
 
 ### Code Overview
 
 <Tabs>
-  <Tab title="Typescript">
+  <Tab title="JSON RPC">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
-    ```typescript
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //Set one of Hedera's JSON RPC Relay as the provider

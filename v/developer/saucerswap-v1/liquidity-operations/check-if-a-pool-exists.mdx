@@ -1,14 +1,13 @@
 ---
 title: "Check if a Pool Exists"
+description: Check if the liquidity pool for a pair of HTS tokens exists on-chain
 ---
-
-Check if the liquidity pool for a pair of HTS tokens exists on-chain.
 
 When adding a new or existing liquidity pool, the initial step is typically to verify if the liquidity pool already exists before determining the next course of action. The factory contract provides a method to retrieve the pool address, if it exists, as shown below.
 
-<Check>
+<Tip>
   Checking if the liquidity pool exists using SaucerSwap's REST API is also a suitable alternative. For more information, see [Get V1 liquidity pools](/v/developer/saucerswap-v1/liquidity-operations/fetch-all-pools)
-</Check>
+</Tip>
 
 ## Get the Existing Liquidity Pool if it Exists
 
@@ -18,41 +17,37 @@ Get the existing liquidity pool's CREATE2 EVM address if it exists. If the pool 
 
 Function name: **getPair**
 
-| Parameter Name     | Description                     |
-| ------------------ | ------------------------------- |
-| **address tokenA** | EVM address of the first token  |
-| **address tokenB** | EVM address of the second token |
+| Parameter Name   | Description                     |
+| ---------------- | ------------------------------- |
+| *address tokenA* | EVM address of the first token  |
+| *address tokenB* | EVM address of the second token |
 
-<Accordion title="Solidity Interface">
-  ```
-  //IUniswapV2Factory.sol
-
+<CodeGroup>
+  ```solidity IUniswapV2Factory.sol
   function getPair(
     address tokenA,
     address tokenB
   ) external view returns (address pair);
   ```
-</Accordion>
+</CodeGroup>
 
-<Info>
-  When working with HBAR, use the wrapped HBAR token ID ([WHBAR](https://hashscan.io/mainnet/token/0.0.1456986)) for either tokenA or tokenB.
-</Info>
-
-<Info>
+<Note>
   The ordering of tokens for tokenA and tokenB does not matter.
-</Info>
+</Note>
+<Tip>
+  When working with HBAR, use the wrapped HBAR token ID ([WHBAR](https://hashscan.io/mainnet/token/0.0.1456986)) for either tokenA or tokenB.
+</Tip>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
-    ```
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //Set one of Hedera's JSON RPC Relay as the provider

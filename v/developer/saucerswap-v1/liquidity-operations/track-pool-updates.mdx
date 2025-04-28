@@ -1,20 +1,16 @@
 ---
 title: "Track Pool Updates"
+description: Near real-time monitoring of liquidity reserve balance changes
 ---
 
-Near real-time monitoring of liquidity reserve balance changes.
-
 Below are the common methods to track updates in liquidity reserve balances:
-
 * [Polling Sync events for all pools](/v/developer/saucerswap-v1/liquidity-operations/track-pool-updates#polling-sync-events-for-all-pools)
-
 * [Polling Sync events for a pool](/v/developer/saucerswap-v1/liquidity-operations/track-pool-updates#polling-sync-events-for-a-pool)
-
 * Subscription using eth\_subscribe (coming later - [HIP-694](https://hips.hedera.com/hip/hip-694))
 
-<Info>
+<Tip>
   For production environments, it's highly recommended to use a paid Mirror Node provider for commercial and high-traffic purposes. While Hedera's public mirror node offers free REST API and JSON API endpoints, they have global rate limits. These are best suited for development or low rate usage scenarios.
-</Info>
+</Tip>
 
 ## Polling Sync Events for all Pools
 
@@ -22,21 +18,20 @@ Below are the common methods to track updates in liquidity reserve balances:
 
 Whenever the reserve values for a pool contract are updated, either due to liquidity changes or a swap, a Sync event is emitted from the contract, containing the updated reserve values for the token pair. The following code demonstrates how to listen for Sync events for **all pools** using REST API or JSON RPC.
 
-<Note>
+<Warning>
   Listening to 'Sync' events without specifying an address in the filter data will return logs for all pools on SaucerSwap, as well as other DEXs on Hedera that share the same 'topic0' hash signature for the 'Sync' event. To identify and filter specific pools, extract the pool's EVM address from the log.
-</Note>
+</Warning>
 
 ***
 
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
-    ```typescript
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //Set one of Hedera's JSON RPC Relay as the provider
@@ -65,12 +60,11 @@ Whenever the reserve values for a pool contract are updated, either due to liqui
 
   <Tab title="REST API">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
 
-    ```typescript
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //load ABI data containing the Sync event
@@ -79,7 +73,7 @@ Whenever the reserve values for a pool contract are updated, either due to liqui
     let params = `timestamp=gte:${unixFrom}&timestamp=lte:${unixTo}`;  
     params += `&topic0=${interfaces.getEvent('Sync')!.topicHash}`;
 
-    const url = `${config.mirrorNodeBaseUrl}/api/v1/contracts/results/logs?${params}`;  
+    const url = `${mirrorNodeBaseUrl}/api/v1/contracts/results/logs?${params}`;  
     const response = await axios.get(url);
     const logs = response.data.logs;
 
@@ -100,12 +94,11 @@ Whenever the reserve values for a pool contract are updated, either due to liqui
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
-    ```
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //Set one of Hedera's JSON RPC Relay as the provider
@@ -135,12 +128,11 @@ Whenever the reserve values for a pool contract are updated, either due to liqui
 
   <Tab title="REST API">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
 
-    ```
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //load ABI data containing the Sync event
@@ -149,7 +141,7 @@ Whenever the reserve values for a pool contract are updated, either due to liqui
     let params = `timestamp=gte:${unixFrom}&timestamp=lte:${unixTo}`;  
     params += `&topic0=${interfaces.getEvent('Sync')!.topicHash}`;
 
-    const url = `${config.mirrorNodeBaseUrl}/api/v1/contracts/${contractIdEvm}/results/logs?${params}`;  
+    const url = `${mirrorNodeBaseUrl}/api/v1/contracts/${contractIdEvm}/results/logs?${params}`;  
     const response = await axios.get(url);
     const logs = response.data.logs;
 

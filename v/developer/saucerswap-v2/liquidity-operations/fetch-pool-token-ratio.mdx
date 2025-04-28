@@ -1,8 +1,7 @@
 ---
 title: "Fetch Pool Token Ratio"
+description: Retrieve the current token price ratio for a existing pool
 ---
-
-Retrieve the current token price ratio for a existing pool.
 
 ## Code Overview
 
@@ -10,27 +9,24 @@ The code below demonstrates one of the methods for retrieving the current price 
 
 ⛽ *No gas cost*
 
-<Info>
+<Note>
   Hedera's EVM chain ID can be retrieved from [https://chainlist.org](https://chainlist.org/?testnets=true\&search=Hedera).
-</Info>
+</Note>
 
-<Info>
+<Tip>
   The pool address, token addresses, token decimal places, and the fee tier can be retrieved from SaucerSwap's REST API. Refer to [Fetch all pools (V2)](/v/developer/saucerswap-v2/liquidity-operations/fetch-all-pools) for details.
-</Info>
+</Tip>
 
 <Tabs>
-  <Tab title="Typescript">
+  <Tab title="Javascript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
     * [Uniswap V3 SDK](https://docs.uniswap.org/sdk/v3/overview)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
-    ```
+    ```typescript Typescript
     import * as uniswap_sdk from '@uniswap/v3-sdk';
     import * as uniswap_core from '@uniswap/sdk-core';
     import * as ethers from 'ethers'; //V6
@@ -72,7 +68,5 @@ The code below demonstrates one of the methods for retrieving the current price 
     console.log(`Current price: ${priceOfToken1InToken0} Token0 per Token1`);
     console.log(`Current price: ${priceOfToken0InToken1} Token1 per Token0`);
     ```
-
-
   </Tab>
 </Tabs>

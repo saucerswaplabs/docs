@@ -143,7 +143,6 @@
                       "v/developer/rest-api/tokens/token",
                       "v/developer/rest-api/tokens/token-price",
                       "v/developer/rest-api/tokens/token-price-latest",
-                      "v/developer/rest-api/tokens/token-price-usd",
                       "v/developer/rest-api/tokens/token-associated-pools",
                       "v/developer/rest-api/tokens/token-daily",
                       "v/developer/rest-api/tokens/token-weekly",
@@ -187,7 +186,6 @@
                   {
                     "group": "Swap Operations",
                     "pages": [
-                      "v/developer/saucerswap-v1/swap-operations",
                       "v/developer/saucerswap-v1/swap-operations/swap-quote",
                       "v/developer/saucerswap-v1/swap-operations/swap-hbar-for-tokens",
                       "v/developer/saucerswap-v1/swap-operations/swap-tokens-for-tokens",
@@ -216,7 +214,6 @@
                   {
                     "group": "Swap Operations",
                     "pages": [
-                      "v/developer/saucerswap-v2/swap-operations",
                       "v/developer/saucerswap-v2/swap-operations/swap-quote",
                       "v/developer/saucerswap-v2/swap-operations/swap-hbar-for-tokens",
                       "v/developer/saucerswap-v2/swap-operations/swap-tokens-for-tokens",
@@ -250,7 +247,7 @@
               {
                 "group": "WHBAR",
                 "pages": [
-                  "v/developer/whbar",
+                  "v/developer/whbar/overview",
                   "v/developer/whbar/wrap-hbar-for-whbar",
                   "v/developer/whbar/unwrap-whbar-for-hbar"
                 ]

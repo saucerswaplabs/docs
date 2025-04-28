@@ -1,34 +1,31 @@
 ---
 title: "Swap HBAR for Tokens"
+description: Swap HBAR for HTS fungible tokens
 ---
 
-Swap HBAR for HTS fungible tokens.
-
 Below are two methods available to swap HBAR for tokens:
-
 * [Swap exact HBAR for tokens](/v/developer/saucerswap-v2/swap-operations/swap-hbar-for-tokens#swap-exact-hbar-for-tokens)
-
 * [Swap HBAR for exact tokens](/v/developer/saucerswap-v2/swap-operations/swap-hbar-for-tokens#swap-hbar-for-exact-tokens)
 
 <Info>
   **Contract ID:** [SaucerSwapV2SwapRouter](https://hashscan.io/mainnet/contract/0.0.3949434)
 </Info>
 
-<Info>
+<Note>
   Consider the token's decimal places when determining the output amount.
-</Info>
+</Note>
 
-<Info>
+<Note>
   The output values should be in the token's smallest unit. For the SAUCE token, which has 6 decimal places, an input of 123.45 SAUCE should be entered as 123450000 (123.45 multiplied by 10^6).
-</Info>
+</Note>
 
-<Info>
+<Warning>
   Ensure that the "**to**" account has the output token id associated prior to executing the swap. Failure to do so will result in a TOKEN\_NOT\_ASSOCIATED\_TO\_ACCOUNT error.
-</Info>
+</Warning>
 
-<Info>
+<Tip>
   When providing HBAR in the path array, use the Wrapped HBAR token id ([WHBAR](https://hashscan.io/mainnet/token/0.0.1456986)).
-</Info>
+</Tip>
 
 ## Swap Exact HBAR for Tokens
 
@@ -38,16 +35,14 @@ Solidity function name:  **exactInput**
 
 | Struct Parameter Name | Description                                                 |
 | --------------------- | ----------------------------------------------------------- |
-| **bytes path**        | A bytes array representing a route path including fees data |
-| **recipient**         | EVM address of the token recipient                          |
-| **deadline**          | Deadline in Unix seconds                                    |
-| **amountIn**          | The exact input token amount in its smallest unit           |
-| **amountOutMinimum**  | The minimum token amount to receive in its smallest unit    |
+| *bytes path*          | A bytes array representing a route path including fees data |
+| *recipient*           | EVM address of the token recipient                          |
+| *deadline*            | Deadline in Unix seconds                                    |
+| *amountIn*            | The exact input token amount in its smallest unit           |
+| *amountOutMinimum*    | The minimum token amount to receive in its smallest unit    |
 
-<Accordion title="Solidity Interface & Function Body">
-  ```
-  //ISwapRouter.sol
-
+<CodeGroup>
+  ```solidity ISwapRouter.sol
   struct ExactInputParams {
     bytes path;
     address recipient;
@@ -59,9 +54,7 @@ Solidity function name:  **exactInput**
   function exactInput(ExactInputParams calldata params) external payable returns (uint256 amountOut);
   ```
 
-  ```
-  //SwapRouter.sol
-
+  ```solidity SwapRouter.sol
   /// @inheritdoc ISwapRouter
   function exactInput(ExactInputParams memory params)
     external
@@ -99,37 +92,35 @@ Solidity function name:  **exactInput**
     require(amountOut >= params.amountOutMinimum, 'Too little received');
   }
   ```
-</Accordion>
+</CodeGroup>
 
-<Note>
+<Warning>
   Set the minimum output token amount (**amountOutMinimum**) with caution.
 
   A high minimum might lead to a swap failure due to insufficient liquidity or rapid price movements. Conversely, setting the minimum too low can expose you to significant slippage, potentially resulting in a financial loss as you might receive far fewer tokens than expected.
-</Note>
+</Warning>
 
-<Info>
+<Tip>
   It is recommended to include **refundETH** in the multicall in case excess HBAR was sent to the contract.
-</Info>
+</Tip>
 
-<Info>
+<Tip>
   The data passed to the 'path' parameter follows this format: \[token, fee, token, fee, token, ...], with each 'token' in the route being 20 bytes long and each 'fee' being 3 bytes long. Example, 0x0001F4 (500) for a 0.05% fee.
-</Info>
+</Tip>
 
 ### Code Overview
 
 <Tabs>
-  <Tab title="Typescript">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
-    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
     * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
 
-    *Note: The Hedera Typescript SDK currently does not support passing complex contract function parameters. Instead, use Ethers.js or Web3.js to obtain the encoded function data and pass that data as a function parameter.*
+    *Note: The Hedera JavaScript SDK currently does not support passing complex contract function parameters. Instead, use Ethers.js or Web3.js to obtain the encoded function data and pass that data as a function parameter.*
 
-    ```
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
     import {
       ContractExecuteTransaction,
@@ -190,16 +181,14 @@ Solidity function name: **exactOutput**
 
 | Struct Parameter Name | Description                                                 |
 | --------------------- | ----------------------------------------------------------- |
-| **bytes path**        | A bytes array representing a route path including fees data |
-| **recipient**         | EVM address of the token recipient                          |
-| **deadline**          | Deadline in Unix seconds                                    |
-| **amountOut**         | The exact input token amount in its smallest unit           |
-| **amountInMaximum**   | The minimum token amount to receive in its smallest unit    |
+| *bytes path*          | A bytes array representing a route path including fees data |
+| *recipient*           | EVM address of the token recipient                          |
+| *deadline*            | Deadline in Unix seconds                                    |
+| *amountOut*           | The exact input token amount in its smallest unit           |
+| *amountInMaximum*     | The minimum token amount to receive in its smallest unit    |
 
-<Accordion title="Solidity Interface & Function Body">
-  ```
-  //ISwapRouter.sol
-
+<CodeGroup>
+  ```solidity ISwapRouter.sol
   struct ExactOutputParams {
     bytes path;
     address recipient;
@@ -211,9 +200,7 @@ Solidity function name: **exactOutput**
   function exactOutput(ExactOutputParams calldata params) external payable returns (uint256 amountIn);
   ```
 
-  ```
-  //SwapRouter.sol
-
+  ```solidity SwapRouter.sol
   /// @inheritdoc ISwapRouter
   function exactOutput(ExactOutputParams calldata params)
     external
@@ -236,35 +223,33 @@ Solidity function name: **exactOutput**
     amountInCached = DEFAULT_AMOUNT_IN_CACHED;
   }
   ```
-</Accordion>
+</CodeGroup>
 
 <Warning>
   Ensure that the **refundETH** is included in the multicall so that any excess payable HBAR amount, up to the maximum amount, is refunded to the sender.
 </Warning>
 
-<Note>
+<Warning>
   Set the maximum input token amount (**amountInMaximum**) with caution.
 
   A low maximum might lead to a swap failure if the required liquidity surpasses this limit or due to rapid price movements. Conversely, setting it too high can expose you to significant slippage, potentially leading to a financial loss as you might spend far more tokens than expected.
-</Note>
+</Warning>
 
-<Info>
+<Tip>
   The data passed to the 'path' parameter follows this format: \[token, fee, token, fee, token, ...], but **reversed** (i.e. the first token in the array should be output token), with each 'token' in the route being 20 bytes long and each 'fee' being 3 bytes long. Example, 0x000BB8 (3000) for a 0.30% fee.
-</Info>
+</Tip>
 
 ### Code Overview
 
 <Tabs>
-  <Tab title="Typescript">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
     * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
 
-    ```
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
     import {
       ContractExecuteTransaction, 

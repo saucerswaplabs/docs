@@ -1,28 +1,25 @@
 ---
 title: "Liquidity Position Fee"
+description: Retrieve the current fee for creating or adding to a liquidity position
 ---
-
-Retrieve the current fee for creating or adding to a liquidity position.
 
 The following code demonstrates how to retrieve the fee for minting a new liquidity position or adding to an existing position, with the fees expressed in HBAR, using a combination of JSON-RPC and REST API calls.
 
-<Info>
+<Note>
   The **mintFee()** function will return the current fee expressed in **Tinycent** (US).
-</Info>
+</Note>
 
 ⛽ *No gas cost*
 
 <Tabs>
-  <Tab title="Typescript">
+  <Tab title="JSON RPC">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
-
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
 
-    ```typescript
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //Set one of Hedera's JSON RPC Relay as the provider

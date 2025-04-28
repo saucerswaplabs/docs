@@ -1,26 +1,21 @@
 ---
 title: "Single-Sided Staking"
+description: Single-sided staking operations for the SAUCE HTS token
 ---
 
-Single-sided staking operations for the SAUCE HTS token.
-
 Outlined below are the common operations associated with single-sided staking:
-
 * [Get xSAUCE amount from SAUCE](/v/developer/staking-operations/single-sided-staking#get-xsauce-amount-from-sauce)
-
 * [Stake SAUCE tokens for xSAUCE](/v/developer/staking-operations/single-sided-staking#stake-sauce-tokens-for-xsauce)
-
 * [Get SAUCE amount from xSAUCE](/v/developer/staking-operations/single-sided-staking#get-sauce-amount-from-xsauce)
-
 * [Unstake xSAUCE tokens for SAUCE](/v/developer/staking-operations/single-sided-staking#unstake-xsauce-tokens-for-sauce)
 
 <Info>
   **Contract ID:** [Mothership](https://hashscan.io/mainnet/contract/0.0.1460199)
 </Info>
 
-<Info>
+<Note>
   Refer to [Single-sided staking](/protocol/single-sided-staking) for a more detailed documentation.
-</Info>
+</Note>
 
 ***
 ## Get xSAUCE Amount from SAUCE
@@ -29,14 +24,12 @@ Get the calculated xSAUCE amount from a given SAUCE amount.
 
 Function name: **sauceForxSauce** ⛽ *No gas cost*
 
-| Parameter Name            | Description                       |
-| ------------------------- | --------------------------------- |
-| **uint256 \_sauceAmount** | SAUCE amount in its smallest unit |
+| Parameter Name          | Description                       |
+| ----------------------- | --------------------------------- |
+| *uint256 \_sauceAmount* | SAUCE amount in its smallest unit |
 
-<Accordion title="Solidity Function Body">
-  ```
-  //MotherShip.sol
-
+<CodeGroup title="Solidity Function Body">
+  ```solidity MotherShip.sol
   function sauceForxSauce(uint256 _sauceAmount) external view returns (uint256 xSauceAmount_) {
     uint256 totalSauce = IERC20(sauce).balanceOf(address(this));
     uint256 totalxSauce = IERC20(xSauce).totalSupply();
@@ -48,19 +41,18 @@ Function name: **sauceForxSauce** ⛽ *No gas cost*
     }
   }  
   ```
-</Accordion>
+</CodeGroup>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
-    ```typescript
+    ```typescript Typescript
     //Typescript
     import * as ethers from 'ethers'; //V6
 
@@ -88,14 +80,12 @@ Stake any amount of SAUCE tokens in exchange for xSAUCE tokens.
 
 Function name: **enter** ⛽ *Recommended gas: 100,000 gwei (\~ $0.009 USD)*
 
-| Parameter Name       | Description                                       |
-| -------------------- | ------------------------------------------------- |
-| **uint256 \_amount** | The amount of SAUCE to stake in its smallest unit |
+| Parameter Name     | Description                                       |
+| ------------------ | ------------------------------------------------- |
+| *uint256 \_amount* | The amount of SAUCE to stake in its smallest unit |
 
-<Accordion title="Solidity Function Body">
-  ```
-  //Mothership.sol
-
+<CodeGroup>
+  ```solidity Mothership.sol
   function enter(uint256 _amount) external {
     uint256 totalSauce = IERC20(sauce).balanceOf(address(this));
     uint256 totalShares = IERC20(xSauce).totalSupply();
@@ -113,35 +103,32 @@ Function name: **enter** ⛽ *Recommended gas: 100,000 gwei (\~ $0.009 USD)*
     }
   }
   ```
-</Accordion>
+</CodeGroup>
 
-<Info>
+<Note>
   A spender allowance for the Mothership contract is required for the SAUCE token.
-</Info>
+</Note>
 
-<Info>
+<Note>
   Ensure that the client has the [xSAUCE token ID](https://hashscan.io/mainnet/token/0.0.1460200) associated beforehand.
-</Info>
+</Note>
 
-<Info>
+<Tip>
   To calculate the amount of xSAUCE tokens a user will receive from a given SAUCE amount, use the[ **sauceForXSauce()**](/developer/staking-operations/single-sided-staking#get-xsauce-amount-from-sauce) Solidity function in MotherShip.sol. Alternatively calculate the amount using the current SAUCE/xSAUCE ratio value.
-</Info>
+</Tip>
 
 ### Code Overview
 
 <Tabs>
-  <Tab title="Typescript">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)&#x20;
-
     * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
-
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
 
-    ```typescript
+    ```typescript Typescript
     import { 
       ContractFunctionParameters, 
       ContractExecuteTransaction,
@@ -174,32 +161,29 @@ Get the calculated SAUCE amount from a given xSAUCE amount
 
 Function name: **xSauceForSauce** ⛽ *No gas cost*
 
-| Parameter Name             | Description                        |
-| -------------------------- | ---------------------------------- |
-| **uint256 \_xSauceAmount** | xSAUCE amount in its smallest unit |
+| Parameter Name           | Description                        |
+| ------------------------ | ---------------------------------- |
+| *uint256 \_xSauceAmount* | xSAUCE amount in its smallest unit |
 
-<Accordion title="Solidity Function Body">
-  ```
-  //MotherShip.sol
-
+<CodeGroup>
+  ```solidity MotherShip.sol
   function xSauceForSauce(uint256 _xSauceAmount) external view returns (uint256 sauceAmount_) {
     uint256 totalxSauce = IERC20(xSauce).totalSupply();
     sauceAmount_ = _xSauceAmount * (IERC20(sauce).balanceOf(address(this))) / (totalxSauce);
   }
   ```
-</Accordion>
+</CodeGroup>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
-    ```typescript
+    ```typescript Typescript
     //Typescript
     import * as ethers from 'ethers'; //V6
 
@@ -226,14 +210,12 @@ Unstake any amount of xSAUCE tokens in exchange for SAUCE tokens.
 
 Function name: **leave** ⛽ *Recommended gas: 100,000 gwei (\~ $0.009 USD)*
 
-| Parameter Name      | Description                                          |
-| ------------------- | ---------------------------------------------------- |
-| **uint256 \_share** | The amount of xSAUCE to unstake in its smallest unit |
+| Parameter Name    | Description                                          |
+| ----------------- | ---------------------------------------------------- |
+| *uint256 \_share* | The amount of xSAUCE to unstake in its smallest unit |
 
-<Accordion title="Solidity Function Body">
-  ```
-  //Mothership.sol
-
+<CodeGroup>
+  ```solidity Mothership.sol
   function leave(uint256 _share) external {
     uint256 totalShares = IERC20(xSauce).totalSupply();
     uint256 what = _share * (IERC20(sauce).balanceOf(address(this))) / (totalShares);
@@ -242,28 +224,25 @@ Function name: **leave** ⛽ *Recommended gas: 100,000 gwei (\~ $0.009 USD)*
     safeTransferToken(sauce, address(this), msg.sender, what); 
   }
   ```
-</Accordion>
+</CodeGroup>
 
-<Info>
+<Tip>
   To calculate the amount of SAUCE tokens a user will receive from a given xSAUCE amount, use the [**x**S**auceForSauce()**](/developer/staking-operations/single-sided-staking#get-sauce-amount-from-xsauce) Solidity function in MotherShip.sol. Alternatively calculate the output amount using the current SAUCE/xSAUCE ratio value.
-</Info>
+</Tip>
 
-<Info>
+<Note>
   Ensure that the client has the [SAUCE token ID](https://hashscan.io/mainnet/token/0.0.731861) associated beforehand.
-</Info>
+</Note>
 
 ### Code Overview
 
 <Tabs>
-  <Tab title="Typescript">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
-
     * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account) &#x20;
-
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
 
     ```

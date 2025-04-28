@@ -1,22 +1,20 @@
 ---
 title: "Swap Quote"
+description: Get a token swap quote based on an input or output value
 ---
-
-Get a token swap quote based on an input or output value.
 
 Below are the two methods to get a quote for a swap from a given route using JSON-RPC or REST-API:
 
 * [Get output quote from exact input amount](/v/developer/saucerswap-v1/swap-operations/swap-quote#get-output-quote-from-input-amount)
-
 * [Get input quote from exact output amount](/v/developer/saucerswap-v1/swap-operations/swap-quote#get-input-quote-from-output-amount)
 
 <Info>
-  &#x20;  **Contract ID:** [SaucerSwapV1RouterV3](https://hashscan.io/mainnet/contract/0.0.3045981)
+  **Contract ID:** [SaucerSwapV1RouterV3](https://hashscan.io/mainnet/contract/0.0.3045981)
 </Info>
 
-<Info>
+<Tip>
   When providing HBAR in the path array, use the wrapped HBAR token ID ([WHBAR](https://hashscan.io/mainnet/token/0.0.1456986)).
-</Info>
+</Tip>
 
 ## Get Output Quote from Input Amount
 
@@ -26,24 +24,20 @@ Get the output amounts from a given input amount and a swap route.
 
 Function name: **getAmountsOut**
 
-| Parameter Name      | Description                                 |
-| ------------------- | ------------------------------------------- |
-| **uint amountIn**   | The input token amount in its smallest unit |
-| **address\[] path** | An ordered list of token EVM addresses      |
+| Parameter Name    | Description                                 |
+| ----------------- | ------------------------------------------- |
+| *uint amountIn*   | The input token amount in its smallest unit |
+| *address\[] path* | An ordered list of token EVM addresses      |
 
-<Accordion title="Solidity Interface & Function Body">
-  ```
-  //IUniswapV2Router01.sol
-
+<CodeGroup>
+  ```solidity IUniswapV2Router01.sol
   function getAmountsOut(
     uint amountIn,
     address[] calldata path
   ) external view returns (uint[] memory amounts);
   ```
 
-  ```
-  //UniswapV2Router02.sol
-
+  ```solidity UniswapV2Router02.sol
   function getAmountsOut(uint amountIn, address[] memory path)
     public
     view
@@ -54,20 +48,18 @@ Function name: **getAmountsOut**
     return UniswapV2Library.getAmountsOut(factory, amountIn, path);
   }
   ```
-</Accordion>
+</CodeGroup>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
-    ```
-    //Typescript
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //Set one of Hedera's JSON RPC Relay as the provider
@@ -91,19 +83,15 @@ Function name: **getAmountsOut**
     const amounts = result; //uint[] amounts
     const finalOutputAmount = amounts[amounts.length - 1]; //in token's smallest unit
     ```
-
-
   </Tab>
 
   <Tab title="REST API">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
 
-    ```typescript
-    //Typescript
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //ABI data for the getAmountsOut
@@ -117,7 +105,7 @@ Function name: **getAmountsOut**
     const tokenOut = '0x' + TokenId.fromString(sauceTokenId).toSolidityAddress();
     const route = [tokenIn, tokenOut];
 
-    const routerContract = ContractId.fromString(config.router);
+    const routerContract = ContractId.fromString(routerContractId);
     const params = [inputAmountInSmallestUnit, route];
     const encodedData = abiInterfaces.encodeFunctionData(abiInterfaces.getFunction('getAmountsOut')!, params);    
 
@@ -133,12 +121,8 @@ Function name: **getAmountsOut**
     const finalOutputAmount = amounts[amounts.length - 1]; //in token's smallest unit
 
     ```
-
-
   </Tab>
 </Tabs>
-
-###
 
 ***
 
@@ -150,24 +134,20 @@ Get the input amounts from a given output amount and a swap route.
 
 Function name: **getAmountsIn**
 
-| Parameter Name      | Description                                  |
-| ------------------- | -------------------------------------------- |
-| **uint amountOut**  | The output token amount in its smallest unit |
-| **address\[] path** | An ordered list of token EVM addresses       |
+| Parameter Name    | Description                                  |
+| ----------------- | -------------------------------------------- |
+| *uint amountOut*  | The output token amount in its smallest unit |
+| *address\[] path* | An ordered list of token EVM addresses       |
 
-<Accordion title="Solidity Interface & Function Body">
-  ```
-  //IUniswapV2Router01.sol
-
+<CodeGroup>
+  ```solidity IUniswapV2Router01.sol
   function getAmountsIn(
     uint amountOut,
     address[] calldata path
   ) external view returns (uint[] memory amounts);
   ```
 
-  ```
-  //UniswapV2Router02.sol
-
+  ```solidity UniswapV2Router02.sol
   function getAmountsIn(uint amountOut, address[] memory path)
     public
     view
@@ -178,20 +158,18 @@ Function name: **getAmountsIn**
     return UniswapV2Library.getAmountsIn(factory, amountOut, path);
   }
   ```
-</Accordion>
+</CodeGroup>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
-    ```
-    //Typescript
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     const networkId = 'testnet';
@@ -215,19 +193,15 @@ Function name: **getAmountsIn**
     const amounts = results; //uint[] amounts
     const finalInputAmount = amounts[0]; //in token's smallest unit
     ```
-
-
   </Tab>
 
   <Tab title="REST API">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
 
-    ```typescript
-    //Typescript
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //ABI data for the getAmountsIn
@@ -241,7 +215,7 @@ Function name: **getAmountsIn**
     const tokenOut = '0x' + TokenId.fromString(sauceTokenId).toSolidityAddress();
     const route = [tokenIn, tokenOut];
 
-    const routerContract = ContractId.fromString(config.router);
+    const routerContract = ContractId.fromString(routerContractId);
     const params = [outputAmountInSmallestUnit, route];
     const encodedData = abiInterfaces.encodeFunctionData(abiInterfaces.getFunction('getAmountsIn')!, params);    
 

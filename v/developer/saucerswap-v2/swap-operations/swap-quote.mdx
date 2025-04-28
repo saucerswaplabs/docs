@@ -1,26 +1,23 @@
 ---
 title: "Swap Quote"
+description: Get a token swap quote based on an input or output value
 ---
 
-Get a token swap quote based on an input or output value.
-
 Below are the two methods to get a quote for a swap from a given route:
-
 * [Get output quote from exact input amount](/v/developer/saucerswap-v2/swap-operations/swap-quote#get-output-quote-from-exact-input-amount)
-
 * [Get input quote from exact output amount](/v/developer/saucerswap-v2/swap-operations/swap-quote#get-output-quote-from-exact-input-amount)
 
 <Info>
   **Contract ID:** [SaucerSwapV2QuoterV2](https://hashscan.io/mainnet/contract/0.0.3949424)
 </Info>
 
-<Info>
+<Tip>
   When providing HBAR in the path array, use the wrapped HBAR token ID ([WHBAR](https://hashscan.io/mainnet/token/0.0.1456986)).
-</Info>
+</Tip>
 
-<Info>
+<Tip>
   For production environments, it's highly recommended to use a paid Mirror Node provider for commercial and high-traffic purposes. While Hedera's public mirror node offers free REST API and JSON API endpoints, they have global rate limits. These are best suited for development or low rate usage scenarios.
-</Info>
+</Tip>
 
 ## Get Output Quote from Exact Input Amount
 
@@ -28,15 +25,13 @@ Get the output amount from a given exact input amount and a swap route.
 
 Function name: **quoteExactInput** ⛽ *No gas cost*
 
-| Parameter Name       | Description                                 |
-| -------------------- | ------------------------------------------- |
-| **bytes path**       | Route path containing pair swap fees        |
-| **uint256 amountIn** | Exact input amount in token's smallest unit |
+| Parameter Name     | Description                                 |
+| ------------------ | ------------------------------------------- |
+| *bytes path*       | Route path containing pair swap fees        |
+| *uint256 amountIn* | Exact input amount in token's smallest unit |
 
-<Accordion title="Solidity Interface & Function Body">
-  ```
-  //IQuoterV2.sol
-
+<CodeGroup>
+  ```solidity IQuoterV2.sol
   /// @notice Returns the amount out received for a given exact input swap without executing the swap
   /// @param path The path of the swap, i.e. each token pair and the pool fee
   /// @param amountIn The amount of the first token to swap
@@ -54,9 +49,7 @@ Function name: **quoteExactInput** ⛽ *No gas cost*
     );
   ```
 
-  ```
-  //QuoterV2.sol
-
+  ```solidity QuoterV2.sol
   function quoteExactOutput(bytes memory path, uint256 amountOut)
     public
     override
@@ -105,7 +98,7 @@ Function name: **quoteExactInput** ⛽ *No gas cost*
     }
   }
   ```
-</Accordion>
+</CodeGroup>
 
 <Info>
   The data passed to the 'path' parameter follows this format: \[token, fee, token, fee, token, ...], with each 'token' in the route being 20 bytes long and each 'fee' being 3 bytes long. Example, 0x0001F4 for a 0.05% fee.
@@ -116,13 +109,11 @@ Function name: **quoteExactInput** ⛽ *No gas cost*
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
-    ```
-    //Typescript
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //Set one of Hedera's JSON RPC Relay as the provider
@@ -134,7 +125,7 @@ Function name: **quoteExactInput** ⛽ *No gas cost*
     const abiInterfaces = new ethers.Interface(abi);
 
     //QuoterV2.sol contract
-    const quoterEvmAddress = `0x${ContractId.fromString(config.quoter).toSolidityAddress()}`;  
+    const quoterEvmAddress = `0x${ContractId.fromString(quoterContractId).toSolidityAddress()}`;  
 
     //swap path
     const pathData:string[] = [];
@@ -163,12 +154,11 @@ Function name: **quoteExactInput** ⛽ *No gas cost*
 
   <Tab title="REST API">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
 
-    ```typescript
+    ```typescript Typescript
     //Typescript
     import * as ethers from 'ethers'; //V6
 
@@ -176,7 +166,7 @@ Function name: **quoteExactInput** ⛽ *No gas cost*
     const abiInterfaces = new ethers.Interface(abi);
 
     //QuoterV2.sol contract
-    const quoterContract = ContractId.fromString(config.quoter);
+    const quoterContract = ContractId.fromString(quoterContractId);
 
     //swap path
     const path:string[] = [];
@@ -215,15 +205,13 @@ Get the input amount from a given exact output amount and a swap route.
 
 Function name: **quoteExactOutput** ⛽ *No gas cost*
 
-| Parameter Name        | Description                                    |
-| --------------------- | ---------------------------------------------- |
-| **bytes path**        | Route path containing pair swap fees, reversed |
-| **uint256 amountOut** | Exact output amount in token's smallest unit   |
+| Parameter Name      | Description                                    |
+| ------------------- | ---------------------------------------------- |
+| *bytes path*        | Route path containing pair swap fees, reversed |
+| *uint256 amountOut* | Exact output amount in token's smallest unit   |
 
-<Accordion title="Solidity Interface & Function Body">
-  ```
-  //IQuoterV2.sol
-
+<CodeGroup>
+  ```solidity IQuoterV2.sol
   /// @notice Returns the amount in required for a given exact output swap without executing the swap
   /// @param path The path of the swap, i.e. each token pair and the pool fee. Path must be provided in reverse order
   /// @param amountOut The amount of the last token to receive
@@ -249,9 +237,7 @@ Function name: **quoteExactOutput** ⛽ *No gas cost*
     }
   ```
 
-  ```
-  //QuoterV2.sol
-
+  ```solidity QuoterV2.sol
   function quoteExactOutput(bytes memory path, uint256 amountOut)
     public
     override
@@ -300,24 +286,22 @@ Function name: **quoteExactOutput** ⛽ *No gas cost*
     }
   }
   ```
-</Accordion>
+</CodeGroup>
 
-<Info>
+<Note>
   The data passed to the 'path' parameter follows this format: \[token, fee, token, fee, token, ...], but **reversed** (i.e. the first token in the array should be output token), with each 'token' in the route being 20 bytes long and each 'fee' being 3 bytes long. Example, `0x000BB8` for a 0.30% fee.
-</Info>
+</Note>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
-    ```
-    //Typescript
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //Set one of Hedera's JSON RPC Relay as the provider
@@ -329,7 +313,7 @@ Function name: **quoteExactOutput** ⛽ *No gas cost*
     const abiInterfaces = new ethers.Interface(abi);
 
     //QuoterV2.sol contract
-    const quoterEvmAddress = `0x${ContractId.fromString(config.quoter).toSolidityAddress()}`;  
+    const quoterEvmAddress = `0x${ContractId.fromString(quoterContractId).toSolidityAddress()}`;  
 
     //swap path
     const pathData:string[] = [];
@@ -361,20 +345,18 @@ Function name: **quoteExactOutput** ⛽ *No gas cost*
 
   <Tab title="REST API">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
 
-    ```
-    //Typescript
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //load ABI data containing QuoterV2 functions
     const abiInterfaces = new ethers.Interface(abi);
 
     //QuoterV2.sol contract
-    const quoterContract = ContractId.fromString(config.quoter);
+    const quoterContract = ContractId.fromString(quoterContractId);
 
     const path:string[] = [];
     path.push(inputToken.toSolidityAddress());

@@ -1,28 +1,24 @@
 ---
 title: "Yield Farming"
+description: Farm LP tokens for additional yield
 ---
 
-Farm LP tokens for additional yield.
-
 Outlined below are the common operations associated with yield farming:
-
 * [Deposit LP tokens to a farm](/v/developer/staking-operations/yield-farming#deposit-lp-tokens-to-a-farm)
-
 * [Get user's current farm reward](/v/developer/staking-operations/yield-farming#get-user%E2%80%99s-current-farm-reward)
-
 * [Withdraw LP tokens from a farm](/v/developer/staking-operations/yield-farming#withdraw-lp-tokens-from-a-farm)
 
 <Info>
   Contract ID: [Masterchef](https://hashscan.io/mainnet/contract/0.0.1077627)
 </Info>
 
-<Info>
+<Note>
   Query [https://api.saucerswap.finance/farms/](https://api.saucerswap.finance/farms/) for all eligible farm pool IDs.
-</Info>
+</Note>
 
-<Info>
+<Note>
   Query [https://api.saucerswap.finance/pools/](https://api.saucerswap.finance/pools/) for all available pool IDs
-</Info>
+</Note>
 
 ## Deposit LP Tokens to a Farm
 
@@ -32,15 +28,13 @@ Function name: **deposit**
 
 ⛽ *Recommended gas: 210,000 gwei (\~ $0.018 USD)*
 
-| Parameter Name       | Description                          |
-| -------------------- | ------------------------------------ |
-| **uint256 \_pid**    | Liquidity pool id                    |
-| **uint256 \_amount** | LP token amount in its smallest unit |
+| Parameter Name     | Description                          |
+| ------------------ | ------------------------------------ |
+| *uint256 \_pid*    | Liquidity pool id                    |
+| *uint256 \_amount* | LP token amount in its smallest unit |
 
-<Accordion title="Solidity Function Body">
-  ```
-  //MasterChef.sol
-
+<CodeGroup>
+  ```solidity MasterChef.sol
   function deposit(uint256 _pid, uint256 _amount) external payable nonReentrant {
     require(msg.value >= tinycentsToTinybars(depositFee), 'msg.value < depositFee');
     
@@ -77,29 +71,27 @@ Function name: **deposit**
     }
   }
   ```
-</Accordion>
+</CodeGroup>
 
-<Info>
+<Note>
   A spender allowance for the Farm contract is required for the LP token.
-</Info>
+</Note>
 
-<Info>
+<Note>
   It costs $0.25 USD, payable in HBAR, to deposit the tokens into a farm. To get the current deposit creation fee, call the **depositFee()** method from the Farm contract. This will will return the current value expressed in Tinycent. To accurately convert this value to Tinybar, query the exchange rate from /api/v1/network/exchangerate
-</Info>
+</Note>
 
 ### Code Overview
 
 <Tabs>
-  <Tab title="Typescript SDK">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
     * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance) &#x20;
-
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
 
-    ```
+    ```typescript Typescript
     import { 
       ContractFunctionParameters, 
       ContractExecuteTransaction,
@@ -132,15 +124,13 @@ Function name: **pendingSauce**
 
 ⛽ *No gas cost*
 
-| Parameter Name     | Description             |
-| ------------------ | ----------------------- |
-| **uint256 \_pid**  | Liquidity pool id       |
-| **address \_user** | User's solidity address |
+| Parameter Name   | Description             |
+| ---------------- | ----------------------- |
+| *uint256 \_pid*  | Liquidity pool id       |
+| *address \_user* | User's solidity address |
 
-<Accordion title="Solidity Function Body">
-  ```
-  //MasterChef.sol
-
+<CodeGroup>
+  ```solidity MasterChef.sol
   function pendingSauce(uint256 _pid, address _user) external view returns (uint256, uint256) {
     PoolInfo storage pool = poolInfo[_pid];
     UserInfo storage user = userInfo[_pid][_user];
@@ -158,19 +148,18 @@ Function name: **pendingSauce**
     return (user.amount * (accSaucePerShare) / (1e12) - (user.rewardDebt), user.amount * (accHBARPerShare) / (1e12) - (user.rewardDebtHbar));
   }
   ```
-</Accordion>
+</CodeGroup>
 
 ### Code Overview
 
 <Tabs>
   <Tab title="JSON RPC">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
-
     * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
 
-    ```typescript
+    ```typescript Typescript
     import * as ethers from 'ethers'; //V6
 
     //Set one of Hedera's JSON RPC Relay as the provider
@@ -198,15 +187,13 @@ Function name: **withdraw**
 
 ⛽ *Recommended gas: 190,000 gwei (\~ $0.016 USD)*
 
-| Parameter Name       | Description                          |
-| -------------------- | ------------------------------------ |
-| **uint256 \_pid**    | Liquidity pool id                    |
-| **uint256 \_amount** | LP token amount in its smallest unit |
+| Parameter Name     | Description                          |
+| ------------------ | ------------------------------------ |
+| *uint256 \_pid*    | Liquidity pool id                    |
+| *uint256 \_amount* | LP token amount in its smallest unit |
 
-<Accordion title="Solidity Function Body">
-  ```
-  //MasterChef.sol
-
+<CodeGroup>
+  ```solidity MasterChef.sol
   function withdraw(uint256 _pid, uint256 _amount) external nonReentrant {  
     PoolInfo storage pool = poolInfo[_pid];
     UserInfo storage user = userInfo[_pid][msg.sender];
@@ -236,19 +223,18 @@ Function name: **withdraw**
     }
   }
   ```
-</Accordion>
+</CodeGroup>
 
 ### Code Overview
 
 <Tabs>
-  <Tab title="Typescript">
+  <Tab title="JavaScript SDK">
     **Resources:**
-
+    * [SaucerSwap deployed contract IDs](/developerx/contract-deployments)
     * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-
     * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
 
-    ```
+    ```typescript Typescript
     import { 
       ContractFunctionParameters, 
       ContractExecuteTransaction, 
