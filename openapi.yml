@@ -972,10 +972,12 @@ components:
           type: number
           format: float
           example: 2.3062
+          description: 'The amount of SAUCE emitted per second to the pool if the farm exists'
         hbarEmissions:
           type: number
           format: float
           example: 0.0103
+          description: 'The amount of HBAR emitted per second to the pool if the farm exists'
         totalStaked:
           type: string
           example: '955338445589'
@@ -1454,7 +1456,7 @@ components:
         price:
           type: string
           example: '36806544'
-          description: ''
+          description: 'Token price in tinybar'
         priceUsd:
           type: number
           description: 'Token price in terms of USD'
@@ -1524,7 +1526,7 @@ components:
         price:
           type: string
           example: '36806544'
-          description: ''
+          description: 'Token price in tinybar'
         priceUsd:
           type: number
           format: float
@@ -1645,7 +1647,7 @@ components:
         price:
           type: string
           example: '36334886'
-          description: ''
+          description: 'Token price in tinybar'
         liquidity:
           type: string
           example: '5971792596548121'
@@ -1670,51 +1672,51 @@ components:
         poolId:
           type: integer
           example: 1
-          description: ''
+          description: 'Saucerswap pool id'
         open:
           type: number
           example: 0.0482115316666979
-          description: ''
+          description: The open price of the token in tinybars (i.e. first minutely observation over the INTERVAL)
         high:
           type: number
           example: 0.0482115316666979
-          description: ''
+          description: 'The high price of the token over the INTERVAL, in tinybars'
         low:
           type: number
           example: 0.04819650172584323
-          description: ''
+          description: 'The low price of the token over the INTERVAL, in tinybars'
         close:
           type: number
           example: 0.04819650172584323
-          description: ''
+          description: 'The close price of the token over the INTERVAL, in tinybars'
         avg:
           type: number
           example: 118.56339424557434
-          description: ''
+          description: 'The (minutely) avg price of the token over the INTERVAL, in tinybars'
         volume:
           type: string
           example: '0'
-          description: ''
+          description: 'The sum of total volume traded of the token over the INTERVAL, in tinybars'
         liquidity:
           type: string
           example: '9668737245792'
-          description: ''
+          description: 'The point in time liquidity of the token, as of timestampSeconds (the end timestamp of the INTERVAL), in tinybars'
         volumeUsd:
           type: string
           example: '0'
-          description: 'Candlestick volume in usd'
+          description: 'The sum of total volume traded of the token over the INTERVAL, in USD'
         liquidityUsd:
           type: string
           example: '4653.53'
-          description: 'Candlestick liquidity in usd'
+          description: 'The point in time liquidity of the token, as of timestampSeconds (the end timestamp of the INTERVAL), in USD'
         timestampSeconds:
           type: integer
           example: 1697618460
-          description: ''
+          description: 'The end unix timestamp of the INTERVAL, in seconds'
         startTimestampSeconds:
           type: integer
           example: 1697616000
-          description: 'Start timestamp in unix seconds'
+          description: 'The start unix timestamp of the INTERVAL, in seconds'
       required:
         - id
         - poolId
@@ -1743,74 +1745,74 @@ components:
         open:
           type: integer
           example: 36358807
-          description: ''
+          description: 'The open price of the token in tinybars (i.e. first minutely observation over the INTERVAL)'
         openUsd:
           type: number
           format: float
           example: 0.017246927356274498
-          description: 'Candlestick opening value in usd'
+          description: 'The open price of the token in USD (i.e. first minutely observation over the INTERVAL)'
         high:
           type: integer
           example: 36370090
-          description: ''
+          description: 'The high price of the token over the INTERVAL, in tinybars'
         highUsd:
           type: number
           format: float
           example: 0.017248478665373164
-          description: 'Candlestick high value in usd'
+          description: 'The high price of the token over the INTERVAL, in USD'
         low:
           type: integer
           example: 36334867 
-          description: ''         
+          description: 'The low price of the token over the INTERVAL, in tinybars'         
         lowUsd:
           type: number
           format: float
           example: 0.0169388611613325
-          description: 'Candlestick low value in usd'
+          description: 'The low price of the token over the INTERVAL, in USD'
         close:
           type: integer
           example: 36353193
-          description: ''
+          description: 'The close price of the token over the INTERVAL, in tinybars'
         closeUsd:
           type: number
           format: float
           example: 0.0169388611613325
-          description: 'Candlestick closing value in usd'
+          description: 'The close price of the token over the INTERVAL, in USD'
         avg:
           type: number
           format: float
           example: 36347000.92028988
-          description: ''
+          description: 'The (minutely) avg price of the token over the INTERVAL, in tinybars'
         avgUsd:
           type: number
           format: float
           example: 0.017085609229304164
-          description: 'Candlestick average value in usd'
+          description: 'The (minutely) avg price of the token over the INTERVAL, in USD'
         volume:
           type: string
           example: '4484168318250'
-          description: ''
+          description: 'The sum of total volume traded of the token over the INTERVAL, in tinybars'
         liquidity:
           type: string
           example: '5976854242691456'
-          description: ''
+          description: 'The point in time liquidity of the token, as of timestampSeconds (the end timestamp of the INTERVAL), in tinybars'
         volumeUsd:
           type: number
           format: float
           example: 2110.33
-          description: 'Candlestick volume in usd'
+          description: 'The sum of total volume traded of the token over the INTERVAL, in USD'
         liquidityUsd:
           format: float
           example: 2784930.18
-          description: 'Candlestick liquidity in usd'
+          description: 'The point in time liquidity of the token, as of timestampSeconds (the end timestamp of the INTERVAL), in USD'
         timestampSeconds:
           type: integer
           example: 1697681880
-          description: 'End timestamp in unix seconds'
+          description: 'The end unix timestamp of the INTERVAL, in seconds'
         startTimestampSeconds:
           type: integer
           example: 1697673600
-          description: 'Start timestamp in unix seconds'
+          description: 'The start unix timestamp of the INTERVAL, in seconds'
       required:
         - id
         - tokenId
