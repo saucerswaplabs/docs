@@ -63,10 +63,6 @@ paths:
                     format: float
                     example: 0.0462
                     description: '5-day average APR'
-                  id:
-                    type: integer
-                    example: 146206
-                    description: ''
                   ratio:
                     type: number
                     format: float
@@ -114,10 +110,6 @@ paths:
                 items:
                   type: object
                   properties:
-                    id:
-                      type: integer
-                      description: ''
-                      example: 548294
                     priceUsd:
                       type: number
                       description: 'HBAR price in USD'
@@ -1120,7 +1112,6 @@ components:
             description: 'USDC is a fully collateralized U.S. dollar stablecoin. USDC is the bridge between dollars and trading on cryptocurrency exchanges...'
             website: 'https://www.circle.com/en/usdc-multichain/hedera'
             twitterHandle: 'circle'
-            timestampSecondsLastListingChange: 0
         tokenB:
           $ref: '#/components/schemas/TokenB'
           example:
@@ -1136,7 +1127,6 @@ components:
             description: 'USDC is a fully collateralized U.S. dollar stablecoin...'
             website: 'https://www.circle.com/en/usdc-multichain/ethereum'
             twitterHandle: 'circle'
-            timestampSecondsLastListingChange: 0
         amountA:
           type: string
           example: '6313040'
@@ -1296,7 +1286,6 @@ components:
             description: 'Hedera is a public, open source, proof-of-stake network, with native cryptocurrency HBAR...'
             website: 'https://hedera.com/'
             twitterHandle: 'hedera'
-            timestampSecondsLastListingChange: 0
         token1:
           $ref: '#/components/schemas/Token'
           example:
@@ -1312,7 +1301,6 @@ components:
             description: 'SaucerSwap is an open source and non-custodial AMM protocol native to Hedera...'
             website: 'https://www.saucerswap.finance/'
             twitterHandle: 'SaucerSwapLabs'
-            timestampSecondsLastListingChange: 1
         fee:
           type: integer
           example: 3000
@@ -1367,7 +1355,6 @@ components:
         website: 'https://www.saucerswap.finance/'
         sentinelReport: 'https://sentinel.headstarter.org/details/saucerswap'
         twitterHandle: SaucerSwapLabs
-        timestampSecondsLastListingChange: 0
     TokenACompact:
       allOf:
         - $ref: '#/components/schemas/TokenCompact'
@@ -1390,7 +1377,6 @@ components:
         website: 'https://www.saucerswap.finance/'
         sentinelReport: 'https://sentinel.headstarter.org/details/saucerswap'
         twitterHandle: SaucerSwapLabs
-        timestampSecondsLastListingChange: 0
     TokenBCompact:
       allOf:
         - $ref: '#/components/schemas/TokenCompact'
@@ -1485,10 +1471,6 @@ components:
           type: string
           description: 'Token sentinel report link'
           example: SaucerSwapLabs
-        timestampSecondsLastListingChange:
-          type: integer
-          example: 0
-          description: ''
       required:
         - id
         - name
@@ -1503,7 +1485,6 @@ components:
         - website
         - sentinelReport
         - twitterHandle
-        - timestampSecondsLastListingChange
     TokenCompact:
       type: object
       properties:
@@ -1594,21 +1575,6 @@ components:
         - priceChangeHour
         - priceChangeDay
         - priceChangeWeek
-    PoolVolume:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 1
-          description: ''
-        volume:
-          type: number
-          format: float
-          example: '12390912309'   
-          description: 'Pool volume in its smallest unit'
-      required:
-        - id
-        - volume
     PoolVL:
       type: object      
       properties:
@@ -1665,10 +1631,6 @@ components:
     CandlestickData:
       type: object
       properties:
-        id:
-          type: integer
-          example: 2
-          description: ''
         poolId:
           type: integer
           example: 1
@@ -1718,7 +1680,6 @@ components:
           example: 1697616000
           description: 'The start unix timestamp of the INTERVAL, in seconds'
       required:
-        - id
         - poolId
         - open
         - high
@@ -1734,10 +1695,6 @@ components:
     TokenCandlestickData:
       type: object
       properties:
-        id:
-          type: integer
-          example: 83
-          description: ''
         tokenId:
           type: string
           example: '0.0.731861'
@@ -1814,7 +1771,6 @@ components:
           example: 1697673600
           description: 'The start unix timestamp of the INTERVAL, in seconds'
       required:
-        - id
         - tokenId
         - open
         - openUsd
