@@ -4,23 +4,20 @@ title: "Partnership Inquiries"
 
 For general partnership inquiries, you can contact us via email: [outreach@saucerswap.finance](mailto:outreach@saucerswap.finance), or by completing a [request form](https://z30ev00547x.typeform.com/to/YBGqwGup).
 
-## Adding a Token[](#adding-a-token)
+## Adding a Token
 
 Anybody can 'list' a Hedera (HTS) token on SaucerSwap. You don't need to submit a request or ask permission; just create a liquidity pool, that's it. For V1 pool creation, see [Liquidity Pool Tutorials](https://docs.saucerswap.finance/get-started/saucerswap-tutorials/liquidity/saucerswap-v1).
 
 Once there is at least 1 liquidity pool, users can then trade your token by entering the token ID (e.g. 0.0.12345)
 
-## How to Add Token Icon/Logo[](#how-to-add-token-icon-logo)
+## How to Add Token Icon/Logo
 
 Token information displayed on [saucerswap.finance](https://saucerswap.finance) is referenced from 2 sources:
 
-* An IPFS or Arweave metadata link in the token's memo or metadata field, conforming to the [Hedera fungible token Metadata schema](https://hips.hedera.com/hip/hip-405#schema).
-
-  * Note: updating metadata requires a token having an admin or metadata key
-
-* Token icon and information added to [Davinci Pics](https://davincigraph.io/#pics_home)
-
-  * Note: adding or updating Davinci Pics data requires connecting the token's treasury account ID (or the account ID which executed the token create transaction) to Davinci to authenticate.
+- An IPFS or Arweave metadata link in the token's memo or metadata field, conforming to the [Hedera fungible token Metadata schema](https://hips.hedera.com/hip/hip-405#schema).
+  - Note: updating metadata requires a token having an admin or metadata key
+- Token icon and information added to [Davinci Pics](https://davincigraph.io/#pics_home)
+  - Note: adding or updating Davinci Pics data requires connecting the token's treasury account ID (or the account ID which executed the token create transaction) to Davinci to authenticate.
 
 Token information displayed on [saucerswap.finance](https://saucerswap.finance) is referenced from 2 sources:
 
@@ -41,7 +38,7 @@ From either source, the following fields are currently supported:
 | "sentinelReport"          | string | Published [Sentinel Report](https://sentinel.headstarter.org/) url |
 | "category"                | string | Category for the asset, e.g. meme, stablecoin, defi.               |
 
-<Accordion title="Example Metadata" defaultOpen={false}>
+<Accordion title="Example Metadata" defaultOpen="false">
   ```
   {
     "lightLogo": "ar://U-xGP5bDZaqKPAE_4J2Pxqidb4s73qd0VjnuwboFWI8",
@@ -58,58 +55,43 @@ From either source, the following fields are currently supported:
   ```
 </Accordion>
 
-#### Token Classifications [](#token-classifications)
+#### Token Classifications
 
 Tokens on SaucerSwap fall into one of three classes: default, extended, or all.
 
 <CardGroup cols="2">
   <Card title="Default">
-
-
     Characteristics
 
-    * <Icon icon="circle-check" /> &#x20; Appears by default in token modal scrollable list
+    1. <Icon icon="circle-check" />   Appears by default in token modal scrollable list
+    2. <Icon icon="circle-check" />   Searchable by token name, symbol or ID
+    3. <Icon icon="circle-check" />   Appears with token icon and other misc info e.g. description
+    4. <Icon icon="circle-check" />   Appears in APIs
+    5. <Icon icon="circle-check" />   Eligible for yield farm & LARI
+    6. 
 
-    * <Icon icon="circle-check" /> &#x20; Searchable by token name, symbol or ID
+    # Criteria
 
-    * <Icon icon="circle-check" /> &#x20; Appears with token icon and other misc info e.g. description
-
-    * <Icon icon="circle-check" /> &#x20; Appears in APIs
-
-    * <Icon icon="circle-check" /> &#x20; Eligible for yield farm & LARI
-
-
-
-
-
-    Criteria
-
-    * <Icon icon="circle-check" /> &#x20; Token icon available either via token metadata or Davinci Pics
-
-    * <Icon icon="circle-check" /> &#x20; Tokens with a V2 pool, or comprising the top 50 V1 pools containing at least 1 'common' token (e.g. HBAR-TokenB) - by aggregated TVL & volume - updated monthly
-
-    * <Icon icon="circle-check" /> &#x20; 'Common' tokens: HBAR, HBARX, SAUCE, XSAUCE, USDC, USDC\[HTS], USDT\[HTS], WBTC\[HTS], WETH\[HTS]
+    1. 
+    2. <Icon icon="circle-check" />   Token icon available either via token metadata or Davinci Pics
+    3. <Icon icon="circle-check" />   Tokens with a V2 pool, or comprising the top 50 V1 pools containing at least 1 'common' token (e.g. HBAR-TokenB) - by aggregated TVL & volume - updated monthly
+    4. <Icon icon="circle-check" />   'Common' tokens: HBAR, HBARX, SAUCE, XSAUCE, USDC, USDC[HTS], USDT[HTS], WBTC[HTS], WETH[HTS]
+    5. aaa
+    6. aaa
+    7. aaa
+    8. 
   </Card>
-
   <Card title="Extended">
-
-
     Characteristics
 
-    * <Icon icon="circle-check" /> &#x20; Searchable by token name, symbol or ID
-
-    * <Icon icon="circle-check" /> &#x20; Appears with token icon and other misc info e.g. description
-
-    * <Icon icon="circle-check" /> &#x20; Appears in APIs
-
-    * <Icon icon="circle-check" /> &#x20;Eligible for yield farm & LARI
-
-
-
+    - <Icon icon="circle-check" />   Searchable by token name, symbol or ID
+    - <Icon icon="circle-check" />   Appears with token icon and other misc info e.g. description
+    - <Icon icon="circle-check" />   Appears in APIs
+    - <Icon icon="circle-check" />  Eligible for yield farm & LARI
 
     Criteria
 
-    * <Icon icon="circle-check" /> &#x20; Token icon either via token metadata or Davinci Pics
+    - <Icon icon="circle-check" />   Token icon either via token metadata or Davinci Pics
   </Card>
 </CardGroup>
 
