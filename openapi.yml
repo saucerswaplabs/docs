@@ -11,6 +11,8 @@ paths:
       summary: General statistics
       tags:
         - 'Stats'
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
       responses:
         '200':
           description: Successful response
@@ -50,6 +52,8 @@ paths:
       summary: Single-Sided Staking statistics
       tags:
         - 'Stats'
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
       responses:
         '200':
           description: Successful response
@@ -85,7 +89,8 @@ paths:
       summary: Get historical HBAR price data (minutely)
       tags:
         - 'Stats'
-      parameters:      
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
         - name: from
           in: query
           required: true
@@ -124,6 +129,7 @@ paths:
       tags:
         - 'Stats'
       parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
         - name: from
           in: query
           required: true
@@ -183,6 +189,8 @@ paths:
       tags:
         - 'Farms'
       summary: Get list of active farms
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
       responses:
         '200':
           description: Successful response
@@ -198,6 +206,7 @@ paths:
         - 'Farms'
       summary: Get LP token amounts in farms by account id
       parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
         - name: accountId
           description: Hedera account id (shard.realm.num)
           in: path
@@ -219,6 +228,8 @@ paths:
       tags:
         - 'Tokens'
       summary: Get compact token data
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
       responses:
         '200':
           description: Successful response
@@ -233,6 +244,8 @@ paths:
       tags:
         - 'Tokens'
       summary: Get detailed token data
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
       responses:
         '200':
           description: Successful response
@@ -248,6 +261,7 @@ paths:
         - 'Tokens'
       summary: Get detailed token data by id
       parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
         - name: tokenId
           description: 'Token id (shard.realm.num)'
           in: path
@@ -268,6 +282,8 @@ paths:
       tags:
         - 'Tokens'
       summary: Get default listed token data
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
       responses:
         '200':
           description: Successful response
@@ -281,7 +297,9 @@ paths:
     get:
       tags:
         - 'Tokens'
-      summary: Get hourly, daily and weekly price change for default listed tokens 
+      summary: Get hourly, daily and weekly price change for default listed tokens
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
       responses:
         '200':
           description: Successful response
@@ -296,6 +314,8 @@ paths:
       tags:
         - 'Tokens'
       summary: 'Get a mapping of tokenId to 24-hours price change percentage'
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
       responses:
         '200':
           description: Successful operation
@@ -308,6 +328,8 @@ paths:
       tags:
         - 'Tokens'
       summary: Get daily price, volume and liquidity for all tokens
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
       responses:
         '200':
           description: Successful response
@@ -322,6 +344,8 @@ paths:
       tags:
         - 'Tokens'
       summary: Get weekly price, volume and liquidity for all tokens
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
       responses:
         '200':
           description: Successful response
@@ -336,6 +360,8 @@ paths:
       tags:
         - 'Tokens'
       summary: Get monthly price, volume and liquidity for all tokens
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
       responses:
         '200':
           description: Successful response
@@ -350,6 +376,8 @@ paths:
       tags:
         - 'Tokens'
       summary: Get yearly price, volume and liquidity for all tokens
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
       responses:
         '200':
           description: Successful response
@@ -365,6 +393,7 @@ paths:
         - 'Tokens'
       summary: Get daily price, volume and liquidity for token by id
       parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
         - name: tokenId
           in: path
           description: 'Token id (shard.realm.num)'
@@ -387,6 +416,7 @@ paths:
         - 'Tokens'
       summary: Get weekly price, volume and liquidity for token by id
       parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
         - name: tokenId
           description: 'Token id (shard.realm.num)'
           in: path
@@ -409,6 +439,7 @@ paths:
         - 'Tokens'
       summary: Get monthly price, volume and liquidity for token by id
       parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
         - name: tokenId
           description: 'Token id (shard.realm.num)'
           in: path
@@ -431,6 +462,7 @@ paths:
         - 'Tokens'
       summary: Get yearly price, volume and liquidity for token by id
       parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
         - name: tokenId
           description: 'Token id (shard.realm.num)'
           in: path
@@ -453,6 +485,7 @@ paths:
         - 'Tokens'
       summary: Get associated pools containing the token by id
       parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
         - name: tokenId
           description: 'Token id (shard.realm.num)'
           in: path
@@ -475,6 +508,7 @@ paths:
         - 'Tokens'
       summary: Get historical candlestick data for token by id
       parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
         - name: tokenId
           description: 'Token id (shard.realm.num)'
           in: path
@@ -523,6 +557,7 @@ paths:
         - 'Tokens'
       summary: Get the latest candlestick data for token by id
       parameters:
+        - $ref: '#/components/parameters/ApiKeyParam'
         - name: tokenId
           description: 'Token id (shard.realm.num)'
           in: path
@@ -556,7 +591,8 @@ paths:
       tags:
         - 'Tokens'
       summary: Get latest candlestick data for all tokens
-      parameters:        
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'      
         - name: interval
           description: 'Data interval'
           in: query
@@ -583,6 +619,8 @@ paths:
       tags:
         - 'Pools'
       summary: Get compact data for all pools
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
       responses:
         '200':
           description: Successful response
@@ -597,6 +635,8 @@ paths:
       tags:
         - 'Pools'
       summary: Get detailed data for all pools
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
       responses:
         '200':
           description: Successful response
@@ -611,7 +651,8 @@ paths:
       tags:
         - 'Pools'
       summary: Get detailed data for a pool by id
-      parameters:
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
         - name: poolId
           description: 'Saucerswap pool id'
           in: path
@@ -632,6 +673,8 @@ paths:
       tags:
         - 'Pools'
       summary: Get default listed pool data
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
       responses:
         '200':
           description: Successful response
@@ -646,6 +689,8 @@ paths:
       tags:
         - 'Pools'
       summary: Get daily volume and liquidity for pools
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
       responses:
         '200':
           description: Successful response
@@ -660,6 +705,8 @@ paths:
       tags:
         - 'Pools'
       summary: Get weekly volume and liquidity for pools
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
       responses:
         '200':
           description: Successful response
@@ -674,6 +721,8 @@ paths:
       tags:
         - 'Pools'
       summary: Get monthly volume and liquidity for pools
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
       responses:
         '200':
           description: Successful response
@@ -688,6 +737,8 @@ paths:
       tags:
         - 'Pools'
       summary: Get yearly volume and liquidity for pools
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
       responses:
         '200':
           description: Successful response
@@ -702,7 +753,8 @@ paths:
       tags:
         - 'Pools'
       summary: Get daily volume and liquidity for a pool by id
-      parameters:
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
         - name: poolId
           description: 'Saucerswap pool id'
           in: path
@@ -724,7 +776,8 @@ paths:
       tags:
         - 'Pools'
       summary: Get weekly volume and liquidity for a pool by id
-      parameters:
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
         - name: poolId
           description: 'Saucerswap pool id'
           in: path
@@ -746,7 +799,8 @@ paths:
       tags:
         - 'Pools'
       summary: Get monthly volume and liquidity for pool by id
-      parameters:
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
         - name: poolId
           description: 'Saucerswap pool id'
           in: path
@@ -768,7 +822,8 @@ paths:
       tags:
         - 'Pools'
       summary: Get yearly volume and liquidity for pool by id
-      parameters:
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
         - name: poolId
           description: 'Saucerswap pool id'
           in: path
@@ -790,7 +845,8 @@ paths:
       tags:
         - 'Pools'
       summary: Get historical candlestick data for pool by id
-      parameters:
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
         - name: poolId
           in: path
           required: true
@@ -842,7 +898,8 @@ paths:
       tags:
         - 'Pools'
       summary: Get the latest candlestick data for pool by id
-      parameters:
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
         - name: poolId
           description: 'SaucerSwap pool id'
           in: path
@@ -881,6 +938,8 @@ paths:
       tags:
         - 'SaucerSwap V2'
       summary: Get compact data for all SaucerSwap V2 pools
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
       responses:
         '200':
           description: Successful response
@@ -895,6 +954,8 @@ paths:
       tags:
         - 'SaucerSwap V2'
       summary: Get detailed data for all SaucerSwap V2 pools
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
       responses:
         '200':
           description: Successful response
@@ -909,7 +970,8 @@ paths:
       tags:
         - 'SaucerSwap V2'
       summary: Get detailed data for a SaucerSwap V2 pool by id
-      parameters:
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
         - name: poolId
           description: 'Saucerswap pool id'
           in: path
@@ -930,7 +992,8 @@ paths:
       tags:
         - 'SaucerSwap V2'
       summary: Get all liquidity positions by account id
-      parameters:
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
         - name: accountId
           description: Hedera account id (shard.realm.num)
           in: path
@@ -948,11 +1011,15 @@ paths:
                 items:
                   $ref: '#/components/schemas/PositionV2'
 components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
+  parameters: 
+    ApiKeyParam:
       name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+        default: "875e1017-87b8-4b12-8301-6aa1f1aa073b"
+      description: "API key for authentication. The demo api key provided is globally rate limited. Do not use in production."
   schemas:
     Farm:
       type: object
@@ -1802,5 +1869,3 @@ components:
         '0.0.731861': -2.5351798847046836
         '0.0.786931': 4.047875243039449
         '0.0.629591': -12.223518441429796
-security:
-  - ApiKeyAuth: []
