@@ -1709,7 +1709,7 @@ components:
           type: number
           format: float
           example: 8.658995217249792
-          description: 'Accrued token reward for the current epoch, updated hourly'
+          description: 'Estimated accrued token reward for the current epoch, updated hourly'
         timestampSeconds:
           type: integer
           example: 1750971600
