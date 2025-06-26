@@ -1010,6 +1010,29 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PositionV2'
+  /v2/rewards/account/{accountId}:
+    get:
+      tags:
+        - 'SaucerSwap V2'
+      summary: Get the LARI rewards for the current epoch by account id
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
+        - name: accountId
+          description: Hedera account id (shard.realm.num)
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '0.0.12345'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LariData'
 components:
   parameters: 
     ApiKeyParam:
@@ -1666,6 +1689,35 @@ components:
           type: string 
           example: '178297285042'
           description: 'Pool volume in its smallest unit'
+      required:
+        - poolId
+        - timestampSeconds
+        - liquidity
+        - volume
+    LariData:
+      type: object      
+      properties:
+        poolId:
+          type: integer
+          example: 3
+          description: 'Pool id'
+        tokenId:
+          type: string
+          example: '0.0.731861'
+          description: 'Token id (shard.realm.num)'
+        reward:
+          type: number
+          format: float
+          example: 8.658995217249792
+          description: 'Accrued token reward for the current epoch, updated hourly'
+        timestampSeconds:
+          type: integer
+          example: 1750971600
+          description: 'Timestamp in unix seconds'
+        isFinal:
+          type: boolean
+          example: false
+          description: 'Indicates whether the epoch has concluded. Returns `true` if the epoch is complete'
       required:
         - poolId
         - timestampSeconds
