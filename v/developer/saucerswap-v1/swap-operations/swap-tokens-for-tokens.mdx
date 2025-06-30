@@ -44,9 +44,9 @@ Solidity function name: **swapExactTokensForTokens**
 
 <CodeGroup>
   ```solidity IUniswapV2Router01.sol
-  function swapTokensForExactTokens(
-    uint amountOut,
-    uint amountInMax,
+  function swapExactTokensForTokens(
+    uint amountIn,
+    uint amountOutMin,
     address[] calldata path,
     address to,
     uint deadline
@@ -54,20 +54,20 @@ Solidity function name: **swapExactTokensForTokens**
   ```
 
   ```solidity UniswapV2Router02.sol
-  function swapTokensForExactTokens(
-    uint amountOut,
-    uint amountInMax,
-    address[] calldata path,
-    address to,
-    uint deadline
+  function swapExactTokensForTokens(
+	  uint amountIn,
+	  uint amountOutMin,
+	  address[] calldata path,
+	  address to,
+	  uint deadline
   ) external virtual override ensure(deadline) returns (uint[] memory amounts) {
-    amounts = UniswapV2Library.getAmountsIn(factory, amountOut, path);
-    require(amounts[0] <= amountInMax, 'UniswapV2Router: EXCESSIVE_INPUT_AMOUNT');
+ 	  amounts = UniswapV2Library.getAmountsOut(factory, amountIn, path);
+	  require(amounts[amounts.length - 1] >= amountOutMin, 'UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT');
 
-    safeTransferToken(
-      path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]
-    );
-    _swap(amounts, path, to);
+	  safeTransferTokenRouter(
+		  path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]
+	  );
+	  _swap(amounts, path, to);
   }
   ```
 </CodeGroup>
