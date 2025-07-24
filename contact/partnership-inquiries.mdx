@@ -12,29 +12,31 @@ Once there is at least 1 liquidity pool, users can then trade your token by ente
 
 ## How to Add Token Icon/Logo
 
-Token information displayed on [saucerswap.finance](https://saucerswap.finance) is referenced from 2 sources:
-
-- An IPFS or Arweave metadata link in the token's memo or metadata field, conforming to the [Hedera fungible token Metadata schema](https://hips.hedera.com/hip/hip-405#schema).
-  - Note: updating metadata requires a token having an admin or metadata key
-- Token icon and information added to [Davinci Pics](https://davincigraph.io/#pics_home)
-  - Note: adding or updating Davinci Pics data requires connecting the token's treasury account ID (or the account ID which executed the token create transaction) to Davinci to authenticate.
-
 <Info>
   Token information is checked frequently and updated automatically.
 </Info>
 
-From either source, the following fields are currently supported:
+### For tokens with an admin or metadata key:
+
+Token metadata can be added & updated using third party tools such as:
+
+- [Kabila Token Manager](https://tools.kabila.app/en/token-manager)
+- [Davinci Token Manager](https://davincigraph.io/tokens/updateMetadata)
+
+The following fields are currently supported:
 
 | Field                     | type   | description                                                        |
 | ------------------------- | ------ | ------------------------------------------------------------------ |
 | "lightLogo" or "darkLogo" | string | Token icon or logo image                                           |
 | "description"             | string | Description of the token                                           |
-| "website"                 | string | Token or project's website                                         |
-| "twitter"                 | string | Token or project's Twitter/X handle                                |
-| "discord"                 | string | Token or project's Discord invite url                              |
-| "telegram"                | string | Token or project's Telegram link url                               |
+| "website"                 | string | website URL                                                        |
+| "twitter"                 | string | Twitter/X handle (without the @)                                   |
+| "discord"                 | string | Discord invite url                                                 |
+| "telegram"                | string | Telegram link url                                                  |
 | "sentinelReport"          | string | Published [Sentinel Report](https://sentinel.headstarter.org/) url |
 | "category"                | string | Category for the asset, e.g. meme, stablecoin, defi.               |
+
+SaucerSwap Labs supports metadata conforming to the [Hedera fungible token Metadata schema](https://hips.hedera.com/hip/hip-405#schema).
 
 <Accordion title="Example Metadata" defaultOpen="false">
   ```
@@ -52,6 +54,12 @@ From either source, the following fields are currently supported:
   }
   ```
 </Accordion>
+
+### For tokens without an admin or metadata key
+
+Token icon and information can be added to [Davinci Pics](https://davincigraph.io/#pics_home)
+
+Note: adding or updating a token icon on Davinci Pics requires connecting the token's treasury account ID; or the account ID which executed the token create transaction, to Davinci to authenticate.
 
 #### Token Classifications
 
