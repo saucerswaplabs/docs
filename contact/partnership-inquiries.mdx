@@ -10,11 +10,11 @@ Anybody can 'list' a Hedera (HTS) token on SaucerSwap. You don't need to submit 
 
 Once there is at least 1 liquidity pool, users can then trade your token by entering the token ID (e.g. 0.0.12345)
 
-## How to Add Token Icon/Logo
+## <u>How to Add Token Icon/Logo</u>
 
-### For tokens with an admin or metadata key:
+### For tokens with an admin or metadata key
 
-Token metadata can be added & updated using third party tools such as:
+Token metadata can be added & updated using third party tools:
 
 - [Kabila Token Manager](https://tools.kabila.app/en/token-manager)
 - [Davinci Token Manager](https://davincigraph.io/tokens/updateMetadata)
@@ -36,8 +36,6 @@ The following fields are currently supported:
 | "sentinelReport"          | string | Published [Sentinel Report](https://sentinel.headstarter.org/) url |
 | "category"                | string | Category for the asset, e.g. meme, stablecoin, defi.               |
 
-SaucerSwap Labs supports metadata conforming to the [Hedera fungible token Metadata schema](https://hips.hedera.com/hip/hip-405#schema).
-
 <Accordion title="Example Metadata" defaultOpen="false">
   ```
   {
@@ -55,17 +53,22 @@ SaucerSwap Labs supports metadata conforming to the [Hedera fungible token Metad
   ```
 </Accordion>
 
+Metadata should follow the [Hedera fungible token Metadata schema](https://hips.hedera.com/hip/hip-405#schema).
+
 ### For tokens without an admin or metadata key
 
-Token icon and information can be added to [Davinci Pics](https://davincigraph.io/#pics_home)
+Token icon and information can be added & updated on [Davinci Pics](https://davincigraph.io/#pics_home)
 
-Note: adding or updating a token icon on Davinci Pics requires connecting the token's treasury account ID; or the account ID which executed the token create transaction, to Davinci to authenticate.
+Adding or updating a token icon on Davinci Pics requires connecting either:
+
+- The token's treasury account ID
+- The account ID which executed the token create transaction
 
 <Note>
   Token information is checked frequently and updated automatically.
 </Note>
 
-/Token Classifications
+## Token Classifications
 
 Tokens on SaucerSwap fall into one of three classes: default, extended, or all.
 
