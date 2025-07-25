@@ -8,15 +8,13 @@ The SaucerSwap decentralized autonomous organization (DAO) governs key aspects o
 
 The DAO influences the protocol through token-weighted voting, with each vote cast using the Hedera Consensus Service (HCS). Community members connect their wallets to the SaucerSwap Interface to sign and submit voting messages to a designated topic ID in JSON format. SaucerSwap retrieves the voter’s historical balances of SAUCE and xSAUCE at a specified UNIX timestamp via the Hedera mirror node. Although users may vote multiple times, only the final vote is counted.
 
-> Voting Power = SAUCE bal + (xSAUCE bal × conversion rate)
+> Voting Power = SAUCE bal \+ (xSAUCE bal × conversion rate)
 
 Where:
 
-* SAUCE bal represents the number of SAUCE tokens held by the user (excluding those in liquidity pools).
-
-* xSAUCE bal represents the number of xSAUCE tokens held by the user (excluding those in liquidity pools).
-
-* conversion rate is the rate at which xSAUCE can be converted to SAUCE, reflecting the equivalent value in SAUCE.
+- SAUCE bal represents the number of SAUCE tokens held by the user (excluding those in liquidity pools).
+- xSAUCE bal represents the number of xSAUCE tokens held by the user (excluding those in liquidity pools).
+- conversion rate is the rate at which xSAUCE can be converted to SAUCE, reflecting the equivalent value in SAUCE.
 
 ## Governance Process
 
@@ -24,55 +22,37 @@ The governance process consists of three phases: Request for Comment (RFC), Prop
 
 ### Phase 1: Request for Comment (RFC)
 
-* **Purpose:** Gather initial feedback and refine proposals.
-
-* **Duration:** Minimum of 3 days.
-
-* **Requirements:** No minimum voting power required.
-
-* **Platform:** Discussions occur off-chain on the [SaucerSwap Governance Forum](https://gov.saucerswap.finance/).
+- **Purpose:** Gather initial feedback and refine proposals.
+- **Duration:** Minimum of 3 days.
+- **Requirements:** No minimum voting power required.
+- **Platform:** Discussions occur off-chain on the [SaucerSwap Governance Forum](https://gov.saucerswap.finance/).
 
 During the RFC phase, community members present and discuss proposed changes on the SaucerSwap Governance Forum. This open platform encourages brainstorming and feedback collection over a minimum of three days. Discussions and proposals in this phase are not yet formalized on-chain through the [SaucerSwap Interface](https://www.saucerswap.finance/governance) and can be freely modified by the proposer.
 
 ### **Phase 2: Proposal**
 
-* **Purpose:** Formalize and submit proposals for voting.
-
-* **Duration:** 2 days.
-
-* **Requirements:**
-
-  * **Creation:** Minimum of 100k units of voting power.
-
-  * **Quorum: 5**M voting power.
-
-  * **Majority Vote:** Required to pass.
-
-* **Platform:** HCS-based voting conducted via the SaucerSwap Interface.
-
-* **Voting Options:** Multichoice; includes a "No change" option.
-
-* **Voting Mechanism:** Single-choice voting with snapshots of account balances taken every one minute.
+- **Purpose:** Formalize and submit proposals for voting.
+- **Duration:** 2 days.
+- **Requirements:**
+  - **Creation:** Minimum of 100k units of voting power.
+  - **Quorum: 5**M voting power.
+  - **Majority Vote:** Required to pass.
+- **Platform:** HCS-based voting conducted via the SaucerSwap Interface.
+- **Voting Options:** Multichoice; includes a "No change" option.
+- **Voting Mechanism:** Single-choice voting with snapshots of account balances taken every one minute.
 
 After the RFC phase, a refined proposal can be submitted, provided the proposer has at least 100k units of voting power (SAUCE and xSAUCE). The proposal is posted on the Governance Forum and submitted to the SaucerSwap voting interface for a two-day voting period. Proposals must achieve a quorum of 5M units of voting power to advance to the Election phase. Voting includes a "No change" option and uses single-choice voting, with snapshots of account balances taken every one minute.
 
 ### **Phase 3: Election**
 
-* **Purpose:** Final community vote on proposals.
-
-* **Duration:** 4 days.
-
-* **Requirements:**
-
-  * **Quorum:** 15M voting power.
-
-  * **Majority Vote:** Required for enactment.
-
-* **Platform:** HCS-based voting conducted via the SaucerSwap Interface.
-
-* **Voting Options:** Typically includes the proposal that met quorum and majority, alongside a "No change" option.
-
-* **Voting Mechanism:** Single-choice voting with snapshots of account balances taken every one minute.
+- **Purpose:** Final community vote on proposals.
+- **Duration:** 2 days.
+- **Requirements:**
+  - **Quorum:** 15M voting power.
+  - **Majority Vote:** Required for enactment.
+- **Platform:** HCS-based voting conducted via the SaucerSwap Interface.
+- **Voting Options:** Typically includes the proposal that met quorum and majority, alongside a "No change" option.
+- **Voting Mechanism:** Single-choice voting with snapshots of account balances taken every one minute.
 
 The Election phase is triggered automatically if a proposal passes the Proposal phase. This phase involves a community-wide vote over two days, finalizing the decision. The ballot typically includes the proposal that met quorum and majority, alongside a "No change" option. Voting is conducted via HCS, and only the final vote of each user is counted. An Election must achieve a quorum of 15M units of voting power and a majority vote for enactment.
 
@@ -80,15 +60,11 @@ The Election phase is triggered automatically if a proposal passes the Proposal 
 
 The SaucerSwap DAO is responsible for overseeing the following protocol activities:
 
-* **V1 Farm Creation and Amendment:** The DAO oversees the creation of new yield farms and the adjustment of emissions (SAUCE and HBAR) for existing farms.
-
-* **V2 Pool Creation:** Pools in SaucerSwap V2 are created and governed by the DAO in a permissioned manner to prevent liquidity fragmentation and manage the technical overhead that arises from the lack of a viable subgraph on Hedera. For each pool created, the DAO is responsible for determining the protocol fee parameter, which can range from 1/N (where 4 ≤ N ≤ 10), and selecting the appropriate fee tier.
-
-* **V2 LARI Campaign Creation and Amendment:** The Liquidity-Aligned Reward Initiative (LARI) allows liquidity providers to earn additional incentives. Proposals for creating or amending LARI campaigns require DAO approval. Each proposal must specify the duration of the campaign and the allocation of token(s) per epoch.
-
-* **Tokenomics Changes:** Any significant changes to SAUCE tokenomics proposed by core maintainers must be approved by the DAO.
-
-* **Treasury Management:** The DAO governs several key treasury activities, including adjusting fee switches, allocating HBAR staking rewards, managing protocol fees, and determining SAUCE buyback allocations. Additionally, the DAO oversees the management of liquidity, farming, and staking activities of treasury assets within SaucerSwap and other protocols.
+- **V1 Farm Creation and Amendment:** The DAO oversees the creation of new yield farms and the adjustment of emissions (SAUCE and HBAR) for existing farms.
+- **V2 Pool Creation:** Pools in SaucerSwap V2 are created and governed by the DAO in a permissioned manner to prevent liquidity fragmentation and manage the technical overhead that arises from the lack of a viable subgraph on Hedera. For each pool created, the DAO is responsible for determining the protocol fee parameter, which can range from 1/N (where 4 ≤ N ≤ 10), and selecting the appropriate fee tier.
+- **V2 LARI Campaign Creation and Amendment:** The Liquidity-Aligned Reward Initiative (LARI) allows liquidity providers to earn additional incentives. Proposals for creating or amending LARI campaigns require DAO approval. Each proposal must specify the duration of the campaign and the allocation of token(s) per epoch.
+- **Tokenomics Changes:** Any significant changes to SAUCE tokenomics proposed by core maintainers must be approved by the DAO.
+- **Treasury Management:** The DAO governs several key treasury activities, including adjusting fee switches, allocating HBAR staking rewards, managing protocol fees, and determining SAUCE buyback allocations. Additionally, the DAO oversees the management of liquidity, farming, and staking activities of treasury assets within SaucerSwap and other protocols.
 
 Matters not specified here, particularly those related to broader financial concerns, are not within the DAO's purview. These financial aspects are managed by SaucerSwap Labs, LLC, which oversees the treasury to fund protocol development and DAO-related activities. Meta-governance matters are also controlled by SaucerSwap Labs, LLC for the time being.
 
@@ -96,43 +72,27 @@ Matters not specified here, particularly those related to broader financial conc
 
 The following accounts and contracts are under the DAO’s control, enabling the effective management of the protocol's treasury:
 
-* **V2 Incentives (Unallocated):** Unallocated V2 SAUCE incentives are directed to 0.0.3958605 and subsequently transferred to the DAO treasury multisig (0.0.1056814), resulting in an inflow of 410,154 SAUCE per week. The DAO manages these funds according to established rules and can also adjust the allocation of Masterchef emissions between the DAO treasury multisig and LARI incentives.
-
-* **HBAR Staking Rewards:** HBAR staking rewards, originating from stakeToSetter (0.0.1456973), are sent to HbarPaymentSplitter (0.0.1462986), which distributes X% to Masterchef (0.0.1077627), Y% to the DAO treasury (0.0.1056814), and Z% to Brewsaucer (0.0.2054876). Currently, Z is set at 100%. The DAO can adjust X%, Y%, and Z% in line with the governance rules.
-
-* **V1 Protocol Fees:** 1/6 of V1 swap fees are directed to feeTo (0.0.1062785). These tokens are used for SAUCE buybacks via Brewsaucer (0.0.2054876), with X% sent to Mothership (0.0.1462986) and the remainder distributed between SaucePaymentSplitter (0.0.1462981) as Y% and the DAO treasury (0.0.1056814) as Z%, before being transferred to the devcut multisig (0.0.1062644). The DAO may adjust X% and Z% as per governance rules. SaucePaymentSplitter also receives 100% of the Masterchef devcut, with 70% allocated to Mothership and 30% to the devcut multisig—these allocations are fixed.
-
-* **V2 Protocol Fees:** A portion of V2 swap fees, 1/N (where 4 ≤ N ≤ 10), remains in their respective pool contracts and is used for SAUCE buybacks via Brewsaucer (0.0.2054876). From there, X% is sent to Mothership (0.0.1462986) and Y% to SaucePaymentSplitter (0.0.1462981), with subsequent transfers to the devcut multisig (0.0.1062644). The DAO can adjust X% and Z% in line with governance rules. Like V1, SaucePaymentSplitter receives 100% of the Masterchef devcut, with 70% going to Mothership and 30% to the devcut multisig—these allocations are fixed.
-
-* **V2 Incentives (LARI):** V2 SAUCE incentives designated for LARI are routed to 0.0.3958601 and then transferred to a LARI holding account (0.0.3946522). Every two weeks, 372,892.67 SAUCE is moved to an airdrop account (0.0.4138717) for distribution. The DAO determines which projects can run LARI campaigns and sets the reward weights per pool. This management includes SAUCE emissions from Masterchef and HBAR received from stakeToSetter or grants, provided they are within the LARI holding or airdrop accounts. The DAO can also adjust the allocation of Masterchef emissions between the DAO treasury multisig and LARI incentives.
-
-* **V1 Incentives (Farm):** The Masterchef contract (0.0.1077627) mints new SAUCE at a linear rate, with 51.88% allocated to liquidity providers staking LP tokens in pools with a farm weight. The DAO can modify the weight of emissions to V1 pools. Adjusting one pool’s weight results in all other pools' emissions being reweighted based on a liquidity-weighted average.
+- **V2 Incentives (Unallocated):** Unallocated V2 SAUCE incentives are directed to 0.0.3958605 and subsequently transferred to the DAO treasury multisig (0.0.1056814), resulting in an inflow of 410,154 SAUCE per week. The DAO manages these funds according to established rules and can also adjust the allocation of Masterchef emissions between the DAO treasury multisig and LARI incentives.
+- **HBAR Staking Rewards:** HBAR staking rewards, originating from stakeToSetter (0.0.1456973), are sent to HbarPaymentSplitter (0.0.1462986), which distributes X% to Masterchef (0.0.1077627), Y% to the DAO treasury (0.0.1056814), and Z% to Brewsaucer (0.0.2054876). Currently, Z is set at 100%. The DAO can adjust X%, Y%, and Z% in line with the governance rules.
+- **V1 Protocol Fees:** 1/6 of V1 swap fees are directed to feeTo (0.0.1062785). These tokens are used for SAUCE buybacks via Brewsaucer (0.0.2054876), with X% sent to Mothership (0.0.1462986) and the remainder distributed between SaucePaymentSplitter (0.0.1462981) as Y% and the DAO treasury (0.0.1056814) as Z%, before being transferred to the devcut multisig (0.0.1062644). The DAO may adjust X% and Z% as per governance rules. SaucePaymentSplitter also receives 100% of the Masterchef devcut, with 70% allocated to Mothership and 30% to the devcut multisig—these allocations are fixed.
+- **V2 Protocol Fees:** A portion of V2 swap fees, 1/N (where 4 ≤ N ≤ 10), remains in their respective pool contracts and is used for SAUCE buybacks via Brewsaucer (0.0.2054876). From there, X% is sent to Mothership (0.0.1462986) and Y% to SaucePaymentSplitter (0.0.1462981), with subsequent transfers to the devcut multisig (0.0.1062644). The DAO can adjust X% and Z% in line with governance rules. Like V1, SaucePaymentSplitter receives 100% of the Masterchef devcut, with 70% going to Mothership and 30% to the devcut multisig—these allocations are fixed.
+- **V2 Incentives (LARI):** V2 SAUCE incentives designated for LARI are routed to 0.0.3958601 and then transferred to a LARI holding account (0.0.3946522). Every two weeks, 372,892.67 SAUCE is moved to an airdrop account (0.0.4138717) for distribution. The DAO determines which projects can run LARI campaigns and sets the reward weights per pool. This management includes SAUCE emissions from Masterchef and HBAR received from stakeToSetter or grants, provided they are within the LARI holding or airdrop accounts. The DAO can also adjust the allocation of Masterchef emissions between the DAO treasury multisig and LARI incentives.
+- **V1 Incentives (Farm):** The Masterchef contract (0.0.1077627) mints new SAUCE at a linear rate, with 51.88% allocated to liquidity providers staking LP tokens in pools with a farm weight. The DAO can modify the weight of emissions to V1 pools. Adjusting one pool’s weight results in all other pools' emissions being reweighted based on a liquidity-weighted average.
 
 ## Summary
 
 1. **RFC Phase**
-
-   * **Purpose:** Gather initial feedback and refine proposals.
-
-   * **Duration:** Minimum of 3 days.
-
-   * **Requirements:** No voting power needed.
-
+   - **Purpose:** Gather initial feedback and refine proposals.
+   - **Duration:** Minimum of 3 days.
+   - **Requirements:** No voting power needed.
 2. **Proposal Phase**
-
-   * **Purpose:** Formalize and vote on proposals.
-
-   * **Duration:** 2 days.
-
-   * **Requirements:** 100k voting power creation threshold; 5M voting power quorum.
-
+   - **Purpose:** Formalize and vote on proposals.
+   - **Duration:** 2 days.
+   - **Requirements:** 100k voting power creation threshold; 5M voting power quorum.
 3. **Election Phase**
-
-   * **Requirements:** 15M voting power quorum for enactment.
-
-   * **Duration:** 2 days.
-
-   * **Purpose:** Final community vote on proposals.
+   - **Requirements:** 15M voting power quorum for enactment.
+   - **Duration:** 2 days.
+   - **Purpose:** Final community vote on proposals.
 
 <Info>
   Note: Proto-governance, previously conducted in Discord using Planck Epoch Collectible (PEC) NFTs, is replaced by the on-chain token-weighted voting system described above.
