@@ -2,38 +2,30 @@
 title: "🐞 Bug Bounty"
 ---
 
-
 Security is a top priority for SaucerSwap. To encourage responsible disclosure of vulnerabilities, we offer a Bug Bounty Program with financial rewards based on the severity of the identified issues.
 
 ## Scope
 
-* SaucerSwap [testnet contracts](/developerx/contract-deployments#hedera-testnet) and [GitHub repositories](https://github.com/saucerswaplabs)
-
-* SaucerSwap [testnet interface](https://testnet.saucerswap.finance/)
+- SaucerSwap [testnet contracts](/developerx/contract-deployments#hedera-testnet) and [GitHub repositories](https://github.com/saucerswaplabs)
+- SaucerSwap [testnet interface](https://testnet.saucerswap.finance/)
+- SaucerSwap Mobile App (see below)
 
 The following are not within the scope of the program:
 
-* SaucerSwap mainnet contracts and production environment (testing restricted to testnet, which mirrors mainnet)
-
-* Third-party contracts not directly associated with SaucerSwap
-
-* Known issues from previous audit and bug bounty reports
-
-* Third-party applications using SaucerSwap contracts
-
-* Any findings that rely on Denial of Service (DoS) or Distributed Denial of Service (DDoS)
+- SaucerSwap mainnet contracts and production environment (testing restricted to testnet, which mirrors mainnet)
+- Third-party contracts not directly associated with SaucerSwap
+- Known issues from previous audit and bug bounty reports
+- Third-party applications using SaucerSwap contracts
+- Any findings that rely on Denial of Service (DoS) or Distributed Denial of Service (DDoS)
 
 ## Rewards
 
 The program includes the following four-level severity scale, based on the [OWASP risk rating methodology](https://owasp.org/www-community/OWASP_Risk_Rating_Methodology).
 
-* **Critical:** Issues that could impact numerous users and have serious reputational, legal, or financial implications. An example would be being able to lock contracts permanently or take funds from all users.
-
-* **High:** Issues that impact individual users where exploitation would pose reputational, legal, or moderate financial risk to the user.
-
-* **Medium:** The risk is relatively small and does not pose a threat to user funds.
-
-* **Informational:** The issue does not pose an immediate risk but is relevant to security best practices.
+- **Critical:** Issues that could impact numerous users and have serious reputational, legal, or financial implications. An example would be being able to lock contracts permanently or take funds from all users.
+- **High:** Issues that impact individual users where exploitation would pose reputational, legal, or moderate financial risk to the user.
+- **Medium:** The risk is relatively small and does not pose a threat to user funds.
+- **Informational:** The issue does not pose an immediate risk but is relevant to security best practices.
 
 SaucerSwap Labs will determine rewards based on the bug's severity and its potential for exploitation. Rewards may be disbursed in U.S. dollars, cryptocurrency, or a mix of both.
 
@@ -43,13 +35,10 @@ Report vulnerabilities to [dev@saucerswap.finance](mailto:dev@saucerswap.finance
 
 A detailed report of a vulnerability increases the likelihood of a reward and may increase the reward amount. Please provide as much information about the vulnerability as possible, including:
 
-* Conditions required for reproducing the bug
-
-* Step-by-step guide or proof of concept for reproduction
-
-* Potential consequences if exploited
-
-* Suggested remediation (optional)
+- Conditions required for reproducing the bug
+- Step-by-step guide or proof of concept for reproduction
+- Potential consequences if exploited
+- Suggested remediation (optional)
 
 Anyone who reports a unique, previously-unreported vulnerability that results in a change to the code or a configuration change and who keeps such vulnerability confidential until it has been resolved by our engineers will be financially rewarded.
 
@@ -57,26 +46,16 @@ Anyone who reports a unique, previously-unreported vulnerability that results in
 
 To be eligible for a reward under this program, you must meet the following conditions:
 
-1. **Uniqueness:** Discover a previously unreported, non-public vulnerability that is not already known to our team and is within the scope of the program.
-
-2. **First Disclosure:** Be the first to disclose the unique vulnerability to [dev@saucerswap.finance](mailto:dev@saucerswap.finance), and adhere to the program's disclosure requirements.
-
-3. **Detailed Reporting:** Provide comprehensive information that enables our engineers to reproduce and remedy the vulnerability.
-
-4. **Non-Exploitation:** Do not exploit the vulnerability in any form, including publicizing it or seeking other forms of profit, except under this program.
-
-5. **Non-Publicization:** Do not disclose the vulnerability to the public or any third party without our explicit approval.
-
-6. **Ethical Conduct:** Make a good faith effort to prevent privacy violations, data destruction, service interruption, or any degradation of in-scope assets.
-
-7. **Lawful Behavior:** Do not engage in any unlawful conduct during the disclosure process, such as making threats or demands.
-
-8. **Age Requirement:** Must be at least 18 years of age. If younger, you may participate with the consent of a parent or guardian.
-
-9. **Legal Compliance:** Cannot be subject to U.S. sanctions or reside in a U.S.-embargoed country.
-
+ 1. **Uniqueness:** Discover a previously unreported, non-public vulnerability that is not already known to our team and is within the scope of the program.
+ 2. **First Disclosure:** Be the first to disclose the unique vulnerability to [dev@saucerswap.finance](mailto:dev@saucerswap.finance), and adhere to the program's disclosure requirements.
+ 3. **Detailed Reporting:** Provide comprehensive information that enables our engineers to reproduce and remedy the vulnerability.
+ 4. **Non-Exploitation:** Do not exploit the vulnerability in any form, including publicizing it or seeking other forms of profit, except under this program.
+ 5. **Non-Publicization:** Do not disclose the vulnerability to the public or any third party without our explicit approval.
+ 6. **Ethical Conduct:** Make a good faith effort to prevent privacy violations, data destruction, service interruption, or any degradation of in-scope assets.
+ 7. **Lawful Behavior:** Do not engage in any unlawful conduct during the disclosure process, such as making threats or demands.
+ 8. **Age Requirement:** Must be at least 18 years of age. If younger, you may participate with the consent of a parent or guardian.
+ 9. **Legal Compliance:** Cannot be subject to U.S. sanctions or reside in a U.S.-embargoed country.
 10. **Non-Affiliation:** Cannot be a current or former employee, vendor, or contractor who contributed to the development of the affected code.
-
 11. **Complete Compliance:** Must comply with all other eligibility requirements specified in this program.
 
 By meeting these criteria, you become eligible for a reward under the SaucerSwap Bug Bounty Program.
@@ -84,3 +63,67 @@ By meeting these criteria, you become eligible for a reward under the SaucerSwap
 ## Other Terms
 
 By submitting a report, you grant SaucerSwap Labs the rights necessary to validate and resolve the vulnerability. All reward decisions are at our sole discretion. The program's terms may be changed at any time.
+
+# **SaucerSwap Mobile iOS Beta Bug Bounty**
+
+### **CRITICAL: \$30,000–\$50,000** (up to \$75,000 for exceptional impact)
+
+- Remote fund theft without user interaction
+- Seed phrase, private key, or key-material extraction (incl. Secure Enclave/Keychain misuse enabling export)
+- Signing forgery or post-confirmation transaction manipulation that results in unintended on-chain value transfer
+- Deeplink/Universal-link/WalletConnect hijacking that triggers unauthorized spend on a non-jailbroken device
+
+_Requires: Non-jailbroken device; reproducible end-to-end PoC showing unauthorized on-chain effect or demonstrable key exfil_
+
+### **HIGH: \$3,000–\$10,000**
+
+- Bypass of biometric/PIN/app lock leading to unauthorized signing on the device
+- Unauthorized transaction signing that requires minimal user interaction (e.g., approving a legitimate-looking but misleading prompt)
+- Session/token theft or privilege escalation that grants control of wallet-bound operations (e.g., push-action abuse, protected API actions) without keys
+- Logic flaws enabling unintended wallet operations (e.g., silent account import/switch, spend limits bypass, approval spoofing)
+
+### **MEDIUM: \$500–\$2,000**
+
+- Sensitive metadata exposure without fund access, including: identity↔address linkage (addresses/balances tied to device ID/IP/email), HD wallet xpub/derivation path disclosure, labels/notes/contacts/watchlists, "hide balance" bypass, or transport leaks (e.g., unpinned TLS/HTTP) that tie addresses to a user/device
+- UX flaws that could mislead users into unintended actions but do not alter the payload actually signed
+- Insecure configurations with no direct exploit path (e.g., weak ATS/pinning, verbose logs revealing non-secret identifiers)
+- Client-side issues with limited impact (e.g., WebView/XSS outside the signing context; local logs of public data with no linkage)
+
+### **LOW: \$50–\$250**
+
+- UI/UX bugs with no security impact
+- Crashes or performance issues
+- Cosmetic display errors
+- Minor functionality defects
+
+---
+
+### **IN SCOPE (Mobile App & Interactions)**
+
+iOS app (latest TestFlight/App Store build), including:
+
+- Key storage (Secure Enclave/Keychain)
+- Seed handling & local storage/iCloud backup behavior
+- Biometric/PIN gate
+- Deeplink/universal-link/WalletConnect flows
+- QR/clipboard import/export
+- Notification privacy
+- Network/RPC/mirror-node/backend communications (TLS, pinning, request integrity)
+
+### **OUT OF SCOPE**
+
+- Public on-chain data discovery without wallet-specific linkage (e.g., "I found a balance on a block explorer")
+- Phishing, social engineering, or attacks requiring collusion from SaucerSwap staff or third-party support
+- Physical access, stolen/unlocked devices, SIM-swap, device-level malware, or OS/kernel exploits unrelated to the app
+- Repackaged or modified app builds, emulator-only issues, or jailbreak-only read-only file access (unless chained to unauthorized signing → then evaluate under High)
+- DoS/spam, rate-limit/resource-exhaustion, uptime or content moderation of third-party services, or issues requiring unrealistic user settings (e.g., disabling TLS trust entirely)
+- Vulnerabilities in third-party libraries without demonstrable impact on SaucerSwap Mobile
+- Typos, minor copy, analytics preferences, or crash reports without security/privacy violation
+- Duplicate reports, theoretical impacts without working PoC, or issues already known/in remediation
+
+### **REPORTING REQUIREMENTS (all severities)**
+
+- Report through the TestFlight app on your iOS device 
+- Provide clear, reproducible PoC (steps, affected build/OS, minimal test wallet), and—where relevant—network captures or on-chain evidence
+- Use only accounts/wallets you control; no testing against real user data; keep tests within reasonable rate limits
+- First valid report wins if duplicates arise; impact determines payout within the band; we may exceed the band for extraordinary impact
