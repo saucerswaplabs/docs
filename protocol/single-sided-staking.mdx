@@ -8,8 +8,8 @@ Within the SaucerSwap ecosystem, the Infinity Pool allows for single-sided staki
 
 Yield in the Infinity Pool is derived from three distinct sources:
 
-1. **Swap Fees:** A 1/6 fee collected by the protocol from all SaucerSwap V1 and V2 liquidity pools.
-2. **Farm Emissions:** 30% of the Masterchef contract's devcut, currently set at 12.68 SAUCE per minute.
+1. **Swap Fees:** A portion of the 1/6 fee collected by the protocol from all SaucerSwap V1 and V2 liquidity pools.
+2. **Farm Emissions:** 30% of the Masterchef contract's devcut.
 3. **HBAR Native Staking Rewards:** HBAR, which is not an HTS token, is made compatible with SaucerSwap through a smart contract that wraps it into WHBAR. This contract's entire HBAR balance is proxy-staked to a designated, permissioned node on the Hedera network for the purpose of earning proof-of-stake rewards. This is enabled by Hedera's lack of slashing conditions and lock-up periods. Rewards accrued in HBAR are then swapped into SAUCE tokens via a daily buyback mechanism. Currently, the WHBAR contract holds around 200 million HBAR, and the staking APR for Hedera is capped at 2.5%.
 
 ## Worked Example
@@ -25,10 +25,10 @@ Consider this hypothetical:
 
 The APR for single-sided staking is determined using the following formula:
 
-> Infinity Pool APR =[_<sub>Ri</sub>_ / ​_<sub>Rf</sub>_ ​​− 1 ] × 365
+> Infinity Pool APR =[_<sub>Ri</sub>_ / ​\_<sub>Rf</sub>\_ ​​− 1 ] × 365
 
 Where:
 
 - _R_ represents the exchange rate, given by _SAUCE/xSAUCE_ in the Infinity Pool.
-- _<sub>Ri</sub>_​ and _<sub>Rf</sub>_​ represent the exchange rates at the initial and final times, respectively.
+- \_<sub>Ri</sub>\_​ and \_<sub>Rf</sub>\_​ represent the exchange rates at the initial and final times, respectively.
 - The rate updates once per day at random, implying Δt≈24h.

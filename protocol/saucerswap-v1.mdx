@@ -8,7 +8,7 @@ title: "SaucerSwap V1"
 
 SaucerSwap V1 is an automated market maker (AMM) based on Uniswap V2 smart contracts, adapted to work with the Hedera Token Service (HTS) through the Hedera Smart Contract Service (HSCS). For technical information, refer to the [V1 Whitepaper](https://www.saucerswap.finance/whitepaper.pdf).
 
-The protocol uses a constant product formula, represented by *xy=k*, for its automated liquidity provision. *x* and *y* are the reserves of each token in a given liquidity pool, and *k* is the product of these reserves. The value of *k* remains constant during swaps, ensuring that the liquidity pool stays balanced and that every swap moves the price along a predetermined bonding curve.
+The protocol uses a constant product formula, represented by _xy=k_, for its automated liquidity provision. _x_ and _y_ are the reserves of each token in a given liquidity pool, and _k_ is the product of these reserves. The value of _k_ remains constant during swaps, ensuring that the liquidity pool stays balanced and that every swap moves the price along a predetermined bonding curve.
 
 Traders incur a 30 basis-point (0.30%) fee on each swap. Of this fee, 5/6 is allocated to liquidity providers, while the remaining 1/6 is directed to the protocol. The protocol utilizes its share for SAUCE token buybacks, which are subsequently distributed between the Infinity Pool and the DAO.
 
@@ -20,34 +20,29 @@ Understanding the mechanics of constant product AMMs is essential for traders an
 
 A liquidity provider decides to create a new pool for HBAR and USDC. Given that HBAR is trading at approximately 1/10 the price of USDC on secondary markets, they set an initial deposit ratio that reflects this market price: 10,000 HBAR and 1,000 USDC. If the price is off, arbitrageurs will correct it at the expense of the liquidity provider.
 
-The constant product *k* for this pool is calculated using the initial reserves of each token:
+The constant product _k_ for this pool is calculated using the initial reserves of each token:
 
-> HBAR reserves: *x* ​= 10,000 HBAR
-> USDC reserves: *y* = 1000 USDC
-> *k* = *x* × *y*
-> \= 10,000 HBAR × 1,000 USDC
-> \= 10,000,000
-> ​
+> HBAR reserves: _x_ ​= 10,000 HBAR USDC reserves: _y_ = 1000 USDC _k_ = _x_ × _y_ = 10,000 HBAR × 1,000 USDC = 10,000,000 ​
 
 #### Performing a Swap
 
-A trader wants to swap *s* = 100 HBAR for USDC in this pool. After applying the SaucerSwap protocol'*s* 0.30% fee, the effective amount *s′* is:
+A trader wants to swap _s_ = 100 HBAR for USDC in this pool. After applying the SaucerSwap protocol'_s_ 0.30% fee, the effective amount _s′_ is:
 
-> *s′* = *s* × (1−0.003) = 100 HBAR × 0.997 = 99.7 HBAR
+> _s′_ = _s_ × (1−0.003) = 100 HBAR × 0.997 = 99.7 HBAR
 
-The new reserves, *x′* and *y′*, must satisfy the invariant, *k*:
+The new reserves, _x′_ and _y′_, must satisfy the invariant, _k_:
 
-> *(x + s′)×(y − y′) = k*
+> _(x + s′)×(y − y′) = k_
 
-Solving for *y′*:
+Solving for _y′_:
 
-> (10,000 + 99.7)×(1000−*y′*) = 10,000,000*y′* = 1000−10,099.7 / 10,000,000 ​≈ 9.9 USDC
+> (10,000 + 99.7)×(1000−_y′_) = 10,000,000_y′_ = 1000−10,099.7 / 10,000,000 ​≈ 9.9 USDC
 
-The trader receives about 9.9 USDC for 100 HBAR. This is slightly less than expected due to price impact. Price impact can be defined as the liquidity "cost" a trader incurs when executing a swap. This cost manifests as a less favorable exchange rate, since an adjustment in the token reserves, *x* and *y*, is needed to maintain the constant product, *k*. The price impact is calculated as follows:
+The trader receives about 9.9 USDC for 100 HBAR. This is slightly less than expected due to price impact. Price impact can be defined as the liquidity "cost" a trader incurs when executing a swap. This cost manifests as a less favorable exchange rate, since an adjustment in the token reserves, _x_ and _y_, is needed to maintain the constant product, _k_. The price impact is calculated as follows:
 
-> Initial Price = *y*/*x* = 1000 USDC / 10,000 HBAR = 0.1 USDC/HBAR
+> Initial Price = _y_/_x_ = 1000 USDC / 10,000 HBAR = 0.1 USDC/HBAR
 
-> Final Price = *y′*/ (*x + s*) = 990.1 USDC / 10,100 HBAR ≈ 0.098 USDC/HBAR
+> Final Price = _y′_/ (_x + s_) = 990.1 USDC / 10,100 HBAR ≈ 0.098 USDC/HBAR
 
 > Price Impact​= (Final Price - Initial Price) / Initial Price x 100 = (0.098 - 0.1)/0.1 x 100 ≈ -2%
 
@@ -57,14 +52,14 @@ This trade results in a price impact of approximately -2%.
 
 In this example, the 0.3 HBAR fee from the trade gets split—0.25 HBAR goes to the liquidity provider and is added to the pool, while 0.05 HBAR goes to the protocol for SAUCE token buybacks.
 
-The addition of 0.25 HBAR to the pool increases the value of each LP token. Liquidity providers can track accumulated fees through the 7-day average *Fees APR* displayed on the interface. Note that the LP token price is not immune to volatility; it is affected by the price movements of the underlyings—specifically HBAR and USDC in this instance.
+The addition of 0.25 HBAR to the pool increases the value of each LP token. Liquidity providers can track accumulated fees through the 7-day average _Fees APR_ displayed on the interface. Note that the LP token price is not immune to volatility; it is affected by the price movements of the underlyings—specifically HBAR and USDC in this instance.
 
-> Fees APR = 24*h* Volume x (Fee x 5/6) / Liquidity × 365
+> Fees APR = 24_h_ Volume x (Fee x 5/6) / Liquidity × 365
 
-Where *Fee* = 0.30%.
+Where _Fee_ = 0.30%.
 
 <Info>
-  **Note:** *Total* APR = *Fees* APR + *Reward* APR, where *Reward* APR is sourced from [yield farming](/protocol/saucerswap-v1#yield-farm).
+  **Note:** _Total_ APR = _Fees_ APR + _Reward_ APR, where _Reward_ APR is sourced from [yield farming](/protocol/saucerswap-v1#yield-farm).
 </Info>
 
 ### Yield Farm
@@ -73,14 +68,12 @@ Yield farming on SaucerSwap allows liquidity providers to stake their LP tokens 
 
 Rewards are proportional to the size of the liquidity provider's stake, relative to the total staked assets in the pool, and influenced by the pool's weight of overall emissions. The interface tracks these rewards as Reward APR, calculated using the formula:
 
-> Reward APR = (*w* × E<sub>HBAR</sub> ​× E<sub>SAUCE</sub>​​) / Staked Liquidity
+> Reward APR = (_w_ × E<sub>HBAR</sub> ​× E<sub>SAUCE</sub>​​) / Staked Liquidity
 
 Where:
 
-* *w* represents the [Farm Weight](/protocol/saucerswap-v1/farm-weights).
-
-* E<sub>HBAR</sub> represents the Annualized Emission Rate of HBAR ($/year).
-
-* E<sub>SAUCE</sub>​ represents the Annualized Emission Rate of SAUCE ($/year).
+- _w_ represents the [Farm Weight](/protocol/saucerswap-v1/farm-weights).
+- E<sub>HBAR</sub> represents the Annualized Emission Rate of HBAR (\$/year).
+- E<sub>SAUCE</sub>​ represents the Annualized Emission Rate of SAUCE (\$/year).
 
 Current emission rates are 230.62 SAUCE/min and 0.78 HBAR/min. These are allocated to various liquidity pools through a [governance process](/governance/overview).
