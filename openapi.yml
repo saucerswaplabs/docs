@@ -844,7 +844,7 @@ paths:
     get:
       tags:
         - 'Pools'
-      summary: Get historical candlestick data for pool by id
+      summary: Get historical candlestick data for V1 pool by id
       parameters:  
         - $ref: '#/components/parameters/ApiKeyParam'  
         - name: poolId
@@ -892,12 +892,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CandlestickData'
+                type: array
+                items:
+                  $ref: '#/components/schemas/CandlestickData'
   /pools/conversionRates/latest/{poolId}:
     get:
       tags:
         - 'Pools'
-      summary: Get the latest candlestick data for pool by id
+      summary: Get the latest candlestick data for V1 pool by id
       parameters:  
         - $ref: '#/components/parameters/ApiKeyParam'  
         - name: poolId
@@ -987,6 +989,61 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/PoolV2'
+  /v2/pools/conversionRates/{poolId}:
+    get:
+      tags:
+        - 'SaucerSwap V2'
+      summary: Get historical candlestick data for V2 pool by id
+      parameters:  
+        - $ref: '#/components/parameters/ApiKeyParam'  
+        - name: poolId
+          description: 'Saucerswap pool id'
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 1697600000      
+            description: 'From unix seconds'      
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 1697610000
+            description: 'To unix seconds'
+        - name: interval
+          in: query
+          description: 'Data interval'
+          required: true
+          schema:
+            type: string
+            example: 'HOUR'
+            enum:
+              - FIVEMIN
+              - HOUR
+              - DAY
+              - WEEK        
+#        - name: inverted
+#          in: query
+#          required: false
+#          schema:
+#            type: boolean
+#            default: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CandlestickData'
   /v2/nfts/{accountId}/positions:
     get:
       tags:

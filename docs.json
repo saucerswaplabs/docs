@@ -175,7 +175,8 @@
                     "pages": [
                       "v/developer/rest-api/pools-v2/pools", 
                       "v/developer/rest-api/pools-v2/pools-full", 
-                      "v/developer/rest-api/pools-v2/pool",                     
+                      "v/developer/rest-api/pools-v2/pool",      
+                      "v/developer/rest-api/pools-v2/pool-conversionRates",                    
                       "v/developer/rest-api/pools-v2/account-nft-positions",
                       "v/developer/rest-api/pools-v2/lari-reward"
                     ]
