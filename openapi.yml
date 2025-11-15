@@ -1029,12 +1029,12 @@ paths:
               - HOUR
               - DAY
               - WEEK        
-#        - name: inverted
-#          in: query
-#          required: false
-#          schema:
-#            type: boolean
-#            default: false
+        - name: inverted
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Successful response
