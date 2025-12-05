@@ -4,74 +4,24 @@ title: "🛸 Overview"
 
 ![](/images/SS-pyramid.png)
 
-> The Pioneering DEX on Hedera
+> Hedera's #1 DEX
 
-Welcome to the official documentation for SaucerSwap. The organizational structure of SaucerSwap is comprised of four key components:
+**SaucerSwap Overview**
 
-1. **SaucerSwap Labs:** A Florida limited liability company which developed the SaucerSwap Protocol, along with the Interface.
+The SaucerSwap Protocol is the leading Decentralized Exchange (DEX) and liquidity hub on [Hedera](https://hedera.com/), serving as the ecosystem’s primary gateway for DeFi.
 
-2. **The SaucerSwap Protocol:** A suite of persistent, non-upgradable, and open-source smart contracts on the Hedera network. Together, these contracts create an automated market maker (AMM), a protocol that facilitates peer-to-peer market making and swapping of HBAR and HTS tokens. Additionally, it supports yield farming and staking activities.
+Since its launch in 2022, SaucerSwap has established itself as Hedera’s dominant trading protocol. With over **\$5B in all-time volume** and **15M+ trades**, it provides the essential infrastructure for swapping, liquidity provision, yield farming, and staking.
 
-3. **The SaucerSwap Interface:** A [web-hosted user interface](https://www.saucerswap.finance/) that allows for easy interaction with the SaucerSwap protocol. The interface is one of many ways to interact with the SaucerSwap protocol.
+As the backbone of the Hedera network, SaucerSwap supports deep liquidity for hundreds of HTS tokens. It consistently processes millions of dollars in weekly volume, serving not only as a trading venue but as a critical liquidity layer for native projects. Beyond Hedera, the protocol is actively expanding its reach, leveraging Axelar and LayerZero to bridge users and capital across chains, including SAUCE liquidity integration on Base.
 
-4. **The SaucerSwap DAO:** A decentralized autonomous organization (DAO) that guides protocol development and governance through collective decision-making by its community members, enabled by the [SAUCE token](/tokenomics/overview).
+**The Ecosystem** 
 
-## SaucerSwap Protocol
+SaucerSwap Labs, a Florida-based development firm, builds and maintains the primary access points to the protocol:
 
-The SaucerSwap protocol is a peer-to-peer system designed for exchanging cryptocurrencies, specifically HBAR and HTS tokens. It prioritizes censorship resistance, security, and self-custody, and functions without the need for trusted intermediaries who may selectively restrict access.
+- [**SaucerSwap Web App**](https://www.saucerswap.finance/)**:** The premier interface for cross-chain bridging, swapping, and yield generation.
+- **SaucerSwap Wallet (**[**iOS**](https://t.co/n6PjlECY3h)** & Android):** A self-custody mobile experience optimized for speed, security, and effortless portfolio management.
+- [**Developer Infrastructure**](https://docs.saucerswap.finance/v/developer/rest-api/authentication)**:** A suite of robust APIs and smart contracts allowing third-party integrators to seamlessly tap into SaucerSwap’s liquidity.
 
-SaucerSwap integrates with the [Hedera Token Service](https://hedera.com/token-service) (HTS), achieved by modifying Uniswap smart contracts to interact with the [Hedera Smart Contract Service ](https://hedera.com/smart-contract)(HSCS) through EVM precompiles. This allows for rapid throughput, fast transaction times, and a low-cost, U.S. dollar-denominated fee structure. Hedera's architecture also ensures fair transaction ordering on SaucerSwap, which nullifies the possibility of MEV attacks seen in Ethereum-based protocols like Uniswap.
+**Decentralized Governance** 
 
-There are currently two versions of the SaucerSwap protocol that operate in parallel:
-
-### SaucerSwap V1
-
-SaucerSwap V1 is based on the Uniswap V2 constant product AMM. It allows anyone to deposit equal value of any two HTS tokens into a liquidity pool. When a user makes a trade in this liquidity pool, the quantities of both tokens change, but their product remains constant. This mechanism automatically adjusts the price of tokens based on supply and demand, without requiring a centralized order book or intermediary. The constant product formula, `xy=k`, offers immediate settlement at a price determined by the ratio of token reserves in the pool.
-
-For more information, see [SaucerSwap V1](/protocol/saucerswap-v1).
-
-### SaucerSwap V2
-
-SaucerSwap V2 builds upon the principles of Uniswap V3's concentrated liquidity AMM, allowing liquidity providers (LPs) to specify custom price ranges for their HBAR and HTS token pairs. Individual positions are aggregated into a single pool, forming a composite curve for users to trade against. The outcome is heightened capital efficiency and reduced slippage on trade execution compared to SaucerSwap V1. A multi-tiered fee structure is also introduced in V2, allowing LPs to be appropriately compensated for taking on varying degrees of risk.
-
-For more information, see [SaucerSwap V2](/protocol/saucerswap-v2).
-
-## Unique Advantages
-
-* **HTS Standard:** Unlike ERC-20 tokens, which are smart contracts, HTS tokens operate as native entities. These tokens offer high-throughput, low fees, compliance configurations, and native on-chain programmability using API calls for atomic swaps and configuration of custom fees.
-
-* **Cost Efficiency:** SaucerSwap takes advantage of Hedera's low, USD-denominated fee structure to provide cost-effective transactions. This is especially advantageous during periods of increased network utilization, as it avoids the cost-prohibitive gas fees typical of interacting with dApps on other layer-1 networks.
-
-* **Performance:** Transactions on SaucerSwap achieve finality within 3-5 seconds. These fast transaction times optimize the UX and help to minimize slippage on trade execution.
-
-* **MEV Resistance:** The [hashgraph](https://docs.hedera.com/hedera/core-concepts/hashgraph-consensus-algorithms) consensus algorithm, which uses a gossip protocol and virtual voting, nullifies the threat of [Maximal Extractable Value](https://medium.com/coinmonks/what-is-maximal-extractable-value-mev-e4c0b76eb5e) (MEV). This guarantees fair transaction ordering and negates front-running risks.
-
-* **Liquidity-Aligned Reward Initiative (LARI):** This feature incentivizes LPs by aligning rewards to the efficiency of liquidity provided. Rewards may be distributed in HBAR and / or any HTS tokens.
-
-* **User Friendliness:** SaucerSwap offers an intuitive web-app that incorporates volatility strategies for streamlined liquidity provision, user-focused analytics, and more.
-
-* **HBAR Foundation Support:** With backing from the [HBAR Foundation](https://www.hbarfoundation.org/), SaucerSwap aims for long-term sustainability and development.
-
-* **Yield Enhancement:** A unique feature is the yield-bearing HBAR wrapper, which creates additional rewards for participants of the protocol.
-
-* **Fee Switch Mechanism:** One-sixth of all swap fees are channeled towards SAUCE token buybacks, aimed at enhancing its utility within the ecosystem.
-
-## Milestones
-
-![](/images/milestones-3.png)
-
-SaucerSwap V1 was deployed to the Hedera mainnet in August 2022. Concurrently, a [20 million HBAR grant](https://www.hbarfoundation.org/blog-post/the-hbar-foundation-announces-its-support-of-saucerswap-the-decentralized-exchange-built-on-hedera) was secured from the HBAR Foundation, allocated for liquidity mining incentives. Strategic partnerships were formalized with ecosystem contributors [HeadStarter](https://headstarter.org/) and [Stader Labs](https://www.staderlabs.com/) through the formation of the [Hashgraph DeFi Alliance](https://www.hashgraphdefialliance.org/) (HDA). Furthermore, the SaucerSwap protocol has undergone numerous [audits](/developerx/audits) by leading security firms [Hacken](https://hacken.io/) and [Omniscia](https://omniscia.io/). Following a successful public beta on the testnet, SaucerSwap V2 launched in November 2023.
-
-As of March 2024, SaucerSwap holds a majority market share among Hedera DeFi protocols, as evidenced by the following metrics:
-
-* **Total Value Locked (TVL):** $67.5 million
-
-* **Wrapped HBAR Contract Balance:** 110.7 million HBAR
-
-* **Cumulative Trading Volume:** $3.24 billion
-
-* **Cumulative Swap Events:** 8.86 million
-
-* **Number of Liquidity Pools:** 800+
-
-These metrics are approximate and serve as key performance indicators, highlighting the protocol's market presence and operational efficiency.
+The protocol is fully community-owned and governed. Through the [**SaucerSwap DAO**](https://docs.saucerswap.finance/governance/overview), SAUCE and xSAUCE holders steer the protocol’s future, voting on reward weights, pool creation, treasury allocation, and tokenomics via on-chain governance.
