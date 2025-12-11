@@ -153,3 +153,11 @@ As of Hedera mainnet version [0.39.0](https://docs.hedera.com/hedera/networks/re
 ### Does SaucerSwap support tokens with custom fees?
 
 SaucerSwap V2 does not support tokens with custom fees. SaucerSwap V1 supports tokens with fractional fees where 'net' is disabled, but not those with fixed fees. In fractional fee tokens with 'net' disabled, the fee is deducted from the transaction amount, such as during a swap. However, for fixed fee tokens, and fractional fee tokens with 'net' enabled, this fee is applied separately. A workaround for fixed fees in SaucerSwap V1 is to set a fractional fee at 0% and use a fallback. For detailed guidance on implementing custom fees in the Hedera Token Service (HTS), refer to the [Hedera Docs](https://docs.hedera.com/hedera/sdks-and-apis/hedera-api/token-service/customfees).
+
+# Bridge Page FAQ
+
+### Which wallets can I use to bridge?
+
+Currently Squid only supports MetaMask wallets for bridging. On [Squid's website](https://app.squidrouter.com/) you may be able to use an ECDSA HashPack wallet as well, however some functionality may not work.
+
+With Hashport, you can use any Hedera wallet such as HashPack or Kabila.
