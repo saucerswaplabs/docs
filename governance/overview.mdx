@@ -8,7 +8,7 @@ The SaucerSwap decentralized autonomous organization (DAO) governs key aspects o
 
 The DAO influences the protocol through token-weighted voting, with each vote cast using the Hedera Consensus Service (HCS). Community members connect their wallets to the SaucerSwap Interface to sign and submit voting messages to a designated topic ID in JSON format. SaucerSwap retrieves the voter’s historical balances of SAUCE and xSAUCE at a specified UNIX timestamp via the Hedera mirror node. Although users may vote multiple times, only the final vote is counted.
 
-> Voting Power = SAUCE bal \+ (xSAUCE bal × conversion rate)
+> Voting Power = SAUCE bal + (xSAUCE bal × conversion rate)
 
 Where:
 
@@ -76,7 +76,7 @@ The SaucerSwap DAO is responsible for overseeing the following protocol activiti
 - **V2 Pool Creation:** Pools in SaucerSwap V2 are created and governed by the DAO in a permissioned manner to prevent liquidity fragmentation and manage the technical overhead that arises from the lack of a viable subgraph on Hedera. For each pool created, the DAO is responsible for determining the protocol fee parameter, which can range from 1/N (where 4 ≤ N ≤ 10), and selecting the appropriate fee tier.
 - **V2 LARI Campaign Creation and Amendment:** The Liquidity-Aligned Reward Initiative (LARI) allows liquidity providers to earn additional incentives. Proposals for creating or amending LARI campaigns require DAO approval. Each proposal must specify the duration of the campaign and the allocation of token(s) per epoch.
 - **Tokenomics Changes:** Any significant changes to SAUCE tokenomics proposed by core maintainers must be approved by the DAO.
-- **Treasury Management:** The DAO governs several key treasury activities, including adjusting fee switches, allocating HBAR staking rewards, managing protocol fees, and determining SAUCE buyback allocations. Additionally, the DAO oversees the management of liquidity, farming, and staking activities of treasury assets within SaucerSwap and other protocols.
+- **Treasury Management:** The DAO governs several key treasury activities, including adjusting fee switches, allocating HBAR staking rewards within protocol contracts (e.g., Brewsaucer, Masterchef), managing protocol fees, and determining SAUCE buyback allocations. Additionally, the DAO oversees the management of liquidity, farming, and staking activities of treasury assets within SaucerSwap and other protocols.
 
 Matters not specified here, particularly those related to broader financial concerns, are not within the DAO's purview. These financial aspects are managed by SaucerSwap Labs, LLC, which oversees the treasury to fund protocol development and DAO-related activities. Meta-governance matters are also controlled by SaucerSwap Labs, LLC for the time being.
 
