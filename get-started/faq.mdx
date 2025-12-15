@@ -171,7 +171,8 @@ If you encounter an issue after the initial successful transaction on SaucerSwap
 ## Bridge an HTS Token via Axelar (ITS) + List It on Squid
 
 This guide covers:
-- Deploying your existing Hedera HTS token to other chains using Axelar’s Interchain Token Service (ITS) portal  
+
+- Deploying your existing Hedera HTS token to other chains using Axelar’s Interchain Token Service (ITS) portal
 - Getting your token to appear inside Squid’s bridge modal (token dropdown)
 
 ### Prerequisites
@@ -188,13 +189,15 @@ This guide covers:
 In MetaMask → **Add network manually** (use your preferred official Hedera network settings).
 
 Confirm you can:
+
 - Switch to Hedera network in MetaMask
 - See an HBAR balance
 
 ### Step 1 (Alternative) — Add Hedera to MetaMask (fastest)
-1. Go to: https://chainlist.org/?search=hedera&testnets=true  
-2. Connect your wallet  
-3. Click **Add to MetaMask** for **Hedera Mainnet** (and **Hedera Testnet** if needed)  
+
+1. Go to: https://chainlist.org/?search=hedera&testnets=true
+2. Connect your wallet
+3. Click **Add to MetaMask** for **Hedera Mainnet** (and **Hedera Testnet** if needed)
 4. In MetaMask, confirm you can switch to Hedera and see an HBAR balance
 
 ### Step 2 — Get your HTS token EVM address (0x...)
@@ -202,10 +205,10 @@ Confirm you can:
 You will paste an **EVM address** into Axelar’s portal.
 
 To find it:
+
 - HashScan: look up the token (`0.0.x`) → copy the **EVM address (0x...)**
 
 > Make sure this is the **token address**, not a wallet/account address.
-
 
 ### Step 3 — Deploy the token to other chains with Axelar ITS
 
@@ -218,18 +221,15 @@ To find it:
 
 **Recommended quick check:** do a small test bridge/transfer once deployment is complete.
 
+### Step 4 — Get your token listed in Squid (so it appears in the SaucerSwap modal)
 
-### Step 4 — Get your token listed in Squid (so it appears in the modal)
-
-After ITS deployment, you must add the token to Squid’s config so it shows up in the token dropdown.
+After ITS deployment, you must add the token to Squid’s config so it shows up in the token dropdown on SaucerSwap. 
 
 1. From the ITS page for a token, click **“Add Your Token on Squid”**, or go directly to the github page: https://github.com/axelarnetwork/axelar-configs?tab=readme-ov-file#axelar-configs
-2. Follow the repo’s instructions to List an interchain token on Squid (https://github.com/axelarnetwork/axelar-configs/blob/main/cli/wizard/commands/list-squid-token/README.md)
-Example PR (reference):  
-https://github.com/axelarnetwork/axelar-configs/pull/332
+2. Follow the repo’s instructions to List an interchain token on Squid (https://github.com/axelarnetwork/axelar-configs/blob/main/cli/wizard/commands/list-squid-token/README.md) Example PR (reference):\
+   https://github.com/axelarnetwork/axelar-configs/pull/332
 
-Once approved & merged, Squid should begin surfacing your token in the bridge modal.
-
+Once approved and merged, Squid should begin surfacing your token in the bridge modal.
 
 ### End-user flow
 
@@ -240,12 +240,9 @@ Once approved & merged, Squid should begin surfacing your token in the bridge mo
 5. Enter amount → approve (if prompted) → confirm
 6. Wait for completion
 
-
 ### Troubleshooting (common issues)
 
 - Token doesn’t appear in Squid: the `axelar-configs` PR isn’t merged (or hasn’t propagated yet)
 - “Invalid token” / failing in portal: wrong address (used an account address instead of token EVM address)
 - Transaction fails: insufficient HBAR gas, or wallet not token-associated / no token balance
-- Bridge transactions can sometimes take a few minutes, to a few hours depending on the chains involved. You can view bridge transactions on AxelarScan (https://axelarscan.io/) by entering the transaction hash, or your wallet EVM address 
-
-
+- Bridge transactions can sometimes take a few minutes, to a few hours depending on the chains involved. You can view bridge transactions on AxelarScan (https://axelarscan.io/) by entering the transaction hash, or your wallet EVM address
