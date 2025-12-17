@@ -275,7 +275,6 @@
       {
         "group": "Resources",
         "pages": [
-          "resources/brand-assets",
           "resources/glossary",
           "resources/analytics"
         ]
