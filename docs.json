@@ -302,6 +302,14 @@
           "archive/liquidity-migration"
         ]
       }
+      {
+        "group": "Hidden",
+        "pages": [
+          "resources/brand-assets",
+          "resources/glossary",
+          "resources/analytics"
+        ]
+      },
     ]
   }
 }
