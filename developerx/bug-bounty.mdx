@@ -8,7 +8,7 @@ Security is a top priority for SaucerSwap. To encourage responsible disclosure o
 
 - SaucerSwap [testnet contracts](/developerx/contract-deployments#hedera-testnet) and [GitHub repositories](https://github.com/saucerswaplabs)
 - SaucerSwap [testnet interface](https://testnet.saucerswap.finance/)
-- SaucerSwap Mobile App
+- SaucerSwap Mobile App (iOS & Android)
 
 The following are not within the scope of the program:
 
@@ -17,6 +17,10 @@ The following are not within the scope of the program:
 - Known issues from previous audit and bug bounty reports
 - Third-party applications using SaucerSwap contracts
 - Any findings that rely on Denial of Service (DoS) or Distributed Denial of Service (DDoS)
+- Phishing, social engineering, or attacks requiring collusion from SaucerSwap staff or third-party support
+- Physical access, stolen/unlocked devices, SIM-swap, device-level malware, or OS/kernel exploits unrelated to the app
+- Repackaged or modified app builds, emulator-only issues, or jailbreak-only read-only file access (unless chained to unauthorized signing → then evaluate under High)
+- Vulnerabilities in third-party libraries without demonstrable impact on SaucerSwap Mobile
 
 ## Rewards
 
@@ -63,73 +67,3 @@ By meeting these criteria, you become eligible for a reward under the SaucerSwap
 ## Other Terms
 
 By submitting a report, you grant SaucerSwap Labs the rights necessary to validate and resolve the vulnerability. All reward decisions are at our sole discretion. The program's terms may be changed at any time.
-
-# **SaucerSwap Wallet Beta Bug Bounty**
-
-### **CRITICAL: \$10,000–\$20,000** (up to \$50,000 for exceptional impact)
-
-- Remote fund theft without user interaction
-- Seed phrase, private key, or key-material extraction (incl. Secure Enclave/Keychain misuse enabling export)
-- Signing forgery or post-confirmation transaction manipulation that results in unintended on-chain value transfer
-- Deeplink/Universal-link/WalletConnect hijacking that triggers unauthorized spend on a non-jailbroken device
-
-_Requires: Non-jailbroken device; reproducible end-to-end PoC showing unauthorized on-chain effect or demonstrable key exfil_
-
-### **HIGH: \$1,000–\$10,000**
-
-- Bypass of biometric/PIN/app lock leading to unauthorized signing on the device
-- Unauthorized transaction signing that requires minimal user interaction (e.g., approving a legitimate-looking but misleading prompt)
-- Session/token theft or privilege escalation that grants control of wallet-bound operations (e.g., push-action abuse, protected API actions) without keys
-- Logic flaws enabling unintended wallet operations (e.g., silent account import/switch, spend limits bypass, approval spoofing)
-
-### **MEDIUM: \$500–\$1,000**
-
-- Sensitive metadata exposure without fund access, including: identity↔address linkage (addresses/balances tied to device ID/IP/email), HD wallet xpub/derivation path disclosure, labels/notes/contacts/watchlists, "hide balance" bypass, or transport leaks (e.g., unpinned TLS/HTTP) that tie addresses to a user/device
-- UX flaws that could mislead users into unintended actions but do not alter the payload actually signed
-- Insecure configurations with no direct exploit path (e.g., weak ATS/pinning, verbose logs revealing non-secret identifiers)
-- Client-side issues with limited impact (e.g., WebView/XSS outside the signing context; local logs of public data with no linkage)
-
-### **LOW: \$50–\$250**
-
-- UI/UX bugs with no security impact
-- Crashes or performance issues
-- Cosmetic display errors
-- Minor functionality defects
-
----
-
-### **IN SCOPE (Mobile App & Interactions)**
-
-Latest TestFlight/Google Play Console/App Store build, including:
-
-- Key storage (Secure Enclave/Keychain)
-- Seed handling & local storage/iCloud backup behavior
-- Biometric/PIN gate
-- Deeplink/universal-link/WalletConnect flows
-- QR/clipboard import/export
-- Notification privacy
-- Network/RPC/mirror-node/backend communications (TLS, pinning, request integrity)
-
-### **OUT OF SCOPE**
-
-- Public on-chain data discovery without wallet-specific linkage (e.g., "I found a balance on a block explorer")
-- Phishing, social engineering, or attacks requiring collusion from SaucerSwap staff or third-party support
-- Physical access, stolen/unlocked devices, SIM-swap, device-level malware, or OS/kernel exploits unrelated to the app
-- Repackaged or modified app builds, emulator-only issues, or jailbreak-only read-only file access (unless chained to unauthorized signing → then evaluate under High)
-- DoS/spam, rate-limit/resource-exhaustion, uptime or content moderation of third-party services, or issues requiring unrealistic user settings (e.g., disabling TLS trust entirely)
-- Vulnerabilities in third-party libraries without demonstrable impact on SaucerSwap Mobile
-- Typos, minor copy, analytics preferences, or crash reports without security/privacy violation
-- Duplicate reports, theoretical impacts without working PoC, or issues already known/in remediation
-
-### **REPORTING REQUIREMENTS (all severities)**
-
-- Provide clear, reproducible PoC (steps, affected build/OS, minimal test wallet), and—where relevant—network captures or on-chain evidence
-- Use only accounts/wallets you control; no testing against real user data; keep tests within reasonable rate limits
-- First valid report wins if duplicates arise; impact determines payout within the band; we may exceed the band for extraordinary impact
-
-### 
-
-### **REPORTING (Google Form - SaucerSwap Wallet for Android app )**
-
-- Access the Google Form: https://forms.gle/ijwTBRmfHECTTR2y8
-- Enter a valid email address and complete the form.
