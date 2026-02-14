@@ -36,7 +36,7 @@ The new reserves, _x′_ and _y′_, must satisfy the invariant, _k_:
 
 Solving for _y′_:
 
-> (10,000 + 99.7)×(1000−_y′_) = 10,000,000_y′_ = 1000−10,099.7 / 10,000,000 ​≈ 9.9 USDC
+> (10,000 + 99.7)×(1000−\_y′_) = 10,000,000_y′_ = 1000−10,099.7 / 10,000,000 ​≈ 9.9 USDC
 
 The trader receives about 9.9 USDC for 100 HBAR. This is slightly less than expected due to price impact. Price impact can be defined as the liquidity "cost" a trader incurs when executing a swap. This cost manifests as a less favorable exchange rate, since an adjustment in the token reserves, _x_ and _y_, is needed to maintain the constant product, _k_. The price impact is calculated as follows:
 
@@ -54,7 +54,7 @@ In this example, the 0.3 HBAR fee from the trade gets split—0.25 HBAR goes to 
 
 The addition of 0.25 HBAR to the pool increases the value of each LP token. Liquidity providers can track accumulated fees through the 7-day average _Fees APR_ displayed on the interface. Note that the LP token price is not immune to volatility; it is affected by the price movements of the underlyings—specifically HBAR and USDC in this instance.
 
-> Fees APR = 24_h_ Volume x (Fee x 5/6) / Liquidity × 365
+> Fees APR = 24_h\_ Volume x (Fee x 5/6) / Liquidity × 365
 
 Where _Fee_ = 0.30%.
 
@@ -64,7 +64,7 @@ Where _Fee_ = 0.30%.
 
 ### Yield Farm
 
-Yield farming on SaucerSwap allows liquidity providers to stake their LP tokens in the Masterchef contract to earn dual rewards in both HBAR and SAUCE. The Masterchef contract handles LP token staking and unstaking, as well as the automated minting and distribution of SAUCE rewards, according to a pre-set emission schedule.
+Yield farming on SaucerSwap allows liquidity providers to stake their LP tokens in the Masterchef contract to earn dual rewards in both HBAR and SAUCE (note that the HBAR emission rate is currently set to zero). The Masterchef contract handles LP token staking and unstaking, as well as the automated minting and distribution of SAUCE rewards, according to a pre-set emission schedule.
 
 Rewards are proportional to the size of the liquidity provider's stake, relative to the total staked assets in the pool, and influenced by the pool's weight of overall emissions. The interface tracks these rewards as Reward APR, calculated using the formula:
 
