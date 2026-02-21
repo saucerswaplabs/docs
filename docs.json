@@ -94,7 +94,8 @@
       {
         "group": "Governance",
         "pages": [
-          "governance/overview"
+          "governance/overview",
+          "governance/dao-reporting"
         ]
       },
       {
@@ -134,7 +135,7 @@
                     "pages": [
                       "v/developer/rest-api/tokens/tokens",
                       "v/developer/rest-api/tokens/tokens-full",
-                      "v/developer/rest-api/tokens/tokens-known",                      
+                      "v/developer/rest-api/tokens/tokens-known",
                       "v/developer/rest-api/tokens/tokens-default",
                       "v/developer/rest-api/tokens/tokens-price-change",
                       "v/developer/rest-api/tokens/tokens-daily",
@@ -154,9 +155,9 @@
                   {
                     "group": "Pools (V1)",
                     "pages": [
-                      "v/developer/rest-api/pools-v1/pools", 
-                      "v/developer/rest-api/pools-v1/pools-full",  
-                      "v/developer/rest-api/pools-v1/pools-known",   
+                      "v/developer/rest-api/pools-v1/pools",
+                      "v/developer/rest-api/pools-v1/pools-full",
+                      "v/developer/rest-api/pools-v1/pools-known",
                       "v/developer/rest-api/pools-v1/pools-daily",
                       "v/developer/rest-api/pools-v1/pools-weekly",
                       "v/developer/rest-api/pools-v1/pools-monthly",
@@ -165,18 +166,18 @@
                       "v/developer/rest-api/pools-v1/pool-daily",
                       "v/developer/rest-api/pools-v1/pool-weekly",
                       "v/developer/rest-api/pools-v1/pool-monthly",
-                      "v/developer/rest-api/pools-v1/pool-yearly",                      
-                      "v/developer/rest-api/pools-v1/pool-conversionRates",                      
+                      "v/developer/rest-api/pools-v1/pool-yearly",
+                      "v/developer/rest-api/pools-v1/pool-conversionRates",
                       "v/developer/rest-api/pools-v1/pool-conversionRates-latest"
                     ]
                   },
                   {
                     "group": "Pools and Positions (V2)",
                     "pages": [
-                      "v/developer/rest-api/pools-v2/pools", 
-                      "v/developer/rest-api/pools-v2/pools-full", 
-                      "v/developer/rest-api/pools-v2/pool",      
-                      "v/developer/rest-api/pools-v2/pool-conversionRates",                    
+                      "v/developer/rest-api/pools-v2/pools",
+                      "v/developer/rest-api/pools-v2/pools-full",
+                      "v/developer/rest-api/pools-v2/pool",
+                      "v/developer/rest-api/pools-v2/pool-conversionRates",
                       "v/developer/rest-api/pools-v2/account-nft-positions",
                       "v/developer/rest-api/pools-v2/lari-reward"
                     ]
