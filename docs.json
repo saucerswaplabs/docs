@@ -167,8 +167,8 @@
                       "v/developer/rest-api/pools-v1/pool-weekly",
                       "v/developer/rest-api/pools-v1/pool-monthly",
                       "v/developer/rest-api/pools-v1/pool-yearly",
-                      "v/developer/rest-api/pools-v1/pool-conversionRates",
-                      "v/developer/rest-api/pools-v1/pool-conversionRates-latest"
+                      "v/developer/rest-api/pools-v1/pool-conversion-rates",
+                      "v/developer/rest-api/pools-v1/pool-conversion-rates-latest"
                     ]
                   },
                   {
@@ -177,7 +177,7 @@
                       "v/developer/rest-api/pools-v2/pools",
                       "v/developer/rest-api/pools-v2/pools-full",
                       "v/developer/rest-api/pools-v2/pool",
-                      "v/developer/rest-api/pools-v2/pool-conversionRates",
+                      "v/developer/rest-api/pools-v2/pool-conversion-rates",
                       "v/developer/rest-api/pools-v2/account-nft-positions",
                       "v/developer/rest-api/pools-v2/lari-reward"
                     ]
