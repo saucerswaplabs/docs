@@ -2,11 +2,13 @@
 title: "Overview"
 ---
 
-The [WHBAR contract](/developerx/contract-deployments) is a key component of the SaucerSwap protocol, enabling the conversion of native HBAR into wrapped HBAR, and vice versa, thereby inheriting the HTS functionality needed to interact with smart contracts on Hedera. 
+The [WHBAR contract](/developerx/contract-deployments) is a key component of the SaucerSwap protocol, enabling the conversion of native HBAR into wrapped HBAR, and vice versa, thereby inheriting the HTS functionality needed to interact with smart contracts on Hedera.
 
 It is specifically designed to be called by the SaucerSwap V1 and V2 core and periphery contracts, as well as the WhbarHelper contract (described in this section). WHBAR is not intended for direct use by developers in other applications due to its specialized nature.
 
-#### WHBAR Contract Security Advisory
+### WHBAR Contract Security Advisory
+
+Direct usage of the WHBAR contract by accounts which meet the following risk conditions expose themselves to loss of funds. The vulnerability described in this notice has existed since a 2023 network update.
 
 For funds to be at risk, specific conditions must exist:
 
