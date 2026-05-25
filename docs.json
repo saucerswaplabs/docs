@@ -261,6 +261,7 @@
           "developerx/contract-deployments",
           "developerx/audits",
           "developerx/bug-bounty",
+          "developerx/bug-bounty/v3-testnet",
           "external-link-3"
         ]
       },
