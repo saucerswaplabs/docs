@@ -24,6 +24,10 @@ The example client uses:
 | `ws` | Node.js WebSocket support |
 | `@hiero-ledger/sdk` | Hedera account key handling for ED25519 accounts |
 
+<Info>
+  The example pins `ethers@5` intentionally for CommonJS-friendly bot projects. If your service already runs as ESM, you can adapt the signing helpers to `ethers@6+`, but do not upgrade the sample dependency without also reviewing the module format and API changes.
+</Info>
+
 ## Recommended Client Surface
 
 If you build a small wrapper around the API, use a surface like this:
