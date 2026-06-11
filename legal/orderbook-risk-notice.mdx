@@ -1,0 +1,29 @@
+---
+title: "📑 V3 Orderbook Risk Notice"
+---
+
+Last modified: May 29, 2026
+
+SaucerSwap V3 uses off-chain orderbook infrastructure, settlement-support software, and on-chain settlement components. Settlement-support software may submit matched bundles for on-chain settlement. Off-chain systems may include order-entry tools, order admission, validation, signed order storage, matching, relay, market data, order status, APIs, WebSockets, databases, queues, Redis streams, indexers, mirror nodes, Hedera Consensus Service ("HCS") references where used, operator accounts, wallets, and third-party infrastructure.
+
+Using V3 involves risks, including:
+
+- orders may be rejected, delayed, throttled, dropped, expired, canceled, corrected, partially filled, fully filled, overfilled, underfilled, filled more than once, filled after an apparent terminal state, not filled, or settled later than expected;
+
+- cancellations may fail, lag, or arrive too late to prevent matching or settlement support;
+
+- a displayed cancellation, order status, fill status, balance, or settlement status may be provisional, delayed, stale, incorrect, or inconsistent across the interface, API, WebSocket feed, wallet, explorer, mirror node, indexer, and public network;
+
+- market data, quotes, spreads, depth, balances, fees, routes, order status, fills, and analytics may be stale, wrong, delayed, incomplete, inconsistent, or unavailable;
+
+- order-core, matcher, database, Redis, queue, API, WebSocket, indexer, mirror-node, HCS references where used, wallet, signature, RPC, node, settlement-support software, fee-controller, admin-configuration, maker validation, taker transfer, actual-fee, fee-cap, or order-cap, skipped-maker, filler authorization, fee-discount tier, market-data, market-halt, market-reopen, or third-party systems can fail or behave unexpectedly;
+
+- orders may fill within signed parameters at prices, amounts, or times different from interface estimates;
+
+- orders may match against another order, SaucerSwap automated market maker ("AMM") liquidity, or another configured backstop liquidity source made available by the then-current V3 configuration, and the resulting price, amount, fee, timing, slippage, or settlement path may differ from the interface estimate;
+
+- public networks and smart contracts can fail, halt, reorganize, congest, be exploited, or behave unexpectedly;
+
+- audits, security reviews, bug bounties, monitoring, and testnets reduce but do not eliminate risk and apply only to their stated scope.
+
+SaucerSwap Labs does not provide best execution, price improvement, price protection, quote protection, regulated market surveillance service, fair access, order priority, continuous trading, guaranteed liquidity, liquidity-provision or market-making obligations, uptime, cancellation, recovery, reimbursement, fiduciary, brokerage, custody, regulated clearing, custodial settlement, guaranteed settlement, settlement as a regulated intermediary, or money transmission services. You are responsible for reviewing every wallet prompt, signature mode, signature prefix, signed message, order parameter, approval, allowance, cancellation, and transaction before signing.
