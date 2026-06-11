@@ -107,6 +107,33 @@ JWTs are short-lived. Re-authenticate before a long-running session expires or w
 | WebSocket | `/ws/depth` | Subscribe to live orderbook depth diffs |
 | WebSocket | `/ws/user-events` | Subscribe to authenticated order events |
 
+## Market Discovery
+
+Use `GET /books` to discover tradable orderbooks before building orders. Key market fields include token identifiers, market status, trading increments, and the current AMM-routing flag:
+
+```typescript
+interface OrderbookItem {
+  id: number
+  baseTokenId: string
+  quoteTokenId: string
+  baseTokenEvmAddress: string
+  quoteTokenEvmAddress: string
+  status: string // 'OPEN' | 'CLOSED'
+  isAMMEnabled: boolean // whether AMM liquidity is routed into this book
+  isMarketHalted: boolean
+  baseTokenSymbol: string | null
+  quoteTokenSymbol: string | null
+  tickStep: string
+  sizeStep: string
+  lotSize: string
+  minNotional: string
+}
+```
+
+Additional price, volume, and timestamp fields may also be present.
+
+Use the returned EVM token addresses for `inputToken` and `outputToken` when building orders. If `isAMMEnabled` is `true`, AMM liquidity can be routed into that book when an order request also opts into AMM-backed settlement.
+
 ## Place Orders
 
 Order placement is a build, sign, save flow:
@@ -224,10 +251,11 @@ The API applies these limits automatically:
 
 | Constraint | Value |
 | --- | --- |
-| Max open orders per wallet | `2,500` |
+| Max open orders per wallet | `5,000` |
 | Min order deadline | 30 seconds from now |
 | Max order deadline | 90 days from now |
-| Max orders per build/save request | `100` |
+| Max orders per build/save request | `250` |
+| Max orders per cancel request | `500` |
 
 If a requested deadline exceeds the max, the server may clamp the returned order deadline. Always sign the deadline in the built order response.
 
@@ -236,6 +264,8 @@ If a requested deadline exceeds the max, the server may clamp the returned order
 Cancellation endpoints are asynchronous. A `202 Accepted` response means the cancellation request was accepted; it does not mean the order is already cancelled.
 
 Use the user-event WebSocket or `GET /orders/:orderId/history` to confirm the final `ORDER_CANCELED` event.
+
+`POST /cancel` accepts up to 500 order IDs per request. Split larger cancellation batches into multiple requests and reconcile each accepted order through the user-event stream or order history.
 
 | Endpoint | Description |
 | --- | --- |
