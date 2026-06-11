@@ -243,6 +243,7 @@
               },
               {
                 "group": "SaucerSwap V3",
+                "hidden": true,
                 "pages": [
                   "v/developer/saucerswap-v3/orderbook-api",
                   "v/developer/saucerswap-v3/orderbook-api/typescript-client"
