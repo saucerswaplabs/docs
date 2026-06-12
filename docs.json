@@ -242,6 +242,14 @@
                 ]
               },
               {
+                "group": "SaucerSwap V3",
+                "hidden": true,
+                "pages": [
+                  "v/developer/saucerswap-v3/orderbook-api",
+                  "v/developer/saucerswap-v3/orderbook-api/typescript-client"
+                ]
+              },
+              {
                 "group": "Staking Operations",
                 "pages": [
                   "v/developer/staking-operations/single-sided-staking",

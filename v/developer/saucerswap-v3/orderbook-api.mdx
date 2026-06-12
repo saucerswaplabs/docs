@@ -1,0 +1,334 @@
+---
+title: "Orderbook API"
+description: "Programmatic trading guide for SaucerSwap V3 orderbook integrations"
+---
+
+The SaucerSwap V3 Orderbook API is designed for programmatic trading clients, market makers, wallets, dashboards, analytics surfaces, and other integrations that need order placement, cancellation, account order state, and live orderbook data.
+
+The documentation is public. Protected API calls require wallet authentication, and production users should expect rate and service-protection limits. Teams planning sustained high-volume traffic should contact [support@saucerswap.finance](mailto:support@saucerswap.finance) so we can coordinate limits and support.
+
+<Info>
+  This API is separate from the legacy SaucerSwap REST API. The legacy REST API uses `x-api-key` authentication. The V3 Orderbook API uses wallet challenge authentication and short-lived JWTs.
+</Info>
+
+## Integration Flow
+
+| Phase | What your client does | Primary API surface |
+| --- | --- | --- |
+| Authenticate | Sign a challenge with the trading account | `POST /auth/challenge`, `POST /auth/verify` |
+| Discover markets | List orderbooks, fees, and onboarding status | `GET /books`, `GET /fees/:orderbookId`, `GET /onboarding/:orderbookId/status` |
+| Read market data | Fetch a depth snapshot and subscribe to diffs | `GET /depth/:orderbookId`, `/ws/depth` |
+| Place orders | Build, sign, and save orders | `GET /signature/domain`, `POST /orders/build`, `POST /orders/save` |
+| Reconcile | Track order events and recover state after reconnects | `/ws/user-events`, `GET /orders`, `GET /orders/:orderId/history` |
+| Cancel | Request cancellation or submit on-chain cancellation | `POST /cancel`, `POST /cancel/all`, reactor cancellation |
+
+Authenticate first, then use testnet before moving the same flow to mainnet. Move to mainnet after your client handles authentication renewal, WebSocket reconnects, cancellation finality, and integer string handling correctly.
+
+## Environments
+
+| Environment | API base URL | Hedera Mirror Node |
+| --- | --- | --- |
+| Testnet | `https://testnet-orderbook-api.saucerswap.finance` | `https://testnet.mirrornode.hedera.com` |
+| Mainnet | `https://orderbook-api.saucerswap.finance` | `https://mainnet.mirrornode.hedera.com` |
+
+WebSocket streams use the same host with the `wss://` scheme.
+
+## Authentication
+
+All protected endpoints require a JWT issued by the `/auth` flow. Attach the JWT to REST calls with:
+
+```http
+Authorization: Bearer <token>
+```
+
+The challenge and verify endpoints are the only unauthenticated calls:
+
+| Step | Endpoint | Purpose |
+| --- | --- | --- |
+| 1 | `POST /auth/challenge` | Submit `accountId` and receive a nonce message to sign |
+| 2 | client-side signing | Sign the challenge with the account key |
+| 3 | `POST /auth/verify` | Submit `accountId` and `signature`; receive a JWT |
+
+Challenge request:
+
+```json
+{ "accountId": "0.0.123456" }
+```
+
+Challenge response:
+
+```json
+{ "message": "..." }
+```
+
+Verify request:
+
+```json
+{
+  "accountId": "0.0.123456",
+  "signature": "0x..."
+}
+```
+
+Verify response:
+
+```json
+{ "token": "jwt" }
+```
+
+Supported account identifiers:
+
+| Account format | Supported key types | Notes |
+| --- | --- | --- |
+| `0.0.X` | `ED25519`, `ECDSA_SECP256K1` | Key type is resolved through the Hedera Mirror Node |
+| `0x...` | `ECDSA_SECP256K1` | Treated as an EVM account |
+
+JWTs are short-lived. Re-authenticate before a long-running session expires or whenever a protected call returns `401`.
+
+<Warning>
+  Never put a primary wallet private key in a bot process. Use a dedicated integration account, store secrets server-side, and start on testnet before placing mainnet orders.
+</Warning>
+
+## Endpoint Summary
+
+| Category | Endpoint | Description |
+| --- | --- | --- |
+| Markets | `GET /books` | List available orderbooks |
+| Market data | `GET /depth/:orderbookId` | Fetch a full depth snapshot |
+| Fees | `GET /fees/:orderbookId?side=maker` | Fetch fee rates for an orderbook side |
+| Onboarding | `GET /onboarding/:orderbookId/status` | Check whether the account can trade a market |
+| Orders | `GET /orders` | List authenticated account orders |
+| Orders | `GET /orders/:orderId/history` | Fetch per-order event history |
+| Signing | `GET /signature/domain` | Fetch the EIP-712 domain for the active environment |
+| Placement | `POST /orders/build` | Build unsigned orders with server-assigned nonces |
+| Placement | `POST /orders/save` | Submit signed orders |
+| Cancellation | `POST /cancel` | Request cancellation for specific order IDs |
+| Cancellation | `POST /cancel/all` | Emergency cancel by nonce floor |
+| WebSocket | `/ws/depth` | Subscribe to live orderbook depth diffs |
+| WebSocket | `/ws/user-events` | Subscribe to authenticated order events |
+
+## Market Discovery
+
+Use `GET /books` to discover tradable orderbooks before building orders. Key market fields include token identifiers, market status, trading increments, and the current AMM-routing flag:
+
+```typescript
+interface OrderbookItem {
+  id: number
+  baseTokenId: string
+  quoteTokenId: string
+  baseTokenEvmAddress: string
+  quoteTokenEvmAddress: string
+  status: string // 'OPEN' | 'CLOSED'
+  isAMMEnabled: boolean // whether AMM liquidity is routed into this book
+  isMarketHalted: boolean
+  baseTokenSymbol: string | null
+  quoteTokenSymbol: string | null
+  baseTokenDecimals: number | null // token decimals, e.g. 8 for WBTC
+  quoteTokenDecimals: number | null // token decimals, e.g. 6 for USDC
+  tickStep: string
+  sizeStep: string
+  lotSize: string
+  minNotional: string
+}
+```
+
+Additional price, volume, and timestamp fields may also be present.
+
+Use the returned EVM token addresses for `inputToken` and `outputToken` when building orders. Use `baseTokenDecimals` and `quoteTokenDecimals` when converting between human-readable display amounts and raw token amounts. Keep the build, sign, and save path on raw token units. If `isAMMEnabled` is `true`, AMM liquidity can be routed into that book when an order request also opts into AMM-backed settlement.
+
+## Place Orders
+
+Order placement is a build, sign, save flow:
+
+1. Fetch the signing domain with `GET /signature/domain`.
+2. Build orders with `POST /orders/build`.
+3. Sign the returned order structs client-side.
+4. Save signed orders with `POST /orders/save`.
+
+### 1. Fetch the Domain
+
+The signing domain is environment-specific. Fetch it once and cache it for the session.
+
+```typescript
+const domain = await client.getDomain()
+// { name, version, chainId, verifyingContract }
+```
+
+`verifyingContract` is the reactor contract address used for signatures, and `chainId` identifies the Hedera network.
+
+### 2. Build Orders
+
+```typescript
+const orders = await client.buildOrders([
+  {
+    orderbookId: '3',
+    type: 'LIMIT',
+    deadline: String(Math.floor(Date.now() / 1000) + 3600),
+    inputToken: '0xbase-token-evm-address',
+    inputAmount: '1000000',
+    outputToken: '0xquote-token-evm-address',
+    outputAmount: '950000',
+    makerOnly: false,
+    takerOnce: false,
+    isAMMEnabled: true,
+  },
+])
+```
+
+The server assigns each order nonce and returns the serialized order struct to sign. Always sign the returned order object, not your original request object.
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `orderbookId` | `string` | Yes | Market ID |
+| `type` | `LIMIT` or `MARKET` | Yes | Order type |
+| `deadline` | `string` | LIMIT only | Unix timestamp in seconds. Omit for market orders. |
+| `inputToken` | `string` | Yes | EVM address of the token being sold |
+| `inputAmount` | `string` | Yes | Raw token amount, in smallest units |
+| `outputToken` | `string` | Yes | EVM address of the token being bought |
+| `outputAmount` | `string` | Yes | Minimum raw output amount. Use `"1"` for market orders. |
+| `recipient` | `string` | No | Output recipient EVM address |
+| `makerOnly` | `boolean` | No | Restrict order to maker fills |
+| `takerOnce` | `boolean` | No | Allow only one taker fill |
+| `isAMMEnabled` | `boolean` | No | Permit AMM-backed settlement |
+
+<Warning>
+  Keep all integer quantities as strings. Do not cast nonces, deadlines, or raw token amounts to JavaScript numbers before signing.
+</Warning>
+
+### 3. Sign Orders
+
+Sign only the EIP-712 order fields. Exclude metadata returned by the API.
+
+The signature wire format starts with a one-byte mode prefix:
+
+| Prefix | Mode | Typical use |
+| --- | --- | --- |
+| `0x00` | EIP-712 | ECDSA bot clients and ED25519 bot clients signing the EIP-712 hash |
+| `0x01` | Hedera personal sign | Wallet flows that return a HIP-632 `SignatureMap` for a HIP-820 Hedera personal-sign payload |
+
+Do not strip the prefix. The reactor and backend use the prefix to choose the verifier.
+
+```typescript
+const signature = await client.signOrder(orders[0], privateKey, domain)
+```
+
+### 4. Save Orders
+
+```typescript
+const { orders: saved } = await client.saveOrders([
+  {
+    order: orders[0],
+    signature,
+    orderbookId: '3',
+    type: 'LIMIT',
+  },
+])
+```
+
+The response returns an `orders` array with saved order objects and `meta.status` populated. If `ocoLinks` were supplied, the response may also include an `oco` block with link status.
+
+### OCO Orders
+
+`POST /orders/save` also supports optional one-cancels-the-other metadata through `ocoLinks`. OCO links are server-side transport metadata; they are not included in the EIP-712 digest and are not submitted to the reactor.
+
+Each link pairs two items in the same save request:
+
+```json
+{
+  "items": [
+    { "order": {}, "signature": "0x...", "orderbookId": "3", "type": "LIMIT" },
+    { "order": {}, "signature": "0x...", "orderbookId": "3", "type": "LIMIT" }
+  ],
+  "ocoLinks": [
+    { "a": 0, "b": 1 }
+  ]
+}
+```
+
+OCO pairs must share the same `orderbookId` and swapper, and currently only `LIMIT` orders are supported in OCO pairs.
+
+## Policy Limits
+
+The API applies these limits automatically:
+
+| Constraint | Value |
+| --- | --- |
+| Max open orders per wallet | `5,000` |
+| Min order deadline | 30 seconds from now |
+| Max order deadline | 90 days from now |
+| Max orders per build/save request | `250` |
+| Max orders per cancel request | `500` |
+
+If a requested deadline exceeds the max, the server may clamp the returned order deadline. Always sign the deadline in the built order response.
+
+## Cancellations
+
+Cancellation endpoints are asynchronous. A `202 Accepted` response means the cancellation request was accepted; it does not mean the order is already cancelled.
+
+Use the user-event WebSocket or `GET /orders/:orderId/history` to confirm the final `ORDER_CANCELED` event.
+
+`POST /cancel` accepts up to 500 order IDs per request. Split larger cancellation batches into multiple requests and reconcile each accepted order through the user-event stream or order history.
+
+| Endpoint | Description |
+| --- | --- |
+| `POST /cancel` | Request cancellation for one or more order IDs |
+| `POST /cancel/all` | Emergency cancel by nonce floor |
+
+The on-chain reactor remains the source of truth. Advanced clients can also submit on-chain cancellations directly to the reactor, then rely on indexer reconciliation.
+
+## WebSockets
+
+Both streams require a valid JWT in the `token` query parameter:
+
+```text
+wss://<host>/ws/depth?token=<jwt>&books=<id>,<id>
+wss://<host>/ws/user-events?token=<jwt>&books=<id>,<id>
+```
+
+Treat WebSocket URLs as sensitive because they contain the JWT. Avoid logging full URLs in production.
+
+For reliable depth handling:
+
+1. Connect to the depth stream.
+2. Buffer diffs while fetching the REST depth snapshot.
+3. Apply buffered diffs after the snapshot.
+4. Continue applying live diffs.
+
+Re-authenticate before each reconnect attempt. Active WebSocket connections are verified at handshake time; a connection can remain open after its original JWT expires.
+
+## Production Checklist
+
+Before placing sustained mainnet flow, confirm your client can:
+
+- re-authenticate after `401` responses
+- reconnect WebSockets with backoff
+- rebuild local books from snapshot plus buffered diffs
+- treat cancellation `202` responses as acknowledgements, not final states
+- keep all `uint256` values as strings through signing and saving
+- use the orderbook token decimals when converting raw amounts for display or order sizing
+- store JWTs and private keys only in server-side secret storage
+- monitor open order count, deadlines, and rate-limit responses
+- reconcile user events with `GET /orders/:orderId/history` after reconnects
+
+## Error Format
+
+Errors are returned as:
+
+```json
+{ "error": "message string" }
+```
+
+Common statuses:
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid request |
+| `401` | Missing or expired JWT |
+| `403` | Authenticated account is not allowed to perform the action |
+| `404` | Resource not found |
+| `429` | Rate limited |
+| `500` | Server error |
+
+## TypeScript Client
+
+For a server-side bot example, see [TypeScript Bot Client](/v/developer/saucerswap-v3/orderbook-api/typescript-client).
