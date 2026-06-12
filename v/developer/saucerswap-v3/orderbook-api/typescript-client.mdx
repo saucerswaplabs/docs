@@ -89,7 +89,7 @@ async function placeLimitOrder() {
     })
   }
 
-  const saved = await client.saveOrders(items)
+  const { orders: saved } = await client.saveOrders(items)
   for (const order of saved) {
     console.log(
       `order ${order.meta?.id}: status=${order.meta?.status} nonce=${order.info.nonce}`,
