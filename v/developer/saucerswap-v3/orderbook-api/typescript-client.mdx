@@ -35,6 +35,7 @@ If you build a small wrapper around the API, use a surface like this:
 | Method | Purpose |
 | --- | --- |
 | `authenticate(accountId, privateKey)` | Run challenge and verify flow; store the JWT |
+| `getOrderbooks(query)` | Discover orderbook token IDs, EVM addresses, decimals, status, and routing flags |
 | `getDepth(orderbookId)` | Fetch a depth snapshot |
 | `getDomain()` | Fetch and cache the EIP-712 signing domain |
 | `buildOrders(requests)` | Request nonce-assigned serialized orders |
@@ -124,6 +125,7 @@ Wallet integrations that use Hedera personal sign should instead use the `0x01` 
 - Reuse the same authenticated account for build, sign, save, and cancellation.
 - Sign the order returned by `buildOrders()`, not the original request body.
 - Preserve all integer fields as strings.
+- Use `baseTokenDecimals` and `quoteTokenDecimals` from `getOrderbooks()` when converting between display amounts and raw token units.
 - Keep the signature mode byte in the submitted signature.
 - Re-authenticate before reconnecting WebSocket streams.
 
