@@ -15,14 +15,14 @@ The documentation is public. Protected API calls require wallet authentication, 
 
 | Phase | What your client does | Primary API surface |
 | --- | --- | --- |
-| Discover markets | List orderbooks, fees, and onboarding status | `GET /books`, `GET /fees/:orderbookId`, `GET /onboarding/:orderbookId/status` |
 | Authenticate | Sign a challenge with the trading account | `POST /auth/challenge`, `POST /auth/verify` |
+| Discover markets | List orderbooks, fees, and onboarding status | `GET /books`, `GET /fees/:orderbookId`, `GET /onboarding/:orderbookId/status` |
 | Read market data | Fetch a depth snapshot and subscribe to diffs | `GET /depth/:orderbookId`, `/ws/depth` |
 | Place orders | Build, sign, and save orders | `GET /signature/domain`, `POST /orders/build`, `POST /orders/save` |
 | Reconcile | Track order events and recover state after reconnects | `/ws/user-events`, `GET /orders`, `GET /orders/:orderId/history` |
 | Cancel | Request cancellation or submit on-chain cancellation | `POST /cancel`, `POST /cancel/all`, reactor cancellation |
 
-Use testnet first, then move the same flow to mainnet after your client handles authentication renewal, WebSocket reconnects, cancellation finality, and integer string handling correctly.
+Authenticate first, then use testnet before moving the same flow to mainnet. Move to mainnet after your client handles authentication renewal, WebSocket reconnects, cancellation finality, and integer string handling correctly.
 
 ## Environments
 
@@ -215,7 +215,7 @@ const signature = await client.signOrder(orders[0], privateKey, domain)
 ### 4. Save Orders
 
 ```typescript
-const saved = await client.saveOrders([
+const { orders: saved } = await client.saveOrders([
   {
     order: orders[0],
     signature,
@@ -225,7 +225,7 @@ const saved = await client.saveOrders([
 ])
 ```
 
-The response returns saved order objects with `meta.status` populated.
+The response returns an `orders` array with saved order objects and `meta.status` populated. If `ocoLinks` were supplied, the response may also include an `oco` block with link status.
 
 ### OCO Orders
 
