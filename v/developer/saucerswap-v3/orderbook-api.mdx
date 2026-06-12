@@ -123,6 +123,8 @@ interface OrderbookItem {
   isMarketHalted: boolean
   baseTokenSymbol: string | null
   quoteTokenSymbol: string | null
+  baseTokenDecimals: number | null // token decimals, e.g. 8 for WBTC
+  quoteTokenDecimals: number | null // token decimals, e.g. 6 for USDC
   tickStep: string
   sizeStep: string
   lotSize: string
@@ -132,7 +134,7 @@ interface OrderbookItem {
 
 Additional price, volume, and timestamp fields may also be present.
 
-Use the returned EVM token addresses for `inputToken` and `outputToken` when building orders. If `isAMMEnabled` is `true`, AMM liquidity can be routed into that book when an order request also opts into AMM-backed settlement.
+Use the returned EVM token addresses for `inputToken` and `outputToken` when building orders. Use `baseTokenDecimals` and `quoteTokenDecimals` when converting between human-readable display amounts and raw token amounts. Keep the build, sign, and save path on raw token units. If `isAMMEnabled` is `true`, AMM liquidity can be routed into that book when an order request also opts into AMM-backed settlement.
 
 ## Place Orders
 
@@ -303,6 +305,7 @@ Before placing sustained mainnet flow, confirm your client can:
 - rebuild local books from snapshot plus buffered diffs
 - treat cancellation `202` responses as acknowledgements, not final states
 - keep all `uint256` values as strings through signing and saving
+- use the orderbook token decimals when converting raw amounts for display or order sizing
 - store JWTs and private keys only in server-side secret storage
 - monitor open order count, deadlines, and rate-limit responses
 - reconcile user events with `GET /orders/:orderId/history` after reconnects
