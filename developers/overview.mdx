@@ -1,0 +1,66 @@
+---
+title: "Developer overview"
+description: "Start here to build on SaucerSwap: choose between the REST data API, the V3 Orderbook API, and on-chain contracts, with auth models and testnet setup."
+---
+
+SaucerSwap exposes three integration surfaces. Most integrations use more than one: read market data from an API, then quote and execute on-chain or through the order book.
+
+<Frame caption="The three protocol versions behind the integration surfaces.">
+  <img src="/images/diagrams/protocol-architecture.svg" alt="SaucerSwap protocol architecture: the V1 AMM, V2 concentrated liquidity, and V3 order book side by side beneath the app's routing layer" />
+</Frame>
+
+## The three surfaces
+
+| Surface | What it gives you | Authentication | Reference |
+| --- | --- | --- | --- |
+| REST data API | Tokens, prices, candles, V1/V2 pools, farms, positions, and protocol stats | `x-api-key` header, issued by the team | [API reference](/api-reference/overview) |
+| Orderbook API (V3) | Order books, depth, trade tape, market quotes, order placement and cancellation, WebSocket streams | Public reads; wallet challenge + JWT for account data and order flow | [Orderbook API](/api-reference/orderbook/overview) |
+| On-chain contracts | Swaps, quotes, liquidity, staking, and farming against the deployed V1 and V2 contracts | None — you pay Hedera gas | [Contract deployments](/developers/contracts) |
+
+## Which surface for which job
+
+| You want to | Use |
+| --- | --- |
+| Show prices, charts, TVL, or portfolio data | [REST data API](/api-reference/overview) |
+| Get a swap quote without executing | [QuoterV2 or router quote functions](/developers/v2/swap/swap-quote) — free via JSON-RPC or the mirror node |
+| Execute swaps from your own app or bot | [V2 swap operations](/developers/v2/swap/swap-quote) (V1 available as [legacy](/developers/v1/swap/swap-quote)) |
+| Run a market maker or trading bot on the V3 order book | [Orderbook API](/api-reference/orderbook/overview) and the [TypeScript bot client](/developers/orderbook/typescript-client) |
+| Manage liquidity positions programmatically | [V2 liquidity operations](/developers/v2/liquidity/new-liquidity-position) |
+| Stake SAUCE or farm LP tokens from code | [Staking operations](/developers/staking/single-sided-staking) |
+| Monitor swaps and pools in near real time | [Track swap events](/developers/v2/swap/track-swap-events), or the [order book WebSockets](/api-reference/orderbook/websockets) for V3 |
+
+<Note>
+  V2 is recommended for new AMM integrations; V1 remains live but is legacy. The V3 order book is a separate matching system with its own [API](/api-reference/orderbook/overview) and [concepts page](/protocol/saucerswap-v3).
+</Note>
+
+## Test before mainnet
+
+Every surface has a testnet counterpart:
+
+| Surface | Testnet endpoint |
+| --- | --- |
+| REST data API | `https://test-api.saucerswap.finance` |
+| Orderbook API | `https://testnet-orderbook-api.saucerswap.finance` |
+| Contracts | [Testnet deployments](/developers/contracts#hedera-testnet) via `https://testnet.mirrornode.hedera.com` and the testnet JSON-RPC relay |
+
+Create a Hedera testnet account and fund it with test HBAR through the [Hedera developer portal](https://portal.hedera.com/). Use a dedicated integration account for bots — never a primary wallet key.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" href="/developers/quickstart">
+    Make your first API calls in under five minutes.
+  </Card>
+
+  <Card title="Contract deployments" href="/developers/contracts">
+    Canonical contract and token IDs with HashScan links.
+  </Card>
+
+  <Card title="API reference" href="/api-reference/overview">
+    Both APIs, authentication models, and every endpoint.
+  </Card>
+
+  <Card title="Build with AI" href="/developers/ai">
+    llms.txt, the docs MCP server, and an agent rules file.
+  </Card>
+</CardGroup>

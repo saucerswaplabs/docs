@@ -1,0 +1,163 @@
+---
+title: "Contract deployments"
+description: "Canonical SaucerSwap contract and token IDs on Hedera mainnet and testnet with HashScan links, the V3 signing domain, and bridged SAUCE on Base."
+---
+
+These are the canonical SaucerSwap deployments. Every ID links to HashScan. Audit coverage for the V1, V2, and V3 contracts is listed on the [audits page](/developers/security/audits).
+
+<Warning>
+  Contracts marked deprecated remain on-chain but should not be used for new integrations. Always verify the ID you are calling against this page.
+</Warning>
+
+## Hedera mainnet
+
+### V1 (AMM)
+
+| Contract | Hedera ID | Purpose |
+| --- | --- | --- |
+| SaucerSwapV1Factory | [0.0.1062784](https://hashscan.io/mainnet/contract/0.0.1062784) | Creates V1 pools; `getPair`, `pairCreateFee` |
+| SaucerSwapV1RouterV3 | [0.0.3045981](https://hashscan.io/mainnet/contract/0.0.3045981) | Current V1 router for swaps and liquidity |
+| SaucerSwapRouterWithFee | [0.0.6755814](https://hashscan.io/mainnet/contract/0.0.6755814) | Fee-enabled router variant |
+| SaucerSwapV1RouterV2 (deprecated) | [0.0.1461860](https://hashscan.io/mainnet/contract/0.0.1461860) | Superseded by RouterV3 |
+| SaucerSwapV1RouterV1 (deprecated) | [0.0.1062787](https://hashscan.io/mainnet/contract/0.0.1062787) | Superseded by RouterV3 |
+| SaucerSwapV1FeeTo | [0.0.1062785](https://hashscan.io/mainnet/account/0.0.1062785) | Protocol fee collection account |
+
+### V2 (CLMM)
+
+| Contract | Hedera ID | Purpose |
+| --- | --- | --- |
+| SaucerSwapV2Factory | [0.0.3946833](https://hashscan.io/mainnet/contract/0.0.3946833) | Creates V2 pools; `getPool`, `mintFee` |
+| SaucerSwapV2SwapRouter | [0.0.3949434](https://hashscan.io/mainnet/contract/0.0.3949434) | V2 swaps (`exactInput`, `exactOutput`) |
+| SaucerSwapV2QuoterV2 | [0.0.3949424](https://hashscan.io/mainnet/contract/0.0.3949424) | Gas-free swap quotes |
+| SaucerSwapV2NonfungiblePositionManagerV2 | [0.0.4053945](https://hashscan.io/mainnet/contract/0.0.4053945) | Liquidity position NFTs |
+| — LP NFT token | [0.0.4054027](https://hashscan.io/mainnet/token/0.0.4054027) | NFT collection for V2 positions |
+| SaucerSwapV2NonfungiblePositionManagerV1 (deprecated) | [0.0.3949448](https://hashscan.io/mainnet/contract/0.0.3949448) | Superseded by V2 manager |
+| — LP NFT token (deprecated) | [0.0.3949456](https://hashscan.io/mainnet/token/0.0.3949456) | NFT collection for the deprecated manager |
+| SaucerSwapV2TickLens | [0.0.3948950](https://hashscan.io/mainnet/contract/0.0.3948950) | Tick data lens |
+| SaucerSwapV2TickMath | [0.0.3946804](https://hashscan.io/mainnet/contract/0.0.3946804) | Math library |
+| SaucerSwapV2BitMath | [0.0.3946806](https://hashscan.io/mainnet/contract/0.0.3946806) | Math library |
+| SaucerSwapV2SwapMath | [0.0.3946812](https://hashscan.io/mainnet/contract/0.0.3946812) | Math library |
+| SaucerSwapV2Oracle | [0.0.3946808](https://hashscan.io/mainnet/contract/0.0.3946808) | Oracle library |
+| SaucerSwapV2HbarConversion | [0.0.3946810](https://hashscan.io/mainnet/contract/0.0.3946810) | HBAR conversion helper |
+
+### V3 (order book)
+
+V3 order matching runs off-chain with on-chain settlement through a reactor contract. The reactor address is not a static list entry: fetch it per environment from the signing-domain endpoint, which returns the EIP-712 domain used for order signatures. Unauthenticated access to this endpoint is [rolling out network by network](/api-reference/orderbook/market-data) with the July 2026 deployment — if it returns `401`, call it with a [JWT](/api-reference/orderbook/authentication) instead.
+
+```bash
+curl "https://testnet-orderbook-api.saucerswap.finance/signature/domain"
+```
+
+The response's `verifyingContract` is the reactor contract for that environment, and `chainId` identifies the Hedera network. Example response from the testnet environment, captured July 9, 2026:
+
+```json Output
+{
+  "name": "PartialFillLimitOrderReactor",
+  "version": "1",
+  "chainId": 296,
+  "verifyingContract": "0xA09dB478fF54e5CB6925E19847d5c2d11Ef97cF0"
+}
+```
+
+Advanced clients can submit cancellations directly to the reactor on-chain; see [Orders and signing](/api-reference/orderbook/orders).
+
+### Staking and farming
+
+| Contract | Hedera ID | Purpose |
+| --- | --- | --- |
+| Mothership | [0.0.1460199](https://hashscan.io/mainnet/contract/0.0.1460199) | SAUCE single-sided staking (`enter`, `leave`) |
+| Masterchef | [0.0.1077627](https://hashscan.io/mainnet/contract/0.0.1077627) | Yield farms (`deposit`, `withdraw`, `pendingSauce`) |
+| StakeToSetter | [0.0.1456973](https://hashscan.io/mainnet/contract/0.0.1456973) | Staking configuration |
+
+### Fee routing and governance
+
+| Contract | Hedera ID | Purpose |
+| --- | --- | --- |
+| BrewsaucerV2 | [0.0.9575119](https://hashscan.io/mainnet/contract/0.0.9575119) | Protocol fee conversion to SAUCE |
+| BrewsaucerV1 (deprecated) | [0.0.1485296](https://hashscan.io/mainnet/contract/0.0.1485296) | Superseded by BrewsaucerV2 |
+| sauceSplitter | [0.0.1462981](https://hashscan.io/mainnet/contract/0.0.1462981) | Fee distribution splitter |
+| hbarSplitter | [0.0.1462986](https://hashscan.io/mainnet/contract/0.0.1462986) | Fee distribution splitter |
+| SaucerSwap Labs Proposal Creator | [0.0.7281411](https://hashscan.io/mainnet/account/0.0.7281411) | Governance proposal creation account |
+
+### Vesting (genesis allocation)
+
+| Contract | Hedera ID |
+| --- | --- |
+| CoreDevelopmentVesting | [0.0.1059453](https://hashscan.io/mainnet/contract/0.0.1059453) |
+| AdvisorVesting | [0.0.1059259](https://hashscan.io/mainnet/contract/0.0.1059259) |
+| MarketingVesting | [0.0.1059333](https://hashscan.io/mainnet/contract/0.0.1059333) |
+| OperationsVesting | [0.0.1059313](https://hashscan.io/mainnet/contract/0.0.1059313) |
+
+### WHBAR and wrappers
+
+| Contract | Hedera ID | Purpose |
+| --- | --- | --- |
+| WHBAR | [0.0.1456985](https://hashscan.io/mainnet/contract/0.0.1456985) | Wrapped HBAR contract |
+| — WHBAR token | [0.0.1456986](https://hashscan.io/mainnet/token/0.0.1456986) | The WHBAR HTS token |
+| WhbarHelper | [0.0.5808826](https://hashscan.io/mainnet/contract/0.0.5808826) | Safe wrap and unwrap helper — see [WHBAR overview](/developers/whbar/overview) |
+| WHBAR (deprecated) | [0.0.1062663](https://hashscan.io/mainnet/contract/0.0.1062663) | Legacy wrapped HBAR |
+| — WHBAR token (deprecated) | [0.0.1062664](https://hashscan.io/mainnet/token/0.0.1062664) | Legacy WHBAR HTS token |
+| ERC20Wrapper | [0.0.9675688](https://hashscan.io/mainnet/contract/0.0.9675688) | HTS to ERC20 wrapping |
+
+### Tokens
+
+| Token | Hedera ID |
+| --- | --- |
+| SAUCE | [0.0.731861](https://hashscan.io/mainnet/token/0.0.731861) |
+| xSAUCE | [0.0.1460200](https://hashscan.io/mainnet/token/0.0.1460200) |
+| Electromagnetic PEC | [0.0.732556](https://hashscan.io/mainnet/token/0.0.732556) |
+| Strong Nuclear PEC | [0.0.732555](https://hashscan.io/mainnet/token/0.0.732555) |
+| Weak Nuclear PEC | [0.0.732554](https://hashscan.io/mainnet/token/0.0.732554) |
+| Gravity PEC | [0.0.732553](https://hashscan.io/mainnet/token/0.0.732553) |
+
+## Hedera testnet
+
+| Contract | Hedera ID | Purpose |
+| --- | --- | --- |
+| WHBAR | [0.0.15057](https://hashscan.io/testnet/contract/0.0.15057) | Wrapped HBAR contract |
+| — WHBAR token | [0.0.15058](https://hashscan.io/testnet/token/0.0.15058) | The WHBAR HTS token |
+| WhbarHelper | [0.0.5286055](https://hashscan.io/testnet/contract/0.0.5286055) | Safe wrap and unwrap helper |
+| WHBAR (deprecated) | [0.0.2230358](https://hashscan.io/testnet/contract/0.0.2230358) | Legacy wrapped HBAR |
+| — WHBAR token (deprecated) | [0.0.2230359](https://hashscan.io/testnet/token/0.0.2230359) | Legacy WHBAR HTS token |
+| SaucerSwapV1Factory | [0.0.9959](https://hashscan.io/testnet/contract/0.0.9959) | Creates V1 pools |
+| SaucerSwapV1RouterV3 | [0.0.19264](https://hashscan.io/testnet/contract/0.0.19264) | Current V1 router |
+| SaucerSwapV1RouterWithFee | [0.0.4652955](https://hashscan.io/testnet/contract/0.0.4652955) | Fee-enabled router variant |
+| SaucerSwapV1RouterV2 (deprecated) | [0.0.2230930](https://hashscan.io/testnet/contract/0.0.2230930) | Superseded by RouterV3 |
+| FeeTo | [0.0.10060](https://hashscan.io/testnet/account/0.0.10060) | Protocol fee collection account |
+| Masterchef | [0.0.1179171](https://hashscan.io/testnet/contract/0.0.1179171) | Yield farms |
+| Mothership | [0.0.1418650](https://hashscan.io/testnet/contract/0.0.1418650) | SAUCE single-sided staking |
+| SAUCE token | [0.0.1183558](https://hashscan.io/testnet/token/0.0.1183558) | Testnet SAUCE |
+| xSAUCE token | [0.0.1418651](https://hashscan.io/testnet/token/0.0.1418651) | Testnet xSAUCE |
+| SaucerSwapV2Factory | [0.0.1197038](https://hashscan.io/testnet/contract/0.0.1197038) | Creates V2 pools |
+| SaucerSwapV2NonfungiblePositionManager | [0.0.1308184](https://hashscan.io/testnet/contract/0.0.1308184) | Liquidity position NFTs |
+| — LP NFT token | [0.0.1310436](https://hashscan.io/testnet/token/0.0.1310436) | NFT collection for V2 positions |
+| SaucerSwapV2SwapRouter | [0.0.1414040](https://hashscan.io/testnet/contract/0.0.1414040) | V2 swaps |
+| SaucerSwapV2QuoterV2 | [0.0.1390002](https://hashscan.io/testnet/contract/0.0.1390002) | Gas-free swap quotes |
+
+For the V3 testnet reactor, fetch `https://testnet-orderbook-api.saucerswap.finance/signature/domain` as shown above.
+
+## Bridged SAUCE
+
+| Network | Address |
+| --- | --- |
+| Base | [0xA4FF56eF7Ef4a2CaD03cFa130208C9BC1b45d293](https://basescan.org/token/0xA4FF56eF7Ef4a2CaD03cFa130208C9BC1b45d293) |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Developer quickstart" href="/developers/quickstart">
+    Call these contracts through the public mirror node.
+  </Card>
+
+  <Card title="Security audits" href="/developers/security/audits">
+    Audit reports covering the deployed contracts.
+  </Card>
+
+  <Card title="V2 swap operations" href="/developers/v2/swap/swap-quote">
+    Quote and swap against the V2 contracts.
+  </Card>
+
+  <Card title="Orderbook API" href="/api-reference/orderbook/overview">
+    Trade the V3 order book programmatically.
+  </Card>
+</CardGroup>

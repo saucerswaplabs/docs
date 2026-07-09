@@ -1,49 +1,53 @@
 ---
-title: "📊  Analytics"
+title: "Analytics"
+description: "Where to find SaucerSwap data: in-app token, pool, staking, and portfolio analytics, plus third-party trackers like DefiLlama, GeckoTerminal, and CoinGecko."
 ---
 
-## **SaucerSwap**
+SaucerSwap publishes live protocol data in the web app, and the protocol is tracked by the major independent aggregators. Third-party surfaces are useful for cross-checking volume and TVL against an external source.
 
-* [Token Analytics](https://www.saucerswap.finance/swap)
+## In the web app
 
-* [Pool Analytics](https://www.saucerswap.finance/liquidity)
+| Surface | What it shows |
+|---|---|
+| [Token analytics](https://www.saucerswap.finance/swap) | Per-token price, volume, and market data on the swap page |
+| [Pool analytics](https://www.saucerswap.finance/liquidity) | Per-pool TVL, volume, and fee data on the pool page |
+| [Staking analytics](https://www.saucerswap.finance/stake) | Infinity Pool rates and distribution data on the stake page |
+| [Portfolio](https://www.saucerswap.finance/portfolio) | Your positions, balances, and rewards on the dashboard |
 
-* [Staking Analytics](https://www.saucerswap.finance/stake)
+## Third-party trackers
 
-* [User Analytics](https://www.saucerswap.finance/portfolio)
+| Tracker | Coverage |
+|---|---|
+| [DefiLlama](https://defillama.com/protocol/saucerswap) | Protocol TVL and volume across versions |
+| [GeckoTerminal — V1](https://www.geckoterminal.com/hedera-hashgraph/saucerswap/pools) | V1 pool prices, volume, and liquidity |
+| [GeckoTerminal — V2](https://www.geckoterminal.com/hedera-hashgraph/saucerswap-v2/pools) | V2 pool prices, volume, and liquidity |
+| [DexScreener](https://dexscreener.com/hedera) | Hedera pair charts and trades |
+| [CoinMarketCap](https://coinmarketcap.com/exchanges/saucerswap/) | Exchange listing with markets and volume |
+| [CoinGecko — V1](https://www.coingecko.com/en/exchanges/saucerswap-v1) | V1 exchange listing |
+| [CoinGecko — V2](https://www.coingecko.com/en/exchanges/saucerswap-v2) | V2 exchange listing |
+| [DappRadar](https://dappradar.com/dapp/saucerswap) | Dapp activity and user metrics |
 
-## **DefiLlama**
+<Note>
+  Third-party trackers ingest data on their own schedules and methodologies, so their figures can differ from the web app and from each other. Treat the web app as the primary source.
+</Note>
 
-* [SaucerSwap on DefiLlama](https://defillama.com/protocol/saucerswap)
+## Programmatic access
 
-## **GeckoTerminal**
+For raw data — tokens, pools, farms, prices, and the V3 order book — use the APIs instead of scraping analytics pages.
 
-* [SaucerSwap V1 on GeckoTerminal](https://www.geckoterminal.com/hedera-hashgraph/saucerswap/pools)
+## Next steps
 
-* [SaucerSwap V2 on GeckoTerminal](https://www.geckoterminal.com/hedera-hashgraph/saucerswap-v2/pools)
-
-## DexScreener
-
-* [SaucerSwap on DexScreener](https://dexscreener.com/hedera)
-
-## **CoinMarketCap**
-
-* [SaucerSwap on CoinMarketCap](https://coinmarketcap.com/exchanges/saucerswap)
-
-## **CoinGecko**
-
-* [SaucerSwap V1 on CoinGecko](https://www.coingecko.com/en/exchanges/saucerswap-v1)
-
-* [SaucerSwap V2 on CoinGecko](https://www.coingecko.com/en/exchanges/saucerswap-v2)
-
-## DappRadar
-
-* [SaucerSwap on DappRadar](https://dappradar.com/dapp/saucerswap)
-
-## **DaVinciGraph Locker**
-
-* [DaVinciGraph Token Locker](https://davincigraph.io/devs/locks)
-
-## Hashport
-
-* [Hashport Bridge](https://metrics.hashport.network/)
+<CardGroup cols={2}>
+  <Card title="API reference" icon="code" href="/api-reference/overview">
+    Query tokens, pools, farms, and stats directly from the REST data API.
+  </Card>
+  <Card title="Orderbook market data" icon="chart-line" href="/api-reference/orderbook/market-data">
+    Read V3 depth, the trade tape, and market quotes over public endpoints.
+  </Card>
+  <Card title="Portfolio tutorial" icon="wallet" href="/tutorials/portfolio">
+    Track your own positions and rewards on the dashboard, or watch any address.
+  </Card>
+  <Card title="Tokenomics" icon="chart-pie" href="/tokenomics/overview">
+    Understand SAUCE supply, emissions, and how value flows through the protocol.
+  </Card>
+</CardGroup>

@@ -1,124 +1,27 @@
 ---
-title: "Partnership Inquiries"
+title: "Partnership inquiries"
+description: "Contact the SaucerSwap Labs business development team for partnerships, integrations, and co-marketing, or jump to the token listing guide for projects."
 ---
 
-For general partnership inquiries, you can contact us via email: [outreach@saucerswap.finance](mailto:outreach@saucerswap.finance).
+For partnership, integration, and co-marketing inquiries, email [outreach@saucerswap.finance](mailto:outreach@saucerswap.finance). Include what your project does, what you are proposing, and links the team can verify.
 
-## Adding a Token
+If you are a token project, most of what you need is self-serve and documented:
 
-Anybody can 'list' a Hedera (HTS) token on SaucerSwap. You don't need to submit a request or ask permission; just create a liquidity pool, that's it. For V1 pool creation, see [Liquidity Pool Tutorials](https://docs.saucerswap.finance/get-started/saucerswap-tutorials/liquidity/saucerswap-v1).
+- Listing a token — pool creation, token classes, and icon submission are covered in [For projects](/resources/for-projects). Listing is permissionless; you do not need to contact anyone to make your token tradable.
+- Farm and LARI incentives — incentive campaigns are governance actions; the application path is described in [For projects](/resources/for-projects) and the [governance process](/governance/overview).
+- Market making — professional trading firms should start with the [market makers page](/resources/market-makers).
+- API access — developers can start with the [developer overview](/developers/overview); high-volume API consumers should contact [support@saucerswap.finance](mailto:support@saucerswap.finance).
 
-Once there is at least 1 liquidity pool, users can then trade your token by entering the token ID (e.g. 0.0.12345)
+## Next steps
 
-## <u>How to Add Token Icon/Logo</u>
-
-### For tokens with an admin or metadata key
-
-Token metadata can be added & updated using third party tools:
-
-- [Kabila Token Manager](https://tools.kabila.app/en/token-manager)
-- [Davinci Token Manager](https://davincigraph.io/tokens/updateMetadata)
-
-<Note>
-  Token information is checked frequently and updated automatically.
-</Note>
-
-The following fields are currently supported:
-
-| Field                     | type   | description                                                        |
-| ------------------------- | ------ | ------------------------------------------------------------------ |
-| "lightLogo" or "darkLogo" | string | Token icon or logo image                                           |
-| "description"             | string | Description of the token                                           |
-| "website"                 | string | website URL                                                        |
-| "twitter"                 | string | Twitter/X handle (without the @)                                   |
-| "discord"                 | string | Discord invite url                                                 |
-| "telegram"                | string | Telegram link url                                                  |
-| "sentinelReport"          | string | Published [Sentinel Report](https://sentinel.headstarter.org/) url |
-| "category"                | string | Category for the asset, e.g. meme, stablecoin, defi.               |
-
-<Accordion title="Example Metadata" defaultOpen="false">
-  ```
-  {
-    "lightLogo": "ar://U-xGP5bDZaqKPAE_4J2Pxqidb4s73qd0VjnuwboFWI8",
-    "description": "Test token metadata",
-    "website": "https://hedera.com",
-    "properties": {
-      "twitter": "hedera",
-      "discord": "https://discord.com/invite/uJ5k8DkmKV",
-      "telegram": "https://t.me/hederahashgraph",
-      "sentinelReport": "https://sentinel.headstarter.org/details/saucerswap",
-      "category": "meme"
-    }
-  }
-  ```
-</Accordion>
-
-Metadata should follow the [Hedera fungible token Metadata schema](https://hips.hedera.com/hip/hip-405#schema).
-
-### For tokens without an admin or metadata key
-
-Token icon and information can be added & updated on [Davinci Pics](https://davincigraph.io/#pics_home)
-
-Adding or updating a token icon on Davinci Pics requires connecting either:
-
-- The token's treasury account ID
-- The account ID which executed the token create transaction
-
-<Note>
-  Token information is checked frequently and updated automatically.
-</Note>
-
-## Token Classifications
-
-Tokens on SaucerSwap fall into one of three classes: default, extended, or all.
-
-<CardGroup cols="2">
-  <Card title="Default">
-    ### <u>Characteristics</u>
-
-    - Appears by default in token modal scrollable list
-    - Searchable by token name, symbol or ID
-    - Appears with token icon and other misc info e.g. description
-    - Appears in APIs
-    - Eligible for yield farm & LARI
-  
-    ### <u>Criteria</u>
-
-    - Token icon available either via token metadata or Davinci Pics
-    - Tokens with a V2 pool, or comprising the top 50 V1 pools containing at least 1 'common' token (e.g. HBAR-TokenB) - by aggregated TVL & volume - updated monthly
-    - 'Common' tokens: HBAR, HBARX, SAUCE, XSAUCE, USDC, USDC[HTS], USDT[HTS], WBTC[HTS], WETH[HTS]
-  
+<CardGroup cols={2}>
+  <Card title="For projects" icon="rocket" href="/resources/for-projects">
+    List your token, submit an icon, and apply for farm or LARI incentives.
   </Card>
-  <Card title="Extended">
-    Characteristics
-
-    - Searchable by token name, symbol or ID
-    - Appears with token icon and other misc info e.g. description
-    - Appears in APIs
-    - Eligible for yield farm & LARI
-
-    ### <u>Criteria</u>
-
-    - Token icon either via token metadata or Davinci Pics
+  <Card title="Market makers" icon="chart-line" href="/resources/market-makers">
+    Onboard to the V3 order book and coordinate limits for sustained flow.
+  </Card>
+  <Card title="Governance" icon="landmark" href="/governance/overview">
+    See how incentive proposals move from RFC to on-chain vote.
   </Card>
 </CardGroup>
-
-## Yield Farm (V1)
-
-Yield farming on SaucerSwap allows liquidity providers to stake their LP tokens in the Masterchef Farm contract to earn dual rewards in both HBAR and SAUCE. The Masterchef contract handles LP token staking and unstaking, as well as the automated minting and distribution of SAUCE rewards, according to a pre-set emission schedule.
-
-Projects are eligible for a [yield farm](/o/BOkM6pAr15Wrz4Gy8QVh/s/5hXF6kx1TaOoCMAhLCv3/protocol/saucerswap-v1#yield-farm) once their token has been added to either the default or extended list on the SaucerSwap interface.
-
-Proposals for creating or amending yield farm campaigns are under the scope of SaucerSwap Governance, and must follow the [governance process](https://docs.saucerswap.finance/governance/overview#governance-process). Each proposals must specify which[ farm weights](https://docs.saucerswap.finance/protocol/saucerswap-v1/farm-weights) would be adjusted to create the new farm.
-
-All approved yield farms will feature dual token emissions in the form of SAUCE and HBAR.
-
-## LARI (V2)
-
-The [Liquidity-Aligned Reward Initiative](/o/BOkM6pAr15Wrz4Gy8QVh/s/5hXF6kx1TaOoCMAhLCv3/protocol/saucerswap-v2#liquidity-aligned-reward-initiative-lari) (LARI) is integrated into SaucerSwap V2, offering liquidity providers a way to earn additional incentives without staking. Activated upon creation of a V2 position, LARI allocates rewards in accordance with the size and efficacy of the liquidity contributed.
-
-LARI supports the distribution of multiple HTS tokens across various liquidity pools, thereby allowing projects to tailor campaigns specific to their token. These rewards are automatically distributed via airdrop at the end of two-week epochs.
-
-Proposals for creating or amending LARI campaigns are under the scope of SaucerSwap Governance, and must follow the [governance process](https://docs.saucerswap.finance/governance/overview#governance-process). Each proposal must specify the duration of the campaign and the allocation of token(s) per epoch.
-
-For initiating a LARI campaign, inquiries can be directed to [outreach@saucerswap.finance](mailto:outreach@saucerswap.finance).

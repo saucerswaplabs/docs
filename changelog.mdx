@@ -1,0 +1,40 @@
+---
+title: "Changelog"
+description: "Dated record of notable SaucerSwap protocol, app, API, and documentation changes, including the V3 order book launch and the 2026 documentation overhaul."
+---
+
+Notable changes to the SaucerSwap protocol, web app, APIs, and these docs, newest first. Forward-looking plans live on the [roadmap](/roadmap).
+
+<Update label="July 2026" description="Documentation overhaul" tags={["Docs"]}>
+  These docs were rebuilt end to end: new information architecture across Learn, Protocol, Developers, API Reference, and Resources tabs, a full rewrite to one style guide, generated REST API reference pages from the OpenAPI spec, dedicated Orderbook API reference pages, and removal of stale content — including all references to the decommissioned Hashport bridge. Redirects from all previous URLs are in place.
+</Update>
+
+<Update label="June 12, 2026" description="SaucerSwap V3 mainnet launch" tags={["App", "Protocol", "API"]}>
+  SaucerSwap V3 launched on Hedera mainnet: a central limit order book with off-chain matching and on-chain settlement, limit and market orders on the trade page, and the public Orderbook API for programmatic trading. See [How SaucerSwap V3 works](/protocol/saucerswap-v3) and the [Orderbook API reference](/api-reference/orderbook/overview).
+</Update>
+
+<Update label="May 18, 2026" description="V3 security audit" tags={["Protocol"]}>
+  Halborn completed its audit of the SaucerSwap V3 smart contracts ahead of the mainnet launch. The report is linked from the [audits page](/developers/security/audits).
+</Update>
+
+<Update label="2026" description="Web app redesign" tags={["App"]}>
+  The web app shipped a comprehensive redesign, updating navigation (trade, swap, explore, pool, stake, govern, dashboard, bridge), the token menu, and the transaction flow. Tutorials in these docs reflect the current interface.
+</Update>
+
+## Deprecation notices
+
+When a documented feature, endpoint, or integration path is deprecated or shut down, a dated entry appears here describing the replacement path, and the affected pages receive a warning callout. Entries stay in the changelog permanently so integrators can reconstruct when behavior changed.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Roadmap" icon="map" href="/roadmap">
+    See what SaucerSwap Labs is working on next, and what has shipped.
+  </Card>
+  <Card title="How SaucerSwap V3 works" icon="book-open" href="/protocol/saucerswap-v3">
+    Understand the order book that headlined the June 2026 launch.
+  </Card>
+  <Card title="Audits" icon="shield-check" href="/developers/security/audits">
+    Review every security audit of the protocol, from V1 to V3.
+  </Card>
+</CardGroup>

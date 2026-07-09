@@ -1,0 +1,84 @@
+---
+title: "Stake SAUCE"
+description: "Stake SAUCE in the Infinity Pool and receive xSAUCE, a liquid staking token that compounds trading fees, farm allocations, and HBAR staking rewards."
+---
+
+Single-sided staking deposits SAUCE into the Infinity Pool and gives you xSAUCE in return. There is no pairing, no lockup, and no impermanent loss: the SAUCE/xSAUCE exchange rate rises as protocol rewards flow into the pool, so your xSAUCE redeems for more SAUCE over time.
+
+<Frame caption="The stake page of the SaucerSwap web app.">
+  <img src="/images/app/stake.webp" alt="SaucerSwap stake page showing the SAUCE staking panel and reward sources" />
+</Frame>
+
+## Prerequisites
+
+- A connected [Hedera wallet](/get-started/wallet)
+- [HBAR](/get-started/hbar) to cover network fees
+- SAUCE to stake — or just HBAR, which the stake flow can convert for you
+
+## What fuels your rewards
+
+The **stake** page lists the three reward sources that feed the Infinity Pool:
+
+| Source | How it works |
+| --- | --- |
+| 01 Trading fees | Every swap on SaucerSwap generates protocol fees, used to buy SAUCE and send it to stakers |
+| 02 Farm allocations | A share of SAUCE emissions goes to the staking pool |
+| 03 HBAR staking | Pooled HBAR is staked to Hedera, and those rewards buy SAUCE for the pool |
+
+For the mechanics and a worked rate example, see [Single-sided staking](/protocol/single-sided-staking).
+
+## Reading the metrics
+
+- **SAUCE/xSAUCE rate** — how much SAUCE one xSAUCE redeems for. It only moves one way: up, as rewards are added (roughly daily).
+- **TVL** — the total value staked in the Infinity Pool.
+- **Approximate APR** — an estimate derived from the recent growth of the exchange rate; it varies with protocol activity and is not guaranteed.
+
+## Stake
+
+<Steps>
+  <Step title="Open the stake page">
+    Go to the **stake** page and select **Connect Wallet** if you have not already connected.
+  </Step>
+  <Step title="Enter an amount">
+    Enter how much SAUCE to stake. If you hold HBAR but no SAUCE, the stake flow can swap HBAR for SAUCE and stake it in one pass — choose HBAR as the input instead.
+  </Step>
+  <Step title="Approve and confirm">
+    Confirm the stake and sign the transaction in your wallet. If xSAUCE is not yet associated with your account, you are prompted to associate it first.
+  </Step>
+  <Step title="Hold xSAUCE">
+    Your rewards accrue automatically as the SAUCE/xSAUCE rate rises — there is nothing to claim or compound. Your xSAUCE balance appears on the **dashboard** page.
+  </Step>
+</Steps>
+
+## Unstake
+
+<Steps>
+  <Step title="Choose unstake">
+    On the **stake** page, switch to the unstake side and enter the amount of xSAUCE to redeem.
+  </Step>
+  <Step title="Confirm">
+    Confirm and complete the transaction in your wallet. You receive SAUCE at the current exchange rate — your original stake plus accrued rewards.
+  </Step>
+</Steps>
+
+<Info>
+  You can stake and unstake at any time. There are no lockup periods and no slashing.
+</Info>
+
+<Tip>
+  xSAUCE is itself a liquid HTS token: you can hold it, transfer it, or use it in supported pools while it keeps appreciating against SAUCE. It also carries governance weight — see [Governance](/governance/overview).
+</Tip>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Staking concepts" icon="book-open" href="/protocol/single-sided-staking">
+    The xSAUCE rate mechanics, reward sources, and a worked example.
+  </Card>
+  <Card title="Vote in governance" icon="check-to-slot" href="/governance/overview">
+    Use your SAUCE and xSAUCE to vote on protocol decisions.
+  </Card>
+  <Card title="Track your portfolio" icon="chart-pie" href="/tutorials/portfolio">
+    See your xSAUCE position and all other holdings on the dashboard.
+  </Card>
+</CardGroup>

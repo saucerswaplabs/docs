@@ -1,0 +1,121 @@
+---
+title: "Build with AI"
+description: "Build on SaucerSwap with AI coding tools: llms.txt indexes, the docs MCP server, per-client setup, and a rules file with canonical endpoints and gotchas."
+---
+
+These docs are machine-readable. Point your coding agent at the indexes and MCP server below, and drop the rules file into your project so the agent starts with the endpoints and Hedera-specific gotchas it would otherwise get wrong.
+
+## Machine-readable docs
+
+| Surface | URL | Use |
+| --- | --- | --- |
+| Page index | `https://docs.saucerswap.finance/llms.txt` | Compact index of every page for context loading |
+| Full content | `https://docs.saucerswap.finance/llms-full.txt` | The entire docs site as one plain-text file |
+| Per-page Markdown | Append `.md` to any page URL | Fetch a single page as clean Markdown |
+
+## MCP server
+
+The docs are also served over the Model Context Protocol at `https://docs.saucerswap.finance/mcp`, giving agents a search tool over this documentation.
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```bash
+    claude mcp add --transport http saucerswap-docs https://docs.saucerswap.finance/mcp
+    ```
+  </Tab>
+
+  <Tab title="Cursor">
+    Add to `.cursor/mcp.json` in your project (or `~/.cursor/mcp.json` globally):
+
+    ```json
+    {
+      "mcpServers": {
+        "saucerswap-docs": {
+          "url": "https://docs.saucerswap.finance/mcp"
+        }
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="VS Code">
+    Add to `.vscode/mcp.json` in your workspace:
+
+    ```json
+    {
+      "servers": {
+        "saucerswap-docs": {
+          "type": "http",
+          "url": "https://docs.saucerswap.finance/mcp"
+        }
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Rules file for coding agents
+
+Copy this block into your agent rules file (`CLAUDE.md`, `.cursor/rules`, `AGENTS.md`, or equivalent). It encodes the canonical endpoints and the mistakes agents most often make on Hedera.
+
+````markdown
+# SaucerSwap integration rules
+
+## Canonical endpoints
+- REST data API (mainnet): https://api.saucerswap.finance — requires `x-api-key` header
+- REST data API (testnet): https://test-api.saucerswap.finance
+- Orderbook API (mainnet): https://orderbook-api.saucerswap.finance
+- Orderbook API (testnet): https://testnet-orderbook-api.saucerswap.finance
+- Hedera mirror node (public, no key): https://mainnet.mirrornode.hedera.com
+- Docs: https://docs.saucerswap.finance (llms.txt available)
+
+## Canonical mainnet IDs
+- SAUCE token: 0.0.731861 (6 decimals) · xSAUCE token: 0.0.1460200
+- WHBAR token: 0.0.1456986 (8 decimals) · WhbarHelper: 0.0.5808826
+- V1 router (SaucerSwapV1RouterV3): 0.0.3045981
+- V2 SwapRouter: 0.0.3949434 · V2 QuoterV2: 0.0.3949424
+- Mothership (SAUCE staking): 0.0.1460199 · Masterchef (farms): 0.0.1077627
+- Full list: https://docs.saucerswap.finance/developers/contracts
+
+## Hard rules
+- ALWAYS quote before swapping: QuoterV2 (V2), getAmountsOut/In (V1), or
+  the Orderbook API quote endpoints (V3). Quotes via mirror-node
+  `/api/v1/contracts/call` are free and need no key.
+- HBAR uses 8 decimals (1 HBAR = 100,000,000 tinybar). Every token amount
+  is denominated in its smallest unit; token decimals vary per token
+  (SAUCE = 6). Never assume 18 decimals.
+- Keep uint256 values (amounts, nonces, deadlines) as strings in JS.
+  Never cast to Number before signing or submitting.
+- Hedera accounts must ASSOCIATE a token before receiving it, or the
+  transaction fails with TOKEN_NOT_ASSOCIATED_TO_ACCOUNT.
+- HTS token inputs require a spender allowance to the router contract.
+- Use the WHBAR token address wherever a swap path includes HBAR.
+- V3 order book fees are expressed in pips (1 pip = 1e-6), NOT basis points.
+- Never log Orderbook WebSocket URLs: they carry the JWT in the query string.
+- Develop on testnet first with a dedicated integration account. Never put
+  a primary wallet private key in a bot process.
+````
+
+<Note>
+  Agents should treat prices, fees, and rate limits as live data: fetch them from the APIs or contracts at run time rather than hard-coding values from documentation.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Developer quickstart" href="/developers/quickstart">
+    The first three calls, ready to paste into an agent session.
+  </Card>
+
+  <Card title="API reference" href="/api-reference/overview">
+    Every endpoint across both APIs with auth models.
+  </Card>
+
+  <Card title="Contract deployments" href="/developers/contracts">
+    Verify every ID in the rules file above.
+  </Card>
+
+  <Card title="TypeScript bot client" href="/developers/orderbook/typescript-client">
+    A server-side pattern for V3 order book bots.
+  </Card>
+</CardGroup>

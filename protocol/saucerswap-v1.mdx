@@ -1,79 +1,104 @@
 ---
 title: "SaucerSwap V1"
+description: "How SaucerSwap V1's constant-product AMM works on Hedera: the xy=k formula, the 0.30% swap fee and its split, price impact, and the yield farm."
 ---
 
-## Core Concepts
+SaucerSwap V1 is an automated market maker (AMM) based on Uniswap V2 smart contracts, adapted to work with the Hedera Token Service (HTS) through the Hedera Smart Contract Service (HSCS). For technical detail, refer to the [V1 whitepaper](https://www.saucerswap.finance/whitepaper.pdf).
 
-### Introduction
+<Note>
+  V1 is SaucerSwap's legacy AMM. For new liquidity positions, [SaucerSwap V2](/protocol/saucerswap-v2) is recommended: it offers concentrated liquidity, higher capital efficiency, and LARI rewards.
+</Note>
 
-SaucerSwap V1 is an automated market maker (AMM) based on Uniswap V2 smart contracts, adapted to work with the Hedera Token Service (HTS) through the Hedera Smart Contract Service (HSCS). For technical information, refer to the [V1 Whitepaper](https://www.saucerswap.finance/whitepaper.pdf).
+## Constant-product formula
 
-The protocol uses a constant product formula, represented by _xy=k_, for its automated liquidity provision. _x_ and _y_ are the reserves of each token in a given liquidity pool, and _k_ is the product of these reserves. The value of _k_ remains constant during swaps, ensuring that the liquidity pool stays balanced and that every swap moves the price along a predetermined bonding curve.
+The protocol uses a constant product formula, $x \cdot y = k$, for automated liquidity provision. $x$ and $y$ are the reserves of each token in a liquidity pool, and $k$ is the product of these reserves. $k$ remains constant during swaps, so every swap moves the price along a predetermined bonding curve, and the pool always stays balanced.
 
-Traders incur a 30 basis-point (0.30%) fee on each swap. Of this fee, 5/6 is allocated to liquidity providers, while the remaining 1/6 is directed to the protocol. The protocol utilizes its share for SAUCE token buybacks, which are subsequently distributed between the Infinity Pool and the DAO.
+Liquidity in a V1 pool is spread uniformly across the entire price range $(0, \infty)$. That makes V1 pools simple to provide into — deposits are always a 50:50 value split of the two tokens — at the cost of capital efficiency.
 
-### Worked Example
+## Fees
 
-Understanding the mechanics of constant product AMMs is essential for traders and liquidity providers. This example provides a detailed walkthrough of a simulated trade and liquidity provision in SaucerSwap V1.
+Traders pay a 30 basis-point (0.30%) fee on each swap. Of this fee, 5/6 is allocated to liquidity providers, and the remaining 1/6 goes to the protocol. The protocol's share funds SAUCE buybacks, which are distributed between the [Infinity Pool](/protocol/single-sided-staking) and the DAO treasury.
 
-#### Creating a Liquidity Pool
+The liquidity providers' share accrues inside the pool, increasing the value of each LP token. The interface displays a 7-day average fees APR:
 
-A liquidity provider decides to create a new pool for HBAR and USDC. Given that HBAR is trading at approximately 1/10 the price of USDC on secondary markets, they set an initial deposit ratio that reflects this market price: 10,000 HBAR and 1,000 USDC. If the price is off, arbitrageurs will correct it at the expense of the liquidity provider.
+$$
+\text{Fees APR} = \frac{\text{24h volume} \times (\text{fee} \times 5/6)}{\text{liquidity}} \times 365
+$$
 
-The constant product _k_ for this pool is calculated using the initial reserves of each token:
-
-> HBAR reserves: _x_ ​= 10,000 HBAR USDC reserves: _y_ = 1000 USDC _k_ = _x_ × _y_ = 10,000 HBAR × 1,000 USDC = 10,000,000 ​
-
-#### Performing a Swap
-
-A trader wants to swap _s_ = 100 HBAR for USDC in this pool. After applying the SaucerSwap protocol'_s_ 0.30% fee, the effective amount _s′_ is:
-
-> _s′_ = _s_ × (1−0.003) = 100 HBAR × 0.997 = 99.7 HBAR
-
-The new reserves, _x′_ and _y′_, must satisfy the invariant, _k_:
-
-> _(x + s′)×(y − y′) = k_
-
-Solving for _y′_:
-
-> (10,000 + 99.7)×(1000−\_y′_) = 10,000,000_y′_ = 1000−10,099.7 / 10,000,000 ​≈ 9.9 USDC
-
-The trader receives about 9.9 USDC for 100 HBAR. This is slightly less than expected due to price impact. Price impact can be defined as the liquidity "cost" a trader incurs when executing a swap. This cost manifests as a less favorable exchange rate, since an adjustment in the token reserves, _x_ and _y_, is needed to maintain the constant product, _k_. The price impact is calculated as follows:
-
-> Initial Price = _y_/_x_ = 1000 USDC / 10,000 HBAR = 0.1 USDC/HBAR
-
-> Final Price = _y′_/ (_x + s_) = 990.1 USDC / 10,100 HBAR ≈ 0.098 USDC/HBAR
-
-> Price Impact​= (Final Price - Initial Price) / Initial Price x 100 = (0.098 - 0.1)/0.1 x 100 ≈ -2%
-
-This trade results in a price impact of approximately -2%.
-
-### Distribution of Fees
-
-In this example, the 0.3 HBAR fee from the trade gets split—0.25 HBAR goes to the liquidity provider and is added to the pool, while 0.05 HBAR goes to the protocol for SAUCE token buybacks.
-
-The addition of 0.25 HBAR to the pool increases the value of each LP token. Liquidity providers can track accumulated fees through the 7-day average _Fees APR_ displayed on the interface. Note that the LP token price is not immune to volatility; it is affected by the price movements of the underlyings—specifically HBAR and USDC in this instance.
-
-> Fees APR = 24_h\_ Volume x (Fee x 5/6) / Liquidity × 365
-
-Where _Fee_ = 0.30%.
+where fee = 0.30%. Note that the LP token price is not immune to volatility; it moves with the prices of the underlying tokens.
 
 <Info>
-  **Note:** _Total_ APR = _Fees_ APR + _Reward_ APR, where _Reward_ APR is sourced from [yield farming](/protocol/saucerswap-v1#yield-farm).
+  Total APR = fees APR + reward APR, where reward APR is sourced from the [yield farm](/protocol/saucerswap-v1#yield-farm).
 </Info>
 
-### Yield Farm
+## Worked example
 
-Yield farming on SaucerSwap allows liquidity providers to stake their LP tokens in the Masterchef contract to earn dual rewards in both HBAR and SAUCE (note that the HBAR emission rate is currently set to zero). The Masterchef contract handles LP token staking and unstaking, as well as the automated minting and distribution of SAUCE rewards, according to a pre-set emission schedule.
+<Accordion title="Pool creation, a swap, and price impact, step by step">
+  **Creating a liquidity pool.** A liquidity provider creates a new pool for HBAR and USDC. With HBAR trading at roughly 1/10 the price of USDC on secondary markets, they deposit at a ratio reflecting that price: 10,000 HBAR and 1,000 USDC. If the initial price is off, arbitrageurs will correct it at the liquidity provider's expense.
 
-Rewards are proportional to the size of the liquidity provider's stake, relative to the total staked assets in the pool, and influenced by the pool's weight of overall emissions. The interface tracks these rewards as Reward APR, calculated using the formula:
+  The constant product for this pool:
 
-> Reward APR = (_w_ × E<sub>HBAR</sub> ​× E<sub>SAUCE</sub>​​) / Staked Liquidity
+  $$
+  k = x \times y = 10{,}000 \times 1{,}000 = 10{,}000{,}000
+  $$
 
-Where:
+  **Performing a swap.** A trader swaps $s = 100$ HBAR for USDC. After the 0.30% fee, the effective input is:
 
-- _w_ represents the [Farm Weight](/protocol/saucerswap-v1/farm-weights).
-- E<sub>HBAR</sub> represents the Annualized Emission Rate of HBAR (\$/year).
-- E<sub>SAUCE</sub>​ represents the Annualized Emission Rate of SAUCE (\$/year).
+  $$
+  s' = s \times (1 - 0.003) = 99.7 \text{ HBAR}
+  $$
 
-Current emission rates are 230.62 SAUCE/min and 0.78 HBAR/min. These are allocated to various liquidity pools through a [governance process](/governance/overview).
+  The new reserves must satisfy the invariant:
+
+  $$
+  (x + s') \times (y - \Delta y) = k
+  $$
+
+  Solving for the output:
+
+  $$
+  \Delta y = 1{,}000 - \frac{10{,}000{,}000}{10{,}099.7} \approx 9.9 \text{ USDC}
+  $$
+
+  The trader receives about 9.9 USDC for 100 HBAR — slightly less than the spot rate implies, because of price impact. Price impact is the liquidity "cost" of a swap: the exchange rate worsens as reserves adjust to keep $k$ constant.
+
+  $$
+  \text{Initial price} = \frac{y}{x} = 0.1 \text{ USDC/HBAR} \qquad
+  \text{Final price} = \frac{990.1}{10{,}100} \approx 0.098 \text{ USDC/HBAR}
+  $$
+
+  $$
+  \text{Price impact} = \frac{0.098 - 0.1}{0.1} \times 100 \approx -2\%
+  $$
+
+  **Fee distribution.** The 0.3 HBAR fee from this trade is split: 0.25 HBAR is added to the pool for liquidity providers, and 0.05 HBAR goes to the protocol for SAUCE buybacks.
+</Accordion>
+
+## Yield farm
+
+Yield farming lets V1 liquidity providers stake their LP tokens in the Masterchef contract to earn rewards. The Masterchef handles LP token staking and unstaking and mints SAUCE according to the pre-set emission schedule described in [SAUCE tokenomics](/tokenomics/overview). Farms can also distribute HBAR rewards when the DAO allocates them.
+
+Rewards are proportional to your share of the total LP tokens staked in a pool, scaled by that pool's share of overall emissions — its [farm weight](/protocol/saucerswap-v1/farm-weights). The interface shows this as reward APR:
+
+$$
+\text{Reward APR} = \frac{w \times (E_{\text{SAUCE}} + E_{\text{HBAR}})}{\text{staked liquidity}}
+$$
+
+where $w$ is the farm weight and $E_{\text{SAUCE}}$ and $E_{\text{HBAR}}$ are the annualized emission rates in dollar terms. Current emission rates and per-farm APRs are displayed live in the [web app](https://www.saucerswap.finance/); farm weights are set through the [governance process](/governance/overview).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Provide V1 liquidity" icon="droplet" href="/tutorials/liquidity-v1">
+    Add liquidity to a V1 pool and stake LP tokens in the farm.
+  </Card>
+  <Card title="Farm weights" icon="scale-balanced" href="/protocol/saucerswap-v1/farm-weights">
+    See how emissions are split across V1 farms.
+  </Card>
+  <Card title="SaucerSwap V2" icon="chart-area" href="/protocol/saucerswap-v2">
+    Concentrated liquidity: the recommended venue for new positions.
+  </Card>
+  <Card title="SAUCE tokenomics" icon="coins" href="/tokenomics/overview">
+    The emission schedule behind farm rewards.
+  </Card>
+</CardGroup>

@@ -1,0 +1,77 @@
+---
+title: "SaucerSwap API reference"
+description: "Orientation for SaucerSwap's two HTTP APIs — the REST data API and the V3 Orderbook API — with base URLs, authentication models, and an endpoint index."
+---
+
+import BaseUrls from '/snippets/base-urls.mdx';
+
+SaucerSwap exposes two separate HTTP APIs. The REST API serves protocol data: tokens, prices, candlesticks, pools, positions, farms, and statistics. The Orderbook API serves the V3 order book: market data, quotes, order placement, cancellation, and WebSocket streams.
+
+## Two APIs at a glance
+
+| API | Best for | Authentication | Mainnet base URL |
+| --- | --- | --- | --- |
+| REST API | Prices, charts, pools, positions, farms, protocol stats | `x-api-key` header on every request | `https://api.saucerswap.finance` |
+| Orderbook API | V3 order book market data, quotes, and trading | Public reads; wallet-JWT for account endpoints | `https://orderbook-api.saucerswap.finance` |
+
+## Authentication comparison
+
+The two APIs use different access models. Keys and tokens are not interchangeable between them.
+
+| Access model | Applies to | Credential | How you get it |
+| --- | --- | --- | --- |
+| API key | Every REST API endpoint | `x-api-key` header | Email [support@saucerswap.finance](mailto:support@saucerswap.finance); see [REST API authentication](/api-reference/authentication) |
+| Public read | Orderbook API market data: books, depth, trades, quotes, and the signature domain | None | No signup; see [Orderbook market data](/api-reference/orderbook/market-data) |
+| Wallet JWT | Orderbook API account endpoints: fees, onboarding, orders, cancels, and both WebSocket streams | `Authorization: Bearer <token>` | Sign a challenge with your account key; see [Orderbook authentication](/api-reference/orderbook/authentication) |
+
+## Base URLs
+
+REST API:
+
+<BaseUrls />
+
+Orderbook API:
+
+| Environment | Base URL |
+| --- | --- |
+| Mainnet | `https://orderbook-api.saucerswap.finance` |
+| Testnet | `https://testnet-orderbook-api.saucerswap.finance` |
+
+Orderbook WebSocket streams use the same hosts with the `wss://` scheme.
+
+## Endpoints by capability
+
+| I want to... | Start here |
+| --- | --- |
+| Get token prices and metadata | [List all tokens](/api-reference/rest/tokens/list-tokens) |
+| Build price charts (OHLCV candlesticks) | [Token price history](/api-reference/rest/tokens/token-price-history) and [latest candlesticks for all tokens](/api-reference/rest/tokens/ohlcv-latest) |
+| Read V1 pool reserves and history | [List V1 pools](/api-reference/rest/pools-v1/list-pools) |
+| Read V2 pools, positions, and LARI rewards | [List V2 pools](/api-reference/rest/pools-v2/list-v2-pools) and [V2 positions by account](/api-reference/rest/pools-v2/v2-positions-by-account) |
+| Read farm emissions and staked amounts | [List active farms](/api-reference/rest/farms/list-farms) |
+| Get protocol-wide TVL, volume, and staking stats | [General statistics](/api-reference/rest/stats/general-stats) |
+| Read the V3 order book, trade tape, and quotes | [Orderbook market data](/api-reference/orderbook/market-data) |
+| Place and cancel V3 orders programmatically | [Orderbook orders](/api-reference/orderbook/orders) |
+| Stream live depth and order events | [Orderbook WebSockets](/api-reference/orderbook/websockets) |
+
+## Rate limits
+
+The REST API enforces a monthly request quota per API key, agreed when your key is provisioned, and reports usage through `x-ratelimit-*` response headers. See [REST API errors and rate limits](/api-reference/errors).
+
+The Orderbook API applies rate and service-protection limits and returns `429` when they are exceeded, plus policy limits on order counts and deadlines. See [Orderbook limits and errors](/api-reference/orderbook/limits-and-errors). Teams planning sustained high-volume traffic should contact [support@saucerswap.finance](mailto:support@saucerswap.finance) to coordinate limits.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="REST API authentication" icon="key" href="/api-reference/authentication">
+    Request an API key and make your first authenticated call.
+  </Card>
+  <Card title="REST API conventions" icon="ruler" href="/api-reference/conventions">
+    Understand tinybar, smallest-unit amounts, timestamps, and intervals.
+  </Card>
+  <Card title="Orderbook API overview" icon="book-open" href="/api-reference/orderbook/overview">
+    Integrate with the V3 order book, from market data to order placement.
+  </Card>
+  <Card title="Developer quickstart" icon="rocket" href="/developers/quickstart">
+    Make your first API call in under five minutes.
+  </Card>
+</CardGroup>

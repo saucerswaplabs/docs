@@ -1,0 +1,56 @@
+{
+  "stats": [
+    "api-reference/rest/stats/general-stats",
+    "api-reference/rest/stats/sss-stats",
+    "api-reference/rest/stats/hbar-historical-prices",
+    "api-reference/rest/stats/platform-data"
+  ],
+  "tokens": [
+    "api-reference/rest/tokens/list-tokens",
+    "api-reference/rest/tokens/list-tokens-full",
+    "api-reference/rest/tokens/get-token",
+    "api-reference/rest/tokens/default-listed-tokens",
+    "api-reference/rest/tokens/default-token-price-changes",
+    "api-reference/rest/tokens/price-change-map",
+    "api-reference/rest/tokens/all-tokens-daily",
+    "api-reference/rest/tokens/all-tokens-weekly",
+    "api-reference/rest/tokens/all-tokens-monthly",
+    "api-reference/rest/tokens/all-tokens-yearly",
+    "api-reference/rest/tokens/token-daily",
+    "api-reference/rest/tokens/token-weekly",
+    "api-reference/rest/tokens/token-monthly",
+    "api-reference/rest/tokens/token-yearly",
+    "api-reference/rest/tokens/associated-pools",
+    "api-reference/rest/tokens/token-price-history",
+    "api-reference/rest/tokens/token-price-latest",
+    "api-reference/rest/tokens/ohlcv-latest"
+  ],
+  "pools-v1": [
+    "api-reference/rest/pools-v1/list-pools",
+    "api-reference/rest/pools-v1/list-pools-full",
+    "api-reference/rest/pools-v1/get-pool",
+    "api-reference/rest/pools-v1/default-listed-pools",
+    "api-reference/rest/pools-v1/all-pools-daily",
+    "api-reference/rest/pools-v1/all-pools-weekly",
+    "api-reference/rest/pools-v1/all-pools-monthly",
+    "api-reference/rest/pools-v1/all-pools-yearly",
+    "api-reference/rest/pools-v1/pool-daily",
+    "api-reference/rest/pools-v1/pool-weekly",
+    "api-reference/rest/pools-v1/pool-monthly",
+    "api-reference/rest/pools-v1/pool-yearly",
+    "api-reference/rest/pools-v1/pool-conversion-rates",
+    "api-reference/rest/pools-v1/pool-conversion-rates-latest"
+  ],
+  "pools-v2": [
+    "api-reference/rest/pools-v2/list-v2-pools",
+    "api-reference/rest/pools-v2/list-v2-pools-full",
+    "api-reference/rest/pools-v2/get-v2-pool",
+    "api-reference/rest/pools-v2/v2-pool-conversion-rates",
+    "api-reference/rest/pools-v2/v2-positions-by-account",
+    "api-reference/rest/pools-v2/lari-rewards-by-account"
+  ],
+  "farms": [
+    "api-reference/rest/farms/list-farms",
+    "api-reference/rest/farms/farm-totals-by-account"
+  ]
+}

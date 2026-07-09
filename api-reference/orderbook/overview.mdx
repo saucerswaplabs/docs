@@ -1,0 +1,87 @@
+---
+title: "Orderbook API overview"
+description: "Integrate with the SaucerSwap V3 Orderbook API: the integration flow, testnet and mainnet environments, and a full endpoint summary with auth requirements."
+---
+
+The SaucerSwap V3 Orderbook API is designed for programmatic trading clients, market makers, wallets, dashboards, analytics surfaces, and other integrations that need order placement, cancellation, account order state, and live order book data.
+
+Public market data — the order book list, depth snapshots, the trade tape, market quotes, and the EIP-712 signature domain — requires no authentication. Anything that reads per-account data or mutates state requires [wallet authentication](/api-reference/orderbook/authentication). Production users should expect rate and service-protection limits. Teams planning sustained high-volume traffic should contact [support@saucerswap.finance](mailto:support@saucerswap.finance) so we can coordinate limits and support.
+
+<Note>
+  Unauthenticated market-data access ships with the July 2026 Orderbook API deployment and is rolling out network by network. Until the rollout reaches a network, its read endpoints still require a JWT. Test availability with a keyless `GET /books`; see [market data](/api-reference/orderbook/market-data) for details.
+</Note>
+
+<Info>
+  This API is separate from the legacy SaucerSwap REST API. The [legacy REST API](/api-reference/authentication) uses `x-api-key` authentication. The V3 Orderbook API uses wallet challenge authentication and short-lived JWTs.
+</Info>
+
+## Integration flow
+
+| Phase | What your client does | Primary API surface |
+| --- | --- | --- |
+| Discover markets | List order books — no authentication needed | `GET /books` |
+| Read market data | Fetch depth, the trade tape, and market quotes; subscribe to diffs | `GET /depth/:orderbookId`, `GET /trades/:orderbookId`, `GET /books/:id/quote/exact-input`, `/ws/depth` |
+| Authenticate | Sign a challenge with the trading account | `POST /auth/challenge`, `POST /auth/verify` |
+| Check account state | Fees and onboarding status for the account | `GET /fees/:orderbookId`, `GET /onboarding/:orderbookId/status` |
+| Place orders | Build, sign, and save orders | `GET /signature/domain`, `POST /orders/build`, `POST /orders/save` |
+| Reconcile | Track order events and recover state after reconnects | `/ws/user-events`, `GET /orders`, `GET /orders/:orderId/history` |
+| Cancel | Request cancellation or submit on-chain cancellation | `POST /cancel`, `POST /cancel/all`, reactor cancellation |
+
+Each phase has a dedicated page: [authentication](/api-reference/orderbook/authentication), [market data](/api-reference/orderbook/market-data), [orders](/api-reference/orderbook/orders), [WebSockets](/api-reference/orderbook/websockets), and [limits and errors](/api-reference/orderbook/limits-and-errors).
+
+Authenticate first, then use testnet before moving the same flow to mainnet. Move to mainnet after your client handles authentication renewal, WebSocket reconnects, cancellation finality, and integer string handling correctly.
+
+## Environments
+
+| Environment | API base URL | Hedera Mirror Node |
+| --- | --- | --- |
+| Testnet | `https://testnet-orderbook-api.saucerswap.finance` | `https://testnet.mirrornode.hedera.com` |
+| Mainnet | `https://orderbook-api.saucerswap.finance` | `https://mainnet.mirrornode.hedera.com` |
+
+WebSocket streams use the same host with the `wss://` scheme.
+
+## Endpoint summary
+
+| Category | Endpoint | Auth | Description |
+| --- | --- | --- | --- |
+| Markets | `GET /books` | Public | List available order books |
+| Market data | `GET /depth/:orderbookId` | Public | Fetch a full depth snapshot |
+| Market data | `GET /trades/:orderbookId` | Public | Recent fills (the public trade tape) |
+| Quotes | `GET /books/:id/quote/exact-input` | Public | Simulate a market order from the spend side |
+| Quotes | `GET /books/:id/quote/exact-output` | Public | Simulate a market order from the receive side |
+| Signing | `GET /signature/domain` | Public | Fetch the EIP-712 domain for the active environment |
+| Fees | `GET /fees/:orderbookId?side=maker` | JWT | Fetch fee rates for an order book side, in pips (1e-6) |
+| Onboarding | `GET /onboarding/:orderbookId/status` | JWT | Check whether the account can trade a market |
+| Orders | `GET /orders` | JWT | List authenticated account orders |
+| Orders | `GET /orders/:orderId/history` | JWT | Fetch per-order event history |
+| Placement | `POST /orders/build` | JWT | Build unsigned orders with server-assigned nonces |
+| Placement | `POST /orders/save` | JWT | Submit signed orders |
+| Cancellation | `POST /cancel` | JWT | Request cancellation for specific order IDs |
+| Cancellation | `POST /cancel/all` | JWT | Emergency cancel by nonce floor |
+| WebSocket | `/ws/depth` | JWT | Subscribe to live order book depth diffs |
+| WebSocket | `/ws/user-events` | JWT | Subscribe to authenticated order events |
+
+Fee rates are expressed in pips, not basis points — see [fee units](/api-reference/orderbook/market-data#fee-units).
+
+## Legal terms
+
+<Info>
+  The web app requires users to accept in-app legal terms before creating orders. The API does not — programmatic consumers are governed by the separate API terms of service, and `POST /orders/save` bypasses the in-app acceptance gate. There is no legal-acceptance call to make before placing orders through the API.
+</Info>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="key" href="/api-reference/orderbook/authentication">
+    Run the challenge and verify flow to obtain a JWT for protected endpoints.
+  </Card>
+  <Card title="Market data" icon="chart-line" href="/api-reference/orderbook/market-data">
+    Discover markets, read depth and the trade tape, and simulate orders with quotes.
+  </Card>
+  <Card title="Orders" icon="file-signature" href="/api-reference/orderbook/orders">
+    Build, sign, and save orders, then cancel them and confirm finality.
+  </Card>
+  <Card title="TypeScript bot client" icon="code" href="/developers/orderbook/typescript-client">
+    Follow a reference client pattern for server-side bots and market makers.
+  </Card>
+</CardGroup>

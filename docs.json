@@ -2,315 +2,805 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "SaucerSwap",
+  "description": "Official documentation for SaucerSwap, the decentralized exchange on the Hedera network: trading, liquidity, staking, developer guides, and API reference.",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#55D799",
-    "dark": "#0D9373"
+    "primary": "#17803D",
+    "light": "#44E760",
+    "dark": "#17803D"
   },
-  "favicon": "/images/alien_head_v2.png",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://www.saucerswap.finance"
+  },
+  "favicon": "/favicon.svg",
+  "appearance": {
+    "default": "dark"
+  },
+  "background": {
+    "decoration": "gradient",
+    "color": {
+      "dark": "#060607"
+    }
+  },
+  "fonts": {
+    "heading": {
+      "family": "Euclid Triangle",
+      "weight": 500,
+      "source": "/fonts/EuclidTriangle-Medium.woff2",
+      "format": "woff2"
+    },
+    "body": {
+      "family": "Euclid Triangle",
+      "weight": 400,
+      "source": "/fonts/EuclidTriangle-Regular.woff2",
+      "format": "woff2"
+    }
+  },
+  "styling": {
+    "codeblocks": "dark"
+  },
+  "navbar": {
+    "links": [
+      {
+        "type": "discord",
+        "label": "Discord",
+        "href": "https://saucerswap.finance/discord"
+      },
+      {
+        "type": "github",
+        "label": "GitHub",
+        "href": "https://github.com/saucerswaplabs"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Launch app",
+      "href": "https://www.saucerswap.finance/swap"
+    }
+  },
   "navigation": {
-    "groups": [
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Changelog",
+          "icon": "clock-rotate-left",
+          "href": "/changelog"
+        },
+        {
+          "anchor": "Launch app",
+          "icon": "rocket",
+          "href": "https://www.saucerswap.finance/swap"
+        }
+      ]
+    },
+    "tabs": [
       {
-        "group": "Home",
-        "pages": [
-          "home"
-        ]
-      },
-      {
-        "group": "Roadmap",
-        "pages": [
-          "roadmap"
-        ]
-      },
-      {
-        "group": "Contact",
-        "pages": [
+        "tab": "Learn",
+        "icon": "graduation-cap",
+        "groups": [
           {
-            "group": "📞 Contact",
+            "group": "Welcome",
+            "pages": [
+              "index",
+              "get-started/quickstart"
+            ]
+          },
+          {
+            "group": "Get started",
+            "pages": [
+              "get-started/wallet",
+              "get-started/hbar",
+              "get-started/bridge-to-hedera",
+              "get-started/saucerswap-wallet"
+            ]
+          },
+          {
+            "group": "Tutorials",
+            "pages": [
+              "tutorials/swap",
+              "tutorials/trade",
+              "tutorials/liquidity-v1",
+              "tutorials/liquidity-v2",
+              "tutorials/stake",
+              "tutorials/bridge",
+              "tutorials/portfolio",
+              "tutorials/erc20-wrapping"
+            ]
+          },
+          {
+            "group": "Help",
+            "pages": [
+              "get-started/faq",
+              "resources/troubleshooting"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Protocol",
+        "icon": "diagram-project",
+        "groups": [
+          {
+            "group": "Concepts",
+            "pages": [
+              "protocol/overview",
+              "protocol/routing"
+            ]
+          },
+          {
+            "group": "Versions",
+            "pages": [
+              {
+                "group": "SaucerSwap V1",
+                "pages": [
+                  "protocol/saucerswap-v1",
+                  "protocol/saucerswap-v1/farm-weights"
+                ]
+              },
+              {
+                "group": "SaucerSwap V2",
+                "pages": [
+                  "protocol/saucerswap-v2",
+                  "protocol/saucerswap-v2/lari-weights"
+                ]
+              },
+              {
+                "group": "SaucerSwap V3",
+                "tag": "NEW",
+                "pages": [
+                  "protocol/saucerswap-v3",
+                  "protocol/saucerswap-v3/fees"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Earn",
+            "pages": [
+              "protocol/single-sided-staking",
+              "protocol/community-pools"
+            ]
+          },
+          {
+            "group": "Token & governance",
+            "pages": [
+              "tokenomics/overview",
+              "governance/overview",
+              "governance/dao-reporting"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Developers",
+        "icon": "code",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "developers/overview",
+              "developers/quickstart",
+              "developers/contracts"
+            ]
+          },
+          {
+            "group": "V1 guides",
+            "pages": [
+              {
+                "group": "Swap",
+                "pages": [
+                  "developers/v1/swap/swap-quote",
+                  "developers/v1/swap/swap-hbar-for-tokens",
+                  "developers/v1/swap/swap-tokens-for-hbar",
+                  "developers/v1/swap/swap-tokens-for-tokens",
+                  "developers/v1/swap/track-swap-events"
+                ]
+              },
+              {
+                "group": "Liquidity",
+                "pages": [
+                  "developers/v1/liquidity/overview",
+                  "developers/v1/liquidity/adding-liquidity",
+                  "developers/v1/liquidity/removing-liquidity",
+                  "developers/v1/liquidity/create-a-new-pool",
+                  "developers/v1/liquidity/check-if-a-pool-exists",
+                  "developers/v1/liquidity/fetch-all-pools",
+                  "developers/v1/liquidity/get-pool-reserves",
+                  "developers/v1/liquidity/pool-creation-fee",
+                  "developers/v1/liquidity/track-pool-updates"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "V2 guides",
+            "pages": [
+              {
+                "group": "Swap",
+                "pages": [
+                  "developers/v2/swap/swap-quote",
+                  "developers/v2/swap/swap-hbar-for-tokens",
+                  "developers/v2/swap/swap-tokens-for-hbar",
+                  "developers/v2/swap/swap-tokens-for-tokens",
+                  "developers/v2/swap/track-swap-events"
+                ]
+              },
+              {
+                "group": "Liquidity",
+                "pages": [
+                  "developers/v2/liquidity/new-liquidity-position",
+                  "developers/v2/liquidity/increasing-liquidity",
+                  "developers/v2/liquidity/decreasing-liquidity",
+                  "developers/v2/liquidity/claiming-fees",
+                  "developers/v2/liquidity/get-user-positions",
+                  "developers/v2/liquidity/liquidity-position-fee",
+                  "developers/v2/liquidity/fetch-all-pools",
+                  "developers/v2/liquidity/fetch-pool-token-ratio",
+                  "developers/v2/liquidity/check-if-a-pool-exists"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "V3 order book",
+            "tag": "NEW",
+            "pages": [
+              "developers/orderbook/typescript-client"
+            ]
+          },
+          {
+            "group": "More guides",
+            "pages": [
+              {
+                "group": "Staking",
+                "pages": [
+                  "developers/staking/single-sided-staking",
+                  "developers/staking/yield-farming"
+                ]
+              },
+              {
+                "group": "WHBAR",
+                "pages": [
+                  "developers/whbar/overview",
+                  "developers/whbar/wrap-hbar-for-whbar",
+                  "developers/whbar/unwrap-whbar-for-hbar"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Security",
+            "pages": [
+              "developers/security/audits",
+              "developers/security/bug-bounty"
+            ]
+          },
+          {
+            "group": "AI",
+            "pages": [
+              "developers/ai"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "icon": "brackets-curly",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "api-reference/overview",
+              "api-reference/authentication",
+              "api-reference/conventions",
+              "api-reference/errors"
+            ]
+          },
+          {
+            "group": "REST API",
+            "pages": [
+              {
+                "group": "Stats",
+                "pages": [
+                  "api-reference/rest/stats/general-stats",
+                  "api-reference/rest/stats/sss-stats",
+                  "api-reference/rest/stats/hbar-historical-prices",
+                  "api-reference/rest/stats/platform-data"
+                ]
+              },
+              {
+                "group": "Tokens",
+                "pages": [
+                  "api-reference/rest/tokens/list-tokens",
+                  "api-reference/rest/tokens/list-tokens-full",
+                  "api-reference/rest/tokens/get-token",
+                  "api-reference/rest/tokens/default-listed-tokens",
+                  "api-reference/rest/tokens/default-token-price-changes",
+                  "api-reference/rest/tokens/price-change-map",
+                  "api-reference/rest/tokens/all-tokens-daily",
+                  "api-reference/rest/tokens/all-tokens-weekly",
+                  "api-reference/rest/tokens/all-tokens-monthly",
+                  "api-reference/rest/tokens/all-tokens-yearly",
+                  "api-reference/rest/tokens/token-daily",
+                  "api-reference/rest/tokens/token-weekly",
+                  "api-reference/rest/tokens/token-monthly",
+                  "api-reference/rest/tokens/token-yearly",
+                  "api-reference/rest/tokens/associated-pools",
+                  "api-reference/rest/tokens/token-price-history",
+                  "api-reference/rest/tokens/token-price-latest",
+                  "api-reference/rest/tokens/ohlcv-latest"
+                ]
+              },
+              {
+                "group": "Pools V1",
+                "pages": [
+                  "api-reference/rest/pools-v1/list-pools",
+                  "api-reference/rest/pools-v1/list-pools-full",
+                  "api-reference/rest/pools-v1/get-pool",
+                  "api-reference/rest/pools-v1/default-listed-pools",
+                  "api-reference/rest/pools-v1/all-pools-daily",
+                  "api-reference/rest/pools-v1/all-pools-weekly",
+                  "api-reference/rest/pools-v1/all-pools-monthly",
+                  "api-reference/rest/pools-v1/all-pools-yearly",
+                  "api-reference/rest/pools-v1/pool-daily",
+                  "api-reference/rest/pools-v1/pool-weekly",
+                  "api-reference/rest/pools-v1/pool-monthly",
+                  "api-reference/rest/pools-v1/pool-yearly",
+                  "api-reference/rest/pools-v1/pool-conversion-rates",
+                  "api-reference/rest/pools-v1/pool-conversion-rates-latest"
+                ]
+              },
+              {
+                "group": "Pools V2",
+                "pages": [
+                  "api-reference/rest/pools-v2/list-v2-pools",
+                  "api-reference/rest/pools-v2/list-v2-pools-full",
+                  "api-reference/rest/pools-v2/get-v2-pool",
+                  "api-reference/rest/pools-v2/v2-pool-conversion-rates",
+                  "api-reference/rest/pools-v2/v2-positions-by-account",
+                  "api-reference/rest/pools-v2/lari-rewards-by-account"
+                ]
+              },
+              {
+                "group": "Farms",
+                "pages": [
+                  "api-reference/rest/farms/list-farms",
+                  "api-reference/rest/farms/farm-totals-by-account"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Orderbook API",
+            "tag": "NEW",
+            "pages": [
+              "api-reference/orderbook/overview",
+              "api-reference/orderbook/authentication",
+              "api-reference/orderbook/market-data",
+              "api-reference/orderbook/orders",
+              "api-reference/orderbook/websockets",
+              "api-reference/orderbook/limits-and-errors"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Resources",
+        "icon": "box-archive",
+        "groups": [
+          {
+            "group": "Ecosystem",
+            "pages": [
+              "resources/for-projects",
+              "resources/market-makers",
+              "resources/analytics",
+              "resources/glossary"
+            ]
+          },
+          {
+            "group": "Project",
+            "pages": [
+              "changelog",
+              "roadmap",
+              "contributors/saucerswap-labs",
+              "contributors/careers",
+              "contributors/community",
+              "resources/brand-assets"
+            ]
+          },
+          {
+            "group": "Support",
             "pages": [
               "contact",
               "contact/partnership-inquiries",
               "contact/user-support",
               "contact/socials"
             ]
-          }
-        ]
-      },
-      {
-        "group": "Get Started",
-        "pages": [
-          "get-started/faq",
-          {
-            "group": "🌐  Hedera Guide",
-            "pages": [
-              "get-started/hedera-guide",
-              "get-started/hedera-guide/create-hedera-wallet",
-              "get-started/hedera-guide/get-hbar",
-              "get-started/hedera-guide/bridge-to-hedera"
-            ]
           },
           {
-            "group": "🎓  SaucerSwap Tutorials",
+            "group": "Legal",
             "pages": [
-              "get-started/saucerswap-tutorials",
-              "get-started/saucerswap-tutorials/swap",
-              {
-                "group": "Liquidity",
-                "pages": [
-                  "get-started/saucerswap-tutorials/liquidity",
-                  "get-started/saucerswap-tutorials/liquidity/saucerswap-v1",
-                  "get-started/saucerswap-tutorials/liquidity/saucerswap-v2"
-                ]
-              },
-              "get-started/saucerswap-tutorials/single-sided-staking"
+              "legal/terms-of-service",
+              "legal/privacy-policy",
+              "legal/orderbook-risk-notice"
             ]
           }
-        ]
-      },
-      {
-        "group": "Protocol",
-        "pages": [
-          {
-            "group": "⚖️  SaucerSwap V1",
-            "pages": [
-              "protocol/saucerswap-v1",
-              "protocol/saucerswap-v1/farm-weights",
-              "external-link-0"
-            ]
-          },
-          {
-            "group": "🌊  SaucerSwap V2",
-            "pages": [
-              "protocol/saucerswap-v2",
-              "protocol/saucerswap-v2/lari-weights",
-              "external-link-1",
-              "external-link-2"
-            ]
-          },
-          "protocol/single-sided-staking",
-          "protocol/community-pools"
-        ]
-      },
-      {
-        "group": "Governance",
-        "pages": [
-          "governance/overview",
-          "governance/dao-reporting"
-        ]
-      },
-      {
-        "group": "Tokenomics",
-        "pages": [
-          "tokenomics/overview"
-        ]
-      },
-      {
-        "group": "Developer",
-        "pages": [
-          {
-            "group": "🔮 Developer Resources",
-            "pages": [
-              {
-                "group": "REST API",
-                "pages": [
-                  "v/developer/rest-api/authentication",
-                  {
-                    "group": "Stats",
-                    "pages": [
-                      "v/developer/rest-api/stats/stats",
-                      "v/developer/rest-api/stats/sss",
-                      "v/developer/rest-api/stats/hbar-price-history",
-                      "v/developer/rest-api/stats/platform-data-history"
-                    ]
-                  },
-                  {
-                    "group": "Farms",
-                    "pages": [
-                      "v/developer/rest-api/farms/farms",
-                      "v/developer/rest-api/farms/account"
-                    ]
-                  },
-                  {
-                    "group": "Tokens",
-                    "pages": [
-                      "v/developer/rest-api/tokens/tokens",
-                      "v/developer/rest-api/tokens/tokens-full",
-                      "v/developer/rest-api/tokens/tokens-known",
-                      "v/developer/rest-api/tokens/tokens-default",
-                      "v/developer/rest-api/tokens/tokens-price-change",
-                      "v/developer/rest-api/tokens/tokens-daily",
-                      "v/developer/rest-api/tokens/tokens-weekly",
-                      "v/developer/rest-api/tokens/tokens-monthly",
-                      "v/developer/rest-api/tokens/tokens-yearly",
-                      "v/developer/rest-api/tokens/token",
-                      "v/developer/rest-api/tokens/token-price",
-                      "v/developer/rest-api/tokens/token-price-latest",
-                      "v/developer/rest-api/tokens/token-associated-pools",
-                      "v/developer/rest-api/tokens/token-daily",
-                      "v/developer/rest-api/tokens/token-weekly",
-                      "v/developer/rest-api/tokens/token-monthly",
-                      "v/developer/rest-api/tokens/token-yearly"
-                    ]
-                  },
-                  {
-                    "group": "Pools (V1)",
-                    "pages": [
-                      "v/developer/rest-api/pools-v1/pools",
-                      "v/developer/rest-api/pools-v1/pools-full",
-                      "v/developer/rest-api/pools-v1/pools-known",
-                      "v/developer/rest-api/pools-v1/pools-daily",
-                      "v/developer/rest-api/pools-v1/pools-weekly",
-                      "v/developer/rest-api/pools-v1/pools-monthly",
-                      "v/developer/rest-api/pools-v1/pools-yearly",
-                      "v/developer/rest-api/pools-v1/pool",
-                      "v/developer/rest-api/pools-v1/pool-daily",
-                      "v/developer/rest-api/pools-v1/pool-weekly",
-                      "v/developer/rest-api/pools-v1/pool-monthly",
-                      "v/developer/rest-api/pools-v1/pool-yearly",
-                      "v/developer/rest-api/pools-v1/pool-conversion-rates",
-                      "v/developer/rest-api/pools-v1/pool-conversion-rates-latest"
-                    ]
-                  },
-                  {
-                    "group": "Pools and Positions (V2)",
-                    "pages": [
-                      "v/developer/rest-api/pools-v2/pools",
-                      "v/developer/rest-api/pools-v2/pools-full",
-                      "v/developer/rest-api/pools-v2/pool",
-                      "v/developer/rest-api/pools-v2/pool-conversion-rates",
-                      "v/developer/rest-api/pools-v2/account-nft-positions",
-                      "v/developer/rest-api/pools-v2/lari-reward"
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "SaucerSwap V1",
-                "pages": [
-                  {
-                    "group": "Swap Operations",
-                    "pages": [
-                      "v/developer/saucerswap-v1/swap-operations/swap-quote",
-                      "v/developer/saucerswap-v1/swap-operations/swap-hbar-for-tokens",
-                      "v/developer/saucerswap-v1/swap-operations/swap-tokens-for-tokens",
-                      "v/developer/saucerswap-v1/swap-operations/swap-tokens-for-hbar",
-                      "v/developer/saucerswap-v1/swap-operations/track-swap-events"
-                    ]
-                  },
-                  {
-                    "group": "Liquidity Operations",
-                    "pages": [
-                      "v/developer/saucerswap-v1/liquidity-operations/fetch-all-pools",
-                      "v/developer/saucerswap-v1/liquidity-operations/check-if-a-pool-exists",
-                      "v/developer/saucerswap-v1/liquidity-operations/pool-creation-fee",
-                      "v/developer/saucerswap-v1/liquidity-operations/create-a-new-pool",
-                      "v/developer/saucerswap-v1/liquidity-operations/get-pool-reserves",
-                      "v/developer/saucerswap-v1/liquidity-operations/track-pool-updates",
-                      "v/developer/saucerswap-v1/liquidity-operations/adding-liquidity",
-                      "v/developer/saucerswap-v1/liquidity-operations/removing-liquidity"
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "SaucerSwap V2",
-                "pages": [
-                  {
-                    "group": "Swap Operations",
-                    "pages": [
-                      "v/developer/saucerswap-v2/swap-operations/swap-quote",
-                      "v/developer/saucerswap-v2/swap-operations/swap-hbar-for-tokens",
-                      "v/developer/saucerswap-v2/swap-operations/swap-tokens-for-tokens",
-                      "v/developer/saucerswap-v2/swap-operations/swap-tokens-for-hbar",
-                      "v/developer/saucerswap-v2/swap-operations/track-swap-events"
-                    ]
-                  },
-                  {
-                    "group": "Liquidity Operations",
-                    "pages": [
-                      "v/developer/saucerswap-v2/liquidity-operations/fetch-all-pools",
-                      "v/developer/saucerswap-v2/liquidity-operations/check-if-a-pool-exists",
-                      "v/developer/saucerswap-v2/liquidity-operations/fetch-pool-token-ratio",
-                      "v/developer/saucerswap-v2/liquidity-operations/liquidity-position-fee",
-                      "v/developer/saucerswap-v2/liquidity-operations/new-liquidity-position",
-                      "v/developer/saucerswap-v2/liquidity-operations/increasing-liquidity",
-                      "v/developer/saucerswap-v2/liquidity-operations/get-user-positions",
-                      "v/developer/saucerswap-v2/liquidity-operations/claiming-fees",
-                      "v/developer/saucerswap-v2/liquidity-operations/decreasing-liquidity"
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "SaucerSwap V3",
-                "pages": [
-                  "v/developer/saucerswap-v3/orderbook-api",
-                  "v/developer/saucerswap-v3/orderbook-api/typescript-client"
-                ]
-              },
-              {
-                "group": "Staking Operations",
-                "pages": [
-                  "v/developer/staking-operations/single-sided-staking",
-                  "v/developer/staking-operations/yield-farming"
-                ]
-              },
-              {
-                "group": "WHBAR",
-                "pages": [
-                  "v/developer/whbar/overview",
-                  "v/developer/whbar/wrap-hbar-for-whbar",
-                  "v/developer/whbar/unwrap-whbar-for-hbar"
-                ]
-              }
-            ]
-          },
-          "developerx/contract-deployments",
-          "developerx/audits",
-          "developerx/bug-bounty",
-          "external-link-3"
-        ]
-      },
-      {
-        "group": "Contributors",
-        "pages": [
-          "contributors/saucerswap-labs",
-          "contributors/careers",
-          "contributors/community",
-          "contributors/galactic-pioneers"
-        ]
-      },
-      {
-        "group": "Resources",
-        "pages": [
-          "resources/glossary",
-          "resources/analytics"
-        ]
-      },
-      {
-        "group": "Legal",
-        "pages": [
-          "legal/terms-of-service",
-          "legal/privacy-policy",
-          "legal/orderbook-risk-notice"
-        ]
-      },
-      {
-        "group": "Archive",
-        "pages": [
-          "archive/proto-governance",
-          {
-            "group": "🦕 Old Tokenomics",
-            "pages": [
-              "archive/old-tokenomics",
-              "archive/old-tokenomics/initial-supply-breakdown",
-              "archive/old-tokenomics/emission-schedule"
-            ]
-          },
-          "archive/liquidity-migration",
-          "developerx/bug-bounty/v3-testnet"
         ]
       }
     ]
-  }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/SaucerSwapLabs",
+      "discord": "https://saucerswap.finance/discord",
+      "github": "https://github.com/saucerswaplabs",
+      "youtube": "https://www.youtube.com/@saucerswap"
+    }
+  },
+  "api": {
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": [
+        "curl",
+        "javascript",
+        "python"
+      ]
+    }
+  },
+  "seo": {
+    "indexing": "navigable"
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "cursor",
+      "mcp"
+    ]
+  },
+  "search": {
+    "prompt": "Search SaucerSwap docs..."
+  },
+  "errors": {
+    "404": {
+      "redirect": false,
+      "title": "Page not found",
+      "description": "This page does not exist or has moved. Try the [docs home](/), the [swap tutorial](/tutorials/swap), or the [API reference](/api-reference/overview)."
+    }
+  },
+  "redirects": [
+    {
+      "source": "/v/developer/rest-api/farms/account",
+      "destination": "/api-reference/rest/farms/farm-totals-by-account"
+    },
+    {
+      "source": "/v/developer/rest-api/farms/farms",
+      "destination": "/api-reference/rest/farms/list-farms"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v1/pool",
+      "destination": "/api-reference/rest/pools-v1/get-pool"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v1/pool-conversion-rates",
+      "destination": "/api-reference/rest/pools-v1/pool-conversion-rates"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v1/pool-conversion-rates-latest",
+      "destination": "/api-reference/rest/pools-v1/pool-conversion-rates-latest"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v1/pool-daily",
+      "destination": "/api-reference/rest/pools-v1/pool-daily"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v1/pool-monthly",
+      "destination": "/api-reference/rest/pools-v1/pool-monthly"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v1/pool-weekly",
+      "destination": "/api-reference/rest/pools-v1/pool-weekly"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v1/pool-yearly",
+      "destination": "/api-reference/rest/pools-v1/pool-yearly"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v1/pools",
+      "destination": "/api-reference/rest/pools-v1/list-pools"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v1/pools-daily",
+      "destination": "/api-reference/rest/pools-v1/all-pools-daily"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v1/pools-full",
+      "destination": "/api-reference/rest/pools-v1/list-pools-full"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v1/pools-known",
+      "destination": "/api-reference/rest/pools-v1/default-listed-pools"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v1/pools-monthly",
+      "destination": "/api-reference/rest/pools-v1/all-pools-monthly"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v1/pools-weekly",
+      "destination": "/api-reference/rest/pools-v1/all-pools-weekly"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v1/pools-yearly",
+      "destination": "/api-reference/rest/pools-v1/all-pools-yearly"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v2/account-nft-positions",
+      "destination": "/api-reference/rest/pools-v2/v2-positions-by-account"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v2/lari-reward",
+      "destination": "/api-reference/rest/pools-v2/lari-rewards-by-account"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v2/pool",
+      "destination": "/api-reference/rest/pools-v2/get-v2-pool"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v2/pool-conversion-rates",
+      "destination": "/api-reference/rest/pools-v2/v2-pool-conversion-rates"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v2/pools",
+      "destination": "/api-reference/rest/pools-v2/list-v2-pools"
+    },
+    {
+      "source": "/v/developer/rest-api/pools-v2/pools-full",
+      "destination": "/api-reference/rest/pools-v2/list-v2-pools-full"
+    },
+    {
+      "source": "/v/developer/rest-api/stats/hbar-price-history",
+      "destination": "/api-reference/rest/stats/hbar-historical-prices"
+    },
+    {
+      "source": "/v/developer/rest-api/stats/platform-data-history",
+      "destination": "/api-reference/rest/stats/platform-data"
+    },
+    {
+      "source": "/v/developer/rest-api/stats/sss",
+      "destination": "/api-reference/rest/stats/sss-stats"
+    },
+    {
+      "source": "/v/developer/rest-api/stats/stats",
+      "destination": "/api-reference/rest/stats/general-stats"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/token",
+      "destination": "/api-reference/rest/tokens/get-token"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/token-associated-pools",
+      "destination": "/api-reference/rest/tokens/associated-pools"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/token-daily",
+      "destination": "/api-reference/rest/tokens/token-daily"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/token-monthly",
+      "destination": "/api-reference/rest/tokens/token-monthly"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/token-price",
+      "destination": "/api-reference/rest/tokens/token-price-history"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/token-price-latest",
+      "destination": "/api-reference/rest/tokens/token-price-latest"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/token-weekly",
+      "destination": "/api-reference/rest/tokens/token-weekly"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/token-yearly",
+      "destination": "/api-reference/rest/tokens/token-yearly"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/tokens",
+      "destination": "/api-reference/rest/tokens/list-tokens"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/tokens-daily",
+      "destination": "/api-reference/rest/tokens/all-tokens-daily"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/tokens-default",
+      "destination": "/api-reference/rest/tokens/default-token-price-changes"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/tokens-full",
+      "destination": "/api-reference/rest/tokens/list-tokens-full"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/tokens-known",
+      "destination": "/api-reference/rest/tokens/default-listed-tokens"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/tokens-monthly",
+      "destination": "/api-reference/rest/tokens/all-tokens-monthly"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/tokens-price-change",
+      "destination": "/api-reference/rest/tokens/price-change-map"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/tokens-weekly",
+      "destination": "/api-reference/rest/tokens/all-tokens-weekly"
+    },
+    {
+      "source": "/v/developer/rest-api/tokens/tokens-yearly",
+      "destination": "/api-reference/rest/tokens/all-tokens-yearly"
+    },
+    {
+      "source": "/home",
+      "destination": "/"
+    },
+    {
+      "source": "/introduction",
+      "destination": "/"
+    },
+    {
+      "source": "/quickstart",
+      "destination": "/get-started/quickstart"
+    },
+    {
+      "source": "/development",
+      "destination": "/"
+    },
+    {
+      "source": "/essentials/:slug*",
+      "destination": "/"
+    },
+    {
+      "source": "/api-reference/introduction",
+      "destination": "/api-reference/overview"
+    },
+    {
+      "source": "/api-reference/endpoint/:slug*",
+      "destination": "/api-reference/overview"
+    },
+    {
+      "source": "/external-link-0",
+      "destination": "https://www.saucerswap.finance/whitepaper.pdf"
+    },
+    {
+      "source": "/external-link-1",
+      "destination": "https://docs.ichi.org"
+    },
+    {
+      "source": "/external-link-2",
+      "destination": "https://www.saucerswap.finance/whitepaper-v2.pdf"
+    },
+    {
+      "source": "/external-link-3",
+      "destination": "https://github.com/saucerswaplabs"
+    },
+    {
+      "source": "/v/developer/rest-api/authentication",
+      "destination": "/api-reference/authentication"
+    },
+    {
+      "source": "/v/developer/saucerswap-v3/orderbook-api",
+      "destination": "/api-reference/orderbook/overview"
+    },
+    {
+      "source": "/v/developer/saucerswap-v3/orderbook-api/typescript-client",
+      "destination": "/developers/orderbook/typescript-client"
+    },
+    {
+      "source": "/v/developer/saucerswap-v1/swap-operations/:slug*",
+      "destination": "/developers/v1/swap/:slug*"
+    },
+    {
+      "source": "/v/developer/saucerswap-v1/liquidity-operations",
+      "destination": "/developers/v1/liquidity/overview"
+    },
+    {
+      "source": "/v/developer/saucerswap-v1/liquidity-operations/:slug*",
+      "destination": "/developers/v1/liquidity/:slug*"
+    },
+    {
+      "source": "/v/developer/saucerswap-v2/swap-operations/:slug*",
+      "destination": "/developers/v2/swap/:slug*"
+    },
+    {
+      "source": "/v/developer/saucerswap-v2/liquidity-operations/:slug*",
+      "destination": "/developers/v2/liquidity/:slug*"
+    },
+    {
+      "source": "/v/developer/staking-operations/:slug*",
+      "destination": "/developers/staking/:slug*"
+    },
+    {
+      "source": "/v/developer/whbar/:slug*",
+      "destination": "/developers/whbar/:slug*"
+    },
+    {
+      "source": "/developerx/contract-deployments",
+      "destination": "/developers/contracts"
+    },
+    {
+      "source": "/developerx/audits",
+      "destination": "/developers/security/audits"
+    },
+    {
+      "source": "/developerx/bug-bounty",
+      "destination": "/developers/security/bug-bounty"
+    },
+    {
+      "source": "/developerx/bug-bounty/v3-testnet",
+      "destination": "/developers/security/bug-bounty"
+    },
+    {
+      "source": "/developerx/developer-resources",
+      "destination": "/developers/overview"
+    },
+    {
+      "source": "/get-started/hedera-guide",
+      "destination": "/get-started/quickstart"
+    },
+    {
+      "source": "/get-started/hedera-guide/create-hedera-wallet",
+      "destination": "/get-started/wallet"
+    },
+    {
+      "source": "/get-started/hedera-guide/get-hbar",
+      "destination": "/get-started/hbar"
+    },
+    {
+      "source": "/get-started/hedera-guide/bridge-to-hedera",
+      "destination": "/get-started/bridge-to-hedera"
+    },
+    {
+      "source": "/get-started/saucerswap-tutorials",
+      "destination": "/tutorials/swap"
+    },
+    {
+      "source": "/get-started/saucerswap-tutorials/swap",
+      "destination": "/tutorials/swap"
+    },
+    {
+      "source": "/get-started/saucerswap-tutorials/liquidity",
+      "destination": "/tutorials/liquidity-v2"
+    },
+    {
+      "source": "/get-started/saucerswap-tutorials/liquidity/saucerswap-v1",
+      "destination": "/tutorials/liquidity-v1"
+    },
+    {
+      "source": "/get-started/saucerswap-tutorials/liquidity/saucerswap-v2",
+      "destination": "/tutorials/liquidity-v2"
+    },
+    {
+      "source": "/get-started/saucerswap-tutorials/single-sided-staking",
+      "destination": "/tutorials/stake"
+    },
+    {
+      "source": "/archive/:slug*",
+      "destination": "/tokenomics/overview"
+    },
+    {
+      "source": "/contributors/galactic-pioneers",
+      "destination": "/contributors/saucerswap-labs"
+    },
+    {
+      "source": "/v/developer/rest-api/:slug*",
+      "destination": "/api-reference/overview"
+    }
+  ]
 }

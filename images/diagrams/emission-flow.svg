@@ -1,0 +1,85 @@
+<svg width="940" height="520" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 520" font-family="system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" role="img" aria-label="Flow diagram of Masterchef SAUCE emissions splitting to the yield farm, the DAO, and the devcut">
+  <rect x="0" y="0" width="940" height="520" rx="16" fill="#0A0A0B"/>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#A1A1AA"/>
+    </marker>
+  </defs>
+
+  <!-- Masterchef -->
+  <g>
+    <rect x="345" y="28" width="250" height="76" rx="12" fill="none" stroke="#44E760" stroke-width="1.5"/>
+    <text x="470" y="62" text-anchor="middle" fill="#FFFFFF" font-size="17" font-weight="600">Masterchef contract</text>
+    <text x="470" y="86" text-anchor="middle" fill="#A1A1AA" font-size="13">mints and distributes SAUCE emissions</text>
+  </g>
+
+  <!-- connectors -->
+  <path d="M 470 104 L 470 140 L 170 140 L 170 176" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M 470 104 L 470 176" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M 470 104 L 470 140 L 770 140 L 770 176" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- split labels -->
+  <text x="240" y="132" text-anchor="middle" fill="#44E760" font-size="14" font-weight="600">47.16%</text>
+  <text x="500" y="132" text-anchor="start" fill="#7B96FF" font-size="14" font-weight="600">43.75%</text>
+  <text x="700" y="132" text-anchor="middle" fill="#D6C9FF" font-size="14" font-weight="600">9.09%</text>
+
+  <!-- Yield farm -->
+  <g>
+    <rect x="45" y="178" width="250" height="76" rx="12" fill="none" stroke="#2D2D33" stroke-width="1.5"/>
+    <circle cx="69" cy="204" r="5" fill="#44E760"/>
+    <text x="84" y="209" fill="#FFFFFF" font-size="16" font-weight="600">Yield farm (V1)</text>
+    <text x="69" y="236" fill="#A1A1AA" font-size="13">SAUCE rewards for farm stakers</text>
+  </g>
+
+  <!-- DAO -->
+  <g>
+    <rect x="345" y="178" width="250" height="76" rx="12" fill="none" stroke="#2D2D33" stroke-width="1.5"/>
+    <circle cx="369" cy="204" r="5" fill="#7B96FF"/>
+    <text x="384" y="209" fill="#FFFFFF" font-size="16" font-weight="600">DAO</text>
+    <text x="369" y="236" fill="#A1A1AA" font-size="13">community-governed treasury</text>
+  </g>
+
+  <!-- Devcut -->
+  <g>
+    <rect x="645" y="178" width="250" height="76" rx="12" fill="none" stroke="#2D2D33" stroke-width="1.5"/>
+    <circle cx="669" cy="204" r="5" fill="#D6C9FF"/>
+    <text x="684" y="209" fill="#FFFFFF" font-size="16" font-weight="600">Devcut</text>
+    <text x="669" y="236" fill="#A1A1AA" font-size="13">development allocation</text>
+  </g>
+
+  <!-- DAO sub-splits -->
+  <path d="M 470 254 L 470 290 L 350 290 L 350 326" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M 470 254 L 470 290 L 590 290 L 590 326" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="395" y="282" text-anchor="middle" fill="#A1A1AA" font-size="13">50%</text>
+  <text x="545" y="282" text-anchor="middle" fill="#A1A1AA" font-size="13">50%</text>
+
+  <g>
+    <rect x="240" y="328" width="220" height="68" rx="12" fill="none" stroke="#2D2D33" stroke-width="1.5"/>
+    <text x="350" y="358" text-anchor="middle" fill="#FFFFFF" font-size="15" font-weight="600">Operations multisig</text>
+    <text x="350" y="380" text-anchor="middle" fill="#A1A1AA" font-size="13">DAO-controlled</text>
+  </g>
+  <g>
+    <rect x="480" y="328" width="220" height="68" rx="12" fill="none" stroke="#2E9E45" stroke-width="1.5"/>
+    <text x="590" y="358" text-anchor="middle" fill="#FFFFFF" font-size="15" font-weight="600">LARI rewards</text>
+    <text x="590" y="380" text-anchor="middle" fill="#A1A1AA" font-size="13">V2 liquidity incentives</text>
+  </g>
+
+  <!-- Devcut sub-splits -->
+  <path d="M 770 254 L 770 290 L 738 290 L 738 450 L 729 450" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M 770 254 L 770 290 L 860 290 L 860 326" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="830" y="282" text-anchor="middle" fill="#A1A1AA" font-size="13">70%</text>
+  <text x="748" y="420" text-anchor="start" fill="#A1A1AA" font-size="13">30%</text>
+
+  <g>
+    <rect x="750" y="328" width="170" height="68" rx="12" fill="none" stroke="#2D2D33" stroke-width="1.5"/>
+    <text x="835" y="358" text-anchor="middle" fill="#FFFFFF" font-size="15" font-weight="600">DAO share</text>
+    <text x="835" y="380" text-anchor="middle" fill="#A1A1AA" font-size="13">of devcut</text>
+  </g>
+  <g>
+    <rect x="505" y="416" width="220" height="68" rx="12" fill="none" stroke="#2E9E45" stroke-width="1.5"/>
+    <text x="615" y="446" text-anchor="middle" fill="#FFFFFF" font-size="15" font-weight="600">Single-sided staking</text>
+    <text x="615" y="468" text-anchor="middle" fill="#A1A1AA" font-size="13">xSAUCE reward inflow</text>
+  </g>
+
+  <text x="45" y="470" fill="#A1A1AA" font-size="13">Split shown for the post-V2 tokenomics model (V2 launch onward).</text>
+</svg>

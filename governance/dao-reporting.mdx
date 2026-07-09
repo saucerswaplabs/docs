@@ -1,12 +1,33 @@
 ---
-title: "DAO Reporting"
+title: "DAO reporting"
+description: "Downloadable transaction-level reports for the SaucerSwap DAO treasury, published as CSV files to the official DAO-Reporting GitHub repository."
 ---
 
-<AccordionGroup>
-  <Accordion title="SaucerSwap DAO Transactions" defaultOpen icon="paperclip">
-    <Card title="2025-09-25 to 2026-02-11" icon="paperclip" horizontal="true" href="https://github.com/saucerswaplabs/DAO-Reporting/raw/refs/heads/main/DAO_Transactions_20250925-20260211.csv">
-      53.4KB
-    </Card>
-  </Accordion>
-</AccordionGroup>
+SaucerSwap Labs publishes transaction-level reports of DAO treasury activity as CSV files. Each report covers a date range and lists the treasury transactions in that window, so token holders and analysts can audit flows against the [treasury contracts](/governance/overview#treasury-flows-and-dao-controlled-contracts) on HashScan.
 
+Reports are published periodically to the official repository rather than on a fixed schedule. As of July 2026, the most recent published report covers September 25, 2025 through February 11, 2026.
+
+<CardGroup cols={1}>
+  <Card title="DAO transactions: 2025-09-25 to 2026-02-11" icon="file-csv" horizontal href="https://github.com/saucerswaplabs/DAO-Reporting/raw/refs/heads/main/DAO_Transactions_20250925-20260211.csv">
+    Download the latest published CSV (53.4KB).
+  </Card>
+  <Card title="DAO-Reporting on GitHub" icon="github" horizontal href="https://github.com/saucerswaplabs/DAO-Reporting">
+    Browse the repository for all published reports.
+  </Card>
+</CardGroup>
+
+For per-epoch LARI airdrop results — published separately — see [LARI weights](/protocol/saucerswap-v2/lari-weights).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Governance overview" icon="check-to-slot" href="/governance/overview">
+    The treasury flows these reports document.
+  </Card>
+  <Card title="LARI weights" icon="scale-balanced" href="/protocol/saucerswap-v2/lari-weights">
+    Per-epoch reward allocations and airdrop results.
+  </Card>
+  <Card title="Contract deployments" icon="file-contract" href="/developers/contracts">
+    Contract and account IDs for independent verification.
+  </Card>
+</CardGroup>

@@ -1,0 +1,150 @@
+---
+title: "For projects: list your token"
+description: "How to list an HTS token on SaucerSwap: pool creation, token classes, icon and metadata submission, farm and LARI incentives, and cross-chain listing."
+---
+
+SaucerSwap listing is permissionless. You do not need to submit a request or ask permission to make your Hedera Token Service (HTS) token tradable — you create a liquidity pool, and users can trade the token immediately. This page covers the full path from first pool to incentivized listing, plus how to take your token cross-chain.
+
+For anything not covered here, contact [outreach@saucerswap.finance](mailto:outreach@saucerswap.finance).
+
+## List a token
+
+<Steps>
+  <Step title="Create a liquidity pool">
+    Any account can create a SaucerSwap V1 pool for an HTS token. Follow the [V1 liquidity tutorial](/tutorials/liquidity-v1) to create a pool and seed it with initial liquidity. V2 pool creation is permissioned and governed by the [SaucerSwap DAO](/governance/overview) to limit liquidity fragmentation.
+  </Step>
+  <Step title="Confirm the token is tradable">
+    Once at least one pool exists, users can trade the token by entering its token ID (for example, `0.0.12345`) in the token selector on the [swap page](/tutorials/swap).
+  </Step>
+  <Step title="Submit an icon and metadata">
+    Add a token icon and project metadata so the token displays properly in the web app. See [Token icon and metadata](#token-icon-and-metadata) below.
+  </Step>
+  <Step title="Apply for incentives (optional)">
+    Default- and extended-class tokens are eligible for [yield farm](#yield-farm-v1) and [LARI](#lari-v2) incentive campaigns through governance.
+  </Step>
+</Steps>
+
+## Token classes
+
+Tokens on SaucerSwap fall into one of three classes: default, extended, or untracked. Classification affects discoverability in the web app, API coverage, and incentive eligibility — not tradability.
+
+| Capability | Default | Extended | Untracked |
+|---|---|---|---|
+| Appears in the token list by default | Yes | No | No |
+| Searchable by name, symbol, or ID | Yes | Yes | No — enter the token ID manually |
+| Icon and token info displayed | Yes | Yes | No |
+| Included in SaucerSwap APIs | Yes | Yes | No |
+| Eligible for yield farm and LARI | Yes | Yes | No |
+
+Criteria, as of July 2026:
+
+- Default — the token has an icon (via token metadata or Davinci Pics) and either a V2 pool or a place among the top 50 V1 pools that contain at least one common token, ranked by aggregated TVL and volume and updated monthly. Common tokens: HBAR, HBARX, SAUCE, xSAUCE, USDC, USDC[hts], USDT[hts], WBTC[hts], WETH[hts].
+- Extended — the token has an icon available via token metadata or Davinci Pics.
+- Untracked — every other token. Users can still trade it by entering its token ID.
+
+## Token icon and metadata
+
+### Tokens with an admin or metadata key
+
+Set or update token metadata with third-party tools:
+
+- [Kabila Token Manager](https://tools.kabila.app/en/token-manager)
+- [Davinci Token Manager](https://davincigraph.io/tokens/updateMetadata)
+
+Metadata should follow the [Hedera fungible token metadata schema (HIP-405)](https://hips.hedera.com/hip/hip-405#schema). SaucerSwap checks token information frequently and updates it automatically. The following fields are supported:
+
+| Field | Type | Description |
+|---|---|---|
+| `lightLogo` or `darkLogo` | string | Token icon or logo image |
+| `description` | string | Description of the token |
+| `website` | string | Website URL |
+| `twitter` | string | X (formerly Twitter) handle, without the @ |
+| `discord` | string | Discord invite URL |
+| `telegram` | string | Telegram link URL |
+| `sentinelReport` | string | Published [Sentinel Report](https://sentinel.headstarter.org/) URL |
+| `category` | string | Category for the asset, for example meme, stablecoin, or defi |
+
+<Accordion title="Example metadata">
+  ```json
+  {
+    "lightLogo": "ar://U-xGP5bDZaqKPAE_4J2Pxqidb4s73qd0VjnuwboFWI8",
+    "description": "Test token metadata",
+    "website": "https://hedera.com",
+    "properties": {
+      "twitter": "hedera",
+      "discord": "https://discord.com/invite/uJ5k8DkmKV",
+      "telegram": "https://t.me/hederahashgraph",
+      "sentinelReport": "https://sentinel.headstarter.org/details/saucerswap",
+      "category": "meme"
+    }
+  }
+  ```
+</Accordion>
+
+### Tokens without an admin or metadata key
+
+Add or update the token icon and information on [Davinci Pics](https://davincigraph.io/#pics_home). Updating a token on Davinci Pics requires connecting either:
+
+- the token's treasury account, or
+- the account that executed the token create transaction.
+
+## Incentive campaigns
+
+### Yield farm (V1)
+
+The V1 [yield farm](/protocol/saucerswap-v1) lets liquidity providers stake LP tokens in the Masterchef contract to earn dual rewards in SAUCE and HBAR. A token becomes farm-eligible once it is in the default or extended class.
+
+Creating or amending a farm campaign is a governance action: a proposal must follow the [governance process](/governance/overview) and specify which [farm weights](/protocol/saucerswap-v1/farm-weights) would be adjusted to create the new farm. All approved farms emit both SAUCE and HBAR.
+
+### LARI (V2)
+
+The Liquidity-Aligned Reward Initiative (LARI) is built into [SaucerSwap V2](/protocol/saucerswap-v2): liquidity providers earn incentives automatically based on the size and efficacy of their positions, with no staking step. Rewards are distributed by airdrop at the end of each two-week epoch, and campaigns can distribute multiple HTS tokens per pool — so you can run a campaign denominated in your own token.
+
+Creating or amending a LARI campaign is also a governance action. A proposal must specify the campaign duration and the token allocation per epoch; see the current [LARI weights](/protocol/saucerswap-v2/lari-weights) for how live campaigns are configured. To initiate a LARI campaign, contact [outreach@saucerswap.finance](mailto:outreach@saucerswap.finance).
+
+## Take your token cross-chain (Axelar ITS + Squid)
+
+You can deploy an existing HTS token to other chains with Axelar's Interchain Token Service (ITS), then list it with Squid so it appears in the token dropdown of SaucerSwap's in-app [bridge](/tutorials/bridge).
+
+### Prerequisites
+
+- Your HTS token exists on Hedera mainnet (or testnet)
+- The token's EVM address (`0x...`) — not the `0.0.x` token ID
+- [MetaMask](https://metamask.io/) with the Hedera network added, and HBAR for gas
+- A signing account that is associated with the token, ideally holding a balance
+
+<Steps>
+  <Step title="Add Hedera to MetaMask">
+    The fastest path is [Chainlist](https://chainlist.org/?search=hedera&testnets=true): connect your wallet and select **Add to MetaMask** for Hedera Mainnet (and Hedera Testnet if needed). You can also add the network manually with official Hedera network settings. Confirm you can switch to the Hedera network and see an HBAR balance.
+  </Step>
+  <Step title="Get the token's EVM address">
+    Look up the token by its `0.0.x` ID on [HashScan](https://hashscan.io/mainnet) and copy the EVM address (`0x...`). Make sure it is the token address, not a wallet or account address.
+  </Step>
+  <Step title="Deploy the token to other chains with Axelar ITS">
+    Open the [Axelar ITS portal](https://interchain.axelar.dev/), connect MetaMask, and paste the token's EVM address. Select the destination chains you want (for example, Base or BNB Chain), then sign the transaction in MetaMask and pay gas in HBAR. Wait until the portal shows the token as deployed on the selected chains, then run a small test transfer to confirm.
+  </Step>
+  <Step title="List the token in Squid">
+    ITS deployment alone does not surface the token in bridge interfaces. From the ITS page for your token, select **Add Your Token on Squid**, or go directly to the [axelar-configs repository](https://github.com/axelarnetwork/axelar-configs) and follow the instructions to [list an interchain token on Squid](https://github.com/axelarnetwork/axelar-configs/blob/main/cli/wizard/commands/list-squid-token/README.md). A [merged example pull request](https://github.com/axelarnetwork/axelar-configs/pull/332) shows the expected shape. Once your pull request is approved and merged, Squid begins surfacing the token in the bridge modal.
+  </Step>
+</Steps>
+
+<Note>
+  Cross-chain transfers can take from a few minutes to a few hours depending on the chains involved. Track any transfer on [AxelarScan](https://axelarscan.io/) by transaction hash or wallet address. If your token does not appear in Squid after listing, the usual cause is that the `axelar-configs` pull request has not been merged or propagated yet.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Create a V1 pool" icon="droplet" href="/tutorials/liquidity-v1">
+    Walk through creating and seeding a V1 liquidity pool for your token.
+  </Card>
+  <Card title="Governance process" icon="landmark" href="/governance/overview">
+    Learn how farm and LARI proposals move from RFC to on-chain vote.
+  </Card>
+  <Card title="LARI weights" icon="chart-column" href="/protocol/saucerswap-v2/lari-weights">
+    See how live LARI campaigns allocate rewards across pools each epoch.
+  </Card>
+  <Card title="Bridge tutorial" icon="bridge" href="/tutorials/bridge">
+    See the in-app bridge your users will use once your token is listed.
+  </Card>
+</CardGroup>

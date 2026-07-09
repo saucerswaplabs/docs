@@ -1,0 +1,69 @@
+---
+title: "Pool creation fee (V1)"
+description: "Fetch the current SaucerSwap V1 pool creation fee from the factory contract in tinycent and convert it to HBAR with the mirror node exchange rate API."
+---
+
+The following code demonstrates how to accurately fetch the current pool creation fee in HBAR using a combination of JSON RPC and REST API. The pool creation fee is used when [creating a new liquidity pool](/developers/v1/liquidity/create-a-new-pool).
+
+<Info>
+  The fee for creating V1 liquidity pools is $50 (as of July 2026), paid in HBAR. Always fetch the current value on-chain. The exchange rate information is used to accurately determine the equivalent value in HBAR.
+</Info>
+
+<Note>
+  The `pairCreateFee()` function will return the current fee expressed in **Tinycent** (US).
+</Note>
+
+*No gas cost — read-only call.*
+
+<Tabs>
+  <Tab title="JSON RPC">
+    Resources:
+    * [SaucerSwap deployed contract IDs](/developers/contracts)
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+    * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
+    * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
+
+
+    ```typescript
+    import * as ethers from 'ethers'; //V6
+
+    //Set one of Hedera's JSON RPC Relay as the provider
+    const provider = new ethers.JsonRpcProvider(hederaJsonRelayUrl, '', {
+      batchMaxCount: 1, //workaround for V6
+    });
+
+    //load ABI data containing Factory's pairCreateFee function
+    const interfaces = new ethers.Interface(abi);
+
+    //get pool creation fee in tinycent
+    const factoryContract = new ethers.Contract(factoryEvmAddress, interfaces.fragments, provider);
+    const result = await factoryContract.pairCreateFee();
+    const tinycent = Number(result); //amount in tinycent (US)
+
+    //get the current exchange rate via REST API
+    const url = `${mirrorNodeBaseUrl}/api/v1/network/exchangerate`;
+    const response = await axios.get(url);
+    const currentRate = response.data.current_rate;
+    const centEquivalent = Number(currentRate.cent_equivalent);
+    const hbarEquivalent = Number(currentRate.hbar_equivalent);
+    const centToHbarRatio = centEquivalent/hbarEquivalent;
+
+    //calculate the fee in terms of HBAR
+    const tinybar = BigNumber(tinycent / centToHbarRatio).decimalPlaces(0);
+    const poolCreateFeeInHbar = Hbar.from(tinybar, HbarUnit.Tinybar);
+    console.log(`Pool creation fee: ${poolCreateFeeInHbar.toString(HbarUnit.Hbar)}`);
+    ```
+  </Tab>
+</Tabs>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Create a new pool (V1)" href="/developers/v1/liquidity/create-a-new-pool">
+    Use the fee when creating a new pool.
+  </Card>
+
+  <Card title="Contract deployments" href="/developers/contracts">
+    Factory and router IDs for mainnet and testnet.
+  </Card>
+</CardGroup>

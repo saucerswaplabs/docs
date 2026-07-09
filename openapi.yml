@@ -4,7 +4,11 @@ info:
   version: 1.0.0
 servers:
   - url: https://api.saucerswap.finance
+    description: Mainnet
   - url: https://test-api.saucerswap.finance
+    description: Testnet
+security:
+  - ApiKeyAuth: []
 paths:
   /stats:
     get:
@@ -1091,15 +1095,21 @@ paths:
                 items:
                   $ref: '#/components/schemas/LariData'
 components:
-  parameters: 
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: "API key provisioned by the SaucerSwap team. Request one from support@saucerswap.finance and send it in the x-api-key header with every request."
+  parameters:
     ApiKeyParam:
       name: x-api-key
       in: header
       required: true
       schema:
         type: string
-        default: "875e1017-87b8-4b12-8301-6aa1f1aa073b"
-      description: "API key for authentication. The demo api key provided is globally rate limited. Do not use in production."
+        example: "YOUR_API_KEY"
+      description: "API key for authentication. Request a key from support@saucerswap.finance."
   schemas:
     Farm:
       type: object

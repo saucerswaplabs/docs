@@ -1,0 +1,55 @@
+---
+title: "Track your portfolio"
+description: "Use the SaucerSwap dashboard to monitor token balances, V1 and V2 positions, farm and LARI rewards, xSAUCE, order history, and any watched address."
+---
+
+The **dashboard** page collects everything you hold on SaucerSwap in one place: token balances, liquidity positions, farm and LARI rewards, staking, and your order book history.
+
+<Frame caption="The dashboard page of the SaucerSwap web app.">
+  <img src="/images/app/portfolio.webp" alt="SaucerSwap dashboard showing account value, unclaimed rewards, and grouped positions" />
+</Frame>
+
+## Prerequisites
+
+- A [Hedera wallet](/get-started/wallet) to connect — or just an account ID you want to look at, since portfolio data is public on Hedera
+
+## The Overview tab
+
+The **Overview** tab has two sections.
+
+**My Stats** summarizes value and pending rewards:
+
+| Stat | What it shows |
+| --- | --- |
+| Account Value | The combined value of your tracked holdings |
+| Unclaimed V2 Earnings | Swap fees accrued to your V2 positions, not yet collected |
+| V2 LARI Earnings | LARI rewards attributed to your V2 positions |
+| Unclaimed Farm Rewards | Pending V1 farm rewards, in SAUCE and HBAR |
+
+**My Positions** groups your holdings by product: **Tokens**, **V1 Pools**, **V2 Pools**, **V1 Farms**, **V2 Vaults**, **xSAUCE**, and **LARI**. Each group links through to the page where you manage that position — claim V2 fees, harvest farm rewards, or unstake.
+
+<Tip>
+  Unclaimed V2 fees and farm rewards do not compound. If the dashboard shows meaningful unclaimed amounts, collect them from the position pages.
+</Tip>
+
+## The Order History tab
+
+The **Order History** tab lists your V3 order book activity: placed orders, fills, cancellations, and expirations. Use it to reconcile partial fills and confirm cancellations reached a final state. See the [trade tutorial](/tutorials/trade) for how order lifecycles work.
+
+## Watch any address
+
+You do not need to connect a wallet to inspect a portfolio. Enter any Hedera account ID to view its holdings and positions read-only — useful for monitoring a cold wallet, a treasury, or a trader you follow. All of this data is public on Hedera; the dashboard just assembles it.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Claim V2 fees" icon="droplet" href="/tutorials/liquidity-v2">
+    Collect accrued fees and manage your concentrated liquidity positions.
+  </Card>
+  <Card title="Review your orders" icon="arrow-trend-up" href="/tutorials/trade">
+    Understand order statuses and cancellation finality on the order book.
+  </Card>
+  <Card title="Stake idle SAUCE" icon="coins" href="/tutorials/stake">
+    Put unstaked SAUCE to work in the Infinity Pool.
+  </Card>
+</CardGroup>

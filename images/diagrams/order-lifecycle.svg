@@ -1,0 +1,69 @@
+<svg width="940" height="300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 300" font-family="system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" role="img" aria-label="Lifecycle of a SaucerSwap V3 order from signing through submission, matching, settlement, and events">
+  <rect x="0" y="0" width="940" height="300" rx="16" fill="#0A0A0B"/>
+  <defs>
+    <marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#A1A1AA"/>
+    </marker>
+  </defs>
+
+  <!-- Step 1: Sign -->
+  <g>
+    <circle cx="110" cy="66" r="16" fill="none" stroke="#44E760" stroke-width="1.5"/>
+    <text x="110" y="71" text-anchor="middle" fill="#44E760" font-size="14" font-weight="600">1</text>
+    <rect x="30" y="100" width="160" height="110" rx="12" fill="none" stroke="#2D2D33" stroke-width="1.5"/>
+    <text x="110" y="130" text-anchor="middle" fill="#FFFFFF" font-size="15" font-weight="600">Build and sign</text>
+    <text x="110" y="156" text-anchor="middle" fill="#A1A1AA" font-size="12.5">EIP-712 order fields</text>
+    <text x="110" y="176" text-anchor="middle" fill="#A1A1AA" font-size="12.5">signed with the</text>
+    <text x="110" y="196" text-anchor="middle" fill="#A1A1AA" font-size="12.5">account key</text>
+  </g>
+  <path d="M 190 155 L 220 155" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+  <!-- Step 2: Submit -->
+  <g>
+    <circle cx="302" cy="66" r="16" fill="none" stroke="#44E760" stroke-width="1.5"/>
+    <text x="302" y="71" text-anchor="middle" fill="#44E760" font-size="14" font-weight="600">2</text>
+    <rect x="222" y="100" width="160" height="110" rx="12" fill="none" stroke="#2D2D33" stroke-width="1.5"/>
+    <text x="302" y="130" text-anchor="middle" fill="#FFFFFF" font-size="15" font-weight="600">Submit</text>
+    <text x="302" y="156" text-anchor="middle" fill="#A1A1AA" font-size="12.5">saved through the</text>
+    <text x="302" y="176" text-anchor="middle" fill="#A1A1AA" font-size="12.5">Orderbook API and</text>
+    <text x="302" y="196" text-anchor="middle" fill="#A1A1AA" font-size="12.5">rests on the book</text>
+  </g>
+  <path d="M 382 155 L 412 155" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+  <!-- Step 3: Match -->
+  <g>
+    <circle cx="494" cy="66" r="16" fill="none" stroke="#44E760" stroke-width="1.5"/>
+    <text x="494" y="71" text-anchor="middle" fill="#44E760" font-size="14" font-weight="600">3</text>
+    <rect x="414" y="100" width="160" height="110" rx="12" fill="none" stroke="#2D2D33" stroke-width="1.5"/>
+    <text x="494" y="130" text-anchor="middle" fill="#FFFFFF" font-size="15" font-weight="600">Match</text>
+    <text x="494" y="156" text-anchor="middle" fill="#A1A1AA" font-size="12.5">off-chain engine</text>
+    <text x="494" y="176" text-anchor="middle" fill="#A1A1AA" font-size="12.5">pairs makers</text>
+    <text x="494" y="196" text-anchor="middle" fill="#A1A1AA" font-size="12.5">and takers</text>
+  </g>
+  <path d="M 574 155 L 604 155" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+  <!-- Step 4: Settle -->
+  <g>
+    <circle cx="686" cy="66" r="16" fill="none" stroke="#44E760" stroke-width="1.5"/>
+    <text x="686" y="71" text-anchor="middle" fill="#44E760" font-size="14" font-weight="600">4</text>
+    <rect x="606" y="100" width="160" height="110" rx="12" fill="none" stroke="#44E760" stroke-width="1.5"/>
+    <text x="686" y="130" text-anchor="middle" fill="#FFFFFF" font-size="15" font-weight="600">Settle</text>
+    <text x="686" y="156" text-anchor="middle" fill="#A1A1AA" font-size="12.5">fills execute on-chain;</text>
+    <text x="686" y="176" text-anchor="middle" fill="#A1A1AA" font-size="12.5">the reactor contract is</text>
+    <text x="686" y="196" text-anchor="middle" fill="#A1A1AA" font-size="12.5">the source of truth</text>
+  </g>
+  <path d="M 766 155 L 796 155" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+  <!-- Step 5: Events -->
+  <g>
+    <circle cx="855" cy="66" r="16" fill="none" stroke="#44E760" stroke-width="1.5"/>
+    <text x="855" y="71" text-anchor="middle" fill="#44E760" font-size="14" font-weight="600">5</text>
+    <rect x="798" y="100" width="114" height="110" rx="12" fill="none" stroke="#2D2D33" stroke-width="1.5"/>
+    <text x="855" y="130" text-anchor="middle" fill="#FFFFFF" font-size="15" font-weight="600">Events</text>
+    <text x="855" y="156" text-anchor="middle" fill="#A1A1AA" font-size="12.5">fills, cancels,</text>
+    <text x="855" y="176" text-anchor="middle" fill="#A1A1AA" font-size="12.5">and expiries on</text>
+    <text x="855" y="196" text-anchor="middle" fill="#A1A1AA" font-size="12.5">the event stream</text>
+  </g>
+
+  <text x="30" y="256" fill="#A1A1AA" font-size="13">Cancellations are asynchronous: a cancel request is acknowledged first and confirmed by an order-canceled event.</text>
+</svg>

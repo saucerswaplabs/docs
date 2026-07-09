@@ -1,15 +1,33 @@
 ---
-title: "🏊‍♂️  Community Pools"
+title: "Community pools"
+description: "Status and design of Community Pools, a proposed SaucerSwap feature letting xSAUCE holders earn project tokens without impermanent loss risk."
 ---
 
-Community Pools, an upcoming feature, will serve as the gateway for high-quality projects to enter the SaucerSwap ecosystem. These pools provide projects with rapid access to liquidity, eliminating the need to raise venture capital or list on centralized exchanges. Simultaneously, they enable xSAUCE holders to earn rewards without the risk of impermanent loss. This streamlined approach accelerates the development of the ecosystem.
+<Note>
+  Community Pools have not launched. As of July 2026 the feature is not available in the [web app](https://www.saucerswap.finance/); this page describes the proposed design. See the [roadmap](/roadmap) for current status.
+</Note>
 
-* **HeadStarter Incubation:** Eligible projects must complete HeadStarter's accelerator program, ensuring rigorous vetting for code security, ethical practices, and development integrity. This vetting process safeguards SaucerSwap from potential risks and maintains project quality standards.
+Community Pools are a proposed launch mechanism for new projects entering the SaucerSwap ecosystem: projects distribute a portion of their token supply over time to users who stake xSAUCE, giving projects fast access to a committed community without raising venture capital or listing on a centralized exchange, and giving xSAUCE holders a way to earn new tokens without impermanent loss risk.
 
-* **Governance:** The SaucerSwap DAO votes to grant Community Pools to selected projects. It can also decide to allocate farm emissions to a project's primary liquidity pool (e.g., TokenA / HBAR).
+## Proposed design
 
-* **Community Pool Creation:** Projects initiate Community Pools, allocating a percentage of their token's max supply to be distributed over time.
+- **Vetting.** Eligible projects would complete an accelerator or vetting process covering code security, ethical practices, and development integrity before becoming candidates.
+- **Governance approval.** The [SaucerSwap DAO](/governance/overview) would vote to grant a Community Pool to a project, and could separately vote to allocate farm or LARI emissions to the project's liquidity pools.
+- **Pool creation.** The project would allocate a percentage of its token's max supply to be distributed to stakers over a defined period.
+- **xSAUCE staking.** Users would stake xSAUCE in the Community Pool and earn the project's token, without exposure to impermanent loss.
 
-* **xSAUCE Staking:** Users stake xSAUCE in Community Pools, earning rewards in the project's token without impermanent loss risk.
+Details of the design may change before launch, and launch itself is subject to governance and product decisions.
 
-Community Pools introduce a novel bootstrapping mechanism, empowering projects and contributing to the growth of the Hedera ecosystem.
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Roadmap" icon="map" href="/roadmap">
+    Where Community Pools sit among upcoming work.
+  </Card>
+  <Card title="Single-sided staking" icon="layer-group" href="/protocol/single-sided-staking">
+    Get xSAUCE today by staking SAUCE in the Infinity Pool.
+  </Card>
+  <Card title="List your token" icon="rocket" href="/resources/for-projects">
+    Current listing, farm, and LARI options for projects.
+  </Card>
+</CardGroup>
