@@ -42,10 +42,10 @@ These are the canonical SaucerSwap deployments. Every ID links to HashScan. Audi
 
 ### V3 (order book)
 
-V3 order matching runs off-chain with on-chain settlement through a reactor contract. The reactor address is not a static list entry: fetch it per environment from the public signing-domain endpoint, which returns the EIP-712 domain used for order signatures.
+V3 order matching runs off-chain with on-chain settlement through a reactor contract. The reactor address is not a static list entry: fetch it per environment from the signing-domain endpoint, which returns the EIP-712 domain used for order signatures. Unauthenticated access to this endpoint is [rolling out network by network](/api-reference/orderbook/market-data) with the July 2026 deployment — if it returns `401`, call it with a [JWT](/api-reference/orderbook/authentication) instead.
 
 ```bash
-curl "https://orderbook-api.saucerswap.finance/signature/domain"
+curl "https://testnet-orderbook-api.saucerswap.finance/signature/domain"
 ```
 
 The response's `verifyingContract` is the reactor contract for that environment, and `chainId` identifies the Hedera network. Example response from the testnet environment, captured July 9, 2026:
