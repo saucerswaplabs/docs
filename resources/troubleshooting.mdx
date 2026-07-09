@@ -5,7 +5,7 @@ description: "Fixes for the most common SaucerSwap errors: token association, in
 
 This page is keyed to the error you are seeing. Find the error name or symptom, apply the fix, and retry. If none of these resolve your issue, open a support ticket in the [official Discord server](https://saucerswap.finance/discord) or email [support@saucerswap.finance](mailto:support@saucerswap.finance) — see [User support](/contact/user-support).
 
-## TOKEN_NOT_ASSOCIATED_TO_ACCOUNT
+## Token not associated to an account
 
 Symptom — a swap or transfer fails with `TOKEN_NOT_ASSOCIATED_TO_ACCOUNT`, usually on the first attempt to receive a token.
 
@@ -13,7 +13,7 @@ Cause — on Hedera, an account must associate an HTS token before it can send, 
 
 Fix — associate the token first. The web app prompts you to associate an unassociated output token before a swap; approve the association transaction in your wallet, then retry. If you are sending to a different account, that account must associate the token itself. Developers executing swaps directly against the contracts must ensure the `to` account has the output token associated before the swap executes.
 
-## INSUFFICIENT_PAYER_BALANCE
+## Insufficient payer balance
 
 Symptom — a transaction fails with `INSUFFICIENT_PAYER_BALANCE` before doing anything.
 
@@ -21,7 +21,7 @@ Cause — your account does not hold enough HBAR to cover the network fee for th
 
 Fix — top up HBAR and retry. See [Get HBAR](/get-started/hbar) for ways to fund your account. Keep a small HBAR buffer at all times: every Hedera transaction, including token associations and approvals, costs a fee.
 
-## CONTRACT_REVERT_EXECUTED
+## Contract revert executed
 
 Symptom — a swap or liquidity transaction fails with `CONTRACT_REVERT_EXECUTED`.
 
@@ -29,7 +29,7 @@ Cause — the smart contract rejected the transaction. For swaps, the most commo
 
 Fix — retry the transaction. If it keeps failing, raise your slippage tolerance slightly in the settings of the web app, or trade a smaller amount. If the token has transfer restrictions or custom fees, check [token compatibility](/get-started/faq) — V2 does not support tokens with custom fees.
 
-## INSUFFICIENT_OUTPUT_AMOUNT
+## Insufficient output amount (slippage)
 
 Symptom — a swap reverts with a message containing `INSUFFICIENT_OUTPUT_AMOUNT`.
 

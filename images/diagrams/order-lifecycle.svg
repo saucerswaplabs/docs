@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 300" font-family="system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" role="img" aria-label="Lifecycle of a SaucerSwap V3 order from signing through submission, matching, settlement, and events">
+<svg width="940" height="300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 300" font-family="system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" role="img" aria-label="Lifecycle of a SaucerSwap V3 order from signing through submission, matching, settlement, and events">
   <rect x="0" y="0" width="940" height="300" rx="16" fill="#0A0A0B"/>
   <defs>
     <marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">

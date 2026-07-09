@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 460" font-family="system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" role="img" aria-label="Donut chart of the SAUCE maximum supply allocation under the post-V2 tokenomics model">
+<svg width="940" height="460" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 460" font-family="system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" role="img" aria-label="Donut chart of the SAUCE maximum supply allocation under the post-V2 tokenomics model">
   <rect x="0" y="0" width="940" height="460" rx="16" fill="#0A0A0B"/>
   <!-- Donut: r=100, C=628.318; segments drawn clockwise from 12 o'clock -->
   <g transform="translate(230,230)">

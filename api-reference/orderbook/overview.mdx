@@ -7,6 +7,10 @@ The SaucerSwap V3 Orderbook API is designed for programmatic trading clients, ma
 
 Public market data — the order book list, depth snapshots, the trade tape, market quotes, and the EIP-712 signature domain — requires no authentication. Anything that reads per-account data or mutates state requires [wallet authentication](/api-reference/orderbook/authentication). Production users should expect rate and service-protection limits. Teams planning sustained high-volume traffic should contact [support@saucerswap.finance](mailto:support@saucerswap.finance) so we can coordinate limits and support.
 
+<Note>
+  Public reads are rolling out network by network: as of July 9, 2026 they are live on testnet, while the mainnet endpoints still require a JWT. See [market data](/api-reference/orderbook/market-data) for the current status.
+</Note>
+
 <Info>
   This API is separate from the legacy SaucerSwap REST API. The [legacy REST API](/api-reference/authentication) uses `x-api-key` authentication. The V3 Orderbook API uses wallet challenge authentication and short-lived JWTs.
 </Info>
