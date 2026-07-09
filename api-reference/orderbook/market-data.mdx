@@ -3,10 +3,10 @@ title: "Orderbook API market data"
 description: "Read public SaucerSwap V3 market data: order book discovery, depth snapshots, the trade tape, exact-input and exact-output quotes, and pip fee units."
 ---
 
-All endpoints on this page are public — call them without a JWT. Market discovery gives you the token identifiers and increments you need before [building orders](/api-reference/orderbook/orders); quotes let you simulate a market order against the live book first.
+The endpoints on this page are designed to be public — callable without a JWT. Market discovery gives you the token identifiers and increments you need before [building orders](/api-reference/orderbook/orders); quotes let you simulate a market order against the live book first.
 
 <Note>
-Public reads are rolling out network by network. As of July 9, 2026 they are live on testnet, while the mainnet endpoints still return `401 Missing Authorization header` without a JWT. Develop against testnet first, and see [authentication](/api-reference/orderbook/authentication) if you need mainnet market data before the public rollout completes.
+Unauthenticated access and the trade-tape and quote routes ship with the July 2026 Orderbook API deployment, which is rolling out network by network. Until the rollout reaches a network, its endpoints return `401 Missing Authorization header` without a JWT (and `404` for routes that are not yet mounted). Test current availability with a keyless `GET /books` against the [environment](/api-reference/orderbook/overview#environments) you target; if it returns `401`, use [wallet authentication](/api-reference/orderbook/authentication) in the meantime.
 </Note>
 
 ## Market discovery
