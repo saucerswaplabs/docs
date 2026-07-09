@@ -1,0 +1,269 @@
+---
+title: "Yield farming operations"
+description: "Contract operations for SaucerSwap yield farms: deposit and withdraw LP tokens and read pending SAUCE and HBAR rewards from the Masterchef contract."
+---
+
+Outlined below are the common operations associated with yield farming:
+* [Deposit LP tokens to a farm](#deposit-lp-tokens-to-a-farm)
+* [Get pending farm rewards](#get-pending-farm-rewards)
+* [Withdraw LP tokens from a farm](#withdraw-lp-tokens-from-a-farm)
+
+<Info>
+  Contract ID: [Masterchef](https://hashscan.io/mainnet/contract/0.0.1077627)
+</Info>
+
+<Note>
+  Query [https://api.saucerswap.finance/farms/](https://api.saucerswap.finance/farms/) for all eligible farm pool IDs.
+</Note>
+
+<Note>
+  Query [https://api.saucerswap.finance/pools/](https://api.saucerswap.finance/pools/) for all available pool IDs
+</Note>
+
+## Deposit LP tokens to a farm
+
+Deposit any amount of LP tokens to an existing farm to earn additional yield.
+
+Function name: `deposit`
+
+Recommended gas limit: 210,000
+
+| Parameter Name     | Description                          |
+| ------------------ | ------------------------------------ |
+| *uint256 \_pid*    | Liquidity pool id                    |
+| *uint256 \_amount* | LP token amount in its smallest unit |
+
+<CodeGroup>
+  ```solidity MasterChef.sol
+  function deposit(uint256 _pid, uint256 _amount) external payable nonReentrant {
+    require(msg.value >= tinycentsToTinybars(depositFee), 'msg.value < depositFee');
+
+    // send rent to rentPayer
+    (bool result, ) = rentPayer.call{value: msg.value}("");
+    if (!result) {
+      emit DidNotReceiveHbar(rentPayer, msg.value);
+    }
+
+    UserInfo storage user = userInfo[_pid][msg.sender];
+    PoolInfo storage pool = poolInfo[_pid];
+
+    updatePool(_pid);
+
+    uint256 pending = (user.amount * pool.accSaucePerShare / 1e12) - user.rewardDebt;
+    uint256 pendingHbar = (user.amount * pool.accHBARPerShare / 1e12) - user.rewardDebtHbar;
+
+    user.amount = user.amount + _amount;
+    user.rewardDebt = user.amount * pool.accSaucePerShare / 1e12;
+    user.rewardDebtHbar = user.amount * pool.accHBARPerShare / 1e12;
+
+    if(pending > 0) {
+      safeSauceTransfer(msg.sender, pending);
+    }
+
+    if (_amount > 0) {
+      safeTransferToken(pool.lpToken, msg.sender, address(this), _amount.toInt256().toInt64());
+    }
+
+    emit Deposit(msg.sender, _pid, _amount);
+
+    if (pendingHbar > 0) {
+      safeHBARTransfer(msg.sender, pendingHbar);
+    }
+  }
+  ```
+</CodeGroup>
+
+<Note>
+  A spender allowance for the Farm contract is required for the LP token.
+</Note>
+
+<Note>
+  Depositing tokens into a farm costs $0.25 (as of July 2026), payable in HBAR. To get the current deposit fee, call the `depositFee()` method on the Farm contract. It returns the current value expressed in tinycent. To accurately convert this value to Tinybar, query the exchange rate from /api/v1/network/exchangerate
+</Note>
+
+### Code overview
+
+<Tabs>
+  <Tab title="JavaScript SDK">
+    Resources:
+    * [SaucerSwap deployed contract IDs](/developers/contracts)
+    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+    * [Token approve allowance](https://docs.hedera.com/hedera/sdks-and-apis/sdks/cryptocurrency/approve-an-allowance)
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
+
+    ```typescript
+    import {
+      ContractFunctionParameters,
+      ContractExecuteTransaction,
+      AccountAllowanceApproveTransaction
+    } from '@hashgraph/sdk';
+
+    //Client pre-checks:
+    // - Farm contract has spender allowance for the LP token
+
+    const params = new ContractFunctionParameters();
+    params.addUint256(poolId); //uint _pid
+    params.addUint256(lpTokenAmount); //uint _amount
+
+    await new ContractExecuteTransaction()
+     .setPayableAmount(depositFeeInHbar)
+     .setContractId(farmContractId)
+     .setGas(gasLim)
+     .setFunction('deposit', params)
+     .execute(client);
+    ```
+  </Tab>
+</Tabs>
+
+## Get pending farm rewards
+
+Get current HBAR and SAUCE yield reward values for a user.
+
+Function name: `pendingSauce`
+
+*No gas cost — read-only call.*
+
+| Parameter Name   | Description             |
+| ---------------- | ----------------------- |
+| *uint256 \_pid*  | Liquidity pool id       |
+| *address \_user* | User's solidity address |
+
+<CodeGroup>
+  ```solidity MasterChef.sol
+  function pendingSauce(uint256 _pid, address _user) external view returns (uint256, uint256) {
+    PoolInfo storage pool = poolInfo[_pid];
+    UserInfo storage user = userInfo[_pid][_user];
+    uint256 accSaucePerShare = pool.accSaucePerShare;
+    uint256 accHBARPerShare = pool.accHBARPerShare;
+    uint256 lpSupply = IERC20(pool.lpToken).balanceOf(address(this));
+    if (block.timestamp > pool.lastRewardTime && lpSupply != 0) {
+      uint256 multiplier = getMultiplier(pool.lastRewardTime, block.timestamp);
+      uint256 sauceReward = multiplier * (saucePerSecond) * (pool.allocPoint) / (totalAllocPoint);
+      uint256 hbarReward = multiplier * (hbarPerSecond) * (pool.allocPoint) / (totalAllocPoint);
+      accSaucePerShare = accSaucePerShare + (sauceReward * (1e12) / (lpSupply));
+      accHBARPerShare = accHBARPerShare + (hbarReward * (1e12) / (lpSupply));
+    }
+
+    return (user.amount * (accSaucePerShare) / (1e12) - (user.rewardDebt), user.amount * (accHBARPerShare) / (1e12) - (user.rewardDebtHbar));
+  }
+  ```
+</CodeGroup>
+
+### Code overview
+
+<Tabs>
+  <Tab title="JSON RPC">
+    Resources:
+    * [SaucerSwap deployed contract IDs](/developers/contracts)
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+    * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
+
+    ```typescript
+    import * as ethers from 'ethers'; //V6
+
+    //Set one of Hedera's JSON RPC Relay as the provider
+    const provider = new ethers.JsonRpcProvider(hederaJsonRelayUrl, '', {
+      batchMaxCount: 1, //workaround for V6
+    });
+
+    const interfaces = new ethers.Interface([
+      'function pendingSauce(uint256 _pid, address _user) external view returns (uint256, uint256)'
+    ]);
+
+    const farmContract = new ethers.Contract(farmEvmAddress, interfaces.fragments, provider);
+    const result = await farmContract.pendingSauce(poolId, userEvmAddress);
+    const pendingSauceTiny = result[0]; //uint256
+    const pendingTinybar = result[1]; //uint256
+    ```
+  </Tab>
+</Tabs>
+
+## Withdraw LP tokens from a farm
+
+Withdraw any amount of LP tokens from an existing farm.
+
+Function name: `withdraw`
+
+Recommended gas limit: 190,000
+
+| Parameter Name     | Description                          |
+| ------------------ | ------------------------------------ |
+| *uint256 \_pid*    | Liquidity pool id                    |
+| *uint256 \_amount* | LP token amount in its smallest unit |
+
+<CodeGroup>
+  ```solidity MasterChef.sol
+  function withdraw(uint256 _pid, uint256 _amount) external nonReentrant {
+    PoolInfo storage pool = poolInfo[_pid];
+    UserInfo storage user = userInfo[_pid][msg.sender];
+
+    require(user.amount >= _amount, "withdraw: not good");
+    updatePool(_pid);
+
+    uint256 pending = (user.amount * pool.accSaucePerShare / 1e12) - user.rewardDebt;
+    uint256 pendingHbar = (user.amount * pool.accHBARPerShare / 1e12) - user.rewardDebtHbar;
+
+    user.amount = user.amount - _amount;
+    user.rewardDebt = user.amount * pool.accSaucePerShare / 1e12;
+    user.rewardDebtHbar = user.amount * pool.accHBARPerShare / 1e12;
+
+    if(pending > 0) {
+      safeSauceTransfer(msg.sender, pending);
+    }
+
+    if(_amount > 0) {
+      safeTransferToken(address(pool.lpToken), address(this), msg.sender, _amount.toInt256().toInt64());
+    }
+
+    emit Withdraw(msg.sender, _pid, _amount);
+
+    if (pendingHbar > 0) {
+      safeHBARTransfer(msg.sender, pendingHbar);
+    }
+  }
+  ```
+</CodeGroup>
+
+### Code overview
+
+<Tabs>
+  <Tab title="JavaScript SDK">
+    Resources:
+    * [SaucerSwap deployed contract IDs](/developers/contracts)
+    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
+
+    ```typescript
+    import {
+      ContractFunctionParameters,
+      ContractExecuteTransaction
+    } from '@hashgraph/sdk';
+
+    const params = new ContractFunctionParameters();
+    params.addUint256(poolId); //uint _pid
+    params.addUint256(lpTokenAmount); //uint _amount
+
+    await new ContractExecuteTransaction()
+     .setContractId(farmContractId)
+     .setGas(gasLim)
+     .setFunction('withdraw', params)
+     .execute(client);
+    ```
+  </Tab>
+</Tabs>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Single-sided staking operations" href="/developers/staking/single-sided-staking">
+    Stake SAUCE for xSAUCE through contracts.
+  </Card>
+
+  <Card title="Adding liquidity (V1)" href="/developers/v1/liquidity/adding-liquidity">
+    Get the LP tokens a farm deposit requires.
+  </Card>
+
+  <Card title="Contract deployments" href="/developers/contracts">
+    Masterchef and token IDs for mainnet and testnet.
+  </Card>
+</CardGroup>

@@ -1,0 +1,166 @@
+---
+title: "Track pool updates (V1)"
+description: "Track SaucerSwap V1 liquidity reserve changes in near real time by polling Sync events for one pool or all pools via the mirror node REST or JSON-RPC."
+---
+
+Below are the common methods to track updates in liquidity reserve balances:
+* [Polling Sync events for all pools](#polling-sync-events-for-all-pools)
+* [Polling Sync events for a pool](#polling-sync-events-for-a-pool)
+* Subscription using eth\_subscribe (coming later - [HIP-694](https://hips.hedera.com/hip/hip-694))
+
+<Tip>
+  For production environments, it's highly recommended to use a paid Mirror Node provider for commercial and high-traffic purposes. While Hedera's public mirror node offers free REST API and JSON API endpoints, they have global rate limits. These are best suited for development or low rate usage scenarios.
+</Tip>
+
+## Polling Sync events for all pools
+
+*No gas cost — read-only call.*
+
+Whenever the reserve values for a pool contract are updated, either due to liquidity changes or a swap, a Sync event is emitted from the contract, containing the updated reserve values for the token pair. The following code demonstrates how to listen for Sync events for **all pools** using REST API or JSON RPC.
+
+<Warning>
+  Listening to 'Sync' events without specifying an address in the filter data will return logs for all pools on SaucerSwap, as well as other DEXs on Hedera that share the same 'topic0' hash signature for the 'Sync' event. To identify and filter specific pools, extract the pool's EVM address from the log.
+</Warning>
+
+***
+
+<Tabs>
+  <Tab title="JSON RPC">
+    Resources:
+    * [SaucerSwap deployed contract IDs](/developers/contracts)
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+    * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
+
+    ```typescript
+    import * as ethers from 'ethers'; //V6
+
+    //Set one of Hedera's JSON RPC Relay as the provider
+    const provider = new ethers.JsonRpcProvider(hederaJsonRelayUrl, '', {
+      batchMaxCount: 1, //workaround for V6
+    });
+
+    //load ABI data containing the Sync event
+    const abiInterfaces = new ethers.Interface(abi);
+
+    const filter = {
+      topics: [abiInterfaces.getEvent('Sync')!.topicHash], //topic0 filter
+      fromBlock: fromBlock,
+      toBlock: toBlock,
+    };
+
+    const logs = await provider.getLogs(filter);
+    for (const log of logs) {
+      const parsedLog = abiInterfaces.parseLog({ topics: log.topics.slice(), data: log.data });
+      const {reserve0, reserve1} = parsedLog!.args; //reserve values in smallest unit
+      const poolAddress = log.address;
+      console.log(`Pool: ${poolAddress}, reserve0: ${reserve0}, reserve1: ${reserve1}`);
+    }
+    ```
+  </Tab>
+
+  <Tab title="REST API">
+    Resources:
+    * [SaucerSwap deployed contract IDs](/developers/contracts)
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+    * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
+
+    ```typescript
+    import * as ethers from 'ethers'; //V6
+
+    //load ABI data containing the Sync event
+    const abiInterfaces = new ethers.Interface(abi);
+
+    let params = `timestamp=gte:${unixFrom}&timestamp=lte:${unixTo}`;
+    params += `&topic0=${abiInterfaces.getEvent('Sync')!.topicHash}`;
+
+    const url = `${mirrorNodeBaseUrl}/api/v1/contracts/results/logs?${params}`;
+    const response = await axios.get(url);
+    const logs = response.data.logs;
+
+    for (const log of logs) {
+      const {reserve0, reserve1} = abiInterfaces.decodeEventLog('Sync', log.data);
+      console.log(`Pair: ${log.address}, reserve0: ${reserve0}, reserve1: ${reserve1}`);
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Polling Sync events for a pool
+
+*No gas cost — read-only call.*
+
+Whenever the reserve values for a pool contract are updated, either due to liquidity changes or a swap, a Sync event is emitted from the contract, containing the updated reserve values for the token pair. The following code demonstrates how to listen for Sync events for **a specific pool** using REST API or JSON RPC.
+
+<Tabs>
+  <Tab title="JSON RPC">
+    Resources:
+    * [SaucerSwap deployed contract IDs](/developers/contracts)
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+    * [Hedera JSON RPC Relay](https://docs.hedera.com/hedera/core-concepts/smart-contracts/deploying-smart-contracts/json-rpc-relay)
+
+    ```typescript
+    import * as ethers from 'ethers'; //V6
+
+    //Set one of Hedera's JSON RPC Relay as the provider
+    const provider = new ethers.JsonRpcProvider(hederaJsonRelayUrl, '', {
+      batchMaxCount: 1, //workaround for V6
+    });
+
+    //load ABI data containing the Sync event
+    const abiInterfaces = new ethers.Interface(abi);
+
+    const filter = {
+      topics: [abiInterfaces.getEvent('Sync')!.topicHash], //topic0 filter
+      fromBlock: fromBlock,
+      toBlock: toBlock,
+      address: poolEvmAddress, //pool address starting with 0x
+    };
+
+    const logs = await provider.getLogs(filter);
+    for (const log of logs) {
+      const parsedLog = abiInterfaces.parseLog({ topics: log.topics.slice(), data: log.data });
+      const {reserve0, reserve1} = parsedLog!.args; //reserve values in smallest unit
+      const poolAddress = log.address;
+      console.log(`reserve0: ${reserve0}, reserve1: ${reserve1}`);
+    }
+    ```
+  </Tab>
+
+  <Tab title="REST API">
+    Resources:
+    * [SaucerSwap deployed contract IDs](/developers/contracts)
+    * [Ethers.js docs (v6)](https://docs.ethers.org/v6/)
+    * [Hedera REST API](https://docs.hedera.com/hedera/sdks-and-apis/rest-api)
+
+    ```typescript
+    import * as ethers from 'ethers'; //V6
+
+    //load ABI data containing the Sync event
+    const abiInterfaces = new ethers.Interface(abi);
+
+    let params = `timestamp=gte:${unixFrom}&timestamp=lte:${unixTo}`;
+    params += `&topic0=${abiInterfaces.getEvent('Sync')!.topicHash}`;
+
+    const url = `${mirrorNodeBaseUrl}/api/v1/contracts/${contractIdEvm}/results/logs?${params}`;
+    const response = await axios.get(url);
+    const logs = response.data.logs;
+
+    for (const log of logs) {
+      const {reserve0, reserve1} = abiInterfaces.decodeEventLog('Sync', log.data);
+      console.log(`reserve0: ${reserve0}, reserve1: ${reserve1}`);
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Get pool reserves (V1)" href="/developers/v1/liquidity/get-pool-reserves">
+    Read a reserve snapshot for one pool.
+  </Card>
+
+  <Card title="Track swap events (V1)" href="/developers/v1/swap/track-swap-events">
+    Monitor executed swaps the same way.
+  </Card>
+</CardGroup>

@@ -1,0 +1,87 @@
+---
+title: "Provide liquidity on V1"
+description: "Supply tokens to SaucerSwap V1 constant-product pools, stake LP tokens in the yield farm, harvest SAUCE and HBAR rewards, and withdraw liquidity."
+---
+
+SaucerSwap V1 pools are classic constant-product AMM pools: you deposit both tokens of a pair at the current ratio and receive LP tokens representing your share. Swap fees accrue inside the pool, so your LP tokens grow in value; staking them in the yield farm earns additional SAUCE and HBAR rewards.
+
+<Note>
+  V1 is the legacy liquidity system. For new positions, [V2 concentrated liquidity](/tutorials/liquidity-v2) is recommended — it offers better capital efficiency and LARI rewards. V1 remains fully supported.
+</Note>
+
+## Prerequisites
+
+- A connected [Hedera wallet](/get-started/wallet)
+- [HBAR](/get-started/hbar) to cover network fees
+- Both tokens of the pair, in roughly equal value
+
+## Supply liquidity
+
+<Steps>
+  <Step title="Find the pool">
+    Go to the **pool** page and locate the V1 pool for your pair. Your existing positions are also visible on the **dashboard** page under **V1 Pools**.
+  </Step>
+  <Step title="Enter deposit amounts">
+    Open the pool and choose to supply. Enter how much of either token you want to add — the interface fills in the matching amount of the other token at the pool's current ratio.
+  </Step>
+  <Step title="Approve and supply">
+    Confirm the supply and complete the transaction in your wallet. You receive LP tokens representing your share of the pool.
+  </Step>
+</Steps>
+
+## Withdraw liquidity
+
+<Steps>
+  <Step title="Open your position">
+    Find your position via the **dashboard** page (**V1 Pools**) or directly from the pool page.
+  </Step>
+  <Step title="Redeem LP tokens">
+    Choose to withdraw, specify how many LP tokens to redeem, confirm, and complete the transaction in your wallet.
+  </Step>
+</Steps>
+
+<Info>
+  Unlike V2, where fees are claimed manually, V1 fees accumulate directly in the pool and increase the value of each LP token. Withdrawing liquidity automatically pays out your share of earned fees.
+</Info>
+
+## Farm your LP tokens
+
+Pools with active farm rewards are marked on the **pool** page. Staking LP tokens in the farm earns SAUCE and HBAR emissions on top of swap fees.
+
+<Steps>
+  <Step title="Stake LP tokens">
+    From the pool's position view, locate the stake-liquidity option, enter the number of LP tokens to stake, confirm, and sign in your wallet. If you have no LP tokens yet, supply liquidity first.
+  </Step>
+  <Step title="Harvest rewards">
+    Your pending SAUCE and HBAR rewards accrue continuously. Open the harvest view for the pool, select harvest, and complete the transaction to claim them. Farm positions are also listed on the **dashboard** page under **V1 Farms**.
+  </Step>
+  <Step title="Unstake LP tokens">
+    To exit the farm, choose unstake, specify the share of LP tokens to unstake, and confirm in your wallet. You can then withdraw the underlying liquidity.
+  </Step>
+</Steps>
+
+## Create a new V1 pool
+
+V1 pool creation is permissionless. On the **pool** page, choose to create a V1 pool, select both tokens, and set the initial deposit amounts — their ratio sets the pool's starting price, so match market prices to avoid immediate arbitrage losses. Pool creation carries a fee (≈$50 paid in HBAR as of July 2026, shown in the interface) as an anti-spam measure.
+
+<Note>
+  V1 supports tokens with fractional custom fees (net-of-transfers disabled) but not fixed-fee tokens. See [Does SaucerSwap support tokens with custom fees?](/get-started/faq#does-saucerswap-support-tokens-with-custom-fees)
+</Note>
+
+<Warning>
+  Providing liquidity exposes you to impermanent loss: if the pair's price ratio diverges from your entry, your position can be worth less than holding the tokens. See [What is impermanent loss?](/get-started/faq#what-is-impermanent-loss)
+</Warning>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Provide liquidity on V2" icon="droplet" href="/tutorials/liquidity-v2">
+    The recommended path: concentrated liquidity with fee tiers and LARI rewards.
+  </Card>
+  <Card title="V1 protocol concepts" icon="book-open" href="/protocol/saucerswap-v1">
+    How constant-product pools and the yield farm work under the hood.
+  </Card>
+  <Card title="Track your positions" icon="chart-pie" href="/tutorials/portfolio">
+    Monitor pools, farms, and rewards on the dashboard.
+  </Card>
+</CardGroup>

@@ -1,0 +1,103 @@
+---
+title: "Orderbook API authentication"
+description: "Authenticate with the SaucerSwap V3 Orderbook API: the challenge and verify JWT flow, supported account and key types, and how to protect your tokens."
+---
+
+The Orderbook API uses wallet challenge authentication and short-lived JSON Web Tokens (JWTs). You prove control of a trading account by signing a server-issued challenge, then attach the resulting JWT to protected calls.
+
+Prerequisites:
+
+- A Hedera account (`0.0.X`) or EVM account (`0x...`) with a supported key type — see [supported account identifiers](#supported-account-identifiers)
+- The API base URL for your environment — see [environments](/api-reference/orderbook/overview#environments)
+
+## Public and protected endpoints
+
+Endpoints split into two groups:
+
+| Group | Endpoints |
+| --- | --- |
+| Public (no JWT) | `GET /books`, `GET /depth/:orderbookId`, `GET /trades/:orderbookId`, `GET /books/:id/quote/exact-input`, `GET /books/:id/quote/exact-output`, and `GET /signature/domain`. Call these without authenticating. |
+| Authenticated (JWT required) | Fee rates, onboarding status, order listing and history, build/save/cancel, and both WebSocket streams — everything scoped to an account or mutating state. |
+
+Protected endpoints require a JWT issued by the `/auth` flow. Attach the JWT to REST calls with:
+
+```http
+Authorization: Bearer <token>
+```
+
+## Authentication flow
+
+<Steps>
+  <Step title="Request a challenge">
+    Submit your `accountId` to `POST /auth/challenge` and receive a nonce message to sign.
+
+    Challenge request:
+
+    ```json
+    { "accountId": "0.0.123456" }
+    ```
+
+    Challenge response:
+
+    ```json
+    { "message": "..." }
+    ```
+  </Step>
+  <Step title="Sign the challenge">
+    Sign the challenge message client-side with the account key.
+  </Step>
+  <Step title="Verify and receive a JWT">
+    Submit `accountId` and `signature` to `POST /auth/verify` and receive a JWT.
+
+    Verify request:
+
+    ```json
+    {
+      "accountId": "0.0.123456",
+      "signature": "0x..."
+    }
+    ```
+
+    Verify response:
+
+    ```json
+    { "token": "jwt" }
+    ```
+  </Step>
+</Steps>
+
+## Supported account identifiers
+
+| Account format | Supported key types | Notes |
+| --- | --- | --- |
+| `0.0.X` | `ED25519`, `ECDSA_SECP256K1` | Key type is resolved through the Hedera Mirror Node |
+| `0x...` | `ECDSA_SECP256K1` | Treated as an EVM account |
+
+## Token lifetime
+
+JWTs are short-lived. Re-authenticate before a long-running session expires or whenever a protected call returns `401`. Re-authenticate before each WebSocket reconnect attempt — see [WebSockets](/api-reference/orderbook/websockets).
+
+<Warning>
+  Never put a primary wallet private key in a bot process. Use a dedicated integration account, store secrets server-side, and start on testnet before placing mainnet orders.
+</Warning>
+
+<Warning>
+  WebSocket streams pass the JWT in the `token` query parameter, so WebSocket URLs are as sensitive as the token itself. Avoid logging full WebSocket URLs in production.
+</Warning>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Orders" icon="file-signature" href="/api-reference/orderbook/orders">
+    Use your JWT to build, sign, and save orders through the placement flow.
+  </Card>
+  <Card title="WebSockets" icon="tower-broadcast" href="/api-reference/orderbook/websockets">
+    Connect both authenticated streams and handle reconnects and token renewal.
+  </Card>
+  <Card title="Market data" icon="chart-line" href="/api-reference/orderbook/market-data">
+    Read the public endpoints that need no JWT: books, depth, trades, and quotes.
+  </Card>
+  <Card title="Limits and errors" icon="triangle-exclamation" href="/api-reference/orderbook/limits-and-errors">
+    Handle `401` renewals, rate limits, and the shared error response format.
+  </Card>
+</CardGroup>

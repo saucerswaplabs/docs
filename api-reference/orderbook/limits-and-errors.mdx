@@ -1,0 +1,72 @@
+---
+title: "Orderbook API limits and errors"
+description: "SaucerSwap V3 Orderbook API policy limits, the error response format, common HTTP status codes, and a production readiness checklist for clients."
+---
+
+Production users should expect rate and service-protection limits. Teams planning sustained high-volume traffic should contact [support@saucerswap.finance](mailto:support@saucerswap.finance) so we can coordinate limits and support.
+
+## Policy limits
+
+The API applies these limits automatically:
+
+| Constraint | Value |
+| --- | --- |
+| Max open orders per wallet | `5,000` |
+| Min order deadline | 30 seconds from now |
+| Max order deadline | 90 days from now |
+| Max orders per build/save request | `250` |
+| Max orders per cancel request | `500` |
+
+If a requested deadline exceeds the max, the server may clamp the returned order deadline. Always sign the deadline in the built order response — see [place orders](/api-reference/orderbook/orders#place-orders).
+
+## Error format
+
+Errors are returned as:
+
+```json
+{ "error": "message string" }
+```
+
+Common statuses:
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid request |
+| `401` | Missing or expired JWT |
+| `403` | Authenticated account is not allowed to perform the action |
+| `404` | Resource not found |
+| `429` | Rate limited |
+| `500` | Server error |
+
+On `401`, re-run the [authentication flow](/api-reference/orderbook/authentication#authentication-flow) and retry with a fresh JWT.
+
+## Production checklist
+
+Before placing sustained mainnet flow, confirm your client can:
+
+- re-authenticate after `401` responses
+- reconnect WebSockets with backoff
+- rebuild local books from snapshot plus buffered diffs
+- treat cancellation `202` responses as acknowledgements, not final states
+- keep all `uint256` values as strings through signing and saving
+- use the order book token decimals when converting raw amounts for display or order sizing
+- store JWTs and private keys only in server-side secret storage
+- monitor open order count, deadlines, and rate-limit responses
+- reconcile user events with `GET /orders/:orderId/history` after reconnects
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="key" href="/api-reference/orderbook/authentication">
+    Handle JWT expiry and `401` renewals with the challenge and verify flow.
+  </Card>
+  <Card title="WebSockets" icon="tower-broadcast" href="/api-reference/orderbook/websockets">
+    Implement reconnects, backoff, and snapshot-plus-diff book rebuilds.
+  </Card>
+  <Card title="Orders" icon="file-signature" href="/api-reference/orderbook/orders">
+    Review deadline handling, batch caps, and cancellation finality in context.
+  </Card>
+  <Card title="Orderbook API overview" icon="map" href="/api-reference/orderbook/overview">
+    Return to the integration flow and the full endpoint summary.
+  </Card>
+</CardGroup>

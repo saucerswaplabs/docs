@@ -1,0 +1,90 @@
+---
+title: "Get user positions (V2)"
+description: "List all SaucerSwap V2 liquidity positions for a Hedera account from the SaucerSwap REST API, including liquidity, tick range, and fees earned data."
+---
+
+SaucerSwap offers a public [REST API](/api-reference/overview) endpoint to retrieve all positions for a user, accompanied by useful metadata for each position, including liquidity and fees earned, and their associated tokens. Use the following URL options to access the data.
+
+The endpoint is `GET /v2/nfts/{accountId}/positions` on `https://api.saucerswap.finance` (mainnet) or `https://test-api.saucerswap.finance` (testnet). Requests require an API key; see [Authentication](/api-reference/authentication).
+
+### Data JSON schema
+
+<CodeGroup>
+  ```typescript
+  type ApiNftPositionV2 = {
+    tokenSN: number
+    accountId: string
+    token0: ApiToken | undefined
+    token1: ApiToken | undefined
+    fee: number
+    tickLower: number
+    tickUpper: number
+    liquidity: number
+    feeGrowthInside0LastX128: number
+    feeGrowthInside1LastX128: number
+    tokensOwed0: number
+    tokensOwed1: number
+    createdAt: number
+    updatedAt: number
+    lastSyncedAt: number
+    deleted: boolean
+  }
+
+  type ApiToken = {
+    decimals: number
+    icon?: string
+    id: string
+    name: string
+    price: string
+    priceUsd: number
+    symbol: string
+    dueDiligenceComplete: boolean
+    isFeeOnTransferToken: boolean
+    timestampSecondsLastListingChange: number
+    description: string | null
+    website: string | null
+    twitterHandle: string | null
+    sentinelReport: string | null
+  }
+  ```
+</CodeGroup>
+
+### Code overview
+
+*No gas cost — read-only call.*
+
+<CodeGroup>
+  ```typescript
+  const accountId = '0.0.1234';
+  const url = `https://api.saucerswap.finance/v2/nfts/${accountId}/positions`;
+  const response = await axios.get(url);
+  const positions = response.data;
+  for (const position of positions as ApiNftPositionV2[] ) {
+
+    const symbol0 = position.token0?.symbol;
+    const symbol1 = position.token1?.symbol;
+    const feeTier = position.fee / 10_000.0;
+    const tickLower = position.tickLower;
+    const tickUpper = position.tickUpper;
+
+    let output = '';
+    output += `NFT SN: ${position.tokenSN}`;
+    output += ` - ${symbol0}/${symbol1} @ ${feeTier}%`;
+    output += ` - Tick range: ${tickLower} to ${tickUpper}`;
+
+    console.log(output);
+  }
+  ```
+</CodeGroup>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Claiming fees (V2)" href="/developers/v2/liquidity/claiming-fees">
+    Collect the fees a position has earned.
+  </Card>
+
+  <Card title="API authentication" href="/api-reference/authentication">
+    Get an API key for the REST API.
+  </Card>
+</CardGroup>

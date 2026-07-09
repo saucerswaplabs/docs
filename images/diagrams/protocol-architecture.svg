@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 480" font-family="system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" role="img" aria-label="SaucerSwap protocol architecture with routing on top of the V1 AMM, V2 concentrated liquidity, and V3 order book">
+  <rect x="0" y="0" width="940" height="480" rx="16" fill="#0A0A0B"/>
+  <defs>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#A1A1AA"/>
+    </marker>
+  </defs>
+
+  <!-- User / app layer -->
+  <rect x="320" y="24" width="300" height="56" rx="12" fill="none" stroke="#2D2D33" stroke-width="1.5"/>
+  <text x="470" y="58" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="600">Trader (web app or API)</text>
+
+  <path d="M 470 80 L 470 112" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+  <!-- Routing layer -->
+  <rect x="170" y="114" width="600" height="66" rx="12" fill="none" stroke="#44E760" stroke-width="1.5"/>
+  <text x="470" y="143" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="600">Swap routing</text>
+  <text x="470" y="166" text-anchor="middle" fill="#A1A1AA" font-size="13">picks the execution path that quotes the best price for a trade</text>
+
+  <path d="M 260 180 L 260 216" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <path d="M 470 180 L 470 216" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <path d="M 680 180 L 680 216" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+  <!-- V1 -->
+  <g>
+    <rect x="130" y="218" width="260" height="186" rx="12" fill="none" stroke="#2D2D33" stroke-width="1.5"/>
+    <circle cx="154" cy="248" r="5" fill="#D6C9FF"/>
+    <text x="169" y="253" fill="#FFFFFF" font-size="16" font-weight="600">V1 — AMM</text>
+    <text x="154" y="285" fill="#A1A1AA" font-size="13">Constant-product pools</text>
+    <text x="154" y="308" fill="#A1A1AA" font-size="13">Fungible LP tokens</text>
+    <text x="154" y="331" fill="#A1A1AA" font-size="13">Yield farm incentives</text>
+    <text x="154" y="362" fill="#D6C9FF" font-size="13">Legacy — V2 recommended</text>
+  </g>
+
+  <!-- V2 -->
+  <g>
+    <rect x="410" y="218" width="260" height="186" rx="12" fill="none" stroke="#2D2D33" stroke-width="1.5"/>
+    <circle cx="434" cy="248" r="5" fill="#7B96FF"/>
+    <text x="449" y="253" fill="#FFFFFF" font-size="16" font-weight="600">V2 — CLMM</text>
+    <text x="434" y="285" fill="#A1A1AA" font-size="13">Concentrated liquidity</text>
+    <text x="434" y="308" fill="#A1A1AA" font-size="13">Positions in price ranges</text>
+    <text x="434" y="331" fill="#A1A1AA" font-size="13">LARI incentives</text>
+    <text x="434" y="362" fill="#7B96FF" font-size="13">Recommended for new liquidity</text>
+  </g>
+
+  <!-- V3 -->
+  <g>
+    <rect x="690" y="218" width="220" height="186" rx="12" fill="none" stroke="#44E760" stroke-width="1.5"/>
+    <circle cx="714" cy="248" r="5" fill="#44E760"/>
+    <text x="729" y="253" fill="#FFFFFF" font-size="16" font-weight="600">V3 — order book</text>
+    <text x="714" y="285" fill="#A1A1AA" font-size="13">Central limit order book</text>
+    <text x="714" y="308" fill="#A1A1AA" font-size="13">Off-chain matching</text>
+    <text x="714" y="331" fill="#A1A1AA" font-size="13">On-chain settlement</text>
+    <text x="714" y="362" fill="#44E760" font-size="13">Limit and market orders</text>
+  </g>
+
+  <!-- Hedera base layer -->
+  <path d="M 260 404 L 260 432" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <path d="M 470 404 L 470 432" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <path d="M 700 404 L 700 432" fill="none" stroke="#2D2D33" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <rect x="130" y="434" width="780" height="34" rx="10" fill="none" stroke="#2D2D33" stroke-width="1.5"/>
+  <text x="520" y="456" text-anchor="middle" fill="#A1A1AA" font-size="14">Hedera network — all trades settle on-chain</text>
+</svg>

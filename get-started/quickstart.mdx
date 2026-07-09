@@ -1,0 +1,53 @@
+---
+title: "Quickstart: your first swap"
+description: "Go from zero to your first token swap on SaucerSwap in five steps: create a Hedera wallet, fund it with HBAR, associate a token, swap, and verify."
+---
+
+This guide takes you from nothing to a completed swap on Hedera mainnet. It should take about 15 minutes, most of which is acquiring HBAR.
+
+<Steps>
+  <Step title="Create a Hedera wallet">
+    Install a self-custody wallet that supports Hedera. The most common choices are [SaucerSwap Wallet](/get-started/saucerswap-wallet) (mobile), HashPack (browser extension and mobile), and MetaMask (EVM wallets work on Hedera with a one-time network setup).
+
+    See [Create a Hedera wallet](/get-started/wallet) for setup instructions for each option. Write down your recovery phrase and store it offline — nobody can recover it for you.
+  </Step>
+  <Step title="Fund the wallet with HBAR">
+    HBAR is Hedera's native token and pays network fees for every transaction, so you need some before you can do anything else. Buy it on a centralized exchange and withdraw to your Hedera account, or use a fiat on-ramp such as MoonPay directly from your wallet.
+
+    See [Get HBAR](/get-started/hbar) for the full list of options. A few HBAR is enough to cover fees for many transactions; anything above that can be swapped for other tokens.
+  </Step>
+  <Step title="Connect and associate a token">
+    Open [saucerswap.finance](https://www.saucerswap.finance/), select **connect** in the navigation, and approve the connection in your wallet.
+
+    On Hedera, your account must be associated with a Hedera Token Service (HTS) token before it can hold that token. When you swap into a token for the first time, the interface prompts you to associate it — approve the association transaction in your wallet. See [What is a token association?](/get-started/faq#what-is-a-token-association) for background.
+  </Step>
+  <Step title="Make your first swap">
+    Go to the **swap** page. HBAR is selected as the token to sell by default; choose the token you want to buy, enter an amount, and review the quote. Confirm the swap and sign the transaction in your wallet.
+
+    The [swap tutorial](/tutorials/swap) walks through slippage settings, quote details, and allowances in depth.
+  </Step>
+  <Step title="Verify the result">
+    Your new balance appears on the **dashboard** page under **My Positions**. For an independent record, look up your account on [HashScan](https://hashscan.io/mainnet/dashboard), Hedera's network explorer, where every transaction and token balance is publicly visible.
+  </Step>
+</Steps>
+
+<Note>
+  If a transaction fails, the two most common causes are insufficient HBAR for network fees and slippage tolerance set too low. See [Troubleshooting](/resources/troubleshooting) for error-by-error fixes.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Swap tutorial" icon="arrow-right-arrow-left" href="/tutorials/swap">
+    Master the full swap flow: token classes, slippage, quote details, and allowances.
+  </Card>
+  <Card title="Trade on the order book" icon="arrow-trend-up" href="/tutorials/trade">
+    Place limit and market orders on the V3 central limit order book.
+  </Card>
+  <Card title="Stake SAUCE" icon="coins" href="/tutorials/stake">
+    Earn compounding rewards with single-sided staking — no pairing, no lockups.
+  </Card>
+  <Card title="Bridge assets to Hedera" icon="bridge" href="/get-started/bridge-to-hedera">
+    Move tokens from Ethereum, Base, and other chains onto Hedera.
+  </Card>
+</CardGroup>

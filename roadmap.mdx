@@ -1,107 +1,86 @@
 ---
-title: "🗺️ Roadmap"
+title: "Roadmap"
+description: "SaucerSwap Labs' development priorities: what shipped, including the V3 order book in June 2026, what is in progress, and longer-term directions."
 ---
 
-The multi-year roadmap outlines SaucerSwap Labs’ vision for scaling the protocol and interface. Our focus is on improving capital efficiency, user experience, and ecosystem growth, while maintaining the robust security and performance standards that have made SaucerSwap the leading DEX on Hedera.
+This roadmap outlines SaucerSwap Labs' priorities for scaling the protocol and the web app. Items are grouped by development priority rather than strict chronological order, and specific timelines and implementations may evolve with technology, market conditions, and community feedback. Shipped work moves to [Completed](#completed) below; dated release notes live in the [changelog](/changelog).
 
-This roadmap reflects our current priorities and ambitions; specific timelines and implementations may evolve based on technological developments, market conditions, and community feedback. Items are grouped by development priority rather than strict chronological order.
+## In progress and near term
 
-## **Immediate Term**
-
-- Swap widget development
-- Transaction flow redesign
-- Overhauled token menu (balance sorting, improved classification)
-- Advanced charting integration (higher-fidelity data for most-traded tokens, technical indicators)
-- Improved mobile responsiveness
-- Resilient, faster app performance through Multi-AZ (multiple backup locations worldwide)
-- Cross-protocol partnerships expansion
-- Improved token classification & listing system
-- Community engagement initiatives
-- Transaction reliability and success rate optimization
-- Expanded token information display on swap pages (market data, analytics, key metrics)
-
-## **Near Term**
-
-- Auto-router (split routes) & auto-slippage
-- Permissionless V2 pool creation
-- On-chain limit orders
-- Auto DCA tool implementation
 - Community pools
-- Multi-currency support
-- Local timezone support
+- Permissionless V2 pool creation
+- Auto DCA tool
+- Swap widget
+- Multi-currency and local timezone support
 - Push notification system
-- Faucet webpage & interface
-- Improved smart contract monitoring implementation
-- Integration with key security providers (Chainalysis, Chainabuse, etc.)
-- Subgraph integration with data aggregators/analytics (e.g., Dune Analytics), enabling easier access to SaucerSwap event data
-- Revamped developer documentation
-- Semantic-search of SaucerSwap data (LLM support)
-- Multi-chain expansion strategy
-- Community Pools launch
-- Saucelings NFT launch
-- Website Localization for key markets (Spanish-speaking regions, Southeast Asia, etc.)
+- Faucet webpage and interface
+- Improved token classification and listing system
+- Expanded token information display on swap pages (market data, analytics, key metrics)
+- Transaction reliability and success-rate optimization
+- Resilient, faster app performance through multi-AZ infrastructure
+- Improved smart contract monitoring and integration with key security providers
+- Subgraph integration with data aggregators and analytics platforms, enabling easier access to SaucerSwap event data
+- Semantic search of SaucerSwap data (LLM support)
+- Website localization for key markets
 - Comprehensive pool performance dashboard (deposits, earnings, analytics overview)
 - V2 compound and rebalance functionality for liquidity positions
+- Cross-protocol partnerships and community engagement initiatives
 
-## **Future**
+## Future
 
-- SaucerSwap V3 development
 - Perpetual futures platform
-- HTS ↔ ERC-20 compatibility layer
-- Hedera “ETF” contracts
+- Multi-chain expansion strategy
+- Hedera "ETF" contracts
 - Decentralized website mirrors
 - Universal analytics dashboard
 - Advanced trading tools
 - Cross-chain security infrastructure
-- DAO-as-a-service infrastructure
-- Sub-DAO framework implementation
+- DAO-as-a-service and sub-DAO framework
 - Institutional partnerships program
 - Cross-chain liquidity networks
 
 ## Completed
 
-Projects that have been completed and deployed.
+### 2026
 
-- SaucerSwap V1 ☑️
-  - AMM Smart Contracts ☑️
-  - Yield Farm ☑️
-  - Audit ☑️
-  - Whitepaper ☑️
-  - Testnet Bug Bounty ☑️
-  - Mainnet Launch ☑️
-- Analytics ☑️
-- [Deploy Updated Router Contract](https://medium.com/@SaucerSwap/hedera-network-security-update-saucerswap-8d2609b43e20) ☑️
-- Revamp Interface ☑️
-- Optimize and Scale Back-end ☑️
-- Single-Sided Staking ☑️
-- Hedera Wallet Integrations ☑️
-- Token Listing Methodology ☑️
-- Integrate with Data Aggregators ☑️
-- HBAR Foundation Grant ☑️
-- Establish Hashgraph DeFi Alliance ☑️
-- Legal Formation of DAO ☑️
-- SaucerSwap V2 ☑️
-  - AMM Smart Contracts ☑️
-  - Liquidity-Aligned Reward Initiative ☑️
-  - Interface ☑️
-  - Audit ☑️
-  - Whitepaper ☑️
-  - Testnet Bug Bounty ☑️
-  - Mainnet Launch ☑️
-- Updated Tokenomics Model ☑️
-- MetaMask Integration ☑️
-- SDK and API Documentation ☑️
-- Upgraded Buyback Program ☑️
-- Active Liquidity Management Protocol Integration ☑️
-- Hedera WalletConnect Integration☑️
-- Token-Weighted Voting System☑️
-- Fiat Onramp Integration☑️
-- Governance Delegation☑️
-- LARI system refinement & automation (Streamlined campaign initiation, efficient reward distribution post-epoch, data-driven realignment of reward weights for fair incentives.)☑️
-- Global search bar implementation☑️
-- Comprehensive website redesign☑️
-- Basic user support triaging system automation☑️
-- SAUCE 300 (pool ranking system optimization—supports revised token classification)☑️
-- Axelar bridge integration☑️
-- LayerZero integration☑️
-- Mobile app development (iOS/Android)☑️
+- SaucerSwap V3 order book — mainnet launch on June 12, 2026: on-chain limit and market orders, off-chain matching with on-chain settlement, and the public [Orderbook API](/api-reference/orderbook/overview). Audited by Halborn on May 18, 2026.
+- Advanced charting — shipped with the V3 trade page.
+- Smart order routing — swap prices are sourced across V1, V2, and V3 liquidity; see [How swaps are routed](/protocol/routing).
+- Comprehensive app redesign — updated navigation, transaction flow, token menu, and mobile responsiveness.
+- Revamped developer documentation — this docs overhaul, July 2026.
+- HTS ↔ ERC-20 wrapping tool — see the [wrapping tutorial](/tutorials/erc20-wrapping).
+
+### Earlier milestones
+
+- Mobile app (iOS and Android); wallet audited by QuantStamp on August 20, 2025
+- Axelar bridge and LayerZero integrations
+- Fiat onramp integration
+- Token-weighted voting and governance delegation
+- Hedera WalletConnect and MetaMask integrations
+- LARI system refinement and automation
+- Global search bar
+- SAUCE 300 pool ranking system (supports revised token classification)
+- Basic user support triaging automation
+- SaucerSwap V2 — concentrated-liquidity AMM contracts, LARI, interface, audit, whitepaper, testnet bug bounty, and mainnet launch
+- Updated tokenomics model and upgraded buyback program
+- Active liquidity management protocol integration
+- SDK and API documentation; integrations with data aggregators
+- Single-sided staking (Infinity Pool)
+- Legal formation of the DAO; Hashgraph DeFi Alliance
+- HBAR Foundation grant
+- Updated router contract deployment following the [Hedera network security update](https://medium.com/@SaucerSwap/hedera-network-security-update-saucerswap-8d2609b43e20)
+- SaucerSwap V1 — AMM contracts, yield farm, audit, whitepaper, testnet bug bounty, and mainnet launch
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Changelog" icon="clock-rotate-left" href="/changelog">
+    See dated release notes for shipped protocol, app, and API changes.
+  </Card>
+  <Card title="Governance" icon="landmark" href="/governance/overview">
+    Roadmap priorities that touch protocol economics move through the DAO.
+  </Card>
+  <Card title="How SaucerSwap works" icon="diagram-project" href="/protocol/overview">
+    Get oriented on the shipped protocol before reading about what is next.
+  </Card>
+</CardGroup>

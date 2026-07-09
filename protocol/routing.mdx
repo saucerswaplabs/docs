@@ -1,0 +1,47 @@
+---
+title: "Swap routing"
+description: "Where your SaucerSwap price comes from: how the app routes swaps across V1 and V2 pools, how V3 orders tap AMM liquidity, and integrator options."
+---
+
+When you swap in the web app, you do not pick a pool — routing does. This page explains where your quoted price comes from and what the router optimizes for.
+
+## How the app routes a swap
+
+For a swap on the swap page, the app's order router evaluates the available paths to get from your input token to your output token:
+
+- **Direct pools.** A [V1](/protocol/saucerswap-v1) pool and one or more [V2](/protocol/saucerswap-v2) pools (at different fee tiers) may all exist for the same pair. The router quotes each.
+- **Multi-hop paths.** When no direct pool exists — or an indirect path prices better — the router quotes routes through intermediate tokens such as HBAR or USDC.
+
+The router selects the route with the best executable output for your trade size, accounting for each pool's fee tier and price impact. Larger trades can route differently than small ones, because price impact grows with size relative to pool depth. The chosen route is shown in the swap details before you confirm.
+
+<Info>
+  Quoted output is an estimate as of quote time. Your slippage tolerance bounds the worst execution you will accept; the transaction reverts rather than fill beyond it.
+</Info>
+
+## The order book and AMM liquidity
+
+The [V3 order book](/protocol/saucerswap-v3) adds a second direction of liquidity sharing. On markets where AMM routing is enabled, an order can opt into AMM-backed settlement: if the book alone cannot fill the order at a better price, matched settlement can draw on V1 and V2 pool liquidity, subject to the order's signed price parameters. For takers, the practical effect is unified liquidity — the book's depth is backstopped by the AMMs.
+
+## For integrators
+
+The smart order router is part of the SaucerSwap app and is not exposed as a public API. Integrators quote directly against the venues:
+
+| Surface | How to quote |
+| --- | --- |
+| V1 pools | Router quote calls — see the [V1 swap quote guide](/developers/v1/swap/swap-quote) |
+| V2 pools | `QuoterV2` contract — see the [V2 swap quote guide](/developers/v2/swap/swap-quote) |
+| V3 order book | Public quote endpoints (exact-in and exact-out) — see [Orderbook market data](/api-reference/orderbook/market-data) |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Swap tutorial" icon="arrow-right-arrow-left" href="/tutorials/swap">
+    Make a swap and read the route details before confirming.
+  </Card>
+  <Card title="SaucerSwap V3" icon="book-open" href="/protocol/saucerswap-v3">
+    How AMM-backed settlement works on the order book.
+  </Card>
+  <Card title="Developer quickstart" icon="code" href="/developers/quickstart">
+    Get a quote programmatically in under five minutes.
+  </Card>
+</CardGroup>

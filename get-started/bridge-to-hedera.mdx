@@ -1,0 +1,42 @@
+---
+title: "Bridge to Hedera"
+description: "Move assets from Ethereum, Base, and other chains onto Hedera using the in-app bridge, Squid via Axelar, or Stargate via LayerZero — Hashport is gone."
+---
+
+Hedera connects to other chains through two live interoperability networks: Axelar and LayerZero. You can bridge through SaucerSwap's own **bridge** page or go directly to the underlying front ends.
+
+<Warning>
+  The Hashport bridge was permanently decommissioned on May 31, 2026, and assets wrapped by it are permanently unredeemable. Do not follow older guides that route through Hashport, and do not send assets to Hashport contracts. Tokens carrying the `[hts]` suffix (for example USDC[hts]) are legacy Hashport-wrapped assets that can no longer be redeemed for the original asset on their source chain.
+</Warning>
+
+## SaucerSwap bridge (recommended)
+
+The [bridge page](https://www.saucerswap.finance/bridge) of the web app lets you move assets between Hedera and other chains without leaving SaucerSwap. Under the hood it routes through the Axelar and LayerZero networks. See the [bridge tutorial](/tutorials/bridge) for a step-by-step walkthrough, fee and timing expectations, and troubleshooting.
+
+## Squid (Axelar)
+
+[Axelar](https://axelar.network/) provides proof-of-stake-secured cross-chain communication. [Squid](https://app.squidrouter.com/) is the main routing front end built on it, supporting bridging and cross-chain swaps between Hedera and major EVM chains. Squid works best with an EVM wallet such as MetaMask.
+
+Token issuers can deploy existing Hedera HTS tokens to other chains through Axelar's Interchain Token Service — see [For projects](/resources/for-projects) for the listing walkthrough.
+
+## Stargate (LayerZero)
+
+[LayerZero](https://layerzero.network/) is an omnichain interoperability protocol for lightweight message passing across chains. [Stargate](https://stargate.finance/bridge) is its primary bridging front end and supports transfers between Hedera and other connected networks.
+
+## Tracking a transfer
+
+Bridging takes anywhere from a few minutes to a few hours depending on the chains involved. For Axelar-routed transfers, you can track status on [AxelarScan](https://axelarscan.io/) by searching your transaction hash or wallet address.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Bridge tutorial" icon="bridge" href="/tutorials/bridge">
+    Use the in-app bridge step by step, with fee and timing expectations.
+  </Card>
+  <Card title="Get HBAR" icon="circle-dollar" href="/get-started/hbar">
+    You need HBAR for network fees before you can swap bridged assets.
+  </Card>
+  <Card title="Swap tutorial" icon="arrow-right-arrow-left" href="/tutorials/swap">
+    Swap your bridged assets for any listed HTS token.
+  </Card>
+</CardGroup>

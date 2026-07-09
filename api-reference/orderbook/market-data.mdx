@@ -1,0 +1,159 @@
+---
+title: "Orderbook API market data"
+description: "Read public SaucerSwap V3 market data: order book discovery, depth snapshots, the trade tape, exact-input and exact-output quotes, and pip fee units."
+---
+
+All endpoints on this page are public — call them without a JWT. Market discovery gives you the token identifiers and increments you need before [building orders](/api-reference/orderbook/orders); quotes let you simulate a market order against the live book first.
+
+<Note>
+Public reads are rolling out network by network. As of July 9, 2026 they are live on testnet, while the mainnet endpoints still return `401 Missing Authorization header` without a JWT. Develop against testnet first, and see [authentication](/api-reference/orderbook/authentication) if you need mainnet market data before the public rollout completes.
+</Note>
+
+## Market discovery
+
+Use `GET /books` to discover tradable order books before building orders. Key market fields include token identifiers, market status, trading increments, and the current AMM-routing flag:
+
+```typescript
+interface OrderbookItem {
+  id: number
+  baseTokenId: string
+  quoteTokenId: string
+  baseTokenEvmAddress: string
+  quoteTokenEvmAddress: string
+  status: string // 'OPEN' | 'CLOSED'
+  isAMMEnabled: boolean // whether AMM liquidity is routed into this book
+  isMarketHalted: boolean
+  baseTokenSymbol: string | null
+  quoteTokenSymbol: string | null
+  baseTokenDecimals: number | null // token decimals, e.g. 8 for WBTC
+  quoteTokenDecimals: number | null // token decimals, e.g. 6 for USDC
+  tickStep: string
+  sizeStep: string
+  lotSize: string
+  minNotional: string
+}
+```
+
+Additional price, volume, and timestamp fields may also be present.
+
+Use the returned EVM token addresses for `inputToken` and `outputToken` when building orders. Use `baseTokenDecimals` and `quoteTokenDecimals` when converting between human-readable display amounts and raw token amounts. Keep the build, sign, and save path on raw token units. If `isAMMEnabled` is `true`, AMM liquidity can be routed into that book when an order request also opts into AMM-backed settlement.
+
+## Depth snapshots
+
+`GET /depth/:orderbookId` returns a full depth snapshot for a market. For a live view, pair the REST snapshot with the `/ws/depth` stream and apply the snapshot-plus-buffered-diffs procedure described in [WebSockets](/api-reference/orderbook/websockets#reliable-depth-handling).
+
+## Trade tape
+
+`GET /trades/:orderbookId` returns recent fills for a single market, most-recent first by default. It is public, market-wide data — not scoped to any account.
+
+```text
+GET /trades/3?sort=desc&page=1&limit=50
+```
+
+| Query param | Type | Default | Description |
+| --- | --- | --- | --- |
+| `sort` | `'asc' \| 'desc'` | `desc` | Order fills by time |
+| `page` | number | `1` | 1-indexed page number |
+| `limit` | number | `10` | Page size |
+
+```typescript
+interface RecentTradesResult {
+  orderbookId: string
+  timestamp: number // server time of the response
+  trades: Trade[]
+  total: number
+  page: number
+  limit: number
+}
+
+interface Trade {
+  timestamp: number
+  price: string // human-readable quote-per-base price
+  amountBase: string // human-readable base token amount, already decimals-adjusted (e.g. "125.5" HBAR — NOT raw smallest units)
+  direction: string // 'buy' | 'sell' (taker side)
+  transactionHash: string
+}
+```
+
+An invalid `sort`, or a negative `page` or `limit`, returns `400` (zero and non-numeric values fall back to the defaults). Responses are served from a short-lived cache of recent fills, so poll rather than hammer.
+
+## Market quotes
+
+Simulate a market order against the current book before building it. Both endpoints are public; authentication is optional — anonymous callers get a lightly-cached quote, an authenticated caller gets a fresh one. The `suggested*` amount each returns is safe to pass directly into a subsequent `POST /orders/build` request.
+
+### Exact input
+
+You specify what you spend, and the response tells you what to expect to receive:
+
+```text
+GET /books/3/quote/exact-input?inputToken=0x...&inputAmount=1000000
+```
+
+| Query param | Type | Required | Description |
+| --- | --- | --- | --- |
+| `inputToken` | string | Yes | EVM address of the token being spent |
+| `inputAmount` | string | Yes | Raw token units (integer string) to spend |
+
+```typescript
+interface ExactInputQuoteResult {
+  outputToken: string
+  snappedInputAmount: string    // input floored to the lot/size grid (submit THIS)
+  consumedInputAmount: string   // how much of snappedInputAmount the book absorbed
+  expectedOutputAmount: string  // raw expected fill, no slippage
+  suggestedOutputAmount: string // use as outputAmount in POST /orders/build
+  slippageBps: number           // the applied slippage buffer (a fixed server-side tolerance), not a market-impact prediction
+  fillable: boolean             // false when no liquidity exists at all
+}
+```
+
+### Exact output
+
+You specify the receive side, and the response returns the input required, with slippage applied upward as a safe ceiling:
+
+```text
+GET /books/3/quote/exact-output?outputToken=0x...&outputAmount=500000
+```
+
+| Query param | Type | Required | Description |
+| --- | --- | --- | --- |
+| `outputToken` | string | Yes | EVM address of the token to receive |
+| `outputAmount` | string | Yes | Raw token units (integer string) to receive |
+
+```typescript
+interface ExactOutputQuoteResult {
+  inputToken: string
+  requestedOutputAmount: string // echo of what was asked
+  snappedOutputAmount: string   // what you'll actually get (= requested when on-grid)
+  expectedInputAmount: string   // raw cost, no slippage
+  suggestedInputAmount: string  // bumped UP by slippage — use as inputAmount in POST /orders/build
+  slippageBps: number           // the applied slippage buffer (a fixed server-side tolerance), not a market-impact prediction
+  fillable: boolean             // false when book depth < outputAmount
+}
+```
+
+A missing required query param, or an unknown order book, returns `400`.
+
+## Fee units
+
+<Info>
+  Fee rates are expressed in pips (1 pip = 1e-6 = 0.0001%), matching the `takerFeePips` / `makerFeePips` / `capFractionPips` field names. They are not basis points.
+</Info>
+
+Authenticated accounts can fetch their fee rates for an order book side with `GET /fees/:orderbookId?side=maker` — this endpoint requires a JWT. See [authentication](/api-reference/orderbook/authentication).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Orders" icon="file-signature" href="/api-reference/orderbook/orders">
+    Turn a quote into a signed order with the build, sign, save flow.
+  </Card>
+  <Card title="WebSockets" icon="tower-broadcast" href="/api-reference/orderbook/websockets">
+    Keep a local book live with depth diffs layered over REST snapshots.
+  </Card>
+  <Card title="Authentication" icon="key" href="/api-reference/orderbook/authentication">
+    Obtain a JWT for fee rates, onboarding status, and fresh quotes.
+  </Card>
+  <Card title="Limits and errors" icon="triangle-exclamation" href="/api-reference/orderbook/limits-and-errors">
+    Review request validation errors, rate limits, and the error format.
+  </Card>
+</CardGroup>

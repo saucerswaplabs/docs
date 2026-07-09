@@ -1,0 +1,72 @@
+---
+title: "Create a Hedera wallet"
+description: "Set up a self-custody wallet for Hedera: SaucerSwap Wallet on mobile, HashPack as a browser extension, or MetaMask with the Hedera JSON-RPC relay."
+---
+
+To use SaucerSwap you need a self-custody wallet that supports Hedera accounts. All three options below work with the web app; SaucerSwap Wallet and HashPack are Hedera-native, while MetaMask connects through Hedera's Ethereum Virtual Machine (EVM) compatibility layer.
+
+<Warning>
+  Your recovery phrase is the only way to restore a self-custody wallet. Write it down, store it offline, and never enter it on a website. SaucerSwap Labs will never ask for it.
+</Warning>
+
+## SaucerSwap Wallet
+
+[SaucerSwap Wallet](https://www.saucerswap.finance/saucerswap-wallet) is SaucerSwap Labs' self-custody mobile wallet for Hedera, built to help you swap, stake, explore tokens, and connect to Hedera dApps from your phone.
+
+- iOS: download from the [Apple App Store](https://apps.apple.com/us/app/saucerswap-hedera-wallet/id6747405489).
+- Android: download from the [Google Play Store](https://play.google.com/store/apps/details?id=com.saucerswap.mobile).
+
+See [SaucerSwap Wallet](/get-started/saucerswap-wallet) for an overview of its features.
+
+## HashPack
+
+[HashPack](https://www.hashpack.app/) is the most widely used wallet on the Hedera network and an official SaucerSwap partner. For step-by-step setup instructions, see [How to create your first account with HashPack](https://www.hashpack.app/post/how-to-create-your-first-account-with-hashpack).
+
+- Desktop: install the HashPack extension from the [Chrome Web Store](https://chrome.google.com/webstore/detail/hashpack/gjagmgiddbbciopjhllkdnddhcglnemk).
+- iOS: download from the [Apple App Store](https://apps.apple.com/us/app/hashpack/id6444389849).
+- Android: download from the [Google Play Store](https://play.google.com/store/apps/details?id=app.hashpack.wallet.twa).
+
+## MetaMask
+
+[MetaMask](https://metamask.io/) is the most widely used EVM wallet. It can hold HTS tokens on Hedera through the network's EVM compatibility layer. For general setup, see [Getting started with MetaMask](https://support.metamask.io/hc/en-us/articles/360015489531-Getting-started-with-MetaMask).
+
+- Desktop: install the extension from [metamask.io](https://metamask.io/).
+- iOS: download from the [Apple App Store](https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202).
+- Android: download from the [Google Play Store](https://play.google.com/store/apps/details?id=io.metamask).
+
+### Add the Hedera network
+
+<Info>
+  Before MetaMask can talk to Hedera, you must add a Hedera JSON-RPC relay as a custom network. This is a one-time step.
+</Info>
+
+You have two options:
+
+1. Use [ChainList](https://chainlist.org/chain/295) to add the Hashio RPC (maintained by Hashgraph) with one click.
+2. Add the network manually with these values:
+
+| Field | Value |
+| --- | --- |
+| Network name | Hedera Mainnet |
+| RPC URL | `https://mainnet.hashio.io/api` |
+| Chain ID | `295` |
+| Currency symbol | HBAR |
+| Block explorer URL | `https://hashscan.io/mainnet/dashboard` |
+
+<Note>
+  MetaMask displays your account as a `0x...` EVM address. HashScan can resolve it to the corresponding `0.0.x` Hedera account ID. Tokens you receive will not appear in MetaMask until you import them by their EVM address — see [Why can I not see my tokens in MetaMask?](/get-started/faq#why-can-i-not-see-my-tokens-in-metamask)
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Get HBAR" icon="circle-dollar" href="/get-started/hbar">
+    Fund your new wallet with HBAR to pay network fees and start swapping.
+  </Card>
+  <Card title="Quickstart" icon="rocket" href="/get-started/quickstart">
+    Complete your first swap in five steps.
+  </Card>
+  <Card title="Bridge to Hedera" icon="bridge" href="/get-started/bridge-to-hedera">
+    Move assets from other chains into your Hedera wallet.
+  </Card>
+</CardGroup>

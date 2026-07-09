@@ -1,0 +1,52 @@
+---
+title: "Wrap between HTS and ERC-20"
+description: "Use SaucerSwap's ERC-20 wrapping tool to convert tokens between their HTS and ERC-20 forms for MetaMask and EVM tooling, and unwrap them back."
+---
+
+Hedera has two token standards living side by side: native Hedera Token Service (HTS) tokens and ERC-20 contract tokens on Hedera's EVM layer. Most of the Hedera ecosystem uses HTS, but some EVM-native wallets, contracts, and cross-chain tooling expect ERC-20. The [ERC-20 wrapping tool](https://www.saucerswap.finance/erc20) converts a token between the two forms, in both directions.
+
+## When you need it
+
+- You bridged or received a token in its ERC-20 form and want to use it on HTS-native surfaces.
+- An EVM contract or integration you use (typically via MetaMask) expects a standard ERC-20 rather than an HTS token.
+- A cross-chain workflow hands you one form and the destination app needs the other.
+
+If you just want to see an HTS token inside MetaMask, you usually do not need to wrap — importing the token by its EVM address is enough. See [Why can I not see my tokens in MetaMask?](/get-started/faq#why-can-i-not-see-my-tokens-in-metamask)
+
+## Wrap or unwrap
+
+<Steps>
+  <Step title="Open the tool">
+    Go to [saucerswap.finance/erc20](https://www.saucerswap.finance/erc20) and connect your wallet.
+  </Step>
+  <Step title="Choose direction and token">
+    Select whether you are wrapping (HTS to ERC-20) or unwrapping (ERC-20 to HTS), then pick the token and enter the amount.
+  </Step>
+  <Step title="Confirm">
+    Review the transaction and sign it in your wallet. Your balance moves from one form to the other; the interface shows both.
+  </Step>
+</Steps>
+
+## Risks and caveats
+
+<Warning>
+  Wrapped and unwrapped balances are separate assets: apps that read one form will not see the other. Before wrapping a large amount, convert a small test amount and confirm the destination app sees it as expected.
+</Warning>
+
+- Each wrap or unwrap is a transaction and costs HBAR network fees.
+- Receiving the HTS form of a token requires [token association](/get-started/faq#what-is-a-token-association) first; the interface prompts you when needed.
+- As always, review exactly what your wallet asks you to sign.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Set up MetaMask for Hedera" icon="wallet" href="/get-started/wallet">
+    Add the Hedera network to MetaMask and manage EVM-form tokens.
+  </Card>
+  <Card title="Bridge assets" icon="bridge" href="/tutorials/bridge">
+    Move tokens between Hedera and other chains in the app.
+  </Card>
+  <Card title="Swap tokens" icon="arrow-right-arrow-left" href="/tutorials/swap">
+    Trade your tokens against SaucerSwap liquidity.
+  </Card>
+</CardGroup>

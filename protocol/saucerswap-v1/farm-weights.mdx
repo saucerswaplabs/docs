@@ -1,8 +1,11 @@
 ---
-title: "Farm Weights"
+title: "Farm weights"
+description: "Current emission weights for SaucerSwap V1 yield farms. Weights are set by DAO governance and determine each pool's share of SAUCE farm rewards."
 ---
 
-| V1 Pool                                                            | Farm Weight |
+Each V1 farm receives a share of Masterchef emissions according to its farm weight. Weights are set and amended through the [governance process](/governance/overview), so they change over time; the [web app](https://www.saucerswap.finance/) always reflects live values.
+
+| V1 pool | Farm weight |
 | ------------------------------------------------------------------ | ----------: |
 | [HBAR/SAUCE](https://www.saucerswap.finance/pool/0.0.1461945)      | 45.56%      |
 | [HBAR/USDC](https://www.saucerswap.finance/pool/0.0.1462797)       | 13.83%      |
@@ -10,14 +13,14 @@ title: "Farm Weights"
 | [USDC/SAUCE](https://www.saucerswap.finance/pool/0.0.1088553)      | 2.03%       |
 | [HBAR/PACK](https://www.saucerswap.finance/pool/0.0.5981646)       | 2.79%       |
 | [HBAR/HST](https://www.saucerswap.finance/pool/0.0.1463354)        | 1.02%       |
-| [HBAR/WBTC[hts]](https://www.saucerswap.finance/pool/0.0.1463899)  | 2.03%       |
-| [HBAR/WETH[hts]](https://www.saucerswap.finance/pool/0.0.1463905)  | 2.28%       |
-| [HBAR/LCX[hts]](https://www.saucerswap.finance/pool/0.0.1472523)   | 1.52%       |
+| [HBAR/WBTC\[hts\]](https://www.saucerswap.finance/pool/0.0.1463899)  | 2.03%       |
+| [HBAR/WETH\[hts\]](https://www.saucerswap.finance/pool/0.0.1463905)  | 2.28%       |
+| [HBAR/LCX\[hts\]](https://www.saucerswap.finance/pool/0.0.1472523)   | 1.52%       |
 | [HBAR/KARATE](https://www.saucerswap.finance/pool/0.0.2751778)     | 1.52%       |
-| [HBAR/QNT[hts]](https://www.saucerswap.finance/pool/0.0.1463902)   | 2.03%       |
+| [HBAR/QNT\[hts\]](https://www.saucerswap.finance/pool/0.0.1463902)   | 2.03%       |
 | [SAUCE/XSAUCE](https://www.saucerswap.finance/pool/0.0.1465865)    | 0.89%       |
-| [HBAR/WAVAX[hts]](https://www.saucerswap.finance/pool/0.0.2167381) | 1.52%       |
-| [HBAR/LINK[hts]](https://www.saucerswap.finance/pool/0.0.1859589)  | 1.65%       |
+| [HBAR/WAVAX\[hts\]](https://www.saucerswap.finance/pool/0.0.2167381) | 1.52%       |
+| [HBAR/LINK\[hts\]](https://www.saucerswap.finance/pool/0.0.1859589)  | 1.65%       |
 | [HBAR/GRELF](https://www.saucerswap.finance/pool/0.0.1462910)      | 0.63%       |
 | [HBAR/DOVU](https://www.saucerswap.finance/pool/0.0.3817615)       | 5.84%       |
 | [HBAR/SENTX](https://www.saucerswap.finance/pool/0.0.3301046)      | 0.63%       |
@@ -29,3 +32,16 @@ title: "Farm Weights"
 | [HBAR/GC](https://www.saucerswap.finance/pool/0.0.3279183)         | 1.27%       |
 | [HBAR/STEAM](https://www.saucerswap.finance/pool/0.0.5725728)      | 0.63%       |
 | **Total**                                                          | **100.00%** |
+
+Adjusting one pool's weight causes all other pools' emissions to be reweighted, so the total always sums to 100%.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="SaucerSwap V1" icon="book-open" href="/protocol/saucerswap-v1">
+    How the V1 AMM and yield farm work.
+  </Card>
+  <Card title="Governance" icon="check-to-slot" href="/governance/overview">
+    Propose or vote on farm weight changes.
+  </Card>
+</CardGroup>

@@ -1,121 +1,141 @@
 ---
-title: "🪙 Overview"
+title: "SAUCE tokenomics"
+description: "SAUCE supply, allocations, and emissions: the completed genesis vesting, the Masterchef schedule, and how V1, V2, and V3 fees flow back to SAUCE."
 ---
 
-## SAUCE Token
+SAUCE is the native token of the SaucerSwap protocol, created and managed through the [Hedera Token Service](https://hedera.com/token-service) (HTS).
 
-SAUCE is the native token of the SaucerSwap Protocol, created and managed through the [Hedera Token Service](https://hedera.com/token-service) (HTS).
+| | |
+| --- | --- |
+| Token ID | `0.0.731861` |
+| EVM address | `0x00000000000000000000000000000000000b2ad5` |
+| Max supply | 1,000,000,000 SAUCE |
 
-- **Token ID:** 0.0.731861
-- **EVM Address:** 0x00000000000000000000000000000000000b2ad5
+SAUCE is a transferable representation of utility functions in the protocol's code:
 
-SAUCE is a transferable representation of designated utility functions outlined in the SaucerSwap protocol's code. These functions include governance, liquidity, and staking.
+- **Governance.** SAUCE and xSAUCE carry voting power in the SaucerSwap DAO — see [Governance](/governance/overview).
+- **Liquidity incentives.** The Masterchef contract mints SAUCE to reward V1 farms and V2 [LARI](/protocol/saucerswap-v2#liquidity-aligned-reward-initiative-lari) positions.
+- **Staking.** Staking SAUCE for xSAUCE earns a share of protocol revenue and tiered [V3 fee discounts](/protocol/saucerswap-v3/fees) — see [Single-sided staking](/protocol/single-sided-staking).
 
-**Governance:** SAUCE will serve as voting power in the SaucerSwap DAO, enabling token holders to create and vote on proposals affecting the ecosystem. These proposals encompass protocol upgrades, parameter adjustments, incentive alignment, and other significant decisions. For more information, see [Governance](/governance/overview).
+## Supply structure
 
-**Liquidity:** The Masterchef smart contract, serving as both the treasury account and supply key for SAUCE, governs its minting and distribution. SAUCE minted by this contract are used to incentivize liquidity provision on SaucerSwap V1 (yield farm) and SaucerSwap V2 (LARI). For more information, see [Yield Farm](/protocol/saucerswap-v1#yield-farm) and [LARI](/protocol/saucerswap-v2#liquidity-aligned-reward-initiative-lari).
+At genesis (August 2022), 500 million SAUCE were minted: 200 million entered circulation immediately, and 300 million were locked in non-upgradable vesting contracts owned by the SaucerSwap DAO. The remaining 500 million are minted by the Masterchef contract on a predefined emission schedule.
 
-**Staking:** SAUCE tokens allow users to participate in staking activities, offering them a share of V1 and V2 trading fees, HBAR native staking rewards, and emissions through an automated buyback mechanism. For more information, see [Single-Sided Staking](/protocol/single-sided-staking).
+<Frame caption="SAUCE max supply by allocation category.">
+  ![Chart of the SAUCE maximum supply split across allocation categories](/images/diagrams/tokenomics-allocation.svg)
+</Frame>
 
-## SAUCE Tokenomics
+### Initial supply (distributed at genesis)
 
-SAUCE has a maximum supply of 1 billion tokens. At genesis, 500 million SAUCE tokens were minted. Of these, 300 million were locked in non-upgradable vesting contracts owned by the SaucerSwap DAO, while 200 million entered circulation. The Masterchef contract is responsible for minting and distributing the remaining 500 million SAUCE tokens in accordance with a predefined release schedule.
+A total of 200 million SAUCE was released at genesis. The Liquidity, Marketing, and Operations categories fell under DAO ownership; the Community category was distributed to 729 eligible community members.
 
-### Initial Supply
-
-A total of 200 million SAUCE tokens were initially released. Tokens in the Liquidity, Marketing, and Operations categories fell under DAO ownership, while those in the Community category were distributed to 729 eligible community members.
-
-- **Liquidity:** 2% of the max supply (20 million SAUCE) were converted to SAUCE/HBAR LP tokens, which were subsequently locked for a one-year period.
-- **Community:** 14% of the max supply (140 million SAUCE) was distributed to community members holding Planck Epoch Collectible (PEC) NFTs based on the type and number of NFTs in their account.
-  - 1 Gravity PEC → 3,000 SAUCE
-  - 1 Weak Nuclear PEC → 14,000 SAUCE
-  - 1 Strong Nuclear PEC → 30,000 SAUCE
-  - 1 Electromagnetic PEC → 5,000 SAUCE
-- **Marketing:** 2% of the max supply (20 million SAUCE) were sent to a DAO-controlled marketing multi-sig.
-- **Operations:** 2% of the max supply (20 million SAUCE) were sent to a DAO-controlled operations multi-sig.
-
-| Category   | Number of Tokens  | % of Initial Supply | % of Max Supply |
+| Category | Tokens | % of initial supply | % of max supply |
 | ---------- | ----------------- | ------------------- | --------------- |
-| Liquidity  | 20.0 million      | 10.00%              | 2.00%           |
-| Community  | 140.0 million     | 70.00%              | 14.00%          |
-| Marketing  | 20.0 million      | 10.00%              | 2.00%           |
-| Operations | 20.0 million      | 10.00%              | 2.00%           |
-| **Total**  | **200.0 million** | **100.00%**         | **20.00%**      |
+| Liquidity | 20.0 million | 10.00% | 2.00% |
+| Community | 140.0 million | 70.00% | 14.00% |
+| Marketing | 20.0 million | 10.00% | 2.00% |
+| Operations | 20.0 million | 10.00% | 2.00% |
+| **Total** | **200.0 million** | **100.00%** | **20.00%** |
 
-![](/images/tokenomics/initial-supply.png)
+- **Liquidity:** converted to SAUCE/HBAR LP tokens and locked for one year.
+- **Community:** airdropped to holders of Planck Epoch Collectible (PEC) NFTs by type and count (Gravity 3,000 SAUCE; Electromagnetic 5,000; Weak Nuclear 14,000; Strong Nuclear 30,000).
+- **Marketing and Operations:** sent to DAO-controlled multisigs.
 
-### Vesting Allocations
+There were no private sales of SAUCE.
 
-​​At genesis, the DAO deployed a set of non-upgradeable vesting contracts where 300 million SAUCE was locked. Over a span of 3 years starting from genesis, these tokens undergo a linear vesting process.
+### Genesis vesting (completed)
 
-- **Core Development:** 24% of max supply (240 million SAUCE) vested from 0.0.1059453 to SaucerSwap Labs.
-- **Marketing:** 2% of max supply (20 million SAUCE) vested from 0.0.1059333 to a DAO-controlled marketing multi-sig.
-- **Operations:** 2% of max supply (20 million SAUCE) vested from 0.0.1059313 to a DAO-controlled operations multi-sig.
-- **Advisor:** 2% of max supply (20 million SAUCE) vested from 0.0.1059259 to a DAO-controlled advisor multi-sig.
+The DAO deployed non-upgradeable vesting contracts holding 300 million SAUCE, which vested linearly over three years from genesis. Vesting completed in August 2025; these contracts no longer emit tokens.
 
-| Category         | Number of Tokens  | % of Vested Supply | % of Max Supply | Vesting Rate (SAUCE / min) |
-| ---------------- | ----------------- | ------------------ | --------------- | -------------------------- |
-| Core Development | 240.0 million     | 80.00%             | 24.00%          | 152.21                     |
-| Marketing        | 20.0 million      | 6.67%              | 2.00%           | 12.68                      |
-| Operations       | 20.0 million      | 6.67%              | 2.00%           | 12.68                      |
-| Advisor          | 20.0 million      | 6.66%              | 2.00%           | 12.68                      |
-| **Total**        | **300.0 million** | **100.00%**        | **30.00%**      | **190.25**                 |
+| Category | Tokens | % of max supply | Vesting contract |
+| ---------------- | ----------------- | --------------- | --------------------- |
+| Core development | 240.0 million | 24.00% | `0.0.1059453` |
+| Marketing | 20.0 million | 2.00% | `0.0.1059333` |
+| Operations | 20.0 million | 2.00% | `0.0.1059313` |
+| Advisor | 20.0 million | 2.00% | `0.0.1059259` |
+| **Total** | **300.0 million** | **30.00%** | |
 
-![](/images/tokenomics/vesting-allocations.png)
+## Masterchef emissions
 
-### Masterchef Emissions
+The Masterchef contract acts as both the treasury account and the supply key for SAUCE, minting and distributing the remaining 500 million tokens. On August 8, 2023, the DAO approved the [Tokenomics V2 proposal](https://medium.com/@SaucerSwap/saucerswap-v2-tokenomics-proposal-b355182545a6), which cut the emission rate by 60% from the V2 launch onward and extended the emission runway to roughly six years from genesis (through approximately 2028).
 
-Central to the SaucerSwap protocol, the Masterchef smart contract acts as both the treasury account and the supply key for SAUCE, overseeing the minting and distribution of the remaining 500 million SAUCE.
+<Frame caption="How Masterchef emissions flow to farms, LARI, the DAO, and staking.">
+  ![Diagram of the SAUCE emission flow from the Masterchef contract to reward destinations](/images/diagrams/emission-flow.svg)
+</Frame>
 
-Note that, on August 8, 2023, the SaucerSwap DAO approved the [Tokenomics V2 Proposal](https://medium.com/@SaucerSwap/saucerswap-v2-tokenomics-proposal-b355182545a6). This section will provide details about the updated tokenomics. For historical reference, you can access the archived [Old Tokenomics](/archive/old-tokenomics) documentation.
+The schedule since V2 launch (November 15, 2023):
 
-#### Distribution Breakdown
+| Category | Masterchef allocation | Emission rate (SAUCE/min) |
+| ----------- | --------------------- | ------------------------- |
+| Yield farm | 47.16% | 59.82 |
+| DAO + LARI | 43.75% | 55.49 |
+| Devcut | 9.09% | 11.53 |
+| **Total** | **100.00%** | **126.84** |
 
-- **Genesis to V2 Launch (Q3 2022 - Q4 2023):**
-  - Yield Farm: 90.91%
-  - Devcut: 9.09% (with 70% to the DAO and 30% allocated for single-sided staking rewards)
-  - Emission Rate: 317.10 SAUCE per minute, giving a 3-year emission runway from genesis.
+- **Yield farm:** distributed to V1 LP stakers by [farm weight](/protocol/saucerswap-v1/farm-weights).
+- **DAO + LARI:** split between the DAO treasury and [LARI](/protocol/saucerswap-v2/lari-weights) rewards; the DAO adjusts this split by governance, and per-epoch LARI totals are published with each epoch's weights.
+- **Devcut:** split between single-sided staking rewards and a DAO-controlled multisig.
 
-| Category   | Masterchef Allocation | Emission Rate (SAUCE / min) |
-| ---------- | --------------------- | --------------------------- |
-| Yield Farm | 90.91%                | 288.27                      |
-| Devcut     | 9.09%                 | 28.83                       |
-| **Total**  | **100.00%**           | **317.10**                  |
+<Note>
+  Allocation splits within the schedule are DAO-adjustable and have changed over time. For live emission and reward figures, use the [web app](https://www.saucerswap.finance/) rather than snapshots in documentation.
+</Note>
 
-![](/images/tokenomics/masterchef-emissions.png)
+## Fee flows: buybacks and burn
 
-- **V2 Launch Onwards (Q4 2023 - Q4 2028):**
-  - Yield Farm: 47.16%
-  - DAO: 43.75% (with 50% retained by the operations multi-sig and 50% channeled to LARI rewards)
-  - Devcut: 9.09% (with 70% to the DAO and 30% reserved for single-sided staking rewards)
-  - Emission Rate: 126.84 SAUCE per minute, extending the emission runway to 6 years from genesis and marking a 60% reduction in inflation.
+Emissions are one side of SAUCE tokenomics; the other is protocol revenue flowing back into the token.
 
-| Category    | Masterchef Allocation | Emission Rate (SAUCE / min) |
-| ----------- | --------------------- | --------------------------- |
-| Yield Farm  | 47.16%                | 59.82                       |
-| DAO \+ LARI | 43.75%                | 55.49                       |
-| Devcut      | 9.09%                 | 11.53                       |
-| **Total**   | **100.00%**           | **126.84**                  |
+- **V1 and V2 swap fees.** The protocol's 1/6 share of V1 fees, and its configured share of V2 fees, fund SAUCE buybacks via the BrewSaucer contract, distributed between the [Infinity Pool](/protocol/single-sided-staking) and the DAO treasury.
+- **V3 order book fees.** Net taker fees (after maker rebates) also route to BrewSaucer. With V3's launch in June 2026, buyback proceeds additionally fund protocol-owned liquidity, development, and a burn allocation that permanently removes SAUCE from supply. See [V3 fees and rebates](/protocol/saucerswap-v3/fees).
 
-![](/images/tokenomics/masterchef-emissions2.png)
+## Historical appendix: the original (pre-V2) model
 
-### Summary
+<Accordion title="Original genesis tokenomics, superseded August 8, 2023">
+  The original model released 20% of max supply at genesis — categorized at the time as liquidity (2%), airdrops (14%), faucet and giveaways (2%), and DAO treasury (2%) — and emitted the remaining 80% linearly over three years at a constant combined rate of approximately 507.36 SAUCE per minute across vesting and Masterchef streams.
 
-Below is a high-level summary of the updated tokenomics model, which takes into account two key assumptions: (i) the transition to V2 is set for November 15, 2023, and (ii) after the initial bootstrapping phase (epochs 1-4), half of the DAO's share of Masterchef emissions will be directed to LARI.
+  Because Hedera has no block concept, emissions were defined per minute (Hedera maps `block.timestamp` to the transaction consensus timestamp).
 
-| Category         | Number of Tokens | % of Max Supply |
+  | Stream | % of max supply | SAUCE/min |
+  | ------------------- | --------------- | --------- |
+  | Team (vesting) | 24.0% | 152.21 |
+  | Advisor (vesting) | 2.0% | 12.68 |
+  | Marketing (vesting) | 2.0% | 12.68 |
+  | DAO treasury (vesting) | 2.0% | 12.68 |
+  | LP farm rewards (Masterchef) | 50.0% | 317.10 |
+  | **Total** | **80.0%** | **507.36** |
+
+  From genesis to V2 launch, the Masterchef split was 90.91% yield farm / 9.09% devcut at 317.10 SAUCE per minute, implying a three-year runway. The Tokenomics V2 proposal (approved August 8, 2023) reduced Masterchef emissions to 126.84 SAUCE per minute at V2 launch, redirected 43.75% to the DAO and LARI, and extended the runway to about six years.
+</Accordion>
+
+### Projected distribution at full emission
+
+| Category | Tokens | % of max supply |
 | ---------------- | ---------------- | --------------- |
-| Liquidity        | 20.0 million     | 2.00%           |
-| Community        | 140.0 million    | 14.00%          |
-| Marketing        | 40.0 million     | 4.00%           |
-| Operations       | 63.4 million     | 6.34%           |
-| Advisor          | 20.0 million     | 2.00%           |
-| Core Development | 240.0 million    | 24.00%          |
-| Yield Farm       | 353.9 million    | 35.39%          |
-| Devcut           | 49.7 million     | 4.97%           |
-| LARI             | 73.0 million     | 7.30%           |
-| **Total**        | **1.0 billion**  | **100.00%**     |
+| Liquidity | 20.0 million | 2.00% |
+| Community | 140.0 million | 14.00% |
+| Marketing | 40.0 million | 4.00% |
+| Operations | 63.4 million | 6.34% |
+| Advisor | 20.0 million | 2.00% |
+| Core development | 240.0 million | 24.00% |
+| Yield farm | 353.9 million | 35.39% |
+| Devcut | 49.7 million | 4.97% |
+| LARI | 73.0 million | 7.30% |
+| **Total** | **1.0 billion** | **100.00%** |
 
-![](/images/tokenomics/tokenomics-overview.png)
+This projection reflects the Tokenomics V2 schedule and its assumptions; DAO decisions (including the V3-era burn allocation) can alter realized distribution.
 
-![](/images/tokenomics/sauce-release-schedule.png)
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Single-sided staking" icon="layer-group" href="/protocol/single-sided-staking">
+    Where buyback revenue compounds for SAUCE stakers.
+  </Card>
+  <Card title="V3 fees and rebates" icon="percent" href="/protocol/saucerswap-v3/fees">
+    The order book fee flow behind buybacks and burns.
+  </Card>
+  <Card title="Governance" icon="check-to-slot" href="/governance/overview">
+    How the DAO adjusts emissions and treasury flows.
+  </Card>
+  <Card title="LARI weights" icon="scale-balanced" href="/protocol/saucerswap-v2/lari-weights">
+    Current per-epoch reward allocations.
+  </Card>
+</CardGroup>

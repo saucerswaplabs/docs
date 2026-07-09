@@ -1,0 +1,93 @@
+---
+title: "Fetch all pools (V1)"
+description: "Retrieve every SaucerSwap V1 liquidity pool with reserves and token metadata from the SaucerSwap REST API, including the response schema and an example."
+---
+
+SaucerSwap offers a public REST API endpoint to retrieve all liquidity pools, accompanied by useful metadata for each pool, including liquidity pool reserves, and their associated tokens. Use the following URL options to access the data.
+
+The endpoint is `GET /pools` on `https://api.saucerswap.finance` (mainnet) or `https://test-api.saucerswap.finance` (testnet). Requests require an API key; see [Authentication](/api-reference/authentication).
+
+<Note>
+  For SaucerSwap V2 liquidity pools, refer to [Get V2 liquidity pools](/developers/v2/liquidity/fetch-all-pools).
+</Note>
+
+### Data JSON schema
+
+<CodeGroup>
+  ```typescript
+  interface ApiLiquidityPool {
+    id: number;
+    contractId: string;
+    lpToken: ApiLPToken;
+    lpTokenReserve: string; //in smallest unit
+    tokenA: ApiToken;
+    tokenReserveA: string; //in smallest unit
+    tokenB: ApiToken;
+    tokenReserveB: string; //in smallest unit
+  }
+
+  interface ApiLPToken {
+    decimals: number;
+    id: string;
+    name: string;
+    symbol: string;
+    priceUsd: string;
+  }
+
+  interface ApiToken {
+    decimals: number;
+    icon: string | null;
+    id: string;
+    name: string;
+    price: string;
+    priceUsd: number;
+    symbol: string;
+    dueDiligenceComplete: boolean;
+    isFeeOnTransferToken: boolean;
+    description: string | null;
+    website: string | null;
+    sentinelReport: string | null;
+    twitterHandle: string | null;
+    timestampSecondsLastListingChange: number;
+  }
+  ```
+</CodeGroup>
+
+### Code overview
+
+*No gas cost — read-only call.*
+
+<CodeGroup>
+  ```typescript
+  const url = 'https://api.saucerswap.finance/pools/';
+  const response = await axios.get(url);
+  const pools = response.data;
+  for (const pool of pools as ApiLiquidityPool[] ) {
+
+    const symbolA = pool.tokenA.symbol;
+    const symbolB = pool.tokenB.symbol;
+
+    let output = '';
+    output += `Pool id: ${pool.id}`;
+    output += ` - ${pool.contractId} (${symbolA}/${symbolB})`;
+
+    console.log(output);
+  }
+  ```
+</CodeGroup>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Get pool reserves (V1)" href="/developers/v1/liquidity/get-pool-reserves">
+    Read reserves for a single pool on-chain.
+  </Card>
+
+  <Card title="Fetch all pools (V2)" href="/developers/v2/liquidity/fetch-all-pools">
+    The V2 equivalent with fee tiers and ticks.
+  </Card>
+
+  <Card title="API authentication" href="/api-reference/authentication">
+    Get an API key for the REST API.
+  </Card>
+</CardGroup>
