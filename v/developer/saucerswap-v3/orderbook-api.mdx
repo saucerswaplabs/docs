@@ -5,7 +5,7 @@ description: "Programmatic trading guide for SaucerSwap V3 orderbook integration
 
 The SaucerSwap V3 Orderbook API is designed for programmatic trading clients, market makers, wallets, dashboards, analytics surfaces, and other integrations that need order placement, cancellation, account order state, and live orderbook data.
 
-The documentation is public. Protected API calls require wallet authentication, and production users should expect rate and service-protection limits. Teams planning sustained high-volume traffic should contact [support@saucerswap.finance](mailto:support@saucerswap.finance) so we can coordinate limits and support.
+Public market data — the orderbook list, depth snapshots, the trade tape, market quotes, and the EIP-712 signature domain — requires no authentication. Anything that reads per-account data or mutates state requires wallet authentication. Production users should expect rate and service-protection limits. Teams planning sustained high-volume traffic should contact [support@saucerswap.finance](mailto:support@saucerswap.finance) so we can coordinate limits and support.
 
 <Info>
   This API is separate from the legacy SaucerSwap REST API. The legacy REST API uses `x-api-key` authentication. The V3 Orderbook API uses wallet challenge authentication and short-lived JWTs.
@@ -15,9 +15,10 @@ The documentation is public. Protected API calls require wallet authentication, 
 
 | Phase | What your client does | Primary API surface |
 | --- | --- | --- |
+| Discover markets | List orderbooks — no authentication needed | `GET /books` |
+| Read market data | Fetch depth, the trade tape, and market quotes; subscribe to diffs | `GET /depth/:orderbookId`, `GET /trades/:orderbookId`, `GET /books/:id/quote/exact-input`, `/ws/depth` |
 | Authenticate | Sign a challenge with the trading account | `POST /auth/challenge`, `POST /auth/verify` |
-| Discover markets | List orderbooks, fees, and onboarding status | `GET /books`, `GET /fees/:orderbookId`, `GET /onboarding/:orderbookId/status` |
-| Read market data | Fetch a depth snapshot and subscribe to diffs | `GET /depth/:orderbookId`, `/ws/depth` |
+| Check account state | Fees and onboarding status for the account | `GET /fees/:orderbookId`, `GET /onboarding/:orderbookId/status` |
 | Place orders | Build, sign, and save orders | `GET /signature/domain`, `POST /orders/build`, `POST /orders/save` |
 | Reconcile | Track order events and recover state after reconnects | `/ws/user-events`, `GET /orders`, `GET /orders/:orderId/history` |
 | Cancel | Request cancellation or submit on-chain cancellation | `POST /cancel`, `POST /cancel/all`, reactor cancellation |
@@ -35,13 +36,18 @@ WebSocket streams use the same host with the `wss://` scheme.
 
 ## Authentication
 
-All protected endpoints require a JWT issued by the `/auth` flow. Attach the JWT to REST calls with:
+Endpoints split into two groups:
+
+- **Public (no JWT):** `GET /books`, `GET /depth/:orderbookId`, `GET /trades/:orderbookId`, `GET /books/:id/quote/exact-input`, `GET /books/:id/quote/exact-output`, and `GET /signature/domain`. Call these without authenticating.
+- **Authenticated (JWT required):** fee rates, onboarding status, order listing and history, build/save/cancel, and both WebSocket streams — everything scoped to an account or mutating state.
+
+Protected endpoints require a JWT issued by the `/auth` flow. Attach the JWT to REST calls with:
 
 ```http
 Authorization: Bearer <token>
 ```
 
-The challenge and verify endpoints are the only unauthenticated calls:
+The authentication flow:
 
 | Step | Endpoint | Purpose |
 | --- | --- | --- |
@@ -91,21 +97,28 @@ JWTs are short-lived. Re-authenticate before a long-running session expires or w
 
 ## Endpoint Summary
 
-| Category | Endpoint | Description |
-| --- | --- | --- |
-| Markets | `GET /books` | List available orderbooks |
-| Market data | `GET /depth/:orderbookId` | Fetch a full depth snapshot |
-| Fees | `GET /fees/:orderbookId?side=maker` | Fetch fee rates for an orderbook side |
-| Onboarding | `GET /onboarding/:orderbookId/status` | Check whether the account can trade a market |
-| Orders | `GET /orders` | List authenticated account orders |
-| Orders | `GET /orders/:orderId/history` | Fetch per-order event history |
-| Signing | `GET /signature/domain` | Fetch the EIP-712 domain for the active environment |
-| Placement | `POST /orders/build` | Build unsigned orders with server-assigned nonces |
-| Placement | `POST /orders/save` | Submit signed orders |
-| Cancellation | `POST /cancel` | Request cancellation for specific order IDs |
-| Cancellation | `POST /cancel/all` | Emergency cancel by nonce floor |
-| WebSocket | `/ws/depth` | Subscribe to live orderbook depth diffs |
-| WebSocket | `/ws/user-events` | Subscribe to authenticated order events |
+| Category | Endpoint | Auth | Description |
+| --- | --- | --- | --- |
+| Markets | `GET /books` | Public | List available orderbooks |
+| Market data | `GET /depth/:orderbookId` | Public | Fetch a full depth snapshot |
+| Market data | `GET /trades/:orderbookId` | Public | Recent fills (the public trade tape) |
+| Quotes | `GET /books/:id/quote/exact-input` | Public | Simulate a market order from the spend side |
+| Quotes | `GET /books/:id/quote/exact-output` | Public | Simulate a market order from the receive side |
+| Signing | `GET /signature/domain` | Public | Fetch the EIP-712 domain for the active environment |
+| Fees | `GET /fees/:orderbookId?side=maker` | JWT | Fetch fee rates for an orderbook side, in pips (1e-6) |
+| Onboarding | `GET /onboarding/:orderbookId/status` | JWT | Check whether the account can trade a market |
+| Orders | `GET /orders` | JWT | List authenticated account orders |
+| Orders | `GET /orders/:orderId/history` | JWT | Fetch per-order event history |
+| Placement | `POST /orders/build` | JWT | Build unsigned orders with server-assigned nonces |
+| Placement | `POST /orders/save` | JWT | Submit signed orders |
+| Cancellation | `POST /cancel` | JWT | Request cancellation for specific order IDs |
+| Cancellation | `POST /cancel/all` | JWT | Emergency cancel by nonce floor |
+| WebSocket | `/ws/depth` | JWT | Subscribe to live orderbook depth diffs |
+| WebSocket | `/ws/user-events` | JWT | Subscribe to authenticated order events |
+
+<Info>
+  Fee rates are expressed in **pips** (1 pip = 1e-6 = 0.0001%), matching the `takerFeePips` / `makerFeePips` / `capFractionPips` field names. They are not basis points.
+</Info>
 
 ## Market Discovery
 
@@ -136,7 +149,98 @@ Additional price, volume, and timestamp fields may also be present.
 
 Use the returned EVM token addresses for `inputToken` and `outputToken` when building orders. Use `baseTokenDecimals` and `quoteTokenDecimals` when converting between human-readable display amounts and raw token amounts. Keep the build, sign, and save path on raw token units. If `isAMMEnabled` is `true`, AMM liquidity can be routed into that book when an order request also opts into AMM-backed settlement.
 
+## Trade Tape
+
+`GET /trades/:orderbookId` returns recent fills for a single market, most-recent first by default. It is public, market-wide data — not scoped to any account.
+
+```text
+GET /trades/3?sort=desc&page=1&limit=50
+```
+
+| Query param | Type | Default | Description |
+| --- | --- | --- | --- |
+| `sort` | `'asc' \| 'desc'` | `desc` | Order fills by time |
+| `page` | number | `1` | 1-indexed page number |
+| `limit` | number | `10` | Page size |
+
+```typescript
+interface RecentTradesResult {
+  orderbookId: string
+  timestamp: number // server time of the response
+  trades: Trade[]
+  total: number
+  page: number
+  limit: number
+}
+
+interface Trade {
+  timestamp: number
+  price: string // human-readable quote-per-base price
+  amountBase: string // human-readable base token amount, already decimals-adjusted (e.g. "125.5" HBAR — NOT raw smallest units)
+  direction: string // 'buy' | 'sell' (taker side)
+  transactionHash: string
+}
+```
+
+An invalid `sort`, or a negative `page` or `limit`, returns `400` (zero and non-numeric values fall back to the defaults). Responses are served from a short-lived cache of recent fills, so poll rather than hammer.
+
+## Market Quotes
+
+Simulate a market order against the current book before building it. Both endpoints are public; authentication is optional — anonymous callers get a lightly-cached quote, an authenticated caller gets a fresh one. The `suggested*` amount each returns is safe to pass directly into a subsequent `POST /orders/build` request.
+
+**Exact input** — you specify what you spend, the response tells you what to expect to receive:
+
+```text
+GET /books/3/quote/exact-input?inputToken=0x...&inputAmount=1000000
+```
+
+| Query param | Type | Required | Description |
+| --- | --- | --- | --- |
+| `inputToken` | string | Yes | EVM address of the token being spent |
+| `inputAmount` | string | Yes | Raw token units (integer string) to spend |
+
+```typescript
+interface ExactInputQuoteResult {
+  outputToken: string
+  snappedInputAmount: string    // input floored to the lot/size grid (submit THIS)
+  consumedInputAmount: string   // how much of snappedInputAmount the book absorbed
+  expectedOutputAmount: string  // raw expected fill, no slippage
+  suggestedOutputAmount: string // use as outputAmount in POST /orders/build
+  slippageBps: number           // the applied slippage buffer (a fixed server-side tolerance), not a market-impact prediction
+  fillable: boolean             // false when no liquidity exists at all
+}
+```
+
+**Exact output** — you specify the receive side, the response returns the input required, with slippage applied upward as a safe ceiling:
+
+```text
+GET /books/3/quote/exact-output?outputToken=0x...&outputAmount=500000
+```
+
+| Query param | Type | Required | Description |
+| --- | --- | --- | --- |
+| `outputToken` | string | Yes | EVM address of the token to receive |
+| `outputAmount` | string | Yes | Raw token units (integer string) to receive |
+
+```typescript
+interface ExactOutputQuoteResult {
+  inputToken: string
+  requestedOutputAmount: string // echo of what was asked
+  snappedOutputAmount: string   // what you'll actually get (= requested when on-grid)
+  expectedInputAmount: string   // raw cost, no slippage
+  suggestedInputAmount: string  // bumped UP by slippage — use as inputAmount in POST /orders/build
+  slippageBps: number           // the applied slippage buffer (a fixed server-side tolerance), not a market-impact prediction
+  fillable: boolean             // false when book depth < outputAmount
+}
+```
+
+A missing required query param, or an unknown orderbook, returns `400`.
+
 ## Place Orders
+
+<Info>
+  The web app requires users to accept in-app legal terms before creating orders. The API does not — programmatic consumers are governed by the separate API terms of service, and `POST /orders/save` bypasses the in-app acceptance gate. There is no legal-acceptance call to make before placing orders through the API.
+</Info>
 
 Order placement is a build, sign, save flow:
 
