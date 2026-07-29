@@ -59,14 +59,14 @@ The `client` calls in the examples below use the wrapper surface described in th
     | `inputToken` | `string` | Yes | EVM address of the token being sold |
     | `inputAmount` | `string` | Yes | Raw token amount, in smallest units |
     | `outputToken` | `string` | Yes | EVM address of the token being bought |
-    | `outputAmount` | `string` | Yes | Minimum raw output amount. Use `"1"` for market orders. |
+    | `outputAmount` | `string` | Yes | Minimum raw output amount. For an exact-input market order, use the quote's `suggestedOutputAmount`. For an exact-output order, use `snappedOutputAmount` and set `inputAmount` to `suggestedInputAmount`. |
     | `recipient` | `string` | No | Output recipient EVM address |
     | `makerOnly` | `boolean` | No | Restrict order to maker fills |
     | `takerOnce` | `boolean` | No | Allow only one taker fill |
     | `isAMMEnabled` | `boolean` | No | Permit AMM-backed settlement |
 
     <Warning>
-      Keep all integer quantities as strings. Do not cast nonces, deadlines, or raw token amounts to JavaScript numbers before signing.
+      Quote the current book immediately before building a market order and do not submit an unfillable quote. Never use `"1"` as a market order's `outputAmount`: that removes practical price protection from the signed order. Keep all integer quantities as strings, and do not cast nonces, deadlines, or raw token amounts to JavaScript numbers before signing. See [Market quotes](/api-reference/orderbook/market-data#market-quotes).
     </Warning>
   </Step>
   <Step title="Sign orders">

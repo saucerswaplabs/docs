@@ -29,9 +29,14 @@ for (const route of uiRoutes) {
       }
       if (route.name === 'routing') {
         await expect(page.getByText('Split route.', { exact: true })).toBeVisible();
+        await expect(page.getByText('final election 6296', { exact: false })).toBeVisible();
         const v3Link = page.locator('main a[href="/protocol/saucerswap-v3"]').first();
         await expect(v3Link).toBeVisible();
         await expect(v3Link).toHaveAttribute('href', '/protocol/saucerswap-v3');
+      }
+      if (route.name === 'orderbook-orders') {
+        await expect(page.getByText('Never use "1"', { exact: false })).toBeVisible();
+        await expect(page.getByText('suggestedOutputAmount', { exact: true }).first()).toBeVisible();
       }
 
       const horizontalOverflow = await page.evaluate(() => {

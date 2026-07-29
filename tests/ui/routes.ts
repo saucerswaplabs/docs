@@ -17,5 +17,6 @@ export const uiRoutes: UiRoute[] = [
   { name: 'wallet', path: '/get-started/wallet', heading: 'Create a Hedera wallet' },
   { name: 'contracts', path: '/developers/contracts', heading: 'Contract deployments' },
   { name: 'for-projects', path: '/resources/for-projects', heading: 'For projects: list your token' },
+  { name: 'orderbook-orders', path: '/api-reference/orderbook/orders', heading: 'Orderbook API orders' },
   { name: 'roadmap', path: '/roadmap', heading: 'Roadmap' },
 ];

@@ -9,9 +9,9 @@ V3 charges fees on order book fills. Fees are set per market and per side (maker
   V3 fee rates are expressed in pips, where 1 pip = 1e-6 = 0.0001%. They are not basis points: 1 basis point = 100 pips. The API field names — `takerFeePips`, `makerFeePips`, `capFractionPips` — make the unit explicit. Misreading pips as basis points overstates fees by 100x.
 </Warning>
 
-## Ratified baseline and live rates
+## Launch baseline and live rates
 
-[V3 Launch Economics, thread 368](https://gov.saucerswap.finance/t/v3-launch-economics/368), proposal 6123, and final passing election 6141 ratified this public baseline:
+[V3 Launch Economics, thread 368](https://gov.saucerswap.finance/t/v3-launch-economics/368), proposal 6123, and final passing election 6141 ratified this public launch baseline:
 
 | Market class | Taker | Maker |
 | --- | --: | --: |
@@ -29,7 +29,7 @@ Market and account configuration can differ from this baseline. Read the effecti
 See the [Orderbook API reference](/api-reference/orderbook/overview) for authentication and endpoint details.
 
 <Info>
-  Checked July 29, 2026: the five public mainnet books reported the ratified 12/6 bps taker schedule, while every public `makerFeePips` field reported `0`. The negative maker rates above are ratified policy, but a rebate is not proven active for a specific account unless its authenticated fee response or order preview shows it.
+  [Thread 385](https://gov.saucerswap.finance/t/v3-order-book-calibration-contract-migration-market-set-and-fee-configuration/385), proposal 6285, and final election 6296 ratified a later order-book recalibration on July 22, 2026, but that configuration is not verified as deployed. Checked July 29, 2026: the five public mainnet books still reported the 12/6 bps launch taker schedule, while every public `makerFeePips` field reported `0`. A rebate is not proven active for a specific account unless its authenticated fee response or order preview shows it.
 </Info>
 
 ## Takers pay, makers may earn
