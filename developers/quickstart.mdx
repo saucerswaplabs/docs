@@ -1,0 +1,226 @@
+---
+title: "Developer quickstart"
+description: "Make your first SaucerSwap API calls in minutes: fetch token data and pools from the REST API and get a live on-chain swap quote from QuoterV2."
+---
+
+This quickstart walks the shortest useful path: read token data, list pools, then fetch a real swap quote. The first two calls use the REST data API; the quote runs against the on-chain QuoterV2 contract through Hedera's public mirror node, which needs no key at all.
+
+Prerequisites:
+
+- A SaucerSwap [API key](/api-reference/authentication) for the REST calls (the quote step works without one)
+- `curl`, or Node.js 18+, or Python 3 with `requests`
+
+<Steps>
+  <Step title="Get an API key">
+    The REST data API authenticates with an `x-api-key` header. Request a key by emailing [support@saucerswap.finance](mailto:support@saucerswap.finance) — see [Authentication](/api-reference/authentication) for what to include and what to expect. Substitute your key for `YOUR_API_KEY` below.
+  </Step>
+
+  <Step title="Fetch token data">
+    Fetch the SAUCE token (`0.0.731861`) with all of its market metadata:
+
+    <CodeGroup>
+    ```bash cURL
+    curl -H "x-api-key: YOUR_API_KEY" \
+      "https://api.saucerswap.finance/tokens/0.0.731861"
+    ```
+
+    ```javascript JavaScript
+    const res = await fetch('https://api.saucerswap.finance/tokens/0.0.731861', {
+      headers: { 'x-api-key': process.env.SAUCERSWAP_API_KEY },
+    });
+    const token = await res.json();
+    console.log(token.symbol, token.priceUsd);
+    ```
+
+    ```python Python
+    import os, requests
+
+    res = requests.get(
+        "https://api.saucerswap.finance/tokens/0.0.731861",
+        headers={"x-api-key": os.environ["SAUCERSWAP_API_KEY"]},
+    )
+    token = res.json()
+    print(token["symbol"], token["priceUsd"])
+    ```
+    </CodeGroup>
+
+    Representative response (field values from the [OpenAPI specification](/api-reference/overview); live prices will differ):
+
+    ```json Output
+    {
+      "id": "0.0.731861",
+      "name": "SAUCE",
+      "symbol": "SAUCE",
+      "icon": "/images/tokens/sauce.svg",
+      "decimals": 6,
+      "price": "36806544",
+      "priceUsd": 0.01763457,
+      "dueDiligenceComplete": true,
+      "isFeeOnTransferToken": false,
+      "description": "SaucerSwap is an open source and non-custodial AMM protocol native to Hedera.",
+      "website": "https://www.saucerswap.finance/",
+      "twitterHandle": "SaucerSwapLabs"
+    }
+    ```
+
+    <Note>
+      `price` is denominated in tinybar (1 HBAR = 100,000,000 tinybar), and amounts are strings in the token's smallest unit. See [Conventions](/api-reference/conventions).
+    </Note>
+  </Step>
+
+  <Step title="List liquidity pools">
+    List every V2 concentrated liquidity pool, including fee tier and current tick:
+
+    <CodeGroup>
+    ```bash cURL
+    curl -H "x-api-key: YOUR_API_KEY" \
+      "https://api.saucerswap.finance/v2/pools"
+    ```
+
+    ```javascript JavaScript
+    const res = await fetch('https://api.saucerswap.finance/v2/pools', {
+      headers: { 'x-api-key': process.env.SAUCERSWAP_API_KEY },
+    });
+    const pools = await res.json();
+    for (const p of pools) {
+      console.log(`${p.tokenA.symbol}/${p.tokenB.symbol} @ ${p.fee / 10_000}%`);
+    }
+    ```
+
+    ```python Python
+    import os, requests
+
+    res = requests.get(
+        "https://api.saucerswap.finance/v2/pools",
+        headers={"x-api-key": os.environ["SAUCERSWAP_API_KEY"]},
+    )
+    for p in res.json():
+        print(f"{p['tokenA']['symbol']}/{p['tokenB']['symbol']} @ {p['fee'] / 10_000}%")
+    ```
+    </CodeGroup>
+
+    Representative response (one array element, from the OpenAPI specification):
+
+    ```json Output
+    [
+      {
+        "id": 1,
+        "contractId": "0.0.3948521",
+        "tokenA": { "id": "0.0.456858", "symbol": "USDC", "decimals": 6 },
+        "tokenB": { "id": "0.0.1055459", "symbol": "USDC[hts]", "decimals": 6 },
+        "amountA": "6313040",
+        "amountB": "6313042",
+        "fee": 500,
+        "sqrtRatioX96": "79228162514992909706099547250",
+        "tickCurrent": 0,
+        "liquidity": "10878982596"
+      }
+    ]
+    ```
+  </Step>
+
+  <Step title="Get a live swap quote">
+    Quotes come from the on-chain `QuoterV2` contract ([`0.0.3949424`](https://hashscan.io/mainnet/contract/0.0.3949424)) and cost nothing: Hedera's public mirror node simulates the call. This example quotes 100 HBAR into SAUCE through the WHBAR/SAUCE 0.30% pool. No API key is required.
+
+    <CodeGroup>
+    ```bash cURL
+    # calldata = quoteExactInput(path, amountIn)
+    # path     = WHBAR (0.0.1456986) + fee 0x000bb8 (0.30%) + SAUCE (0.0.731861)
+    # amountIn = 10000000000 tinybar (100 HBAR)
+    curl -X POST "https://mainnet.mirrornode.hedera.com/api/v1/contracts/call" \
+      -H "content-type: application/json" \
+      -d '{
+        "block": "latest",
+        "to": "0x00000000000000000000000000000000003c4370",
+        "data": "0xcdca1753000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000002540be400000000000000000000000000000000000000000000000000000000000000002b0000000000000000000000000000000000163b5a000bb800000000000000000000000000000000000b2ad5000000000000000000000000000000000000000000"
+      }'
+    ```
+
+    ```javascript JavaScript
+    import * as ethers from 'ethers'; // v6
+
+    const iface = new ethers.Interface([
+      'function quoteExactInput(bytes path, uint256 amountIn) returns (uint256 amountOut, uint160[] sqrtPriceX96AfterList, uint32[] initializedTicksCrossedList, uint256 gasEstimate)',
+    ]);
+
+    const WHBAR = '0x0000000000000000000000000000000000163b5a'; // 0.0.1456986
+    const SAUCE = '0x00000000000000000000000000000000000b2ad5'; // 0.0.731861
+    const path = WHBAR + '000bb8' + SAUCE.slice(2); // 0.30% fee tier
+
+    const data = iface.encodeFunctionData('quoteExactInput', [path, 10_000_000_000n]);
+
+    const res = await fetch('https://mainnet.mirrornode.hedera.com/api/v1/contracts/call', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        block: 'latest',
+        to: '0x00000000000000000000000000000000003c4370', // QuoterV2 0.0.3949424
+        data,
+      }),
+    });
+    const { result } = await res.json();
+    const [amountOut] = iface.decodeFunctionResult('quoteExactInput', result);
+    console.log(`100 HBAR -> ${Number(amountOut) / 1e6} SAUCE`);
+    ```
+
+    ```python Python
+    import requests
+
+    # calldata for quoteExactInput(WHBAR -> 0.30% -> SAUCE, 100 HBAR)
+    CALLDATA = (
+        "0xcdca1753"
+        "0000000000000000000000000000000000000000000000000000000000000040"
+        "00000000000000000000000000000000000000000000000000000002540be400"
+        "000000000000000000000000000000000000000000000000000000000000002b"
+        "0000000000000000000000000000000000163b5a000bb80000000000000000"
+        "0000000000000000000b2ad5000000000000000000000000000000000000000000"
+    )
+
+    res = requests.post(
+        "https://mainnet.mirrornode.hedera.com/api/v1/contracts/call",
+        json={
+            "block": "latest",
+            "to": "0x00000000000000000000000000000000003c4370",  # QuoterV2
+            "data": CALLDATA,
+        },
+    )
+    amount_out = int(res.json()["result"][2:66], 16)
+    print(f"100 HBAR -> {amount_out / 1e6} SAUCE")
+    ```
+    </CodeGroup>
+
+    Live response captured on July 9, 2026 (the first 32-byte word is `amountOut`):
+
+    ```json Output
+    {
+      "result": "0x000000000000000000000000000000000000000000000000000000001e4372b0..."
+    }
+    ```
+
+    Decoded, `amountOut` is `507736752` — with 6 decimals, 100 HBAR quoted to ≈507.74 SAUCE at capture time. Your numbers will track the live pool price.
+  </Step>
+</Steps>
+
+## Where to go from here
+
+The quote you just fetched is the first half of a swap: pass it as the minimum output when you [execute the swap through the SwapRouter](/developers/v2/swap/swap-hbar-for-tokens). For V3 order book quotes, the [Orderbook API](/api-reference/orderbook/market-data) exposes public `quote/exact-input` and `quote/exact-output` endpoints per market.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Swap HBAR for tokens (V2)" href="/developers/v2/swap/swap-hbar-for-tokens">
+    Turn the quote into an executed swap.
+  </Card>
+
+  <Card title="API reference" href="/api-reference/overview">
+    Every REST and Orderbook API endpoint.
+  </Card>
+
+  <Card title="Orderbook API" href="/api-reference/orderbook/overview">
+    Trade the V3 order book programmatically.
+  </Card>
+
+  <Card title="Contract deployments" href="/developers/contracts">
+    All contract and token IDs used above.
+  </Card>
+</CardGroup>

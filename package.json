@@ -1,0 +1,14 @@
+{
+  "name": "saucerswap-docs",
+  "private": true,
+  "scripts": {
+    "dev": "npx --yes mint@4.2.754 dev --port 3333",
+    "validate": "node _build/validate.mjs",
+    "test:ui": "playwright test tests/ui --project=chromium-desktop --project=chromium-mobile",
+    "test:ui:report": "playwright show-report playwright-report/ui-qc"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@playwright/test": "1.62.0"
+  }
+}

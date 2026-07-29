@@ -1,0 +1,68 @@
+---
+title: "V3 fees and rebates"
+description: "How SaucerSwap V3 order book fees work: taker fees and maker rebates in pips, xSAUCE fee discounts, fee caps, and the BrewSaucer buyback flow."
+---
+
+V3 charges fees on order book fills. Fees are set per market and per side (maker or taker), can differ by account, and are designed so that takers fund the system: maker rebates, where active, are paid out of taker fees rather than token emissions.
+
+<Warning>
+  V3 fee rates are expressed in pips, where 1 pip = 1e-6 = 0.0001%. They are not basis points: 1 basis point = 100 pips. The API field names — `takerFeePips`, `makerFeePips`, `capFractionPips` — make the unit explicit. Misreading pips as basis points overstates fees by 100x.
+</Warning>
+
+## Ratified baseline and live rates
+
+[V3 Launch Economics, thread 368](https://gov.saucerswap.finance/t/v3-launch-economics/368), proposal 6123, and final passing election 6141 ratified this public baseline:
+
+| Market class | Taker | Maker |
+| --- | --: | --: |
+| Non-stable markets | 12 bps (`1,200` pips) | -0.20 bps (`-20` pips) rebate |
+| Stable–stable markets | 6 bps (`600` pips) | -0.05 bps (`-5` pips) rebate |
+
+Market and account configuration can differ from this baseline. Read the effective values live:
+
+| Surface | What it shows |
+| --- | --- |
+| `GET /books` | Public per-market baseline fields, including `takerFeePips` and `makerFeePips` |
+| Trade page order preview | The fee applied to your order before you sign it |
+| `GET /fees/:orderbookId?side=maker` (or `taker`) | Your account's fee rates for a market, in pips (requires wallet authentication) |
+
+See the [Orderbook API reference](/api-reference/orderbook/overview) for authentication and endpoint details.
+
+<Info>
+  Checked July 29, 2026: the five public mainnet books reported the ratified 12/6 bps taker schedule, while every public `makerFeePips` field reported `0`. The negative maker rates above are ratified policy, but a rebate is not proven active for a specific account unless its authenticated fee response or order preview shows it.
+</Info>
+
+## Takers pay, makers may earn
+
+- **Taker fees.** Orders that remove liquidity from the book pay the market's effective taker fee on the filled amount.
+- **Maker fees and rebates.** A negative maker fee is a rebate funded from taker fees. The effective maker value may be zero or account-specific, so verify it before placing an order.
+- **Fee caps.** Markets carry a fee-cap parameter (`capFractionPips`) that bounds the fee actually charged on a fill. The fee you sign against is the most you pay.
+
+<Note>
+  Per the [terms of service](/legal/terms-of-service), market-maker, API, and enterprise participants may operate under separate written programs with different fee tiers, rebates, or limits. Public docs describe the public schedule only; see [Market makers](/resources/market-makers) for the onboarding path.
+</Note>
+
+## xSAUCE fee discounts
+
+Holding xSAUCE (staked SAUCE) earns tiered multipliers on a market's baseline fee schedule: positive fees are reduced, and negative maker rebates are increased. Current tiers and thresholds are shown in the web app; your effective rates always come from the fees endpoint or the order preview. To stake, see [Single-sided staking](/protocol/single-sided-staking).
+
+## Where fees go
+
+Net order book fees — taker fees collected minus maker rebates paid — fund SAUCE buybacks through BrewSaucer. Under election 6141, V3 buyback proceeds are allocated 30% to xSAUCE, 60% to Development, and 10% to burn; the POL and incentive-reserve allocation is 0%. See [SAUCE tokenomics](/tokenomics/overview) for the source-specific matrix.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="SaucerSwap V3" icon="book-open" href="/protocol/saucerswap-v3">
+    How the order book matches and settles trades.
+  </Card>
+  <Card title="Stake for fee discounts" icon="layer-group" href="/protocol/single-sided-staking">
+    Convert SAUCE to xSAUCE and lower your trading fees.
+  </Card>
+  <Card title="Orderbook API" icon="code" href="/api-reference/orderbook/overview">
+    Query your live fee rates programmatically.
+  </Card>
+  <Card title="Market makers" icon="handshake" href="/resources/market-makers">
+    Onboarding for professional liquidity providers.
+  </Card>
+</CardGroup>

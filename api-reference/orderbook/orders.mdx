@@ -1,0 +1,158 @@
+---
+title: "Orderbook API orders"
+description: "Place and cancel SaucerSwap V3 orders: fetch the EIP-712 domain, build orders, sign with the mode-byte prefix, save them, and confirm cancellations."
+---
+
+Order placement is a build, sign, save flow against the reactor contract's EIP-712 domain. Cancellation is asynchronous and confirmed through order events, with the on-chain reactor as the source of truth.
+
+Prerequisites:
+
+- A valid JWT — see [authentication](/api-reference/orderbook/authentication)
+- Token EVM addresses and decimals for your market from `GET /books` — see [market discovery](/api-reference/orderbook/market-data#market-discovery)
+
+<Note>
+  Programmatic order placement is governed by the separate API terms of service, not the web app's in-app acceptance gate — see [legal terms](/api-reference/orderbook/overview#legal-terms).
+</Note>
+
+The `client` calls in the examples below use the wrapper surface described in the [TypeScript bot client](/developers/orderbook/typescript-client); you can also call the REST endpoints directly.
+
+## Place orders
+
+<Steps>
+  <Step title="Fetch the domain">
+    The signing domain is environment-specific. Fetch it once with `GET /signature/domain` and cache it for the session.
+
+    ```typescript
+    const domain = await client.getDomain()
+    // { name, version, chainId, verifyingContract }
+    ```
+
+    `verifyingContract` is the reactor contract address used for signatures, and `chainId` identifies the Hedera network.
+  </Step>
+  <Step title="Build orders">
+    Build orders with `POST /orders/build`:
+
+    ```typescript
+    const orders = await client.buildOrders([
+      {
+        orderbookId: '3',
+        type: 'LIMIT',
+        deadline: String(Math.floor(Date.now() / 1000) + 3600),
+        inputToken: '0xbase-token-evm-address',
+        inputAmount: '1000000',
+        outputToken: '0xquote-token-evm-address',
+        outputAmount: '950000',
+        makerOnly: false,
+        takerOnce: false,
+        isAMMEnabled: true,
+      },
+    ])
+    ```
+
+    The server assigns each order nonce and returns the serialized order struct to sign. Always sign the returned order object, not your original request object.
+
+    | Field | Type | Required | Description |
+    | --- | --- | --- | --- |
+    | `orderbookId` | `string` | Yes | Market ID |
+    | `type` | `LIMIT` or `MARKET` | Yes | Order type |
+    | `deadline` | `string` | LIMIT only | Unix timestamp in seconds. Omit for market orders. |
+    | `inputToken` | `string` | Yes | EVM address of the token being sold |
+    | `inputAmount` | `string` | Yes | Raw token amount, in smallest units |
+    | `outputToken` | `string` | Yes | EVM address of the token being bought |
+    | `outputAmount` | `string` | Yes | Minimum raw output amount. Use `"1"` for market orders. |
+    | `recipient` | `string` | No | Output recipient EVM address |
+    | `makerOnly` | `boolean` | No | Restrict order to maker fills |
+    | `takerOnce` | `boolean` | No | Allow only one taker fill |
+    | `isAMMEnabled` | `boolean` | No | Permit AMM-backed settlement |
+
+    <Warning>
+      Keep all integer quantities as strings. Do not cast nonces, deadlines, or raw token amounts to JavaScript numbers before signing.
+    </Warning>
+  </Step>
+  <Step title="Sign orders">
+    Sign only the EIP-712 order fields. Exclude metadata returned by the API.
+
+    The signature wire format starts with a one-byte mode prefix:
+
+    | Prefix | Mode | Typical use |
+    | --- | --- | --- |
+    | `0x00` | EIP-712 | ECDSA bot clients and ED25519 bot clients signing the EIP-712 hash |
+    | `0x01` | Hedera personal sign | Wallet flows that return a HIP-632 `SignatureMap` for a HIP-820 Hedera personal-sign payload |
+
+    Do not strip the prefix. The reactor and backend use the prefix to choose the verifier.
+
+    ```typescript
+    const signature = await client.signOrder(orders[0], privateKey, domain)
+    ```
+
+    For concrete `ECDSA_SECP256K1` and `ED25519` signing steps, see the [TypeScript bot client signing behavior](/developers/orderbook/typescript-client#signing-behavior).
+  </Step>
+  <Step title="Save orders">
+    Submit signed orders with `POST /orders/save`:
+
+    ```typescript
+    const { orders: saved } = await client.saveOrders([
+      {
+        order: orders[0],
+        signature,
+        orderbookId: '3',
+        type: 'LIMIT',
+      },
+    ])
+    ```
+
+    The response returns an `orders` array with saved order objects and `meta.status` populated. If `ocoLinks` were supplied, the response may also include an `oco` block with link status.
+  </Step>
+</Steps>
+
+## OCO orders
+
+`POST /orders/save` also supports optional one-cancels-the-other (OCO) metadata through `ocoLinks`. OCO links are server-side transport metadata; they are not included in the EIP-712 digest and are not submitted to the reactor.
+
+Each link pairs two items in the same save request:
+
+```json
+{
+  "items": [
+    { "order": {}, "signature": "0x...", "orderbookId": "3", "type": "LIMIT" },
+    { "order": {}, "signature": "0x...", "orderbookId": "3", "type": "LIMIT" }
+  ],
+  "ocoLinks": [
+    { "a": 0, "b": 1 }
+  ]
+}
+```
+
+OCO pairs must share the same `orderbookId` and swapper, and currently only `LIMIT` orders are supported in OCO pairs.
+
+## Cancellations
+
+Cancellation endpoints are asynchronous. A `202 Accepted` response means the cancellation request was accepted; it does not mean the order is already canceled.
+
+Use the [user-event WebSocket](/api-reference/orderbook/websockets#user-events) or `GET /orders/:orderId/history` to confirm the final `ORDER_CANCELED` event.
+
+`POST /cancel` accepts up to 500 order IDs per request. Split larger cancellation batches into multiple requests and reconcile each accepted order through the user-event stream or order history.
+
+| Endpoint | Description |
+| --- | --- |
+| `POST /cancel` | Request cancellation for one or more order IDs |
+| `POST /cancel/all` | Emergency cancel by nonce floor |
+
+The on-chain reactor remains the source of truth. Advanced clients can also submit on-chain cancellations directly to the reactor, then rely on indexer reconciliation.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="WebSockets" icon="tower-broadcast" href="/api-reference/orderbook/websockets">
+    Track fills and cancellation finality on the user-event stream.
+  </Card>
+  <Card title="Limits and errors" icon="triangle-exclamation" href="/api-reference/orderbook/limits-and-errors">
+    Check order deadline bounds, batch size caps, and the production checklist.
+  </Card>
+  <Card title="TypeScript bot client" icon="code" href="/developers/orderbook/typescript-client">
+    See the full flow — authenticate, build, sign, save, cancel — as working code.
+  </Card>
+  <Card title="Market data" icon="chart-line" href="/api-reference/orderbook/market-data">
+    Quote a market order first and feed the suggested amounts into the build call.
+  </Card>
+</CardGroup>

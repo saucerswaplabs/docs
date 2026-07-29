@@ -1,0 +1,88 @@
+---
+title: "Bug bounty"
+description: "SaucerSwap bug bounty program: scope, severity-based rewards, disclosure process, and eligibility rules for responsibly reporting vulnerabilities."
+---
+
+Security is a top priority for SaucerSwap. To encourage responsible disclosure of vulnerabilities, we offer a bug bounty program with financial rewards based on the severity of the identified issues.
+
+## Scope
+
+- SaucerSwap [testnet contracts](/developers/contracts#hedera-testnet) and [GitHub repositories](https://github.com/saucerswaplabs)
+- SaucerSwap [testnet interface](https://testnet.saucerswap.finance/)
+- SaucerSwap Mobile App (iOS and Android)
+
+The following are not within the scope of the program:
+
+- SaucerSwap mainnet contracts and production environment (testing restricted to testnet, which mirrors mainnet)
+- Third-party contracts not directly associated with SaucerSwap
+- Known issues from previous audit and bug bounty reports
+- Third-party applications using SaucerSwap contracts
+- Any findings that rely on Denial of Service (DoS) or Distributed Denial of Service (DDoS)
+- Phishing, social engineering, or attacks requiring collusion from SaucerSwap staff or third-party support
+- Physical access, stolen/unlocked devices, SIM-swap, device-level malware, or OS/kernel exploits unrelated to the app
+- Repackaged or modified app builds, emulator-only issues, or jailbreak-only read-only file access (unless chained to unauthorized signing, in which case it is evaluated under High)
+- Vulnerabilities in third-party libraries without demonstrable impact on SaucerSwap Mobile
+
+## Rewards
+
+The program includes the following four-level severity scale, based on the [OWASP risk rating methodology](https://owasp.org/www-community/OWASP_Risk_Rating_Methodology).
+
+| Severity | Definition |
+| --- | --- |
+| Critical | Issues that could impact numerous users and have serious reputational, legal, or financial implications, such as locking contracts permanently or taking funds from all users. |
+| High | Issues that impact individual users where exploitation would pose reputational, legal, or moderate financial risk to the user. |
+| Medium | The risk is relatively small and does not pose a threat to user funds. |
+| Informational | The issue does not pose an immediate risk but is relevant to security best practices. |
+
+SaucerSwap Labs will determine rewards based on the bug's severity and its potential for exploitation. Rewards may be disbursed in U.S. dollars, cryptocurrency, or a mix of both.
+
+## Disclosure
+
+Report vulnerabilities to [dev@saucerswap.finance](mailto:dev@saucerswap.finance). An acknowledgment will be sent within two to three business days. Do not disclose the bug publicly until it is resolved and permitted by SaucerSwap Labs.
+
+A detailed report of a vulnerability increases the likelihood of a reward and may increase the reward amount. Please provide as much information about the vulnerability as possible, including:
+
+- Conditions required for reproducing the bug
+- Step-by-step guide or proof of concept for reproduction
+- Potential consequences if exploited
+- Suggested remediation (optional)
+
+Anyone who reports a unique, previously-unreported vulnerability that results in a change to the code or a configuration change and who keeps such vulnerability confidential until it has been resolved by our engineers will be financially rewarded.
+
+## Eligibility
+
+To be eligible for a reward under this program, you must meet the following conditions:
+
+1. **Uniqueness:** Discover a previously unreported, non-public vulnerability that is not already known to our team and is within the scope of the program.
+2. **First disclosure:** Be the first to disclose the unique vulnerability to [dev@saucerswap.finance](mailto:dev@saucerswap.finance), and adhere to the program's disclosure requirements.
+3. **Detailed reporting:** Provide comprehensive information that enables our engineers to reproduce and remedy the vulnerability.
+4. **Non-exploitation:** Do not exploit the vulnerability in any form, including publicizing it or seeking other forms of profit, except under this program.
+5. **Non-publicization:** Do not disclose the vulnerability to the public or any third party without our explicit approval.
+6. **Ethical conduct:** Make a good faith effort to prevent privacy violations, data destruction, service interruption, or any degradation of in-scope assets.
+7. **Lawful behavior:** Do not engage in any unlawful conduct during the disclosure process, such as making threats or demands.
+8. **Age requirement:** Must be at least 18 years of age. If younger, you may participate with the consent of a parent or guardian.
+9. **Legal compliance:** Cannot be subject to U.S. sanctions or reside in a U.S.-embargoed country.
+10. **Non-affiliation:** Cannot be a current or former employee, vendor, or contractor who contributed to the development of the affected code.
+11. **Complete compliance:** Must comply with all other eligibility requirements specified in this program.
+
+By meeting these criteria, you become eligible for a reward under the SaucerSwap bug bounty program.
+
+## Other terms
+
+By submitting a report, you grant SaucerSwap Labs the rights necessary to validate and resolve the vulnerability. All reward decisions are at our sole discretion. The program's terms may be changed at any time.
+
+## History
+
+A dedicated V3 testnet bug bounty ran from May 25 to June 1, 2026, ahead of the V3 order book mainnet launch; that program is now closed.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Security audits" href="/developers/security/audits">
+    Independent audit reports for every protocol release.
+  </Card>
+
+  <Card title="Contract deployments" href="/developers/contracts">
+    Testnet contract IDs that fall within the program scope.
+  </Card>
+</CardGroup>

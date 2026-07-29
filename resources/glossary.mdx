@@ -1,187 +1,223 @@
 ---
-title: "📚 Glossary"
+title: "Glossary"
+description: "Definitions of the AMM, Hedera, SaucerSwap, and API terms used across these docs, from concentrated liquidity and slippage to pips and token association."
 ---
 
-### **Airdrop**
+Short definitions of the terms used across these docs, grouped by domain. Each concept with a canonical page links to it.
 
-A method of distributing tokens, usually free of charge, to a large number of wallet addresses.
+## AMM concepts
 
-### **APR**
+### AMM
 
-Annual Percentage Rate; the annual rate of return on an investment.
+An Automated Market Maker: a decentralized exchange design that prices a token pair with a mathematical formula and fills trades from liquidity pools instead of matching buyers and sellers in an order book.
 
-### **Arbitrage**
+### APR
 
-The practice of buying and selling assets to profit from price differences.
+Annual Percentage Rate: the annualized rate of return on a position. On SaucerSwap, fees APR is the return from trading fees, and reward APR is the return from the [yield farm](/protocol/saucerswap-v1) or [LARI](/protocol/saucerswap-v2).
 
-### **Audit**
+### Arbitrage
 
-Security review of smart contracts to ensure they operate as intended.
+Buying and selling the same asset across venues to profit from price differences. Arbitrage keeps pool prices aligned with the wider market.
 
-### **Bridge**
+### Concentrated liquidity
 
-A mechanism that allows for the transfer of tokens or data between different blockchains.
+A [SaucerSwap V2](/protocol/saucerswap-v2) feature that lets liquidity providers deploy capital within specific price ranges instead of across the whole price curve, increasing capital efficiency.
 
-### **CEX**
+### DEX
 
-Centralized Exchange; a platform where a central entity facilitates cryptocurrency trades.
+A decentralized exchange: a protocol for trading tokens without a central custodian. SaucerSwap is the leading DEX on Hedera.
 
-### **CeFi**
+### Impermanent loss
 
-Centralized Finance; traditional financial systems.
+The loss a liquidity provider takes, relative to simply holding, when the price ratio of a pool's pair diverges from the ratio at deposit time. It becomes permanent only if the position is withdrawn before prices revert. See the [FAQ](/get-started/faq).
 
-### **Concentrated Liquidity**
+### Liquidity pool
 
-Allows liquidity providers to set price ranges for their assets, optimizing capital efficiency.
+A smart contract holding a pair of tokens that traders swap against. Liquidity providers fund the pool and earn a share of trading fees.
 
-### **DAO**
+### Price impact
 
-Decentralized Autonomous Organization; a governance model that allows token holders to vote on proposals.
+The change in a pool's price caused by your own trade. Larger trades against thinner liquidity move the price more.
 
-### **DEX**
+### Slippage
 
-Decentralized Exchange; SaucerSwap and Uniswap are examples.
+The difference between the quoted price of a trade and the price at execution, typically caused by market movement between quote and settlement. Slippage tolerance is the maximum difference you allow before the transaction reverts.
 
-### **DeFi**
+### Stablecoin
 
-Decentralized Finance; a financial system built on blockchain technology, removing the need for traditional financial intermediaries.
+A token designed to hold a stable value, usually pegged to a fiat currency. USDC is issued natively on Hedera as an HTS token.
 
-### **Emission**
+### TVL
 
-The rate at which new tokens are created and distributed in a cryptocurrency.
+Total value locked: the total value of assets deposited in a protocol's contracts, commonly used to compare DeFi protocols.
 
-### **EVM**
+### Yield farming
 
-Ethereum Virtual Machine; a runtime environment for executing smart contracts. Hedera is compatible with the EVM, allowing for migration of Ethereum-based contracts.
+Earning additional rewards by staking V1 LP tokens in the Masterchef contract, paid in SAUCE and HBAR. See [SaucerSwap V1](/protocol/saucerswap-v1).
 
-### **Fees APR**
+## Hedera terms
 
-The annual rate of return earned from trading fees.
+### EVM
 
-### **Fork**
+The Ethereum Virtual Machine, the runtime for smart contracts. Hedera is EVM-compatible, so Solidity contracts and EVM addresses (`0x...`) work on Hedera, and every HTS token also has an EVM address.
 
-A codebase derivative; SaucerSwap V1 is a modified fork of Uniswap V2.
+### Gas
 
-### **Gas**
+The cost of executing a transaction on the network. Hedera fees are low and denominated in U.S. dollars, paid in HBAR.
 
-A cost incurred for processing a transaction on a blockchain network. On Hedera, these fees are low and denominated in U.S. dollars.
+### HBAR
 
-### **HBAR**
+Hedera's native cryptocurrency, used to pay network fees and for staking. See [Get HBAR](/get-started/hbar).
 
-Hedera's native cryptocurrency used for transaction fees and staking.
+### HBARX
 
-### **HBARX**
+An HBAR liquid staking token issued by Stader Labs.
 
-An HBAR liquid staking token deployed by Stader Labs.
+### HCS
 
-### **Hedera**
+The Hedera Consensus Service, a Hedera service for ordered, timestamped message consensus. SaucerSwap V3's infrastructure uses HCS references where applicable; see the [V3 order book risk notice](/legal/orderbook-risk-notice).
 
-An enterprise-grade public ledger network that aims to be fast and secure, underpinning the SaucerSwap protocol.
+### HashScan
 
-### **HTS**
+A public Hedera network explorer at [hashscan.io](https://hashscan.io/mainnet), serving the same role Etherscan does for Ethereum. Use it to verify accounts, tokens, and the [SaucerSwap contracts](/developers/contracts).
 
-Hedera Token Service; enables the creation and management of tokens on the Hedera network.
+### HTS
 
-### **Impermanent Loss**
+The Hedera Token Service, the native Hedera service for creating and managing tokens. SaucerSwap trades HTS tokens.
 
-Temporary loss of funds when providing liquidity due to price fluctuations.
+### Mirror Node
+
+A Hedera node type that stores and serves historical network data over a public REST API. SaucerSwap's APIs and clients use Mirror Nodes to resolve accounts and verify on-chain state.
+
+### Tinybar
+
+The smallest denomination of HBAR; 1 HBAR = 100,000,000 tinybar. The SaucerSwap REST API prices HBAR-denominated values in tinybar.
+
+### Token allowance
+
+An approval that lets a contract spend a specific amount of your tokens on your behalf. SaucerSwap requires allowances to execute swaps and liquidity operations; see [Troubleshooting](/resources/troubleshooting).
+
+### Token association
+
+Linking an HTS token to a Hedera account. An account must associate a token before it can send, receive, or hold it — the most common cause of failed first-time swaps. See [Troubleshooting](/resources/troubleshooting).
+
+## SaucerSwap products
+
+### Infinity Pool
+
+SaucerSwap's single-sided SAUCE staking pool. Deposit SAUCE, receive xSAUCE, and earn as the xSAUCE-to-SAUCE rate rises. See [Single-sided staking](/protocol/single-sided-staking).
+
+### LARI
+
+The Liquidity-Aligned Reward Initiative: V2's incentive system, which distributes rewards to liquidity providers automatically each two-week epoch based on position size and efficacy, with no staking step. See [SaucerSwap V2](/protocol/saucerswap-v2).
 
 ### Larry
 
 The official alien mascot of SaucerSwap.
 
-### **Liquidity**
+### Masterchef
 
-The amount of assets held in a liquidity pool to facilitate trading.
+The V1 smart contract that handles LP token staking and mints SAUCE emissions for the yield farm. See [SaucerSwap V1](/protocol/saucerswap-v1).
 
-### **Liquidity Mining / Yield Farming**
+### SAUCE
 
-Earning additional tokens (SAUCE and HBAR) by staking liquidity tokens in the Masterchef smart contract.
+The native token of the SaucerSwap protocol, used for governance voting power, liquidity incentives, and staking. See [Tokenomics](/tokenomics/overview).
 
-### **Liquidity Pool**
+### SaucerSwap DAO
 
-A smart contract that holds funds to enable trading on an AMM.
+The decentralized autonomous organization that governs the protocol; SAUCE confers voting power. See [Governance](/governance/overview).
 
-### **Mainnet**
+### SaucerSwap Labs
 
-The primary public blockchain where a cryptocurrency operates.
+The company that develops the open-source SaucerSwap protocol and maintains the web app. See [the team](/contributors/saucerswap-labs).
 
-### **Mirror Node**
+### SaucerSwap V1
 
-Nodes on the Hedera network that store historical data.
+The original constant-product AMM, a modified fork of Uniswap V2, with the yield farm. See [SaucerSwap V1](/protocol/saucerswap-v1).
 
-### **Price Impact**
+### SaucerSwap V2
 
-The difference in market price caused by a trade.
+The concentrated-liquidity AMM with multiple fee tiers and LARI incentives, based on Uniswap V3 contracts. See [SaucerSwap V2](/protocol/saucerswap-v2).
 
-### **Reward APR**
+### SaucerSwap V3
 
-The annual rate of return earned from yield farming or LARI.
+The on-chain central limit order book with off-chain matching and on-chain settlement, live on mainnet since June 12, 2026. See [SaucerSwap V3](/protocol/saucerswap-v3).
 
-### **SAUCE**
+### WHBAR
 
-The native token of SaucerSwap, used for governance, liquidity, and staking.
+Wrapped HBAR: an HTS token representation of HBAR that lets smart contracts handle HBAR like any other token. It is designed for use by SaucerSwap's contracts rather than directly by end users; see the [WHBAR developer docs](/developers/whbar/overview).
 
-### **SaucerSwap DAO**
+### xSAUCE
 
-The decentralized autonomous organization governing SaucerSwap, where SAUCE tokens represent voting power.
+The liquid receipt token of the Infinity Pool. Its redemption rate against SAUCE increases as staking yield accrues, and it confers fee discounts on the V3 order book. See [Single-sided staking](/protocol/single-sided-staking) and [V3 fees](/protocol/saucerswap-v3/fees).
 
-### **SaucerSwap Interface**
+## API and order book terms
 
-A user interface for interacting with the SaucerSwap protocol.
+### API key
 
-### **SaucerSwap Labs**
+The `x-api-key` credential used by the legacy SaucerSwap REST API. See [API authentication](/api-reference/authentication).
 
-The core development team behind the SaucerSwap protocol and interface.
+### Depth
 
-### **SaucerSwap Protocol**
+The standing quantity of orders at each price level of an order book. The Orderbook API serves depth snapshots over REST and live depth diffs over WebSockets; see [Market data](/api-reference/orderbook/market-data).
 
-A suite of Hedera-native smart contracts that implement an AMM, along with features like yield farming and single-sided staking.
+### EIP-712
 
-### **Single-Sided Staking**
+The Ethereum typed structured data signing standard. V3 orders are signed as EIP-712 payloads against an environment-specific domain; see [Orders and signing](/api-reference/orderbook/orders).
 
-A staking mechanism that allows users to stake a single type of asset, rather than a pair, to earn rewards. This feature is available in SaucerSwap and offers a more straightforward way to participate in staking.
+### JWT
 
-### **Slippage**
+A JSON Web Token: the short-lived credential the Orderbook API issues after a wallet challenge, attached to protected calls as `Authorization: Bearer <token>`. See [Orderbook API authentication](/api-reference/orderbook/authentication).
 
-The difference between the expected price of a trade and the executed price.
+### Limit order
 
-### **Slippage Tolerance**
+An order to trade at a specified price or better. It rests on the book until filled, canceled, or expired. See [Trade on the order book](/tutorials/trade).
 
-The maximum allowable price movement for a trade to go through.
+### Maker and taker
 
-### **Smart Contract**
+A maker places an order that rests on the book, adding liquidity; a taker fills a resting order, removing it. V3 fee rates are quoted per side; see [V3 fees](/protocol/saucerswap-v3/fees).
 
-Self-executing contracts with the terms directly written into code.
+### Market order
 
-### **Stablecoin**
+An order that fills immediately at the best available prices in the book.
 
-A cryptocurrency designed to maintain a stable value, often pegged to a fiat currency.
+### OCO
 
-### **Staking**
+One-cancels-the-other: a pair of linked limit orders where a fill on one cancels the other. Supported by `POST /orders/save` as server-side metadata; see [Orders and signing](/api-reference/orderbook/orders).
 
-Participation in a blockchain or protocol to validate transactions or secure liquidity, in exchange for rewards.
+### Order book
 
-### **Testnet**
+A list of resting buy and sell orders at each price level, matched by price-time priority. SaucerSwap V3 runs one per market; see [SaucerSwap V3](/protocol/saucerswap-v3).
 
-A test blockchain used to test applications.
+### Pips
 
-### **Token**
+The fee unit of the V3 order book: 1 pip = 1e-6 = 0.0001%. V3 fee fields such as `takerFeePips` and `makerFeePips` are expressed in pips, not basis points.
 
-A digital asset that represents ownership or value within a blockchain ecosystem.
+### Reactor
 
-### **Tokenomics**
+The V3 on-chain settlement contract that verifies order signatures and settles matched trades. It is the `verifyingContract` of the EIP-712 domain and the on-chain source of truth for order state.
 
-The economic model surrounding a token, detailing its distribution, utility, and how it interacts within the ecosystem.
+### Trade tape
 
-### **TVL**
+The public record of recent fills in a market, served by `GET /trades/:orderbookId`. See [Market data](/api-reference/orderbook/market-data).
 
-Total Value Locked; the total amount of assets staked or locked in a DeFi protocol.
+### WebSocket
 
-### **Volatility**
+A persistent two-way connection used for streaming. The Orderbook API streams depth diffs and account order events over WebSockets; see [WebSockets](/api-reference/orderbook/websockets).
 
-The statistical measure of the dispersion of asset prices.
+## Next steps
 
-### **Wallet**
-
-A digital tool that allows users to interact with a blockchain.
+<CardGroup cols={2}>
+  <Card title="How SaucerSwap works" icon="diagram-project" href="/protocol/overview">
+    See how pools, the order book, fees, farms, and staking fit together.
+  </Card>
+  <Card title="FAQ" icon="circle-question" href="/get-started/faq">
+    Get answers to the most common questions about trading and providing liquidity.
+  </Card>
+  <Card title="Troubleshooting" icon="wrench" href="/resources/troubleshooting">
+    Resolve common errors like failed swaps and missing token associations.
+  </Card>
+  <Card title="API reference" icon="code" href="/api-reference/overview">
+    Compare the REST data API and the Orderbook API, with auth models and base URLs.
+  </Card>
+</CardGroup>

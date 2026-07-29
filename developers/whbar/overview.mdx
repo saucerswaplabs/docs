@@ -1,0 +1,36 @@
+---
+title: "WHBAR overview"
+description: "How the WHBAR and WhbarHelper contracts wrap HBAR for smart contract use on SaucerSwap, plus the WHBAR allowance security advisory for integrators."
+---
+
+The [WHBAR contract](/developers/contracts) is a key component of the SaucerSwap protocol, enabling the conversion of native HBAR into wrapped HBAR, and vice versa, thereby inheriting the HTS functionality needed to interact with smart contracts on Hedera.
+
+It is specifically designed to be called by the SaucerSwap V1 and V2 core and periphery contracts, as well as the WhbarHelper contract (described in this section). WHBAR is not intended for direct use by developers in other applications due to its specialized nature.
+
+## WHBAR contract security advisory
+
+Accounts that use the WHBAR contract directly and meet the following risk conditions expose themselves to loss of funds. The vulnerability described in this notice has existed since a 2023 network update.
+
+For funds to be at risk, specific conditions must exist:
+
+- An account has an open WHBAR allowance granted outside of an atomic transaction.
+- The account is actively holding WHBAR tokens.
+- No protective mechanisms (like those used by SaucerSwap or [WhbarHelper contracts](/developers/whbar/overview)) are in place.
+
+For more information, see the [WHBAR contract security advisory](https://www.saucerswap.finance/blog/whbar-contract-securityadvisory) blog post.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Wrap HBAR for WHBAR" href="/developers/whbar/wrap-hbar-for-whbar">
+    Deposit HBAR and receive WHBAR at 1:1.
+  </Card>
+
+  <Card title="Unwrap WHBAR for HBAR" href="/developers/whbar/unwrap-whbar-for-hbar">
+    Withdraw WHBAR back to native HBAR.
+  </Card>
+
+  <Card title="Contract deployments" href="/developers/contracts">
+    WHBAR and WhbarHelper IDs for mainnet and testnet.
+  </Card>
+</CardGroup>

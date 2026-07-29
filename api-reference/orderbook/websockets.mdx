@@ -1,0 +1,75 @@
+---
+title: "Orderbook API WebSockets"
+description: "Subscribe to SaucerSwap V3 Orderbook API WebSocket streams: depth diffs and user events, token authentication, and snapshot-plus-diff book handling."
+---
+
+The Orderbook API exposes two WebSocket streams: `/ws/depth` for live order book depth diffs and `/ws/user-events` for authenticated order events. Both require authentication.
+
+Prerequisites:
+
+- A valid JWT — see [authentication](/api-reference/orderbook/authentication)
+- Order book IDs from `GET /books` — see [market discovery](/api-reference/orderbook/market-data#market-discovery)
+
+## Connection
+
+Both streams require a valid JWT in the `token` query parameter, and take the target markets as a comma-separated list in the `books` query parameter:
+
+```text
+wss://<host>/ws/depth?token=<jwt>&books=<id>,<id>
+wss://<host>/ws/user-events?token=<jwt>&books=<id>,<id>
+```
+
+The host is the API base URL for your environment with the `wss://` scheme — see [environments](/api-reference/orderbook/overview#environments).
+
+| Stream | Purpose |
+| --- | --- |
+| `/ws/depth` | Subscribe to live order book depth diffs |
+| `/ws/user-events` | Subscribe to authenticated order events |
+
+<Warning>
+  Treat WebSocket URLs as sensitive because they contain the JWT. Avoid logging full URLs in production.
+</Warning>
+
+## Reliable depth handling
+
+For reliable depth handling:
+
+<Steps>
+  <Step title="Connect to the depth stream">
+    Open `/ws/depth` for the books you track.
+  </Step>
+  <Step title="Buffer diffs while fetching the snapshot">
+    Buffer incoming diffs while fetching the REST depth snapshot from `GET /depth/:orderbookId`.
+  </Step>
+  <Step title="Apply buffered diffs after the snapshot">
+    Replay the buffered diffs on top of the snapshot to bring the local book current.
+  </Step>
+  <Step title="Continue applying live diffs">
+    Keep applying live diffs as they arrive.
+  </Step>
+</Steps>
+
+## User events
+
+The user-event stream carries order events for the authenticated account. Use it — or `GET /orders/:orderId/history` — to confirm the final `ORDER_CANCELED` event after a [cancellation request](/api-reference/orderbook/orders#cancellations), and to track order events and recover state after reconnects alongside `GET /orders`.
+
+## Reconnects and token expiry
+
+Re-authenticate before each reconnect attempt. Active WebSocket connections are verified at handshake time; a connection can remain open after its original JWT expires.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Orders" icon="file-signature" href="/api-reference/orderbook/orders">
+    Place orders, then confirm fills and cancellations on the user-event stream.
+  </Card>
+  <Card title="Market data" icon="chart-line" href="/api-reference/orderbook/market-data">
+    Fetch the REST depth snapshot that anchors your snapshot-plus-diff book.
+  </Card>
+  <Card title="Limits and errors" icon="triangle-exclamation" href="/api-reference/orderbook/limits-and-errors">
+    Meet the production checklist for reconnects, backoff, and book rebuilds.
+  </Card>
+  <Card title="TypeScript bot client" icon="code" href="/developers/orderbook/typescript-client">
+    See a working depth-stream subscription with connection handlers.
+  </Card>
+</CardGroup>

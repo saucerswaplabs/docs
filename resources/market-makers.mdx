@@ -1,0 +1,68 @@
+---
+title: "Market makers"
+description: "How professional trading firms and bot operators onboard to the SaucerSwap V3 order book: mechanism, API access, policy limits, and contact path."
+---
+
+SaucerSwap V3 is a central limit order book on Hedera with off-chain matching and on-chain settlement. Professional market makers and bot operators integrate through the Orderbook API: market data is designed to be public (unauthenticated access is [rolling out network by network](/api-reference/orderbook/market-data) with the July 2026 deployment), while account-scoped trading endpoints sit behind wallet authentication. This page covers how the market works from a maker's perspective and how to onboard.
+
+## How the market works
+
+- Order flow — clients build orders server-side, sign them client-side (EIP-712, with ECDSA and ED25519 key support), and submit them for matching. Settlement happens on-chain through the reactor contract; the on-chain reactor remains the source of truth. See [Orders and signing](/api-reference/orderbook/orders).
+- Fees — fee rates are expressed in pips (1 pip = 1e-6 = 0.0001%), not basis points, and are returned per account and per side by `GET /fees/:orderbookId?side=maker`. For the taker fee and maker rebate model, see [V3 fees](/protocol/saucerswap-v3/fees).
+- AMM interplay — books can have AMM liquidity routed in (`isAMMEnabled`), so maker quotes compete with, and are backstopped by, SaucerSwap's V1 and V2 pools. See [How SaucerSwap V3 works](/protocol/saucerswap-v3).
+- Market data — the order book list, depth snapshots, the public trade tape, and market quotes are public endpoints; live depth diffs and account order events stream over WebSockets. See [Market data](/api-reference/orderbook/market-data) and [WebSockets](/api-reference/orderbook/websockets).
+
+## Onboarding
+
+<Steps>
+  <Step title="Read the legal terms and risk notice">
+    Production V3 access requires current acceptance of the [terms of service](/legal/terms-of-service) and the [V3 order book risk notice](/legal/orderbook-risk-notice), recorded server-side for the applicable access path.
+  </Step>
+  <Step title="Integrate on testnet">
+    Build against `https://testnet-orderbook-api.saucerswap.finance` first. Work through [authentication](/api-reference/orderbook/authentication) (wallet challenge and short-lived JWTs), order build, sign, and save, cancellation finality, and WebSocket reconnects. The [TypeScript client guide](/developers/orderbook/typescript-client) shows a server-side bot shape.
+  </Step>
+  <Step title="Check per-account trading status">
+    `GET /onboarding/:orderbookId/status` (JWT required) reports whether your account can trade a given market, and `GET /fees/:orderbookId` returns your effective fee rates per side.
+  </Step>
+  <Step title="Coordinate limits before sustained flow">
+    Production traffic is subject to rate and service-protection limits. Teams planning sustained high-volume traffic should contact [support@saucerswap.finance](mailto:support@saucerswap.finance) to coordinate limits and support before ramping up.
+  </Step>
+  <Step title="Move to mainnet">
+    Switch the same flow to `https://orderbook-api.saucerswap.finance` once your client passes the [production checklist](/api-reference/orderbook/limits-and-errors): re-authentication on `401`, WebSocket reconnects with backoff, snapshot-plus-diff book rebuilds, cancellation reconciliation, and integer-string handling.
+  </Step>
+</Steps>
+
+<Warning>
+  Never put a primary wallet private key in a bot process. Use a dedicated integration account, store secrets server-side, and start on testnet before placing mainnet orders.
+</Warning>
+
+## Policy limits
+
+The API applies these limits automatically, as of July 2026:
+
+| Constraint | Value |
+|---|---|
+| Max open orders per wallet | 5,000 |
+| Min order deadline | 30 seconds from now |
+| Max order deadline | 90 days from now |
+| Max orders per build/save request | 250 |
+| Max orders per cancel request | 500 |
+
+Current limits and error behavior are documented in [Limits and errors](/api-reference/orderbook/limits-and-errors).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Orderbook API overview" icon="book-open" href="/api-reference/orderbook/overview">
+    Endpoint summary, integration flow, and environments for the V3 Orderbook API.
+  </Card>
+  <Card title="Authentication" icon="key" href="/api-reference/orderbook/authentication">
+    Walk through the wallet challenge flow and JWT handling for protected endpoints.
+  </Card>
+  <Card title="TypeScript client" icon="code" href="/developers/orderbook/typescript-client">
+    Study a server-side bot client shape covering build, sign, save, and cancel.
+  </Card>
+  <Card title="V3 fees" icon="percent" href="/protocol/saucerswap-v3/fees">
+    Understand the taker fee and maker rebate model and how fee rates are quoted in pips.
+  </Card>
+</CardGroup>

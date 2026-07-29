@@ -1,0 +1,64 @@
+---
+title: "REST API authentication"
+description: "Request a SaucerSwap REST API key, authenticate requests with the x-api-key header over HTTPS, and read the monthly quota headers on every response."
+---
+
+Every REST API endpoint requires an API key. Keys are provisioned by the SaucerSwap team and carry a monthly request quota.
+
+<Note>
+  This page covers the REST data API only. The V3 Orderbook API uses wallet challenge authentication and short-lived JWTs instead — see [Orderbook authentication](/api-reference/orderbook/authentication).
+</Note>
+
+## Get an API key
+
+Email [support@saucerswap.finance](mailto:support@saucerswap.finance) to request a key. The team provisions keys manually — there is no self-serve signup — and your monthly request quota is agreed during that conversation. Provisioned keys are UUID strings.
+
+Store your key in server-side secret storage. Do not embed it in frontend code or commit it to a repository: anyone holding the key consumes your quota.
+
+## Authenticate requests
+
+Pass your key in the `x-api-key` header with every request over HTTPS:
+
+```bash
+curl -i -H "x-api-key: YOUR_API_KEY" \
+  --url https://api.saucerswap.finance/tokens
+```
+
+A successful response returns `200` with your current quota state in the response headers:
+
+```text
+HTTP/2 200
+content-type: application/json; charset=utf-8
+x-ratelimit-limit: 10000
+x-ratelimit-remaining: 8250
+x-ratelimit-additional-total: 0
+x-ratelimit-reset: 1746071999999
+```
+
+## Quota headers
+
+| Header | Meaning |
+| --- | --- |
+| `x-ratelimit-limit` | Total requests allowed per month, set when your key is provisioned. |
+| `x-ratelimit-remaining` | Requests left this month. Decreases with each request; use it to alert or self-throttle. |
+| `x-ratelimit-additional-total` | Requests made over your monthly limit, when overage has been arranged with the team. |
+| `x-ratelimit-reset` | Time when usage statistics reset, as a unix timestamp in milliseconds. Typically the end of the current month. |
+
+If you expect to occasionally need more requests than your quota, raise it with the team in advance — overage requests are then counted in `x-ratelimit-additional-total` instead of being rejected.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="REST API conventions" icon="ruler" href="/api-reference/conventions">
+    Understand tinybar, smallest-unit amounts, timestamps, and interval endpoints.
+  </Card>
+  <Card title="Errors and rate limits" icon="triangle-exclamation" href="/api-reference/errors">
+    Handle 401, 403, and 429 responses and build quota-aware retry logic.
+  </Card>
+  <Card title="Browse the endpoints" icon="list" href="/api-reference/rest/tokens/list-tokens">
+    Start with the token list, then explore pools, farms, and stats.
+  </Card>
+  <Card title="Developer quickstart" icon="rocket" href="/developers/quickstart">
+    Make your first authenticated call in under five minutes.
+  </Card>
+</CardGroup>
