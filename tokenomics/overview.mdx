@@ -91,11 +91,16 @@ The additive devcut is 10% of pool rewards: 0.2113984 SAUCE/sec, or 12.683904 SA
 
 Emissions are one side of SAUCE tokenomics; the other is protocol revenue flowing back into the token. The following source-specific allocation policy was ratified through [V3 Launch Economics, thread 368](https://gov.saucerswap.finance/t/v3-launch-economics/368), proposal 6123, and final passing election 6141:
 
-| Source | xSAUCE | Development | Burn | POL + incentive reserve |
-| --- | --: | --: | --: | --: |
-| V1/V2 fee-switch revenue + HBAR staking rewards | 50% | 10% | 10% | 30% |
-| V3 net fees | 30% | 60% | 10% | 0% |
-| Masterchef devcut | 100% | 0% | 0% | 0% |
+| Source | Destination | Share |
+| --- | --- | --: |
+| V1/V2 fee-switch revenue + HBAR staking rewards | xSAUCE | 50% |
+|  | Development | 10% |
+|  | Burn | 10% |
+|  | Protocol-owned liquidity and incentive reserve | 30% |
+| V3 net fees | xSAUCE | 30% |
+|  | Development | 60% |
+|  | Burn | 10% |
+| Masterchef devcut | xSAUCE | 100% |
 
 Fee-switch proceeds and net V3 fees fund SAUCE buybacks through BrewSaucer before the purchased SAUCE is routed to its economic destinations. “Net V3 fees” means taker fees collected less any maker rebates paid. Burns permanently reduce outstanding supply; they do not alter the configured Masterchef schedule or its planned terminal period.
 

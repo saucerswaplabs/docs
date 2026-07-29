@@ -8,6 +8,13 @@ for (const route of uiRoutes) {
       await page.goto(route.path, { waitUntil: 'domcontentloaded' });
 
       await expect(page.getByRole('heading', { level: 1, name: route.heading })).toBeVisible();
+      // The Mintlify dev runtime keeps background requests open and can leave
+      // document.readyState at "interactive". Give client-rendered MDX and
+      // KaTeX two settled frames before measuring the final layout instead.
+      await page.waitForTimeout(1_500);
+      await page.evaluate(() => new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      }));
 
       if (route.name === 'tokenomics') {
         await expect(page.getByText('September 2027')).toBeVisible();
@@ -60,3 +67,22 @@ for (const route of uiRoutes) {
     });
   });
 }
+
+test.describe('navigation regressions', () => {
+  test('routes from the swap-routing guide to the V3 overview', async ({ page }) => {
+    await page.goto('/protocol/routing', { waitUntil: 'domcontentloaded' });
+    const v3Link = page.locator('main a[href="/protocol/saucerswap-v3"]').first();
+    await expect(v3Link).toBeVisible();
+    await v3Link.click();
+
+    await expect(page).toHaveURL(/\/protocol\/saucerswap-v3$/);
+    await expect(page.getByRole('heading', { level: 1, name: 'SaucerSwap V3' })).toBeVisible();
+  });
+
+  test('redirects the retired Community Pools route', async ({ page }) => {
+    await page.goto('/protocol/community-pools', { waitUntil: 'domcontentloaded' });
+
+    await expect(page).toHaveURL(/\/protocol\/overview$/);
+    await expect(page.getByRole('heading', { level: 1, name: 'How SaucerSwap works' })).toBeVisible();
+  });
+});

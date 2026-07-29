@@ -474,6 +474,10 @@
   },
   "redirects": [
     {
+      "source": "/protocol/community-pools",
+      "destination": "/protocol/overview"
+    },
+    {
       "source": "/v/developer/rest-api/farms/account",
       "destination": "/api-reference/rest/farms/farm-totals-by-account"
     },

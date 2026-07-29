@@ -9,9 +9,7 @@ The SaucerSwap decentralized autonomous organization (DAO) governs key aspects o
 
 Votes are cast on-chain using the Hedera Consensus Service (HCS). You connect a wallet on the [govern page](https://www.saucerswap.finance/governance), sign a voting message, and it is submitted to a designated topic ID. SaucerSwap retrieves your historical SAUCE and xSAUCE balances at a specified timestamp via the Hedera Mirror Node. You may vote multiple times, but only your final vote counts.
 
-$$
-\text{Voting power} = \text{SAUCE balance} + (\text{xSAUCE balance} \times \text{conversion rate})
-$$
+Your voting power is your SAUCE balance plus your xSAUCE balance multiplied by the current SAUCE-per-xSAUCE conversion rate.
 
 Balances held inside liquidity pools are excluded. The conversion rate is the current SAUCE/xSAUCE exchange rate from the [Infinity Pool](/protocol/single-sided-staking).
 
