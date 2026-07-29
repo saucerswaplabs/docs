@@ -57,7 +57,7 @@ The `client` calls in the examples below use the wrapper surface described in th
     | `type` | `LIMIT` or `MARKET` | Yes | Order type |
     | `deadline` | `string` | LIMIT only | Unix timestamp in seconds. Omit for market orders. |
     | `inputToken` | `string` | Yes | EVM address of the token being sold |
-    | `inputAmount` | `string` | Yes | Raw token amount, in smallest units |
+    | `inputAmount` | `string` | Yes | Raw token amount, in smallest units. For an exact-input market order, use the quote's `snappedInputAmount`; for exact output, use `suggestedInputAmount`. |
     | `outputToken` | `string` | Yes | EVM address of the token being bought |
     | `outputAmount` | `string` | Yes | Minimum raw output amount. For an exact-input market order, use the quote's `suggestedOutputAmount`. For an exact-output order, use `snappedOutputAmount` and set `inputAmount` to `suggestedInputAmount`. |
     | `recipient` | `string` | No | Output recipient EVM address |
@@ -66,7 +66,7 @@ The `client` calls in the examples below use the wrapper surface described in th
     | `isAMMEnabled` | `boolean` | No | Permit AMM-backed settlement |
 
     <Warning>
-      Quote the current book immediately before building a market order and do not submit an unfillable quote. Never use `"1"` as a market order's `outputAmount`: that removes practical price protection from the signed order. Keep all integer quantities as strings, and do not cast nonces, deadlines, or raw token amounts to JavaScript numbers before signing. See [Market quotes](/api-reference/orderbook/market-data#market-quotes).
+      Quote the current book immediately before building a market order and continue only when `fillable === true`. For exact input, submit `snappedInputAmount` and `suggestedOutputAmount`; for exact output, submit `suggestedInputAmount` and `snappedOutputAmount`. Never use `"1"` as a market order's `outputAmount`: that removes practical price protection from the signed order. Keep all integer quantities as strings, and do not cast nonces, deadlines, or raw token amounts to JavaScript numbers before signing. See [Market quotes](/api-reference/orderbook/market-data#market-quotes).
     </Warning>
   </Step>
   <Step title="Sign orders">

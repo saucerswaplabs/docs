@@ -36,7 +36,11 @@ for (const route of uiRoutes) {
       }
       if (route.name === 'orderbook-orders') {
         await expect(page.getByText('Never use "1"', { exact: false })).toBeVisible();
+        await expect(page.getByText('fillable === true', { exact: false })).toBeVisible();
+        await expect(page.getByText('snappedInputAmount', { exact: true }).first()).toBeVisible();
         await expect(page.getByText('suggestedOutputAmount', { exact: true }).first()).toBeVisible();
+        await expect(page.getByText('suggestedInputAmount', { exact: true }).first()).toBeVisible();
+        await expect(page.getByText('snappedOutputAmount', { exact: true }).first()).toBeVisible();
       }
 
       const horizontalOverflow = await page.evaluate(() => {
