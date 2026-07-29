@@ -4,9 +4,9 @@
   "name": "SaucerSwap",
   "description": "Official documentation for SaucerSwap, the decentralized exchange on the Hedera network: trading, liquidity, staking, developer guides, and API reference.",
   "colors": {
-    "primary": "#17803D",
+    "primary": "#147638",
     "light": "#44E760",
-    "dark": "#17803D"
+    "dark": "#147638"
   },
   "logo": {
     "light": "/logo/light.svg",
