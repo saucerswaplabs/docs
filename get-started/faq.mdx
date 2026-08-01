@@ -1,248 +1,163 @@
 ---
-title: "❓ FAQ"
+title: "Frequently asked questions"
+description: "Answers to common questions about SaucerSwap: getting started, swapping, order book trading, liquidity, staking, fees, tokens, and troubleshooting."
 ---
+
+## Getting started
 
 ### How can I get started?
 
-The first steps are to [create a Hedera wallet](/get-started/hedera-guide/create-hedera-wallet) and [obtain HBAR](/get-started/hedera-guide/get-hbar). Next, you can interact with the SaucerSwap [interface](https://www.saucerswap.finance/) by following these [tutorials](/get-started/saucerswap-tutorials).
-
-### What is an AMM?
-
-An Automated Market Maker (AMM) is a type of decentralized exchange protocol that relies on mathematical formulas to set the price of a token pair. Unlike traditional exchanges, which use an order book to match buyers and sellers, AMMs enable instant trades by interacting with liquidity pools.
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/1PbZMudPP5E" title="YouTube video player" frameBorder="0" allow="accelerometer; autoPlay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
-
-### What is yield farming?
-
-In SaucerSwap V1, yield farming involves staking liquidity tokens in the Masterchef smart contract. Rewards are distributed pro-rata in the form of SAUCE and HBAR tokens, based on the amount of liquidity you've provided. For more information, see [Yield Farm](/protocol/saucerswap-v1#yield-farm).
-
-### What is LARI?
-
-In SaucerSwap V2, the Liquidity-Aligned Reward Initiative, or LARI, is a system that streamlines token incentives for efficient liquidity provision. Rewards are automatically distributed every two weeks and can be configured in various tokens and amounts, offering flexibility for different campaigns. No need to stake liquidity; rewards are earned directly. For more information, see [LARI](/protocol/saucerswap-v2#liquidity-aligned-reward-initiative-lari).
-
-### How does SaucerSwap V2 differ from SaucerSwap V1?
-
-SaucerSwap V2 introduces concentrated liquidity, allowing liquidity providers to allocate their capital within specific price ranges, thereby optimizing capital efficiency. Additionally, V2 offers multiple fee tiers, giving liquidity providers more flexibility to manage risk and return, a feature not present in V1. Finally, V2 replaces yield farming with the far more efficient LARI.
-
-### What is concentrated liquidity?
-
-Concentrated liquidity, a feature of SaucerSwap V2, allows liquidity providers (LPs) to specify custom price ranges where their capital will be used to faciliate trades.
-
-#### How It Works
-
-1. **Custom Price Ranges**: LPs can set specific price ranges within which their liquidity is active. For example, if you're an LP for an USDC/HBAR pair, you could specify that your liquidity is only active when the price is within 0.09 and 0.11.
-2. **Capital Efficiency**: Because liquidity is focused within certain price ranges, less capital is needed to achieve the same or better trading outcomes, such as reduced slippage. This leads to higher capital efficiency.
-3. **Variable Fees**: V2 has a tiered fee structures, allowing LPs to earn different fees based on the risk associated with their chosen price ranges.
-4. **Composite Curve**: All individual liquidity positions across different price ranges are aggregated to form a composite bonding curve, against which users trade.
-
-#### Benefits
-
-- **Higher Yields**: LPs can potentially earn more fees per unit of capital invested, especially if they accurately predict the asset's trading range.
-- **Flexibility**: LPs have the freedom to adjust their price ranges based on market conditions, thereby optimizing their yield.
-
-Concentrated liquidity thus offers LPs the potential for higher real yields through increased capital efficiency, while also providing users with better trading conditions like lower slippage.
-
-<Frame caption="SaucerSwap V2 is based on Uniswap V3 smart contracts">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/ClWR1570UQw" title="YouTube video player" frameBorder="0" allow="accelerometer; autoPlay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
-</Frame>
-
-### What sets SaucerSwap apart from Uniswap?
-
-SaucerSwap is unique in its integration with the Hedera Token Service (HTS), providing rapid throughput and a low-cost, U.S. dollar-denominated fee structure. Hedera's architecture ensures fair transaction ordering on SaucerSwap, which nullifies the possibility of MEV attacks seen in Ethereum-based protocols like Uniswap. Other unique features include LARI, a yield-bearing HBAR wrapper, and single-sided staking. For a detailed overview, see [Unique Advantages](/#unique-advantages).
-
-### What is Impermanent Loss?
-
-Impermanent loss (IL) occurs when providing liquidity in an AMM-based decentralized exchange and the price ratio of the trading pair diverges from the initial ratio. This results in a temporary loss of value for the liquidity provider, which may become permanent if the price ratio doesn't revert to its original state.
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/_m6Mowq3Ptk" title="YouTube video player" frameBorder="0" allow="accelerometer; autoPlay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
-
-### What is Slippage?
-
-Slippage refers to the difference between the expected price of a trade and the price at which the trade is executed. It occurs in both centralized and decentralized exchanges, often due to market volatility, large trade sizes, or low liquidity.
-
-### How are liquidity providers compensated?
-
-Liquidity providers are compensated primarily through trading fees generated from swaps that occur in the liquidity pool they contribute to. In addition, SaucerSwap V1 and V2 offer additional incentives through the Yield Farm and LARI, where LPs earn tokens as rewards for providing liquidity.
-
-### What is the breakdown of fees?
-
-In both SaucerSwap V1 and V2, traders are charged a swap fee. For V1, it is a fixed 0.30%, while V2 offers variable rates of 0.05%, 0.15%, 0.30%, or 1.00%. Out of the collected fee, 5/6 goes to liquidity providers, and the remaining 1/6 is allocated to the protocol. This protocol share is used for SAUCE token buybacks, which are then distributed between the Infinity Pool and the DAO.
-
-### Why did my yield farm rewards decrease?
-
-Your estimated earnings are calculated based on the current APR. The amount you actually harvest will be accurate; the discrepancy is merely a front-end issue arising from the cost associated with reading contract balances.
-
-### Is SaucerSwap audited?
-
-Yes, SaucerSwap has undergone numerous audits from Hacken and Omniscia. See [Audits](/developerx/audits).
-
-### Who developed the SaucerSwap protocol?
-
-[SaucerSwap Labs](/contributors/saucerswap-labs) is responsible for developing the SaucerSwap open-source protocol, along with maintaining a web interface.
-
-### Did SaucerSwap receive a grant?
-
-Yes, SaucerSwap received a 20 million HBAR grant from the [Hedera Foundation](https://hedera.foundation/).
-
-### How does the token listing process work?
-
-The SaucerSwap interface is permissionless but secure, with safeguards like a tiered listing system to protect users and ensure market clarity. In this system, tokens are categorized into one of three classes: default, extended, or untracked. For details, see [Token Listing](/contact/partnership-inquiries#token-listing).
-
-### Where do single-sided staking rewards come from?
-
-Single-sided staking rewards on SaucerSwap come from three key sources: a sixth of swap fees from both V1 and V2 liquidity pools, 30% of the Masterchef contract's devcut allocation, and proof-of-stake rewards from the WHBAR contract. For more information, see [Single-Sided Staking](/protocol/single-sided-staking).
-
-### How can I stake my SAUCE tokens?
-
-To stake your SAUCE tokens, navigate to the Infinity Pool on the SaucerSwap [interface](https://www.saucerswap.finance/stake). Upon staking, you will receive xSAUCE, which serves as the liquid staking token in the SaucerSwap ecosystem. Your staking rewards manifest as an increase in the relative value of xSAUCE to SAUCE. To realize these rewards, simply unstake your tokens from the Infinity Pool. For a guided tutorial, see [Single-Sided Staking](/get-started/saucerswap-tutorials/single-sided-staking#how-to-stake-sauce-instructional-video).
-
-### Does Hedera have a blockchain explorer like Etherscan?
-
-Hedera offers explorers like [HashScan](https://hashscan.io/mainnet/dashboard) that serve similar functions to Etherscan on the Ethereum network.
-
-### Why is my transaction failing?
-
-Your transaction could be failing due to a couple of typical issues: `insufficient_payer_balance` or `contract_execution_reverted`. The former issue can be addressed by making sure you have sufficient [HBAR](/get-started/hedera-guide/get-hbar) to cover the network fees. The latter can often be resolved by adjusting your slippage tolerance in the settings modal of the interface.
-
-If you encounter a different error message or cannot resolve the issue, consider opening a support ticket on the [public Discord server](https://saucerswap.finance/discord) for further assistance.
-
-### Why can I not see my tokens in MetaMask?
-
-If you are unable to see your tokens in MetaMask, it is likely because you need to import the token using its EVM address. You can find this address either within the SaucerSwap interface or on HashScan. Once imported, your tokens should be visible in your MetaMask wallet.
-
-<Frame caption="Screenshot taken from https://hashscan.io/mainnet/token/0.0.731861">
-  ![](/images/get-started/Fungible-token-sauce.png)
-</Frame>
-
-### Why am I unable to create a V2 pool?
-
-In SaucerSwap V2, pool creation is initially permissioned to minimize liquidity fragmentation and to curate a focused experience. The governance of adding new pools is overseen by the [SaucerSwap DAO](/governance/overview).
-
-### What is a token association?
-
-In the context of Hedera, token association refers to the process of linking a specific HTS token to an existing account. This is a necessary step before the account can send, receive, or hold that particular token.
-
-### How do I claim my liquidity provider fees in V1?
-
-To claim your fees in V1, simply remove your liquidity from the pool. The accrued fees are reflected in the value of your LP tokens, so you will automatically receive your share of the fees when you redeem these tokens.
-
-### How was the SAUCE token initially distributed?
-
-14% of the max supply (140 million SAUCE) was distributed to community members holding Planck Epoch Collectible (PEC) NFTs based on the type and number of NFTs in their account. No private sales or ICOs were conducted.
-
-### Can I place a limit order?
-
-In V2, LPs have the ability to trade one asset for another by depositing liquidity into a price range entirely above or below the current spot price, emulating a fee-earning limit order that executes along a smooth curve. A more conventional implementation of limit orders is on the [roadmap](/roadmap).
+Create a [Hedera wallet](/get-started/wallet), [obtain HBAR](/get-started/hbar) for network fees, then follow the [quickstart](/get-started/quickstart) to make your first swap on the [web app](https://www.saucerswap.finance/).
 
 ### Where can I obtain HBAR?
 
-You can obtain HBAR by swapping for it on the SaucerSwap protocol, purchasing it from centralized exchanges, using fiat-to-crypto gateways, or through the SaucerSwap Discord faucet. For more details, see [Obtain HBAR](/get-started/hedera-guide/get-hbar).
+You can obtain HBAR by purchasing it on centralized exchanges, using fiat-to-crypto gateways such as MoonPay or Banxa, or by swapping other tokens for it on SaucerSwap. See [Get HBAR](/get-started/hbar).
 
 ### Where can I obtain SAUCE?
 
-SAUCE may be available to users wishing to participate in governance, liquidity provision, or staking. Known exchanges that have listed SAUCE can be found on [CoinMarketCap](https://coinmarketcap.com/currencies/saucerswap/#Markets).
+SAUCE is available on SaucerSwap itself and on external exchanges. Known exchanges that list SAUCE can be found on [CoinMarketCap](https://coinmarketcap.com/currencies/saucerswap/#Markets).
+
+### Does Hedera have a blockchain explorer like Etherscan?
+
+Yes. [HashScan](https://hashscan.io/mainnet/dashboard) serves the same function on Hedera that Etherscan serves on Ethereum: every account, token, contract, and transaction is publicly viewable.
+
+### Who developed the SaucerSwap protocol?
+
+[SaucerSwap Labs](/contributors/saucerswap-labs) develops the open-source SaucerSwap protocol and maintains the web interface.
+
+### Did SaucerSwap receive a grant?
+
+Yes. SaucerSwap received a 20 million HBAR grant from the [HBAR Foundation](https://www.hbarfoundation.org/) (whose ecosystem role has since been absorbed into the [Hedera Foundation](https://hedera.foundation/)).
+
+### Is SaucerSwap audited?
+
+Yes. SaucerSwap contracts have been audited by firms including Hacken, Omniscia, and Halborn (which audited V3 in May 2026). See [Audits](/developers/security/audits).
+
+## Trading
+
+### What is an AMM?
+
+An automated market maker (AMM) is a type of decentralized exchange that prices a token pair with a mathematical formula instead of matching individual buyers and sellers. Trades execute instantly against liquidity pools funded by liquidity providers.
+
+### Can I place a limit order?
+
+Yes. SaucerSwap V3 is a central limit order book, live on the **trade** page, where you can place limit and market orders on supported markets. See the [trade tutorial](/tutorials/trade) and the [V3 concepts page](/protocol/saucerswap-v3).
+
+Separately, V2 liquidity providers can emulate a fee-earning limit order by depositing liquidity into a price range entirely above or below the current spot price.
+
+### What is the difference between the trade and swap pages?
+
+The **trade** page is the V3 central limit order book: you place orders at prices you choose, and they match against other orders (and, on enabled markets, AMM liquidity). The **swap** page executes instantly against V1 and V2 AMM pools at the best quoted route. See [How SaucerSwap works](/protocol/overview).
+
+### What is slippage?
+
+Slippage is the difference between the expected price of a trade and the price at which it executes. It occurs on both centralized and decentralized exchanges, typically due to market volatility, large trade sizes, or low liquidity. You can set your slippage tolerance in the swap settings — see the [swap tutorial](/tutorials/swap).
+
+### What sets SaucerSwap apart from Uniswap?
+
+SaucerSwap is built on the Hedera Token Service (HTS), giving it high throughput and low, U.S. dollar-denominated fees. Hedera's fair transaction ordering removes the mempool-based MEV attacks seen in Ethereum protocols. SaucerSwap also offers features Uniswap does not: a central limit order book (V3), LARI liquidity incentives, a yield-bearing HBAR wrapper, and single-sided staking. See [How SaucerSwap works](/protocol/overview).
 
 ### What is a token allowance?
 
-As of Hedera mainnet version [0.39.0](https://docs.hedera.com/hedera/networks/release-notes/services), SaucerSwap requires your approval to execute a transaction on your behalf. For more details, see [Hedera Network Security Update & SaucerSwap](https://medium.com/@SaucerSwap/hedera-network-security-update-saucerswap-8d2609b43e20) and [SaucerSwap Labs | DEX Tutorials | Allowances](https://www.youtube.com/watch?v=ahxkvKHni04).
+Hedera requires your explicit approval before SaucerSwap contracts can move tokens on your behalf. When you swap, you choose between a one-time allowance for the exact amount or a maximum allowance that avoids repeat approvals. For background, see [Hedera network security update & SaucerSwap](https://medium.com/@SaucerSwap/hedera-network-security-update-saucerswap-8d2609b43e20).
+
+## Liquidity
+
+### How does SaucerSwap V2 differ from SaucerSwap V1?
+
+V2 introduces concentrated liquidity, letting liquidity providers allocate capital within specific price ranges for better capital efficiency. V2 also offers multiple fee tiers and replaces V1's yield farm with the more efficient LARI program. V2 is recommended for new liquidity positions; V1 is legacy.
+
+### What is concentrated liquidity?
+
+Concentrated liquidity, a feature of SaucerSwap V2, lets liquidity providers (LPs) choose custom price ranges where their capital is used to facilitate trades. Because liquidity is focused where trading actually happens, less capital achieves the same or better outcomes — higher fee yield per dollar for LPs and lower slippage for traders. All positions aggregate into one composite curve that traders trade against. See [SaucerSwap V2](/protocol/saucerswap-v2).
+
+### What is yield farming?
+
+In SaucerSwap V1, yield farming means staking LP tokens in the Masterchef contract to earn SAUCE and HBAR rewards pro-rata to your share of the farm. See [SaucerSwap V1](/protocol/saucerswap-v1).
+
+### What is LARI?
+
+The Liquidity-Aligned Reward Initiative (LARI) is V2's incentive system. Rewards are distributed automatically every two weeks to eligible V2 positions — no staking step required — and campaigns can be configured in various tokens and amounts. See [SaucerSwap V2](/protocol/saucerswap-v2).
+
+### How are liquidity providers compensated?
+
+Primarily through trading fees generated by swaps in their pool. On top of that, V1 offers Yield Farm rewards and V2 offers LARI rewards.
+
+### What is the breakdown of fees?
+
+Traders pay a swap fee on V1 and V2: fixed 0.30% on V1, and 0.05%, 0.15%, 0.30%, or 1.00% on V2 depending on the pool. Of the collected fee, 5/6 goes to liquidity providers and 1/6 to the protocol, which uses it for SAUCE buybacks distributed between the Infinity Pool and the DAO. V3 order book fees work differently — see [V3 fees](/protocol/saucerswap-v3/fees).
+
+### What is impermanent loss?
+
+Impermanent loss occurs when the price ratio of a pooled token pair diverges from the ratio at deposit time, leaving the liquidity provider with less value than simply holding the tokens. The loss becomes permanent only if you withdraw before the ratio reverts.
+
+### Why am I unable to create a V2 pool?
+
+V2 pool creation is permissioned to minimize liquidity fragmentation, overseen by the [SaucerSwap DAO](/governance/overview). V1 pool creation remains permissionless.
+
+### How do I claim my liquidity provider fees in V1?
+
+Withdraw your liquidity. V1 fees accrue inside the pool and are reflected in the value of your LP tokens, so you receive your share automatically when you redeem them. In V2, by contrast, fees are claimed manually from the position page.
+
+## Staking
+
+### How can I stake my SAUCE tokens?
+
+Go to the [stake page](https://www.saucerswap.finance/stake) and deposit SAUCE into the Infinity Pool. You receive xSAUCE, the liquid staking token, which appreciates against SAUCE as rewards accrue. Unstake at any time to realize rewards — there are no lockups. See the [staking tutorial](/tutorials/stake).
+
+### Where do single-sided staking rewards come from?
+
+Three sources: a share of the protocol's 1/6 cut of V1 and V2 swap fees, a portion of Masterchef farm emissions, and HBAR proof-of-stake rewards earned by the WHBAR contract, which are swapped into SAUCE. See [Single-sided staking](/protocol/single-sided-staking).
+
+## Tokens
+
+### How does the token listing process work?
+
+The SaucerSwap interface is permissionless but tiered for user safety: tokens are categorized as default, extended, or untracked. Default tokens appear in the token menu, extended tokens require acknowledging a disclaimer, and untracked tokens must be loaded manually by token ID. For listing details, see [For projects](/resources/for-projects).
+
+### What is a token association?
+
+On Hedera, token association links a specific HTS token to your account. An account must be associated with a token before it can send, receive, or hold it. The SaucerSwap interface prompts you to associate tokens as needed.
+
+### How was the SAUCE token initially distributed?
+
+14% of the max supply (140 million SAUCE) was distributed to community members holding Planck Epoch Collectible (PEC) NFTs, based on the type and number of NFTs held. No private sales or ICOs were conducted. See [Tokenomics](/tokenomics/overview).
 
 ### What is the difference between USDC and USDC[hts]?
 
-[USDC](https://www.circle.com/en/usdc-multichain/hedera) is a fiat-backed stablecoin, pegged to the U.S. dollar, and issued natively on the Hedera network as an HTS token. On the other hand, USDC[hts] originates on the Ethereum blockchain, where it is also issued by [Circle](https://www.circle.com/en/), and is then bridged to the Hedera network via [Hashport](/get-started/hedera-guide/bridge-to-hedera). The [hts] subscript signifies that this asset has been bridged.
+[USDC](https://www.circle.com/usdc) is Circle's fiat-backed stablecoin, issued natively on Hedera as an HTS token. USDC[hts] is a legacy asset that was bridged from Ethereum through the now-decommissioned Hashport bridge.
+
+<Warning>
+  Hashport was permanently decommissioned on May 31, 2026, and Hashport-wrapped assets such as USDC[hts] are permanently unredeemable on their source chains. Prefer natively issued assets, and see [Bridge to Hedera](/get-started/bridge-to-hedera) for live bridge routes.
+</Warning>
 
 ### Does SaucerSwap support tokens with custom fees?
 
-SaucerSwap V2 does not support tokens with custom fees. SaucerSwap V1 supports tokens with fractional fees where 'net' is disabled, but not those with fixed fees. In fractional fee tokens with 'net' disabled, the fee is deducted from the transaction amount, such as during a swap. However, for fixed fee tokens, and fractional fee tokens with 'net' enabled, this fee is applied separately. A workaround for fixed fees in SaucerSwap V1 is to set a fractional fee at 0% and use a fallback. For detailed guidance on implementing custom fees in the Hedera Token Service (HTS), refer to the [Hedera Docs](https://docs.hedera.com/hedera/sdks-and-apis/hedera-api/token-service/customfees).
+SaucerSwap V2 does not support tokens with custom fees. SaucerSwap V1 supports tokens with fractional fees where net-of-transfers is disabled, but not tokens with fixed fees. A workaround for fixed fees in V1 is to set a fractional fee at 0% with a fallback fee. For details on HTS custom fees, see the [Hedera docs](https://docs.hedera.com/hedera/sdks-and-apis/hedera-api/token-service/customfees).
 
-# Bridge Page FAQ
+## Troubleshooting
 
-### Which wallets can I use to bridge?
+### Why is my transaction failing?
 
-Currently Squid only supports MetaMask wallets for bridging. On [Squid's website](https://app.squidrouter.com/) you may be able to use an ECDSA HashPack wallet as well, however some functionality may not work.
+The two most common causes are `INSUFFICIENT_PAYER_BALANCE` (add more [HBAR](/get-started/hbar) to cover network fees) and `CONTRACT_REVERT_EXECUTED` (often fixed by raising your slippage tolerance in the interface settings). For error-by-error fixes, see [Troubleshooting](/resources/troubleshooting). If you cannot resolve an issue, open a support ticket on the [Discord server](https://saucerswap.finance/discord).
 
-With Hashport, you can use any Hedera wallet such as HashPack or Kabila.
+### Why can I not see my tokens in MetaMask?
 
-### How long does bridging take?
+MetaMask only displays tokens you have imported. Find the token's EVM address in the SaucerSwap interface or on HashScan, then import it in MetaMask. Your balance will appear once imported.
 
-Depending on the chains you're bridging between, it may take a few minutes to a few hours for the assets to appear on the other chain. You can check the status of the transaction on [AxelarScan](https://axelarscan.io/) by searching the transaction hash, or your wallet address.
+## Next steps
 
-If you encounter an issue after the initial successful transaction on SaucerSwap, you can contact Squid here, https://support.squidrouter.com/
-
-## Bridge an HTS Token via Axelar (ITS) + List It on Squid
-
-This guide covers:
-
-- Deploying your existing Hedera HTS token to other chains using Axelar’s Interchain Token Service (ITS) portal
-- Getting your token to appear inside Squid’s bridge modal (token dropdown)
-
-### Prerequisites
-
-- Your HTS token already exists on Hedera (mainnet or testnet)
-- You have the token’s **EVM address (0x...)** (not the `0.0.x` token ID)
-- MetaMask installed
-- Hedera added to MetaMask (EVM network)
-- HBAR in your MetaMask account for gas
-- Your signing account can hold the token (token-associated + has balance is ideal)
-
-### Step 1 — Add Hedera to MetaMask (one-time)
-
-In MetaMask → **Add network manually** (use your preferred official Hedera network settings).
-
-Confirm you can:
-
-- Switch to Hedera network in MetaMask
-- See an HBAR balance
-
-### Step 1 (Alternative) — Add Hedera to MetaMask (fastest)
-
-1. Go to: https://chainlist.org/?search=hedera&testnets=true
-2. Connect your wallet
-3. Click **Add to MetaMask** for **Hedera Mainnet** (and **Hedera Testnet** if needed)
-4. In MetaMask, confirm you can switch to Hedera and see an HBAR balance
-
-### Step 2 — Get your HTS token EVM address (0x...)
-
-You will paste an **EVM address** into Axelar’s portal.
-
-To find it:
-
-- HashScan: look up the token (`0.0.x`) → copy the **EVM address (0x...)**
-
-> Make sure this is the **token address**, not a wallet/account address.
-
-### Step 3 — Deploy the token to other chains with Axelar ITS
-
-1. Open the ITS portal: https://interchain.axelar.dev/
-2. **Connect MetaMask**
-3. **Paste your token EVM address (0x...)**
-4. Select the **destination chains** you want (e.g., Base, BNB Chain, etc.)
-5. **Sign the transaction** in MetaMask and pay gas (HBAR on Hedera)
-6. Wait for the portal to show the token as deployed on the selected chains
-
-**Recommended quick check:** do a small test bridge/transfer once deployment is complete.
-
-### Step 4 — Get your token listed in Squid (so it appears in the SaucerSwap modal)
-
-After ITS deployment, you must add the token to Squid’s config so it shows up in the token dropdown on SaucerSwap.
-
-1. From the ITS page for a token, click **“Add Your Token on Squid”**, or go directly to the github page: https://github.com/axelarnetwork/axelar-configs?tab=readme-ov-file#axelar-configs
-2. Follow the repo’s instructions to List an interchain token on Squid (https://github.com/axelarnetwork/axelar-configs/blob/main/cli/wizard/commands/list-squid-token/README.md) Example PR (reference):\
-   https://github.com/axelarnetwork/axelar-configs/pull/332
-
-Once approved and merged, Squid should begin surfacing your token in the bridge modal.
-
-### End-user flow
-
-1. Open Squid
-2. Connect wallet
-3. Choose **source chain + token**
-4. Choose **destination chain + your token**
-5. Enter amount → approve (if prompted) → confirm
-6. Wait for completion
-
-### Troubleshooting (common issues)
-
-- Token doesn’t appear in Squid: the `axelar-configs` PR isn’t merged (or hasn’t propagated yet)
-- “Invalid token” / failing in portal: wrong address (used an account address instead of token EVM address)
-- Transaction fails: insufficient HBAR gas, or wallet not token-associated / no token balance
-- Bridge transactions can sometimes take a few minutes, to a few hours depending on the chains involved. You can view bridge transactions on AxelarScan (https://axelarscan.io/) by entering the transaction hash, or your wallet EVM address
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/get-started/quickstart">
+    Go from zero to your first swap in five steps.
+  </Card>
+  <Card title="Troubleshooting" icon="wrench" href="/resources/troubleshooting">
+    Error-keyed fixes for failed transactions and stuck transfers.
+  </Card>
+  <Card title="How SaucerSwap works" icon="diagram-project" href="/protocol/overview">
+    Understand pools, the order book, fees, and governance in one page.
+  </Card>
+  <Card title="Support" icon="headset" href="/contact/user-support">
+    Reach the team through official support channels.
+  </Card>
+</CardGroup>

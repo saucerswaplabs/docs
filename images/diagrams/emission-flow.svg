@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 920" role="img" aria-labelledby="title description">
+  <title id="title">Masterchef SAUCE emission flow</title>
+  <desc id="description">The Masterchef pool-reward rate of 126.839040 SAUCE per minute is split by 5,000 allocation points between V1 farms, LARI, and the DAO. A separate ten-percent devcut adds 12.683904 SAUCE per minute for xSAUCE staking, producing gross minting of 139.522944 SAUCE per minute.</desc>
+
+  <defs>
+    <linearGradient id="panel" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#111315"/>
+      <stop offset="1" stop-color="#090A0B"/>
+    </linearGradient>
+    <linearGradient id="hero" x1="0" x2="1">
+      <stop offset="0" stop-color="#44E760" stop-opacity=".15"/>
+      <stop offset="1" stop-color="#44E760" stop-opacity=".04"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#000000" flood-opacity=".35"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#44E760"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="920" rx="30" fill="#050606"/>
+  <rect x="24" y="24" width="852" height="872" rx="24" fill="none" stroke="#202326"/>
+
+  <text x="72" y="78" fill="#8B949E" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="18" letter-spacing="2.4">LIVE CONFIGURATION · CHECKED JULY 29, 2026</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="108" width="760" height="130" rx="22" fill="url(#hero)" stroke="#44E760" stroke-width="2"/>
+    <text x="104" y="156" fill="#FFFFFF" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="30" font-weight="600">Masterchef</text>
+    <text x="104" y="194" fill="#B6C0C8" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="22">Pool rewards</text>
+    <text x="794" y="158" text-anchor="end" fill="#44E760" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="30" font-weight="600">126.839040</text>
+    <text x="794" y="194" text-anchor="end" fill="#B6C0C8" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="20">SAUCE / minute</text>
+  </g>
+
+  <path d="M 450 238 L 450 276" stroke="#44E760" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="72" y="314" fill="#8B949E" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="18" letter-spacing="2">5,000 ALLOCATION POINTS</text>
+
+  <g>
+    <rect x="70" y="338" width="760" height="112" rx="18" fill="url(#panel)" stroke="#272B2F"/>
+    <rect x="70" y="338" width="8" height="112" rx="4" fill="#44E760"/>
+    <text x="108" y="382" fill="#FFFFFF" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="26" font-weight="600">V1 farms</text>
+    <text x="108" y="418" fill="#98A2AA" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="19">Liquidity-provider rewards</text>
+    <text x="790" y="380" text-anchor="end" fill="#FFFFFF" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="24" font-weight="600">788 points · 15.76%</text>
+    <text x="790" y="417" text-anchor="end" fill="#98A2AA" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="19">19.989833 SAUCE / min</text>
+  </g>
+
+  <g>
+    <rect x="70" y="468" width="760" height="112" rx="18" fill="url(#panel)" stroke="#272B2F"/>
+    <rect x="70" y="468" width="8" height="112" rx="4" fill="#7B96FF"/>
+    <text x="108" y="512" fill="#FFFFFF" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="26" font-weight="600">LARI</text>
+    <text x="108" y="548" fill="#98A2AA" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="19">V2 liquidity rewards</text>
+    <text x="790" y="510" text-anchor="end" fill="#FFFFFF" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="24" font-weight="600">2,314 points · 46.28%</text>
+    <text x="790" y="547" text-anchor="end" fill="#98A2AA" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="19">58.701108 SAUCE / min</text>
+  </g>
+
+  <g>
+    <rect x="70" y="598" width="760" height="112" rx="18" fill="url(#panel)" stroke="#272B2F"/>
+    <rect x="70" y="598" width="8" height="112" rx="4" fill="#D6C9FF"/>
+    <text x="108" y="642" fill="#FFFFFF" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="26" font-weight="600">DAO</text>
+    <text x="108" y="678" fill="#98A2AA" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="19">Governance-controlled treasury</text>
+    <text x="790" y="640" text-anchor="end" fill="#FFFFFF" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="24" font-weight="600">1,898 points · 37.96%</text>
+    <text x="790" y="677" text-anchor="end" fill="#98A2AA" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="19">48.148100 SAUCE / min</text>
+  </g>
+
+  <path d="M 450 710 L 450 748" stroke="#3B4146" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="770" width="760" height="92" rx="18" fill="#101418" stroke="#2E9E45"/>
+    <text x="108" y="810" fill="#FFFFFF" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="24" font-weight="600">Additive devcut → xSAUCE</text>
+    <text x="108" y="840" fill="#98A2AA" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="18">10% of pool rewards · 12.683904 SAUCE / min</text>
+    <text x="790" y="811" text-anchor="end" fill="#44E760" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="24" font-weight="600">Gross mint</text>
+    <text x="790" y="841" text-anchor="end" fill="#FFFFFF" font-family="'Euclid Triangle', system-ui, sans-serif" font-size="19">139.522944 SAUCE / min</text>
+  </g>
+</svg>

@@ -1,0 +1,83 @@
+<svg width="940" height="460" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 460" font-family="system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" role="img" aria-label="Donut chart of the SAUCE maximum supply allocation under the post-V2 tokenomics model">
+  <rect x="0" y="0" width="940" height="460" rx="16" fill="#0A0A0B"/>
+  <!-- Donut: r=100, C=628.318; segments drawn clockwise from 12 o'clock -->
+  <g transform="translate(230,230)">
+    <g transform="rotate(-90)">
+      <circle r="100" fill="none" stroke="#44E760" stroke-width="44" stroke-dasharray="222.362 628.318" stroke-dashoffset="0"/>
+      <circle r="100" fill="none" stroke="#7B96FF" stroke-width="44" stroke-dasharray="150.796 628.318" stroke-dashoffset="-222.362"/>
+      <circle r="100" fill="none" stroke="#D6C9FF" stroke-width="44" stroke-dasharray="87.965 628.318" stroke-dashoffset="-373.158"/>
+      <circle r="100" fill="none" stroke="#2E9E45" stroke-width="44" stroke-dasharray="45.867 628.318" stroke-dashoffset="-461.123"/>
+      <circle r="100" fill="none" stroke="#5470D6" stroke-width="44" stroke-dasharray="39.835 628.318" stroke-dashoffset="-506.990"/>
+      <circle r="100" fill="none" stroke="#A893E0" stroke-width="44" stroke-dasharray="31.227 628.318" stroke-dashoffset="-546.825"/>
+      <circle r="100" fill="none" stroke="#17803D" stroke-width="44" stroke-dasharray="25.133 628.318" stroke-dashoffset="-578.052"/>
+      <circle r="100" fill="none" stroke="#8FA3FF" stroke-width="44" stroke-dasharray="12.566 628.318" stroke-dashoffset="-603.185"/>
+      <circle r="100" fill="none" stroke="#B7A6F0" stroke-width="44" stroke-dasharray="12.566 628.318" stroke-dashoffset="-615.751"/>
+    </g>
+    <text y="-8" text-anchor="middle" fill="#FFFFFF" font-size="26" font-weight="600">1B</text>
+    <text y="16" text-anchor="middle" fill="#A1A1AA" font-size="13">SAUCE max supply</text>
+  </g>
+
+  <!-- Legend -->
+  <g font-size="14">
+    <g transform="translate(470,66)">
+      <rect width="14" height="14" rx="3" fill="#44E760"/>
+      <text x="24" y="12" fill="#FFFFFF">Yield farm</text>
+      <text x="330" y="12" fill="#A1A1AA" text-anchor="end">353.9M</text>
+      <text x="410" y="12" fill="#FFFFFF" text-anchor="end">35.39%</text>
+    </g>
+    <g transform="translate(470,102)">
+      <rect width="14" height="14" rx="3" fill="#7B96FF"/>
+      <text x="24" y="12" fill="#FFFFFF">Core development</text>
+      <text x="330" y="12" fill="#A1A1AA" text-anchor="end">240.0M</text>
+      <text x="410" y="12" fill="#FFFFFF" text-anchor="end">24.00%</text>
+    </g>
+    <g transform="translate(470,138)">
+      <rect width="14" height="14" rx="3" fill="#D6C9FF"/>
+      <text x="24" y="12" fill="#FFFFFF">Community</text>
+      <text x="330" y="12" fill="#A1A1AA" text-anchor="end">140.0M</text>
+      <text x="410" y="12" fill="#FFFFFF" text-anchor="end">14.00%</text>
+    </g>
+    <g transform="translate(470,174)">
+      <rect width="14" height="14" rx="3" fill="#2E9E45"/>
+      <text x="24" y="12" fill="#FFFFFF">LARI</text>
+      <text x="330" y="12" fill="#A1A1AA" text-anchor="end">73.0M</text>
+      <text x="410" y="12" fill="#FFFFFF" text-anchor="end">7.30%</text>
+    </g>
+    <g transform="translate(470,210)">
+      <rect width="14" height="14" rx="3" fill="#5470D6"/>
+      <text x="24" y="12" fill="#FFFFFF">Operations</text>
+      <text x="330" y="12" fill="#A1A1AA" text-anchor="end">63.4M</text>
+      <text x="410" y="12" fill="#FFFFFF" text-anchor="end">6.34%</text>
+    </g>
+    <g transform="translate(470,246)">
+      <rect width="14" height="14" rx="3" fill="#A893E0"/>
+      <text x="24" y="12" fill="#FFFFFF">Devcut</text>
+      <text x="330" y="12" fill="#A1A1AA" text-anchor="end">49.7M</text>
+      <text x="410" y="12" fill="#FFFFFF" text-anchor="end">4.97%</text>
+    </g>
+    <g transform="translate(470,282)">
+      <rect width="14" height="14" rx="3" fill="#17803D"/>
+      <text x="24" y="12" fill="#FFFFFF">Marketing</text>
+      <text x="330" y="12" fill="#A1A1AA" text-anchor="end">40.0M</text>
+      <text x="410" y="12" fill="#FFFFFF" text-anchor="end">4.00%</text>
+    </g>
+    <g transform="translate(470,318)">
+      <rect width="14" height="14" rx="3" fill="#8FA3FF"/>
+      <text x="24" y="12" fill="#FFFFFF">Liquidity</text>
+      <text x="330" y="12" fill="#A1A1AA" text-anchor="end">20.0M</text>
+      <text x="410" y="12" fill="#FFFFFF" text-anchor="end">2.00%</text>
+    </g>
+    <g transform="translate(470,354)">
+      <rect width="14" height="14" rx="3" fill="#B7A6F0"/>
+      <text x="24" y="12" fill="#FFFFFF">Advisor</text>
+      <text x="330" y="12" fill="#A1A1AA" text-anchor="end">20.0M</text>
+      <text x="410" y="12" fill="#FFFFFF" text-anchor="end">2.00%</text>
+    </g>
+    <line x1="470" y1="384" x2="880" y2="384" stroke="#2D2D33" stroke-width="1"/>
+    <g transform="translate(470,402)">
+      <text x="24" y="12" fill="#A1A1AA">Total</text>
+      <text x="330" y="12" fill="#A1A1AA" text-anchor="end">1.0B</text>
+      <text x="410" y="12" fill="#FFFFFF" text-anchor="end">100.00%</text>
+    </g>
+  </g>
+</svg>

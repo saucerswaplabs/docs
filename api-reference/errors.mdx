@@ -1,0 +1,54 @@
+---
+title: "REST API errors and rate limits"
+description: "Interpret REST API error statuses including 401, 403, and 429, monitor monthly quota headers, and build retry logic that respects your limits."
+---
+
+The REST API uses standard HTTP status codes. This page covers the statuses you should handle, the quota headers to monitor, and how to retry safely.
+
+## Status codes
+
+| Status | Meaning | What to do |
+| --- | --- | --- |
+| `200` | Success | Parse the JSON body. |
+| `400` | Invalid request — a malformed or missing parameter, such as an out-of-range `from`/`to` or an unsupported `interval` | Fix the request; do not retry unchanged. |
+| `401` | Missing or invalid `x-api-key` header | Check that the key is present, unexpired, and sent on every request. |
+| `403` | The key is not authorized for the request | Contact [support@saucerswap.finance](mailto:support@saucerswap.finance) about your key's access. |
+| `404` | Unknown resource, such as a token or pool id that does not exist | Verify the id against the corresponding list endpoint. |
+| `429` | Rate limited — the monthly quota is exhausted or requests are arriving too fast | Back off and retry later; see below. |
+| `5xx` | Server error | Retry with exponential backoff. |
+
+## Quota headers
+
+Every response reports your monthly quota state. The quota is set when your key is provisioned — see [REST API authentication](/api-reference/authentication).
+
+| Header | Meaning |
+| --- | --- |
+| `x-ratelimit-limit` | Total requests allowed per month |
+| `x-ratelimit-remaining` | Requests left this month |
+| `x-ratelimit-additional-total` | Requests counted over the limit, when overage has been arranged |
+| `x-ratelimit-reset` | Unix timestamp in milliseconds when usage resets, typically month end |
+
+## Retry guidance
+
+1. Read `x-ratelimit-remaining` on every response and self-throttle before you hit zero — alerting at a threshold such as 10% remaining gives you time to react.
+2. On `429`, wait and retry with exponential backoff and jitter. The monthly quota does not refill until `x-ratelimit-reset`, so tight retry loops only waste requests.
+3. Cache stable responses. Token metadata and pool lists change rarely; candlestick history for a closed interval never changes.
+4. If you expect sustained higher volume, arrange a larger quota or overage with [support@saucerswap.finance](mailto:support@saucerswap.finance) before you need it, rather than after requests start failing.
+
+<Note>
+  The V3 Orderbook API has its own error format — a JSON body of `{ "error": "message string" }` — and its own rate and policy limits. See [Orderbook limits and errors](/api-reference/orderbook/limits-and-errors).
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="REST API authentication" icon="key" href="/api-reference/authentication">
+    Request an API key and understand how quotas are provisioned.
+  </Card>
+  <Card title="REST API conventions" icon="ruler" href="/api-reference/conventions">
+    Parse amounts, prices, and timestamps correctly before debugging errors.
+  </Card>
+  <Card title="Orderbook limits and errors" icon="scale-balanced" href="/api-reference/orderbook/limits-and-errors">
+    Policy limits and error handling for the V3 Orderbook API.
+  </Card>
+</CardGroup>

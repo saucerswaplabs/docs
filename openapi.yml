@@ -4,7 +4,11 @@ info:
   version: 1.0.0
 servers:
   - url: https://api.saucerswap.finance
+    description: Mainnet
   - url: https://test-api.saucerswap.finance
+    description: Testnet
+security:
+  - ApiKeyAuth: []
 paths:
   /stats:
     get:
@@ -1091,15 +1095,21 @@ paths:
                 items:
                   $ref: '#/components/schemas/LariData'
 components:
-  parameters: 
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: "API key provisioned by the SaucerSwap team. Request one from support@saucerswap.finance and send it in the x-api-key header with every request."
+  parameters:
     ApiKeyParam:
       name: x-api-key
       in: header
       required: true
       schema:
         type: string
-        default: "875e1017-87b8-4b12-8301-6aa1f1aa073b"
-      description: "API key for authentication. The demo api key provided is globally rate limited. Do not use in production."
+        example: "YOUR_API_KEY"
+      description: "API key for authentication. Request a key from support@saucerswap.finance."
   schemas:
     Farm:
       type: object
@@ -1290,7 +1300,7 @@ components:
         fee:
           type: integer
           example: 500
-          description: 'Swap fee tier for the pool, denoted in basis points'
+          description: 'Fee tier in hundredths of a basis point. Divide by 100 for basis points or by 10,000 for percent; for example, 3000 = 30 bps = 0.30%.'
         sqrtRatioX96:
           type: string
           example: '79228162514992909706099547250'
@@ -1360,7 +1370,7 @@ components:
         fee:
           type: integer
           example: 500
-          description: 'Swap fee tier for the pool, denoted in basis points'
+          description: 'Fee tier in hundredths of a basis point. Divide by 100 for basis points or by 10,000 for percent; for example, 3000 = 30 bps = 0.30%.'
         sqrtRatioX96:
           type: string
           example: '79228162514992909706099547250'
@@ -1428,7 +1438,7 @@ components:
           example:
             decimals: 8
             icon: '/images/tokens/hbar.png'
-            id: '0.0.59042'
+            id: '0.0.1456986'
             name: 'WHBAR [new]'
             price: '100000000'
             priceUsd: 0.0598982
@@ -1443,7 +1453,7 @@ components:
           example:
             decimals: 6
             icon: '/images/tokens/sauce.png'
-            id: '0.0.61266'
+            id: '0.0.731861'
             name: 'SAUCE'
             price: '24609831'
             priceUsd: 0.0147408436767304
@@ -1456,7 +1466,7 @@ components:
         fee:
           type: integer
           example: 3000
-          description: 'Swap fee tier denoted in basis points'
+          description: 'Fee tier in hundredths of a basis point. Divide by 100 for basis points or by 10,000 for percent; for example, 3000 = 30 bps = 0.30%.'
         tickUpper:
           type: integer
           example: -1620

@@ -1,0 +1,91 @@
+---
+title: "Troubleshooting"
+description: "Fixes for the most common SaucerSwap errors: token association, insufficient HBAR, contract reverts, slippage failures, allowances, and stuck bridges."
+---
+
+This page is keyed to the error you are seeing. Find the error name or symptom, apply the fix, and retry. If none of these resolve your issue, open a support ticket in the [official Discord server](https://saucerswap.finance/discord) or email [support@saucerswap.finance](mailto:support@saucerswap.finance) — see [User support](/contact/user-support).
+
+## Token not associated to an account
+
+Symptom — a swap or transfer fails with `TOKEN_NOT_ASSOCIATED_TO_ACCOUNT`, usually on the first attempt to receive a token.
+
+Cause — on Hedera, an account must associate an HTS token before it can send, receive, or hold it. The receiving account has not associated the output token.
+
+Fix — associate the token first. The web app prompts you to associate an unassociated output token before a swap; approve the association transaction in your wallet, then retry. If you are sending to a different account, that account must associate the token itself. Developers executing swaps directly against the contracts must ensure the `to` account has the output token associated before the swap executes.
+
+## Insufficient payer balance
+
+Symptom — a transaction fails with `INSUFFICIENT_PAYER_BALANCE` before doing anything.
+
+Cause — your account does not hold enough HBAR to cover the network fee for the transaction (and, for swaps from HBAR, the swapped amount plus the fee).
+
+Fix — top up HBAR and retry. See [Get HBAR](/get-started/hbar) for ways to fund your account. Keep a small HBAR buffer at all times: every Hedera transaction, including token associations and approvals, costs a fee.
+
+## Contract revert executed
+
+Symptom — a swap or liquidity transaction fails with `CONTRACT_REVERT_EXECUTED`.
+
+Cause — the smart contract rejected the transaction. For swaps, the most common reason is that the price moved beyond your slippage tolerance between quote and execution. Other causes include expired transaction deadlines and missing allowances.
+
+Fix — retry the transaction. If it keeps failing, raise your slippage tolerance slightly in the settings of the web app, or trade a smaller amount. If the token has transfer restrictions or custom fees, check [token compatibility](/get-started/faq) — V2 does not support tokens with custom fees.
+
+## Insufficient output amount (slippage)
+
+Symptom — a swap reverts with a message containing `INSUFFICIENT_OUTPUT_AMOUNT`.
+
+Cause — this is the specific revert behind most slippage failures: the pool could not deliver at least the minimum output your transaction demanded, because the price moved or liquidity is thin relative to your trade size.
+
+Fix — refresh the quote and retry. For volatile pairs or large trades, raise slippage tolerance slightly or split the trade into smaller amounts. Check the price impact shown on the quote before confirming — a high price impact means your own trade moves the price.
+
+## Allowance errors
+
+Symptom — a swap or liquidity action fails at the approval stage, or a transaction reverts because the contract cannot spend your tokens.
+
+Cause — Hedera requires you to grant an allowance before a contract can spend tokens on your behalf. The allowance is missing, too small, or was granted to a different contract than the one now executing.
+
+Fix — approve the token when the web app prompts you (select **Approve** before the swap or deposit), then confirm the main transaction. If a previously granted allowance seems stale after a contract update, approve again. Background on why allowances exist is in the [Hedera network security update announcement](https://medium.com/@SaucerSwap/hedera-network-security-update-saucerswap-8d2609b43e20).
+
+## Tokens missing in MetaMask
+
+Symptom — you hold tokens on Hedera but they do not appear in MetaMask.
+
+Cause — MetaMask only displays tokens you have imported by their EVM contract address.
+
+Fix — find the token's EVM address (`0x...`) in the SaucerSwap web app or on [HashScan](https://hashscan.io/mainnet), then import it in MetaMask. If you need an ERC-20 representation of an HTS token for EVM tooling, see the [ERC-20 wrapping tutorial](/tutorials/erc20-wrapping).
+
+## Bridge transfer looks stuck
+
+Symptom — you bridged tokens and the source-chain transaction succeeded, but the assets have not arrived on the destination chain.
+
+Cause — cross-chain transfers take from a few minutes to a few hours depending on the chains involved. A transfer is rarely lost; it is usually still in flight or awaiting execution on the destination chain.
+
+Fix — track the transfer on [AxelarScan](https://axelarscan.io/) by transaction hash or wallet address. If it does not complete after the initial successful transaction, contact [Squid support](https://support.squidrouter.com/). See the [bridge tutorial](/tutorials/bridge) for expectations per route.
+
+<Warning>
+  The Hashport bridge was permanently decommissioned on May 31, 2026, and Hashport-wrapped assets are permanently unredeemable. Do not attempt to bridge through Hashport or follow older guides that reference it. See [Bridge to Hedera](/get-started/bridge-to-hedera) for the supported paths.
+</Warning>
+
+## Yield farm rewards look lower than estimated
+
+Symptom — the rewards you harvest differ from the estimate shown while farming.
+
+Cause — estimated earnings are projected from the current APR; the displayed estimate is a front-end approximation that trades precision for the cost of reading contract balances.
+
+Fix — no action needed. The amount you actually harvest is accurate; only the on-screen estimate is approximate.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="User support" icon="headset" href="/contact/user-support">
+    Open a Discord ticket or email support if your issue is not resolved here.
+  </Card>
+  <Card title="FAQ" icon="circle-question" href="/get-started/faq">
+    Browse answers to common questions about trading, fees, and liquidity.
+  </Card>
+  <Card title="Get HBAR" icon="coins" href="/get-started/hbar">
+    Fund your account with HBAR to cover network fees and trading.
+  </Card>
+  <Card title="Glossary" icon="book" href="/resources/glossary">
+    Look up token association, allowances, slippage, and other terms.
+  </Card>
+</CardGroup>

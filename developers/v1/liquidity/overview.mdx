@@ -1,0 +1,44 @@
+---
+title: "V1 liquidity operations"
+description: "Developer guide to SaucerSwap V1 liquidity operations: fetch pools, check pool existence, read reserves, create pools, and add or remove liquidity."
+---
+
+These guides cover every contract and REST operation for working with SaucerSwap V1 liquidity pools on Hedera: discovering pools, reading their state, creating new pools, and managing liquidity positions.
+
+<Note>
+  V2 is recommended for new liquidity integrations; V1 is legacy. See the [V2 liquidity guides](/developers/v2/liquidity/new-liquidity-position) for concentrated liquidity positions.
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="Fetch all pools" href="/developers/v1/liquidity/fetch-all-pools">
+    List every V1 pool with reserves and token metadata from the REST API.
+  </Card>
+
+  <Card title="Check if a pool exists" href="/developers/v1/liquidity/check-if-a-pool-exists">
+    Query the factory for an existing pool before creating one.
+  </Card>
+
+  <Card title="Pool creation fee" href="/developers/v1/liquidity/pool-creation-fee">
+    Fetch the current pool creation fee and convert it to HBAR.
+  </Card>
+
+  <Card title="Create a new pool" href="/developers/v1/liquidity/create-a-new-pool">
+    Create an HBAR-token or token-token pool with initial liquidity.
+  </Card>
+
+  <Card title="Get pool reserves" href="/developers/v1/liquidity/get-pool-reserves">
+    Read current reserves through the mirror node or JSON-RPC.
+  </Card>
+
+  <Card title="Track pool updates" href="/developers/v1/liquidity/track-pool-updates">
+    Poll Sync events to follow reserve changes in near real time.
+  </Card>
+
+  <Card title="Adding liquidity" href="/developers/v1/liquidity/adding-liquidity">
+    Add liquidity to an existing pool and receive LP tokens.
+  </Card>
+
+  <Card title="Removing liquidity" href="/developers/v1/liquidity/removing-liquidity">
+    Withdraw your share of a pool, including fee-on-transfer tokens.
+  </Card>
+</CardGroup>

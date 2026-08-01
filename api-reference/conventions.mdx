@@ -1,0 +1,84 @@
+---
+title: "REST API conventions"
+description: "How the SaucerSwap REST API represents money and time: tinybar prices, smallest-unit amounts as strings, unix timestamps, and interval endpoints."
+---
+
+import ApiKeyCallout from '/snippets/api-key-callout.mdx';
+
+The REST API represents amounts, prices, and time the same way across every endpoint. Read this page once before parsing any response.
+
+<ApiKeyCallout />
+
+## Identifiers
+
+| Identifier | Format | Example |
+| --- | --- | --- |
+| Token id | Hedera entity id (`shard.realm.num`) | `0.0.731861` (SAUCE) |
+| Account id | Hedera entity id (`shard.realm.num`) | `0.0.12345` |
+| Contract id | Hedera entity id (`shard.realm.num`) | `0.0.1465865` |
+| Pool id | SaucerSwap-assigned integer, unique per protocol version | `1` |
+
+V1 and V2 pool ids are separate sequences: `/pools/{poolId}` and `/v2/pools/{poolId}` are different pools even when the id matches.
+
+## Units and amounts
+
+HBAR-denominated values are expressed in tinybar, the smallest unit of HBAR: 1 HBAR = 100,000,000 tinybar. TVL, volume, and token `price` fields are all tinybar values.
+
+Token amounts are expressed in each token's smallest unit, determined by its `decimals` field. SAUCE has 6 decimals, so a reserve of `"242601707456381"` is 242,601,707.456381 SAUCE.
+
+Large integers are returned as JSON strings. Fields such as `price`, `tvl`, `volume`, `liquidity`, and reserves exceed JavaScript's safe-integer range, so keep them as strings or parse them with `BigInt` — casting to `Number` silently loses precision.
+
+| Field pattern | Type | Meaning |
+| --- | --- | --- |
+| `price` | string | Price of one whole token, in tinybar |
+| `priceUsd` | number | Price of one whole token, in USD |
+| `volume`, `liquidity`, `*Reserve*` | string | Amounts in the smallest unit of the relevant token |
+| `tvl`, `volumeTotal` | string | Protocol-wide values in tinybar |
+| `tvlUsd`, `volumeTotalUsd`, `volumeUsd`, `liquidityUsd` | number | USD values as floats |
+
+## Timestamps
+
+| Format | Where it appears | Example |
+| --- | --- | --- |
+| Unix seconds (integer) | `timestampSeconds`, `startTimestampSeconds`, and the `from`/`to` query parameters | `1697616900` |
+| Unix `seconds.nanoseconds` (string) | Consensus-derived fields such as farm `timestamp` and position `createdAt`/`updatedAt` | `1682469351.387795003` |
+| Unix milliseconds (integer) | The `x-ratelimit-reset` response header | `1746071999999` |
+
+Candlestick objects carry both `startTimestampSeconds` (interval start) and `timestampSeconds` (interval end); point-in-time fields such as `liquidity` are measured at the interval end.
+
+## Interval endpoints
+
+Historical endpoints take a required `from` and `to` in unix seconds plus an `interval`:
+
+| Endpoint family | Supported intervals |
+| --- | --- |
+| Token and pool candlesticks (`/tokens/prices/...`, `/pools/conversionRates/...`, `/v2/pools/conversionRates/...`) | `FIVEMIN`, `HOUR`, `DAY`, `WEEK` |
+| Platform history (`/stats/platformData`) | `HOUR`, `DAY`, `WEEK` |
+| HBAR price history (`/stats/hbarHistoricalPrices`) | Minutely, no `interval` parameter |
+
+Each candlestick family also has a `latest` variant that returns the most recent candle without a time range: [latest token candlestick](/api-reference/rest/tokens/token-price-latest), [latest candlesticks for all tokens](/api-reference/rest/tokens/ohlcv-latest), and [latest V1 pool candlestick](/api-reference/rest/pools-v1/pool-conversion-rates-latest).
+
+Pool conversion-rate endpoints accept an optional `inverted` flag to flip the quote direction of the pair.
+
+## Pagination
+
+REST API endpoints do not paginate: list endpoints return the full result set in one response. Bound the size of historical queries with `from` and `to` instead of requesting long ranges you do not need.
+
+The Orderbook API trade tape is the exception in the SaucerSwap API family — it takes `page` and `limit` parameters. See [Orderbook market data](/api-reference/orderbook/market-data).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Errors and rate limits" icon="triangle-exclamation" href="/api-reference/errors">
+    Handle 401, 403, and 429 responses and monitor your monthly quota.
+  </Card>
+  <Card title="Token price history" icon="chart-line" href="/api-reference/rest/tokens/token-price-history">
+    Put the interval conventions to work on OHLCV candlestick data.
+  </Card>
+  <Card title="REST API authentication" icon="key" href="/api-reference/authentication">
+    Request an API key and read the quota headers on every response.
+  </Card>
+  <Card title="Developer quickstart" icon="rocket" href="/developers/quickstart">
+    A curl ladder from token list to pool data to your first quote.
+  </Card>
+</CardGroup>

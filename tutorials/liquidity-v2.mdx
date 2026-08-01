@@ -1,0 +1,92 @@
+---
+title: "Provide liquidity on V2"
+description: "Create and manage SaucerSwap V2 concentrated liquidity positions: choose a fee tier, set a price range, claim fees, earn LARI, or use auto pools."
+---
+
+SaucerSwap V2 uses concentrated liquidity: instead of spreading your capital across all prices, you choose a price range where it works. Inside the range you earn a share of swap fees (and LARI rewards on incentivized pools); outside it, your position sits idle in a single token until price returns.
+
+<Frame caption="The pool page of the SaucerSwap web app.">
+  <img src="/images/app/pool.webp" alt="SaucerSwap pool page listing V2 liquidity pools with TVL and APR columns" />
+</Frame>
+
+## Prerequisites
+
+- A connected [Hedera wallet](/get-started/wallet)
+- [HBAR](/get-started/hbar) to cover network fees
+- Tokens for the pair you want to provide
+
+## Create a manual position
+
+<Steps>
+  <Step title="Locate the pool">
+    Go to the **pool** page and find the V2 pool for your pair. Pools differ by fee tier (0.05%, 0.15%, 0.30%, or 1.00%) — higher tiers compensate for more volatile pairs.
+  </Step>
+  <Step title="Start a new position">
+    Open the pool and choose to create a new position.
+  </Step>
+  <Step title="Set the price range">
+    This is the decision that drives your returns. You have three ways to set it:
+
+    - **Volatility strategy** — pre-configured ranges such as **Focused**, **Balanced**, and **Relaxed**. Focused earns more per dollar while in range but falls out of range sooner; Relaxed is the reverse.
+    - **Manual input** — set exact upper and lower price limits.
+    - **Depth chart handles** — drag range handles directly on the liquidity chart.
+
+    A tighter range means higher fee yield per dollar while price stays inside it, and more frequent rebalancing when it does not. If you would rather not manage a range, see [auto pools](#auto-pools) below.
+  </Step>
+  <Step title="Deposit tokens">
+    Enter the amount of either token; the interface computes the other side from your chosen range. A range entirely above or below the current price deposits a single token — this emulates a fee-earning limit order that converts one token to the other as price crosses your range.
+  </Step>
+  <Step title="Review and mint">
+    Check the amounts, range, and slippage tolerance, then confirm and complete the transaction in your wallet. Your position is minted as an NFT-style position you manage individually.
+  </Step>
+</Steps>
+
+## Manage a position
+
+Your positions are accessible from the **dashboard** page under **V2 Pools**, or directly from the pool page.
+
+- **Increase liquidity** — open the position, choose to increase, enter the additional amounts, and confirm in your wallet.
+- **Decrease liquidity** — choose to decrease, use the slider to pick how much to withdraw, and confirm. Fees earned so far are unaffected until claimed.
+- **Claim fees** — open the claim view to see accrued amounts of both tokens, then collect and complete the transaction. V2 fees do not compound automatically; claim them periodically.
+
+Positions in LARI-incentivized pools earn rewards automatically every two weeks with no staking step — see [SaucerSwap V2](/protocol/saucerswap-v2) for how LARI works.
+
+## Auto pools
+
+Auto pools manage the price range for you: you deposit a single token into a vault, and the vault maintains and rebalances a range position. Pools with a vault carry an **AUTO** marker on the **pool** page.
+
+<Steps>
+  <Step title="Deposit">
+    Open an AUTO-marked pool, choose the auto option when creating a position, select the vault, enter your single-token deposit amount, and confirm in your wallet.
+  </Step>
+  <Step title="Monitor">
+    The position view shows your deposited liquidity plus vault-level stats such as TVL and earned fees. Vault positions appear on the **dashboard** page under **V2 Vaults**.
+  </Step>
+  <Step title="Withdraw">
+    From the withdraw view, choose the amount with the slider or preset buttons, then confirm the transaction in your wallet.
+  </Step>
+</Steps>
+
+## Common mistakes
+
+<Warning>
+  An out-of-range position earns nothing. When price exits your range, your liquidity converts fully into one token and stops earning fees until price returns or you rebalance. Check your positions after large market moves.
+</Warning>
+
+- **Ignoring impermanent loss.** Concentration amplifies it: a tight range converts your capital into the depreciating token faster than a full-range position would. See [What is impermanent loss?](/get-started/faq#what-is-impermanent-loss)
+- **Choosing the wrong fee tier.** A stable pair in a 1.00% pool sees little volume; a volatile pair in a 0.05% pool undercompensates your risk. Match the tier the market actually uses — pool volume on the **pool** page tells you.
+- **Forgetting to claim fees.** V2 fees sit unclaimed until you collect them; they are not auto-compounded into the position.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="V2 protocol concepts" icon="book-open" href="/protocol/saucerswap-v2">
+    Concentrated liquidity math, fee tiers, and the LARI program in depth.
+  </Card>
+  <Card title="Track your positions" icon="chart-pie" href="/tutorials/portfolio">
+    Monitor positions, unclaimed fees, and LARI earnings on the dashboard.
+  </Card>
+  <Card title="Provide liquidity on V1" icon="clock-rotate-left" href="/tutorials/liquidity-v1">
+    The legacy constant-product pools and yield farm.
+  </Card>
+</CardGroup>
