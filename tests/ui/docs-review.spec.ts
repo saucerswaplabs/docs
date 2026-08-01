@@ -23,8 +23,8 @@ for (const route of uiRoutes) {
         await expect(page.getByRole('link', { name: 'Community pools' })).toHaveCount(0);
       }
       if (route.name === 'lari-weights') {
-        await expect(page.getByText('241,111.33', { exact: true })).toBeVisible();
-        await expect(page.getByText('9,154.00', { exact: true })).toBeVisible();
+        await expect(page.getByText('20.79% · 241,111.33 SAUCE', { exact: true })).toBeVisible();
+        await expect(page.getByText('0.79% · 9,154.00 SAUCE', { exact: true })).toBeVisible();
         await expect(page.getByText('8,938.32', { exact: true })).toHaveCount(0);
       }
       if (route.name === 'wallet') {
@@ -46,8 +46,7 @@ for (const route of uiRoutes) {
       }
       if (route.name === 'v3-fees') {
         await expect(page.getByText('This page shows fee rates as percentages', { exact: false })).toBeVisible();
-        await expect(page.getByText('0.12% (12 bps)', { exact: true })).toBeVisible();
-        await expect(page.getByText('0.002% (0.20 bps) rebate', { exact: true })).toBeVisible();
+        await expect(page.getByText('0.12% (12 bps) taker · 0.002% (0.20 bps) maker rebate', { exact: true })).toBeVisible();
         await expect(page.getByText('1,200 pips', { exact: false })).toHaveCount(0);
       }
       if (route.name === 'contracts') {
