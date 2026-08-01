@@ -21,8 +21,8 @@ interface OrderbookItem {
   baseTokenEvmAddress: string
   quoteTokenEvmAddress: string
   status: string // 'OPEN' | 'CLOSED'
-  isAMMEnabled: boolean // whether AMM liquidity is routed into this book
-  isMarketHalted: boolean
+  isAMMEnabled: 0 | 1 // whether AMM liquidity is routed into this book
+  isMarketHalted: 0 | 1
   baseTokenSymbol: string | null
   quoteTokenSymbol: string | null
   baseTokenDecimals: number | null // token decimals, e.g. 8 for WBTC
@@ -36,7 +36,7 @@ interface OrderbookItem {
 
 Additional price, volume, and timestamp fields may also be present.
 
-Use the returned EVM token addresses for `inputToken` and `outputToken` when building orders. Use `baseTokenDecimals` and `quoteTokenDecimals` when converting between human-readable display amounts and raw token amounts. Keep the build, sign, and save path on raw token units. If `isAMMEnabled` is `true`, AMM liquidity can be routed into that book when an order request also opts into AMM-backed settlement.
+Use the returned EVM token addresses for `inputToken` and `outputToken` when building orders. Use `baseTokenDecimals` and `quoteTokenDecimals` when converting between human-readable display amounts and raw token amounts. Keep the build, sign, and save path on raw token units. If `isAMMEnabled` is `1`, AMM liquidity can be routed into that book when an order request also opts into AMM-backed settlement.
 
 ## Depth snapshots
 

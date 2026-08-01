@@ -42,9 +42,9 @@ This is a one-way settlement backstop for V3 orders, not a swap-router compariso
 
 ## Market status and halts
 
-Each market carries an independent status (for example, `OPEN` or `CLOSED`) and `halt` flag. A market can therefore be marked open while matching is halted. SaucerSwap Labs can halt and reopen markets for legal, security, or operational reasons.
+Each market carries an independent status (for example, `OPEN` or `CLOSED`) and `isMarketHalted` flag. A market can therefore be marked open while matching is halted. SaucerSwap Labs can halt and reopen markets for legal, security, or operational reasons.
 
-Check both fields before trading. Live values are visible on the trade page and in [`GET /books`](https://orderbook-api.saucerswap.finance/books); see the [market data reference](/api-reference/orderbook/market-data). All five public mainnet books reported `OPEN` and `halt: 0` when checked July 29, 2026, but this snapshot can change.
+Check both fields before trading. Live values are visible on the trade page and in [`GET /books`](https://orderbook-api.saucerswap.finance/books); see the [market data reference](/api-reference/orderbook/market-data). All five public mainnet books reported `OPEN` and `isMarketHalted: 0` when checked July 29, 2026, but this snapshot can change.
 
 ## Self-custody and trust assumptions
 

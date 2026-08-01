@@ -1,0 +1,6 @@
+/* Keep Assistant available from the top bar while removing the redundant
+   persistent input that obscures page content, especially on mobile. */
+chat-assistant-floating-input,
+.chat-assistant-floating-input {
+  display: none;
+}

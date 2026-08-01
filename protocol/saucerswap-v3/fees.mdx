@@ -1,13 +1,13 @@
 ---
 title: "V3 fees and rebates"
-description: "How SaucerSwap V3 order book fees work: taker fees and maker rebates in pips, xSAUCE fee discounts, fee caps, and the BrewSaucer buyback flow."
+description: "How SaucerSwap V3 order book fees work: percentage-based taker fees and maker rebates, xSAUCE fee discounts, fee caps, and the BrewSaucer buyback flow."
 ---
 
 V3 charges fees on order book fills. Fees are set per market and per side (maker or taker), can differ by account, and are designed so that takers fund the system: maker rebates, where active, are paid out of taker fees rather than token emissions.
 
-<Warning>
-  V3 fee rates are expressed in pips, where 1 pip = 1e-6 = 0.0001%. They are not basis points: 1 basis point = 100 pips. The API field names — `takerFeePips`, `makerFeePips`, `capFractionPips` — make the unit explicit. Misreading pips as basis points overstates fees by 100x.
-</Warning>
+<Info>
+  This page shows fee rates as percentages, with basis points in parentheses. The API fields — `takerFeePips`, `makerFeePips`, and `capFractionPips` — return raw pips, where 1 pip = 0.0001% and 100 pips = 1 basis point. Convert those values before displaying them to users.
+</Info>
 
 ## Launch baseline and live rates
 
@@ -15,8 +15,8 @@ V3 charges fees on order book fills. Fees are set per market and per side (maker
 
 | Market class | Taker | Maker |
 | --- | --: | --: |
-| Non-stable markets | 12 bps (`1,200` pips) | -0.20 bps (`-20` pips) rebate |
-| Stable–stable markets | 6 bps (`600` pips) | -0.05 bps (`-5` pips) rebate |
+| Non-stable markets | 0.12% (12 bps) | 0.002% (0.20 bps) rebate |
+| Stable–stable markets | 0.06% (6 bps) | 0.0005% (0.05 bps) rebate |
 
 Market and account configuration can differ from this baseline. Read the effective values live:
 

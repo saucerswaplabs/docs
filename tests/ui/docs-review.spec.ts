@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { readFileSync } from 'node:fs';
 import { uiRoutes } from './routes';
 
 for (const route of uiRoutes) {
@@ -21,6 +22,11 @@ for (const route of uiRoutes) {
         await expect(page.getByText('139.522944 SAUCE/min', { exact: false })).toBeVisible();
         await expect(page.getByRole('link', { name: 'Community pools' })).toHaveCount(0);
       }
+      if (route.name === 'lari-weights') {
+        await expect(page.getByText('241,111.33', { exact: true })).toBeVisible();
+        await expect(page.getByText('9,154.00', { exact: true })).toBeVisible();
+        await expect(page.getByText('8,938.32', { exact: true })).toHaveCount(0);
+      }
       if (route.name === 'wallet') {
         await expect(page.getByRole('heading', { name: 'Kabila Wallet' })).toBeVisible();
       }
@@ -33,6 +39,36 @@ for (const route of uiRoutes) {
         const v3Link = page.locator('main a[href="/protocol/saucerswap-v3"]').first();
         await expect(v3Link).toBeVisible();
         await expect(v3Link).toHaveAttribute('href', '/protocol/saucerswap-v3');
+      }
+      if (route.name === 'v3') {
+        await expect(page.getByText('isMarketHalted', { exact: false }).first()).toBeVisible();
+        await expect(page.getByText('halt: 0', { exact: false })).toHaveCount(0);
+      }
+      if (route.name === 'v3-fees') {
+        await expect(page.getByText('This page shows fee rates as percentages', { exact: false })).toBeVisible();
+        await expect(page.getByText('0.12% (12 bps)', { exact: true })).toBeVisible();
+        await expect(page.getByText('0.002% (0.20 bps) rebate', { exact: true })).toBeVisible();
+        await expect(page.getByText('1,200 pips', { exact: false })).toHaveCount(0);
+      }
+      if (route.name === 'contracts') {
+        await expect(page.getByText('Topics 330–385', { exact: false })).toBeVisible();
+      }
+      if (route.name.startsWith('v2-')) {
+        await expect(page.getByText('Fee tier in hundredths of a basis point.', { exact: false }).first()).toBeVisible();
+      }
+      if (route.name === 'v2-positions') {
+        const openApiSpec = readFileSync('openapi.yml', 'utf8');
+        expect(openApiSpec).toContain("id: '0.0.1456986'");
+        expect(openApiSpec).toContain("id: '0.0.731861'");
+        expect(openApiSpec).not.toContain("id: '0.0.59042'");
+        expect(openApiSpec).not.toContain("id: '0.0.61266'");
+      }
+      if (route.name === 'orderbook-market-data') {
+        await expect(page.getByText('isAMMEnabled: 0 | 1', { exact: false }).first()).toBeVisible();
+        await expect(page.getByText('isMarketHalted: 0 | 1', { exact: false }).first()).toBeVisible();
+      }
+      if (route.name === 'changelog') {
+        await expect(page.getByText('stale instructions and active-route references', { exact: false })).toBeVisible();
       }
       if (route.name === 'orderbook-orders') {
         await expect(page.getByText('Never use "1"', { exact: false })).toBeVisible();
@@ -54,6 +90,13 @@ for (const route of uiRoutes) {
         `${route.path} should not create root overflow in ${testInfo.project.name}`,
       ).toBe(false);
 
+      const floatingAssistant = page.locator(
+        'chat-assistant-floating-input, .chat-assistant-floating-input',
+      );
+      if (await floatingAssistant.count()) {
+        await expect(floatingAssistant).toBeHidden();
+      }
+
       const axe = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
         // Mintlify's local preview reports the dark content surface against a
@@ -61,7 +104,33 @@ for (const route of uiRoutes) {
         // isolated while testing the repository-configured CTA below.
         .disableRules(['color-contrast'])
         .analyze();
-      const serious = axe.violations.filter(({ impact }) => impact === 'serious' || impact === 'critical');
+      const serious: typeof axe.violations = [];
+      for (const violation of axe.violations.filter(
+        ({ impact }) => impact === 'serious' || impact === 'critical',
+      )) {
+        if (violation.id !== 'scrollable-region-focusable') {
+          serious.push(violation);
+          continue;
+        }
+
+        // Mintlify gives KaTeX wrappers overflow:auto even when their formula
+        // fits horizontally; glyph ink creates a few non-interactive vertical
+        // pixels. Retain the keyboard-access violation whenever a reported
+        // node has meaningful horizontal scrolling in the tested viewport.
+        const actuallyScrollableNodes = [];
+        for (const node of violation.nodes) {
+          const selector = node.target[0];
+          const actuallyScrolls = typeof selector === 'string' && await page.locator(selector).evaluateAll(
+            (elements) => elements.some(
+              (element) => element.scrollWidth > element.clientWidth + 1,
+            ),
+          );
+          if (actuallyScrolls) actuallyScrollableNodes.push(node);
+        }
+        if (actuallyScrollableNodes.length) {
+          serious.push({ ...violation, nodes: actuallyScrollableNodes });
+        }
+      }
       expect(serious).toEqual([]);
 
       await page.screenshot({

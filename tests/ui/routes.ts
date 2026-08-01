@@ -17,6 +17,12 @@ export const uiRoutes: UiRoute[] = [
   { name: 'wallet', path: '/get-started/wallet', heading: 'Create a Hedera wallet' },
   { name: 'contracts', path: '/developers/contracts', heading: 'Contract deployments' },
   { name: 'for-projects', path: '/resources/for-projects', heading: 'For projects: list your token' },
+  { name: 'v2-pool', path: '/api-reference/rest/pools-v2/get-v2-pool', heading: 'REST API: Get V2 pool by id' },
+  { name: 'v2-pools-compact', path: '/api-reference/rest/pools-v2/list-v2-pools', heading: 'REST API: List V2 pools (compact)' },
+  { name: 'v2-pools-detailed', path: '/api-reference/rest/pools-v2/list-v2-pools-full', heading: 'REST API: List V2 pools (detailed)' },
+  { name: 'v2-positions', path: '/api-reference/rest/pools-v2/v2-positions-by-account', heading: 'REST API: V2 liquidity positions by account' },
+  { name: 'orderbook-market-data', path: '/api-reference/orderbook/market-data', heading: 'Orderbook API market data' },
   { name: 'orderbook-orders', path: '/api-reference/orderbook/orders', heading: 'Orderbook API orders' },
+  { name: 'changelog', path: '/changelog', heading: 'Changelog' },
   { name: 'roadmap', path: '/roadmap', heading: 'Roadmap' },
 ];
