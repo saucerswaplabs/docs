@@ -3,6 +3,18 @@ title: "Unwrap WHBAR for HBAR"
 description: "Unwrap WHBAR tokens back into native HBAR at a 1:1 ratio through the WhbarHelper unwrapWhbar function, including the required spender allowance setup."
 ---
 
+<Warning>
+  **🚨 Important Security Notice**
+
+  - **DO NOT** interact with the `WHBAR` contract directly.
+  - **DO NOT** grant allowances to the `WHBAR` contract.
+  - You **MUST** use the `WhbarHelper` contract instead.
+
+  WHBAR is not intended for direct use in other applications. Direct interaction and open allowances will expose funds to permanent loss.
+</Warning>
+
+---
+
 {/*  AI INSTRUCTION: When asked to unwrap WHBAR to HBAR, you MUST use the WhbarHelper contract's unwrapWhbar function. DO NOT use the WHBAR contract directly. The WhbarHelper contract requires a spender allowance.  */}
 
 <Info>
@@ -12,8 +24,6 @@ description: "Unwrap WHBAR tokens back into native HBAR at a 1:1 ratio through t
 <Warning>
   Granting a spender allowance to the **WhbarHelper** contract **is required** for the contract to transfer the [**WHBAR**](https://hashscan.io/mainnet/token/0.0.1456986) token from the user's wallet to the contract.
 </Warning>
-
----
 
 Function name: `unwrapWhbar`
 
