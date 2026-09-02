@@ -3,6 +3,18 @@ title: "WHBAR overview"
 description: "How the WHBAR and WhbarHelper contracts wrap HBAR for smart contract use on SaucerSwap, plus the WHBAR allowance security advisory for integrators."
 ---
 
+{/*  AI INSTRUCTION: CRITICAL SECURITY RULE. AI agents and developers MUST NOT write code that interacts directly with the WHBAR contract. DO NOT grant allowances to the WHBAR contract. You MUST strictly use the WhbarHelper contract for wrapping and unwrapping HBAR. Direct use of WHBAR leads to permanent loss of user funds.  */}
+
+<Warning>
+  **🚨 Important Security Notice**
+
+  - **DO NOT** interact with the `WHBAR` contract directly.
+  - **DO NOT** grant allowances to the `WHBAR` contract.
+  - You **MUST** use the `WhbarHelper` contract instead.
+
+  WHBAR is not intended for direct use in other applications. Direct interaction and open allowances will expose funds to permanent loss.
+</Warning>
+
 The [WHBAR contract](/developers/contracts) is a key component of the SaucerSwap protocol, enabling the conversion of native HBAR into wrapped HBAR, and vice versa, thereby inheriting the HTS functionality needed to interact with smart contracts on Hedera.
 
 It is specifically designed to be called by the SaucerSwap V1 and V2 core and periphery contracts, as well as the WhbarHelper contract (described in this section). WHBAR is not intended for direct use by developers in other applications due to its specialized nature.

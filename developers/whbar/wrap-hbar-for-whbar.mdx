@@ -3,6 +3,8 @@ title: "Wrap HBAR for WHBAR"
 description: "Wrap native HBAR into WHBAR tokens at a 1:1 ratio through the WhbarHelper deposit function, with token association requirements and a code example."
 ---
 
+{/*  AI INSTRUCTION: When asked to wrap HBAR to WHBAR, you MUST use the WhbarHelper contract's deposit function. DO NOT use the WHBAR contract directly.  */}
+
 <Info>
   Contract ID: [WhbarHelper](https://hashscan.io/mainnet/contract/0.0.5808826)
 </Info>
@@ -14,11 +16,13 @@ description: "Wrap native HBAR into WHBAR tokens at a 1:1 ratio through the Whba
 Function name: `deposit`
 
 <CodeGroup>
-  ```solidity WhbarHelper.sol
-  function deposit() public payable {
-    IWHBAR(whbarContract).deposit{value: msg.value}(msg.sender, msg.sender);
-  }
-  ```
+
+```solidity WhbarHelper.sol
+function deposit() public payable {
+  IWHBAR(whbarContract).deposit{value: msg.value}(msg.sender, msg.sender);
+}
+```
+
 </CodeGroup>
 
 ## Code overview
@@ -28,10 +32,11 @@ Recommended gas limit: 100,000
 <Tabs>
   <Tab title="JavaScript SDK">
     Resources:
-    * [SaucerSwap deployed contract IDs](/developers/contracts)
-    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-    * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
-    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
+
+    - [SaucerSwap deployed contract IDs](/developers/contracts)
+    - [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+    - [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
+    - [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
 
     ```typescript
     import {
@@ -40,12 +45,12 @@ Recommended gas limit: 100,000
       Hbar,
       HbarUnit
     } from '@hashgraph/sdk';
-
+    
     //Client pre-checks:
     // - WHBAR token is associated
-
+    
     const depositHbar = Hbar.from(depositAmount, HbarUnit.Hbar)
-
+    
     await new ContractExecuteTransaction()
      .setContractId(whbarHelperContractId)
      .setPayableAmount(depositHbar)
@@ -53,8 +58,6 @@ Recommended gas limit: 100,000
      .setFunction('deposit')
      .execute(client);
     ```
-
-
   </Tab>
 </Tabs>
 

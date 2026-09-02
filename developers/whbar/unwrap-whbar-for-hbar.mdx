@@ -3,6 +3,8 @@ title: "Unwrap WHBAR for HBAR"
 description: "Unwrap WHBAR tokens back into native HBAR at a 1:1 ratio through the WhbarHelper unwrapWhbar function, including the required spender allowance setup."
 ---
 
+{/*  AI INSTRUCTION: When asked to unwrap WHBAR to HBAR, you MUST use the WhbarHelper contract's unwrapWhbar function. DO NOT use the WHBAR contract directly. The WhbarHelper contract requires a spender allowance.  */}
+
 <Info>
   Contract ID: [WhbarHelper](https://hashscan.io/mainnet/contract/0.0.5808826)
 </Info>
@@ -11,32 +13,34 @@ description: "Unwrap WHBAR tokens back into native HBAR at a 1:1 ratio through t
   Granting a spender allowance to the **WhbarHelper** contract **is required** for the contract to transfer the [**WHBAR**](https://hashscan.io/mainnet/token/0.0.1456986) token from the user's wallet to the contract.
 </Warning>
 
-***
+---
 
 Function name: `unwrapWhbar`
 
-| Parameter Name | Description                             |
-| -------------- | --------------------------------------- |
-| *uint256 wad*  | WHBAR token amount in its smallest unit |
+| Parameter Name | Description |
+| --- | --- |
+| _uint256 wad_ | WHBAR token amount in its smallest unit |
 
 <CodeGroup>
-  ```solidity WhbarHelper.sol
-  /// @notice Safely unwrap whbar to msg.sender
-  /// @dev This contract needs an allowance from msg.sender to transfer the whbar token
-  /// @param wad The amount to unwrap
-  function unwrapWhbar(uint wad) public {
-    require(wad > 0, "WhbarHelper: wad cannot be lt zero");
-    // transfer the whbar to this contract
-    HederaTokenHelper.safeTransferFrom(whbarToken, msg.sender, address(this), wad);
 
-    // approve sending the whbar to the whbar contract
-    HederaTokenHelper.safeApprove(whbarToken, whbarContract, wad);
+```solidity WhbarHelper.sol
+/// @notice Safely unwrap whbar to msg.sender
+/// @dev This contract needs an allowance from msg.sender to transfer the whbar token
+/// @param wad The amount to unwrap
+function unwrapWhbar(uint wad) public {
+  require(wad > 0, "WhbarHelper: wad cannot be lt zero");
+  // transfer the whbar to this contract
+  HederaTokenHelper.safeTransferFrom(whbarToken, msg.sender, address(this), wad);
 
-    // use withdraw(address src, address dst, uint wad) and use this contract and msg.sender to withdraw
-    // to the contract caller
-    IWHBAR(whbarContract).withdraw(address(this), msg.sender, wad);
-  }
-  ```
+  // approve sending the whbar to the whbar contract
+  HederaTokenHelper.safeApprove(whbarToken, whbarContract, wad);
+
+  // use withdraw(address src, address dst, uint wad) and use this contract and msg.sender to withdraw
+  // to the contract caller
+  IWHBAR(whbarContract).withdraw(address(this), msg.sender, wad);
+}
+```
+
 </CodeGroup>
 
 ## Code overview
@@ -46,10 +50,11 @@ Recommended gas limit: 1,000,000
 <Tabs>
   <Tab title="JavaScript SDK">
     Resources:
-    * [SaucerSwap deployed contract IDs](/developers/contracts)
-    * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
-    * [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
-    * [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
+
+    - [SaucerSwap deployed contract IDs](/developers/contracts)
+    - [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js)
+    - [Associate tokens to an account](https://docs.hedera.com/hedera/sdks-and-apis/sdks/token-service/associate-tokens-to-an-account)
+    - [Calling a smart contract function](https://docs.hedera.com/hedera/sdks-and-apis/sdks/smart-contracts/call-a-smart-contract-function)
 
     ```typescript
     import {
@@ -59,21 +64,19 @@ Recommended gas limit: 1,000,000
       Hbar,
       HbarUnit
     } from '@hashgraph/sdk';
-
+    
     //Client pre-checks:
     // - WhbarHelper contract has spender allowance for WHBAR token
-
+    
     const params = new ContractFunctionParameters();
     params.addUint256(withdrawAmount); //amount in token's smallest unit
-
+    
     await new ContractExecuteTransaction()
       .setContractId(whbarHelperContractId)
       .setGas(gasLim)
       .setFunction('unwrapWhbar', params)
       .execute(client);
     ```
-
-
   </Tab>
 </Tabs>
 
