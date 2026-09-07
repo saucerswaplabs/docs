@@ -42,7 +42,7 @@ The **swap** page executes trades instantly against SaucerSwap's V1 and V2 AMM l
     | Price impact | How much your trade moves the pool price; high impact means low liquidity |
     | Fee | The pool swap fee, 0.05% to 1.00% depending on the pool; multi-hop routes pay a fee per pool |
 
-    Of each swap fee, 5/6 goes to liquidity providers and 1/6 to the protocol. Network fees are separate and paid in HBAR.
+    V1 sends 5/6 of each swap fee to liquidity providers and 1/6 to BrewSaucer. V2 uses the same split by default, with the split set per pool by the DAO; see [V2 fee distribution](/protocol/saucerswap-v2#distribution-of-fees). Network fees are separate and paid in HBAR.
   </Step>
   <Step title="Approve and swap">
     Choose between a one-time [token allowance](/get-started/faq#what-is-a-token-allowance) for this exact amount or a maximum allowance that skips approval on future swaps. Confirm the swap and sign the transaction in your wallet. If the receiving token is not yet associated with your account, the interface prompts you to associate it first.
