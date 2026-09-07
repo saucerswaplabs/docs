@@ -15,7 +15,43 @@ These docs are machine-readable. Point your coding agent at the indexes and MCP 
 
 ## MCP server
 
-The docs are also served over the Model Context Protocol at `https://docs.saucerswap.finance/mcp`, giving agents a search tool over this documentation.
+The docs are also served over the Model Context Protocol (MCP) at `https://docs.saucerswap.finance/mcp`, giving agents tools to search and read this documentation. No wallet connection or SaucerSwap REST API key is required.
+
+### Agent Plugins bundle (experimental)
+
+The [SaucerSwap docs bundle](https://github.com/saucerswaplabs/docs/tree/main/plugins/saucerswap-docs) packages this endpoint in the [Agent Plugins 1.0.0 format](https://agent-plugins.org/). Use it with a client that supports Agent Plugins MCP components and the `streamable-http` transport.
+
+<Steps>
+  <Step title="Download the bundle">
+    Download `plugin.json` and `mcp.json` into the same directory, or copy `plugins/saucerswap-docs` from the docs repository. No build step is needed.
+
+    ```bash
+    mkdir -p saucerswap-docs
+    curl --fail --location \
+      https://raw.githubusercontent.com/saucerswaplabs/docs/main/plugins/saucerswap-docs/plugin.json \
+      --output saucerswap-docs/plugin.json
+    curl --fail --location \
+      https://raw.githubusercontent.com/saucerswaplabs/docs/main/plugins/saucerswap-docs/mcp.json \
+      --output saucerswap-docs/mcp.json
+    ```
+  </Step>
+
+  <Step title="Load it in your client">
+    Inspect both files, then use your client's Agent Plugins installation flow to load the `saucerswap-docs` directory and enable its MCP server. Installation and permissions are client-specific; check the [compatible clients directory](https://agent-plugins.org/compatible-clients).
+  </Step>
+
+  <Step title="Check the connection">
+    Ask your agent: "Search the SaucerSwap docs for token association requirements and cite the relevant pages." Confirm that it uses the docs server and returns documentation links.
+  </Step>
+</Steps>
+
+<Note>
+  This is experimental packaging support, not a universal installation command. If your client does not support this format or transport, use direct MCP setup below. Choose one setup method to avoid duplicate connections.
+</Note>
+
+The hosted server also exposes a documentation-feedback tool. Review your client's tool permissions before enabling it. Queries and submitted feedback go to the documentation service; do not include private keys, API keys, or other secrets.
+
+### Direct MCP setup
 
 <Tabs>
   <Tab title="Claude Code">

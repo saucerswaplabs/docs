@@ -1,0 +1,13 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "saucerswap-docs",
+  "version": "0.1.0",
+  "description": "Search and read public SaucerSwap documentation through its hosted MCP server.",
+  "author": {
+    "name": "SaucerSwap Labs",
+    "url": "https://www.saucerswap.finance"
+  },
+  "homepage": "https://docs.saucerswap.finance/developers/ai",
+  "repository": "https://github.com/saucerswaplabs/docs",
+  "keywords": ["saucerswap", "hedera", "documentation", "mcp"]
+}

@@ -8,6 +8,7 @@ Source for the SaucerSwap docs at [docs.saucerswap.finance](https://docs.saucers
 - `index.mdx`, `get-started/`, `tutorials/` — the Learn tab (user onboarding and tutorials).
 - `protocol/`, `tokenomics/`, `governance/` — the Protocol tab (concepts and economics).
 - `developers/` — the Developers tab (contract guides, security, AI integration).
+- `plugins/saucerswap-docs/` — experimental Agent Plugins bundle for the public docs MCP endpoint; see its [setup and validation guide](plugins/saucerswap-docs/README.md).
 - `api-reference/` — the API Reference tab; REST pages are generated from `openapi.yml`.
 - `resources/`, `contact/`, `contributors/`, `legal/`, `changelog.mdx`, `roadmap.mdx` — the Resources tab.
 - `images/` — all assets: app screenshots (`images/app/`), diagrams (`images/diagrams/`), brand files (`images/brand/`).
