@@ -1,41 +1,55 @@
 ---
 title: "Farm weights"
-description: "Current nonzero Masterchef allocation points for SaucerSwap V1 yield farms, with each pool's share of the 788-point V1 allocation."
+description: "SaucerSwap V1 farm allocation points and each pool's share of the 1,200-point Phase 1 reward budget, with live data and Masterchef verification links."
 ---
 
-Each V1 farm receives a share of Masterchef's V1 allocation according to its allocation points. Governance can amend these values, so this table is a dated on-chain snapshot.
+V1 farms receive 1,200 of Masterchef's 5,000 allocation points during Phase 1: 24% of the base SAUCE emission rate. Individual farm points are integers and sum to the V1 allocation. Governance can change both the top-level allocation and the weights of individual farms.
+
+## Calculate a farm's share
+
+A farm's share of the V1 budget is its allocation points divided by 1,200. Its share of all point-allocated Masterchef rewards is its allocation points divided by 5,000:
+
+$$
+R_f = 1.056992 \times \frac{p_f}{5{,}000}
+$$
+
+Here, $R_f$ is the farm reward rate in SAUCE/sec, and $p_f$ is the farm's allocation points. The V1 allocation therefore receives 0.25367808 SAUCE/sec in total. Your reward depends on your share of the LP tokens staked in that farm. The additive devcut is separate from these rewards; see [SAUCE tokenomics](/tokenomics/overview#masterchef-emissions).
+
+## Phase 1 farm weights
+
+The September 2026 Phase 1 allocation is shown below. Zero-point farms are omitted, and displayed percentages are rounded.
 
 | V1 pool | Points | V1 share |
 | --- | --: | --: |
-| [HBAR/SAUCE](https://www.saucerswap.finance/pool/0.0.1461945) | 363 | 46.07% |
-| [HBAR/USDC](https://www.saucerswap.finance/pool/0.0.1462797) | 118 | 14.97% |
-| [HBAR/DOVU](https://www.saucerswap.finance/pool/0.0.3817615) | 49 | 6.22% |
-| [HBAR/HSUITE](https://www.saucerswap.finance/pool/0.0.1464178) | 29 | 3.68% |
-| [HBAR/gib](https://www.saucerswap.finance/pool/0.0.7902927) | 26 | 3.30% |
-| [HBAR/PACK](https://www.saucerswap.finance/pool/0.0.5981646) | 24 | 3.05% |
-| [HBAR/xSAUCE](https://www.saucerswap.finance/pool/0.0.1465211) | 18 | 2.28% |
-| [USDC/SAUCE](https://www.saucerswap.finance/pool/0.0.1088553) | 17 | 2.16% |
-| [HBAR/QNT.axl](https://www.saucerswap.finance/pool/0.0.10493791) | 17 | 2.16% |
-| [HBAR/LINK.axl](https://www.saucerswap.finance/pool/0.0.10493780) | 14 | 1.78% |
-| [HBAR/KARATE](https://www.saucerswap.finance/pool/0.0.2751778) | 13 | 1.65% |
-| [HBAR/LCX.axl](https://www.saucerswap.finance/pool/0.0.10493784) | 13 | 1.65% |
-| [HBAR/WAVAX.axl](https://www.saucerswap.finance/pool/0.0.10493801) | 13 | 1.65% |
-| [HBAR/BSL](https://www.saucerswap.finance/pool/0.0.4556534) | 12 | 1.52% |
-| [HBAR/GC](https://www.saucerswap.finance/pool/0.0.3279183) | 11 | 1.40% |
-| [HBAR/DAVINCI](https://www.saucerswap.finance/pool/0.0.4792562) | 10 | 1.27% |
-| [HBAR/KBL](https://www.saucerswap.finance/pool/0.0.7835651) | 10 | 1.27% |
-| [HBAR/HST](https://www.saucerswap.finance/pool/0.0.1463354) | 8 | 1.02% |
-| [SAUCE/xSAUCE](https://www.saucerswap.finance/pool/0.0.1465865) | 7 | 0.89% |
-| [HBAR/STEAM](https://www.saucerswap.finance/pool/0.0.5725728) | 6 | 0.76% |
-| [HBAR/GRELF](https://www.saucerswap.finance/pool/0.0.1462910) | 5 | 0.63% |
-| [HBAR/SENTX](https://www.saucerswap.finance/pool/0.0.3301046) | 5 | 0.63% |
-| **Total** | **788** | **100.00%** |
+| [HBAR/SAUCE](https://www.saucerswap.finance/pool/0.0.1461945) | 553 | 46.08% |
+| [HBAR/USDC](https://www.saucerswap.finance/pool/0.0.1462797) | 180 | 15.00% |
+| [HBAR/DOVU](https://www.saucerswap.finance/pool/0.0.3817615) | 75 | 6.25% |
+| [HBAR/HSUITE](https://www.saucerswap.finance/pool/0.0.1464178) | 44 | 3.67% |
+| [HBAR/gib](https://www.saucerswap.finance/pool/0.0.7902927) | 39 | 3.25% |
+| [HBAR/PACK](https://www.saucerswap.finance/pool/0.0.5981646) | 36 | 3.00% |
+| [HBAR/xSAUCE](https://www.saucerswap.finance/pool/0.0.1465211) | 27 | 2.25% |
+| [USDC/SAUCE](https://www.saucerswap.finance/pool/0.0.1088553) | 26 | 2.17% |
+| [HBAR/QNT.axl](https://www.saucerswap.finance/pool/0.0.10493791) | 26 | 2.17% |
+| [HBAR/LINK.axl](https://www.saucerswap.finance/pool/0.0.10493780) | 21 | 1.75% |
+| [HBAR/KARATE](https://www.saucerswap.finance/pool/0.0.2751778) | 20 | 1.67% |
+| [HBAR/LCX.axl](https://www.saucerswap.finance/pool/0.0.10493784) | 20 | 1.67% |
+| [HBAR/WAVAX.axl](https://www.saucerswap.finance/pool/0.0.10493801) | 20 | 1.67% |
+| [HBAR/BSL](https://www.saucerswap.finance/pool/0.0.4556534) | 18 | 1.50% |
+| [HBAR/GC](https://www.saucerswap.finance/pool/0.0.3279183) | 17 | 1.42% |
+| [HBAR/DAVINCI](https://www.saucerswap.finance/pool/0.0.4792562) | 15 | 1.25% |
+| [HBAR/KBL](https://www.saucerswap.finance/pool/0.0.7835651) | 15 | 1.25% |
+| [HBAR/HST](https://www.saucerswap.finance/pool/0.0.1463354) | 12 | 1.00% |
+| [SAUCE/xSAUCE](https://www.saucerswap.finance/pool/0.0.1465865) | 11 | 0.92% |
+| [HBAR/STEAM](https://www.saucerswap.finance/pool/0.0.5725728) | 9 | 0.75% |
+| [HBAR/GRELF](https://www.saucerswap.finance/pool/0.0.1462910) | 8 | 0.67% |
+| [HBAR/SENTX](https://www.saucerswap.finance/pool/0.0.3301046) | 8 | 0.67% |
+| **Total** | **1,200** | **100.00%** |
 
-<Info>
-  Checked July 29, 2026 against Masterchef `0.0.1077627` (`poolLength = 76`, `totalAllocPoint = 5,000`) and the public farms/pools APIs. Six legacy Hashport pools have zero points and are omitted. The four `.axl` pools are Axelar ITS assets.
-</Info>
+## Verify current weights
 
-Adjusting one pool's points reweights all V1 farm shares. The live 5,000-point Masterchef total also includes 2,314 points for LARI and 1,898 points for the DAO.
+Use the [active farms API](/api-reference/rest/farms/list-farms) for each farm's SAUCE emission rate and the [web app](https://www.saucerswap.finance/) for current rewards and APR. Read allocation points from each farm's configuration in [Masterchef on HashScan](https://hashscan.io/mainnet/contract/0.0.1077627). The API reports the resulting per-farm rate in whole SAUCE/min; divide by 60 to compare it with the SAUCE/sec formula above. It does not expose allocation points.
+
+Adjusting a farm's points changes its share of the reward budget. Check all active V1 farm points together rather than carrying forward percentages from an earlier allocation. The other Phase 1 top-level destinations are V2 LARI at 3,500 points and the DAO at 300 points.
 
 ## Next steps
 

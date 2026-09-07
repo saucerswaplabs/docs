@@ -7,18 +7,13 @@ SaucerSwap is a decentralized exchange on the Hedera network. It combines three 
 
 ```mermaid
 flowchart TD
-  T[Traders] -->|swap fees| V1[V1 constant-product pools]
-  T -->|swap fees| V2[V2 concentrated liquidity pools]
-  T -->|taker fees| V3[V3 order book]
-  V1 -->|protocol fee share| B[BrewSaucer SAUCE buybacks]
-  V2 -->|protocol fee share| B
-  V3 -->|net order book fees| B
-  B --> IP[Infinity Pool / xSAUCE holders]
-  B --> DAO[DAO treasury]
-  MC[Masterchef emissions] -->|farm rewards| V1LP[V1 liquidity providers]
-  MC -->|LARI rewards| V2LP[V2 liquidity providers]
-  MC -->|devcut share| IP
-  DAO -. governance votes .-> MC
+  AMM[V1/V2 protocol fees] --> B[BrewSaucer buybacks]
+  V3[V3 net fees] --> B
+  H[HBAR staking rewards] --> B
+  B -->|40%| IP[xSAUCE]
+  B -->|30%| DEV[Development]
+  B -->|10%| BURN[Burn]
+  B -->|20%| POL[POL + incentives]
 ```
 
 ## Tokens on Hedera
@@ -37,18 +32,29 @@ When you swap in the web app, [routing](/protocol/routing) compares available V1
 
 ## Fees and buybacks
 
-Traders pay a fee on every trade: a percentage of each AMM swap, or a taker fee on order-book fills. Most of each AMM fee goes to liquidity providers, while protocol fee-switch revenue and net V3 fees fund SAUCE buybacks through BrewSaucer. The ratified economic destinations differ by revenue source; see [V3 fees and rebates](/protocol/saucerswap-v3/fees) and [SAUCE tokenomics](/tokenomics/overview) for the allocation matrix.
+Traders pay a fee on every trade: a percentage of each AMM swap, or a taker fee on order-book fills. Most of each AMM fee goes to liquidity providers, while protocol fee-switch revenue and net V3 fees fund SAUCE buybacks through BrewSaucer. Unified BrewSaucer routes purchased SAUCE consistently across eligible revenue sources: 40% to xSAUCE, 30% to development, 10% to burn, and 20% to protocol-owned liquidity and incentives. See [SAUCE tokenomics](/tokenomics/overview) for the full allocation.
 
 ## Liquidity incentives
 
-The Masterchef contract mints SAUCE on a fixed schedule and distributes it as liquidity incentives:
+The Masterchef contract mints base rewards at 1.056992 SAUCE/sec under the [Phase 1 allocation](/tokenomics/overview#phase-1-allocation), a 50% reduction from the previous rate:
 
 - **V1 yield farm** — LP token stakers earn SAUCE (and, when enabled, HBAR) according to [farm weights](/protocol/saucerswap-v1/farm-weights) set by governance.
 - **V2 LARI** — the Liquidity-Aligned Reward Initiative rewards V2 positions automatically each two-week epoch, weighted by in-range liquidity. See [LARI weights](/protocol/saucerswap-v2/lari-weights).
 
+```mermaid
+flowchart TD
+  MC[Masterchef] --> BASE[Base rewards]
+  MC --> DC[Additive 10% devcut]
+  BASE -->|24%| V1[V1 farms]
+  BASE -->|70%| V2[V2 LARI]
+  BASE -->|6%| DAO[DAO]
+  DC -->|30%| BURN[Burn]
+  DC -->|70%| OTHER[Non-staking recipients]
+```
+
 ## Single-sided staking
 
-Staking SAUCE in the Infinity Pool issues xSAUCE, a receipt token whose SAUCE conversion rate rises over time as fee revenue, emissions, and HBAR staking rewards compound into the pool. xSAUCE also carries voting power and unlocks V3 fee discounts. See [Single-sided staking](/protocol/single-sided-staking).
+Staking SAUCE in the Infinity Pool issues xSAUCE, a receipt token whose SAUCE conversion rate rises over time as its share of revenue-funded SAUCE buybacks compounds into the pool. xSAUCE also carries voting power and unlocks V3 fee discounts. See [Single-sided staking](/protocol/single-sided-staking).
 
 ## Governance
 

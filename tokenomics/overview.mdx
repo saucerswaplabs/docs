@@ -1,6 +1,6 @@
 ---
 title: "SAUCE tokenomics"
-description: "SAUCE supply, allocations, and emissions: the completed genesis vesting, the Masterchef schedule, and how V1, V2, and V3 fees flow back to SAUCE."
+description: "SAUCE supply and Phase 1 tokenomics: Masterchef emissions, liquidity rewards, devcut burn, and Unified BrewSaucer revenue routing for the protocol."
 ---
 
 SAUCE is the native token of the SaucerSwap protocol, created and managed through the [Hedera Token Service](https://hedera.com/token-service) (HTS).
@@ -61,52 +61,79 @@ The DAO deployed non-upgradeable vesting contracts holding 300 million SAUCE. Th
 
 ## Masterchef emissions
 
-The Masterchef contract acts as both the treasury account and the supply key for SAUCE, minting and distributing the remaining emission allocation. On August 8, 2023, the DAO approved the [Tokenomics V2 proposal](https://medium.com/@SaucerSwap/saucerswap-v2-tokenomics-proposal-b355182545a6), which reduced the pool-reward rate by 60% from the V2 launch onward. The configured model reaches its planned endpoint in September 2027, although governance can change the rate or schedule.
+The Masterchef contract holds SAUCE's supply key and mints the remaining emission allocation. Phase 1 of the [SAUCE emission reduction and Unified BrewSaucer proposal](https://gov.saucerswap.finance/t/hbar-usd-perpetuals-sauce-emission-reduction-and-unified-brewsaucer/396), ratified in [election 6360](https://www.saucerswap.finance/governance/elections/6360), reduces its base emission rate by 50%: from 2.113984 to 1.056992 SAUCE/sec, or from 126.83904 to 63.41952 SAUCE/min.
 
-<Frame caption="How Masterchef emissions flow to farms, LARI, the DAO, and staking.">
-  <img src="/images/diagrams/emission-flow.svg" alt="Diagram of the SAUCE emission flow from the Masterchef contract to reward destinations" />
+The additive devcut remains 10% of the base rate. Gross issuance therefore also falls by 50%. SAUCE's maximum supply remains one billion tokens.
+
+| Emission stream | SAUCE/sec | SAUCE/min | Annualized SAUCE |
+| --- | --: | --: | --: |
+| Point-allocated rewards | 1.056992 | 63.41952 | ≈33.33 million |
+| Additive devcut | 0.1056992 | 6.341952 | ≈3.33 million |
+| Total gross issuance | 1.1626912 | 69.761472 | ≈36.67 million |
+
+Annualized amounts use a 365-day year at the configured rate.
+
+The proposal estimates that the lower rate extends the Masterchef rewards runway by roughly 14 months, from mid-September 2027 to early November 2028. These are modeled terminal periods; later changes to the emission rate can change the endpoint.
+
+### Phase 1 allocation
+
+Masterchef distributes the base rewards through 5,000 allocation points. The devcut is additional to these rewards and does not consume allocation points.
+
+<Frame caption="Phase 1 Masterchef emissions, allocation points, and the separate devcut.">
+  <img src="/images/diagrams/emission-flow.svg" alt="Phase 1 SAUCE emissions allocated to V1 farms, V2 LARI, and the DAO, with a separate devcut" />
 </Frame>
 
-The live Masterchef configuration checked July 29, 2026 uses 5,000 allocation points:
-
-| Pool-reward destination | Allocation points | Share of pool rewards | SAUCE/min |
+| Reward destination | Allocation points | Share of base rewards | SAUCE/min |
 | --- | --: | --: | --: |
-| V1 farms | 788 | 15.76% | 19.989833 |
-| LARI | 2,314 | 46.28% | 58.701108 |
-| DAO | 1,898 | 37.96% | 48.148100 |
-| **Pool rewards** | **5,000** | **100.00%** | **126.839040** |
+| V1 farms | 1,200 | 24% | 15.2206848 |
+| V2 LARI | 3,500 | 70% | 44.393664 |
+| DAO | 300 | 6% | 3.8051712 |
+| Total | 5,000 | 100% | 63.41952 |
 
-The additive devcut is 10% of pool rewards: 0.2113984 SAUCE/sec, or 12.683904 SAUCE/min. It is minted in addition to the pool-reward rate, so gross Masterchef minting is 2.3253824 SAUCE/sec, or 139.522944 SAUCE/min.
-
-- **V1 farms:** distributed to V1 LP stakers by [farm allocation point](/protocol/saucerswap-v1/farm-weights).
-- **LARI:** funds [V2 liquidity rewards](/protocol/saucerswap-v2/lari-weights), with per-pool allocations published for each epoch.
-- **DAO:** accrues to the DAO treasury for governance-controlled use.
-- **Devcut:** economically allocated to xSAUCE single-sided staking under the current ratified policy. An operational splitter may still appear in the transfer path.
+- V1 farms distribute rewards to LP token stakers according to [farm allocation points](/protocol/saucerswap-v1/farm-weights).
+- The Liquidity-Aligned Reward Initiative (LARI) funds [V2 liquidity rewards](/protocol/saucerswap-v2/lari-weights), with per-pool allocations published for each epoch.
+- The DAO allocation supports governance-approved liquidity and treasury uses.
 
 <Note>
-  Allocation points, emission rate, and terminal period are governance-adjustable. Treat this as a dated configuration snapshot and verify live state before relying on it.
+  Phase 2 is not active. The proposal reserves a later reallocation for the HBAR/USD perpetuals launch, after the market and its supporting contracts, including GMRewardVault, are deployed, audited, and ready. Until that activation, use the Phase 1 allocation above; see the [proposal's activation conditions](https://gov.saucerswap.finance/t/hbar-usd-perpetuals-sauce-emission-reduction-and-unified-brewsaucer/396) for the pending changes.
 </Note>
 
-## Fee flows: buybacks and burn
+### Devcut and additional burn
 
-Emissions are one side of SAUCE tokenomics; the other is protocol revenue flowing back into the token. The following source-specific allocation policy was ratified through [V3 Launch Economics, thread 368](https://gov.saucerswap.finance/t/v3-launch-economics/368), proposal 6123, and final passing election 6141:
+Masterchef sends its additive devcut to a SaucePaymentSplitter. Phase 1 redirects the 30% tranche previously sent to Mothership/xSAUCE to the protocol burn destination. The other 70% retains its existing non-staking distribution.
 
-| Source | Destination | Share |
-| --- | --- | --: |
-| V1/V2 fee-switch revenue + HBAR staking rewards | xSAUCE | 50% |
-|  | Development | 10% |
-|  | Burn | 10% |
-|  | Protocol-owned liquidity and incentive reserve | 30% |
-| V3 net fees | xSAUCE | 30% |
-|  | Development | 60% |
-|  | Burn | 10% |
-| Masterchef devcut | xSAUCE | 100% |
+| Devcut destination | Share of devcut | SAUCE/min | Annualized SAUCE |
+| --- | --: | --: | --: |
+| Burn destination | 30% | 1.9025856 | ≈1.00 million |
+| Existing non-staking recipients | 70% | 4.4393664 | ≈2.33 million |
+| Total | 100% | 6.341952 | ≈3.33 million |
 
-Fee-switch proceeds and net V3 fees fund SAUCE buybacks through BrewSaucer before the purchased SAUCE is routed to its economic destinations. “Net V3 fees” means taker fees collected less any maker rebates paid. Burns permanently reduce outstanding supply; they do not alter the configured Masterchef schedule or its planned terminal period.
+The redirected SAUCE is newly minted and then sent to burn. This offsets issuance; it is not a market buyback and does not extend the configured emission schedule. This burns approximately one million additional SAUCE per year, alongside the separate revenue-funded burn described below.
 
-<Info>
-  Governance forum text establishes the proposal's scope and chronology; a final passing election establishes ratification. [Thread 385](https://gov.saucerswap.finance/t/v3-order-book-calibration-contract-migration-market-set-and-fee-configuration/385), proposal 6285, and final election 6296 ratified an order-book recalibration on July 22, 2026, but its new fee configuration and cross-venue routing are not verified as deployed. The source-allocation matrix above remains tied to election 6141.
-</Info>
+## Unified BrewSaucer: buybacks and burn
+
+Unified BrewSaucer applies one downstream allocation to eligible protocol revenue. Each product first resolves its own liquidity-provider compensation, rebates, and discounts; only its eligible protocol share funds SAUCE buybacks.
+
+| Source | Value used for buybacks |
+| --- | --- |
+| V1 swap fees | Protocol fee-switch share: 1/6 of swap fees |
+| V2 swap fees | 1/6 of swap fees by default; the DAO can set a different share per pool |
+| V3 order book fees | Taker fees net of maker rebates and applicable trader discounts |
+| HBAR native staking | Rewards earned by HBAR held in the WHBAR contract |
+
+Purchased SAUCE is distributed as follows:
+
+| Destination | Share of purchased SAUCE | Use |
+| --- | --: | --- |
+| Mothership / xSAUCE | 40% | Revenue accrual for SAUCE stakers |
+| Development Fund | 30% | Audits, infrastructure, maintenance, and development |
+| Burn | 10% | Permanent removal of purchased SAUCE from circulation |
+| Protocol-owned liquidity (POL) + Incentive Reserve | 20% | Liquidity support and governance-approved incentives |
+| Total | 100% | |
+
+The reserve continues to support HBAR rewards for the V2 SAUCE/HBAR and USDC/HBAR pools at a 50/50 pool-level split. The reward amount varies with the funded budget and is separate from SAUCE LARI allocation points. V3 continues to use maker rebates rather than SAUCE emission incentives.
+
+The 10% BrewSaucer burn uses SAUCE purchased on the market. The additional devcut burn uses newly minted SAUCE; the two streams must be counted separately. Buyback amounts depend on protocol revenue and SAUCE's market price, while the lower emission rate reduces how much new SAUCE enters circulation alongside those buybacks.
 
 ## Historical appendix: the original (pre-V2) model
 

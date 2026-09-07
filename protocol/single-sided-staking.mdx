@@ -1,23 +1,29 @@
 ---
 title: "Single-sided staking"
-description: "How the Infinity Pool works: stake SAUCE for xSAUCE, earn from three protocol revenue sources, and understand the rate math behind staking APR."
+description: "How the Infinity Pool works: stake SAUCE for xSAUCE, earn a share of Unified BrewSaucer buybacks, and understand the rate math behind staking APR."
 ---
 
 The Infinity Pool is SaucerSwap's single-sided staking system. Deposit SAUCE and you receive xSAUCE, a receipt token; the SAUCE-per-xSAUCE conversion rate started at 1:1 and rises over time as protocol revenue compounds into the pool. There is no lock-up schedule in the mechanism itself — you unstake by converting xSAUCE back to SAUCE at the current rate on the stake page.
 
 xSAUCE is itself an HTS token: it counts toward your [governance voting power](/governance/overview), earns tiered [V3 trading fee discounts](/protocol/saucerswap-v3/fees), and can be used elsewhere in the ecosystem (for example, in xSAUCE liquidity pools).
 
-<Frame caption="SAUCE flows into the Infinity Pool from three revenue sources, raising the xSAUCE conversion rate.">
+<Frame caption="Unified BrewSaucer routes 40% of purchased SAUCE to the Infinity Pool, raising the xSAUCE conversion rate.">
   <img src="/images/diagrams/xsauce-flow.svg" alt="Diagram of SAUCE revenue sources compounding into the Infinity Pool and the xSAUCE conversion rate" />
 </Frame>
 
-## Three revenue sources
+## Revenue-backed rewards
 
-Yield in the Infinity Pool is derived from three distinct streams:
+The Infinity Pool receives 40% of SAUCE purchased through [Unified BrewSaucer](/tokenomics/overview#unified-brewsaucer-buybacks-and-burn). Those buybacks are funded by:
 
-1. **Trading fees.** The protocol's share of V1 and V2 swap fees — and net [V3 order book fees](/protocol/saucerswap-v3/fees) — funds SAUCE buybacks, part of which flows to the Infinity Pool.
-2. **Farm emissions.** A share of the Masterchef contract's devcut emissions is allocated to single-sided staking rewards; see [SAUCE tokenomics](/tokenomics/overview) for the emission schedule.
-3. **HBAR native staking rewards.** HBAR is not an HTS token, so a smart contract wraps it into WHBAR for use on SaucerSwap. The WHBAR contract's HBAR balance is proxy-staked to a Hedera network node. It held 195,071,535.78464572 HBAR when checked July 29, 2026; verify the [live balance on HashScan](https://hashscan.io/mainnet/contract/0.0.1456985) or the [Mirror Node account response](https://mainnet-public.mirrornode.hedera.com/api/v1/accounts/0.0.1456985) rather than relying on the snapshot. Hedera native staking has no slashing and no lock-up, so the balance stays fully available. Accrued HBAR rewards are swapped into SAUCE via a daily buyback.
+| Revenue source | Eligible value |
+| --- | --- |
+| V1 and V2 swap fees | The protocol fee-switch share, after liquidity providers receive their share |
+| V3 order book fees | Taker fees net of maker rebates and applicable trader discounts |
+| HBAR native staking rewards | Rewards earned by HBAR held in the WHBAR contract |
+
+The WHBAR contract's HBAR balance is proxy-staked to a Hedera network node. Hedera native staking has no slashing or lock-up, so the balance remains available for wrapping and unwrapping. Check the [WHBAR contract on HashScan](https://hashscan.io/mainnet/contract/0.0.1456985) for its current balance.
+
+Phase 1 ends the devcut contribution to xSAUCE: the 30% devcut tranche previously sent to Mothership is now sent to burn. Staking rewards therefore accrue from the revenue-funded buyback allocation, rather than that emission stream.
 
 ## Worked example
 
@@ -26,7 +32,7 @@ Yield in the Infinity Pool is derived from three distinct streams:
     User A is the first participant. They deposit 10 SAUCE and receive 10 xSAUCE — the initial 1:1 ratio.
   </Step>
   <Step title="Revenue raises the rate">
-    10 SAUCE of protocol revenue (fees, HBAR staking rewards, emissions) is added to the pool. The pool now holds 20 SAUCE against 10 xSAUCE, so the rate is 1 xSAUCE = 2 SAUCE. User A could now redeem their 10 xSAUCE for 20 SAUCE.
+    10 SAUCE from the pool's share of revenue-funded buybacks is added to the pool. The pool now holds 20 SAUCE against 10 xSAUCE, so the rate is 1 xSAUCE = 2 SAUCE. User A could now redeem their 10 xSAUCE for 20 SAUCE.
   </Step>
   <Step title="New stakers enter at the current rate">
     User B deposits 10 SAUCE. At the 1:2 rate they receive 5 xSAUCE. The pool holds 30 SAUCE against 15 xSAUCE — the rate is unchanged. New stakers never dilute existing ones.
@@ -59,6 +65,6 @@ where $R$ is the SAUCE/xSAUCE exchange rate, and $R_i$ and $R_f$ are the rates a
     Use SAUCE and xSAUCE voting power in the DAO.
   </Card>
   <Card title="SAUCE tokenomics" icon="coins" href="/tokenomics/overview">
-    The emission and buyback flows feeding the Infinity Pool.
+    Follow the buyback allocation and separate devcut burn.
   </Card>
 </CardGroup>

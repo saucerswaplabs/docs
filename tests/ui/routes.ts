@@ -5,6 +5,13 @@ export type UiRoute = {
 };
 
 export const uiRoutes: UiRoute[] = [
+  { name: 'protocol-overview', path: '/protocol/overview', heading: 'How SaucerSwap works' },
+  { name: 'v1-overview', path: '/protocol/saucerswap-v1', heading: 'SaucerSwap V1' },
+  { name: 'saucerswap-v2', path: '/protocol/saucerswap-v2', heading: 'SaucerSwap V2' },
+  { name: 'stake-tutorial', path: '/tutorials/stake', heading: 'Stake SAUCE' },
+  { name: 'swap-tutorial', path: '/tutorials/swap', heading: 'Swap tokens' },
+  { name: 'faq', path: '/get-started/faq', heading: 'Frequently asked questions' },
+  { name: 'farms-api', path: '/api-reference/rest/farms/list-farms', heading: 'REST API: List active farms' },
   { name: 'tokenomics', path: '/tokenomics/overview', heading: 'SAUCE tokenomics' },
   { name: 'routing', path: '/protocol/routing', heading: 'Swap routing' },
   { name: 'farm-weights', path: '/protocol/saucerswap-v1/farm-weights', heading: 'Farm weights' },
