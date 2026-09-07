@@ -17,14 +17,22 @@ for (const route of uiRoutes) {
         requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
       }));
 
+      if (route.name === 'protocol-overview') {
+        // Mermaid hydrates after the surrounding MDX. Wait for both completed
+        // diagrams, not the empty SVG placeholders created during rendering.
+        const diagrams = page.locator('svg[id^="mermaid"]');
+        await expect(diagrams.filter({ hasText: 'BrewSaucer buybacks' })).toBeVisible({ timeout: 30_000 });
+        await expect(diagrams.filter({ hasText: 'Masterchef' })).toBeVisible({ timeout: 30_000 });
+      }
       if (route.name === 'tokenomics') {
-        await expect(page.getByText('September 2027')).toBeVisible();
-        await expect(page.getByText('139.522944 SAUCE/min', { exact: false })).toBeVisible();
+        await expect(page.getByText('early November 2028', { exact: false })).toBeVisible();
+        await expect(page.getByRole('row', { name: 'Total gross issuance 1.1626912 69.761472 ≈36.67 million' })).toBeVisible();
+        await expect(page.getByText('Phase 2 is not active.', { exact: false })).toBeVisible();
         await expect(page.getByRole('link', { name: 'Community pools' })).toHaveCount(0);
       }
       if (route.name === 'lari-weights') {
-        await expect(page.getByText('20.79% · 241,111.33 SAUCE', { exact: true })).toBeVisible();
-        await expect(page.getByText('0.79% · 9,154.00 SAUCE', { exact: true })).toBeVisible();
+        await expect(page.getByRole('row', { name: 'USDC-HBAR 20.79% 186,067.23', exact: true })).toBeVisible();
+        await expect(page.getByRole('row', { name: 'HBAR-WBNB.axl 0.79% 7,064.20', exact: true })).toBeVisible();
         await expect(page.getByText('8,938.32', { exact: true })).toHaveCount(0);
       }
       if (route.name === 'wallet') {

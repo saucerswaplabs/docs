@@ -1,6 +1,6 @@
 ---
 title: "Contract deployments"
-description: "Canonical SaucerSwap contract and token IDs on Hedera mainnet and testnet, with HashScan and Mirror Node verification, the V3 signing domain, and Axelar ITS SAUCE on Base."
+description: "SaucerSwap contract and token IDs on Hedera mainnet and testnet, with explorer verification, Phase 1 fee routing, V3 signing, and SAUCE on Base."
 ---
 
 These are the canonical SaucerSwap deployments. Every ID links to HashScan. Audit coverage for the V1, V2, and V3 contracts is listed on the [audits page](/developers/security/audits).
@@ -79,8 +79,11 @@ Advanced clients can submit cancellations directly to the reactor on-chain; see 
 | --- | --- | --- |
 | BrewsaucerV2 | [0.0.9575119](https://hashscan.io/mainnet/contract/0.0.9575119) | Protocol fee conversion to SAUCE |
 | BrewsaucerV1 (deprecated) | [0.0.1485296](https://hashscan.io/mainnet/contract/0.0.1485296) | Superseded by BrewsaucerV2 |
-| sauceSplitter | [0.0.1462981](https://hashscan.io/mainnet/contract/0.0.1462981) | Fee distribution splitter |
+| SaucePaymentSplitter | [0.0.10834473](https://hashscan.io/mainnet/contract/0.0.10834473) | Phase 1 Masterchef devcut: 30% burn, 70% existing non-staking route |
+| sauceSplitter (legacy) | [0.0.1462981](https://hashscan.io/mainnet/contract/0.0.1462981) | Previous Masterchef devcut recipient, superseded in Phase 1 |
 | hbarSplitter | [0.0.1462986](https://hashscan.io/mainnet/contract/0.0.1462986) | Fee distribution splitter |
+
+The Phase 1 SaucePaymentSplitter uses EVM address `0xf27b41e702ac95312fe005b33e4c5c14d2d722b9`; use this address rather than a long-zero conversion of its Hedera ID. Of its 1,000,000 shares, 700,000 belong to the existing non-staking recipient `0.0.1062644`, and 300,000 belong to `0xdead000000000000000000000000000000000000`. This is a pull-payment splitter: `release(account)` transfers an entitled payee's available SAUCE, so a deposit does not itself forward the funds. See [devcut and additional burn](/tokenomics/overview#devcut-and-additional-burn) for the economic allocation.
 
 Governance submissions do not use one permanent “proposal creator” account. Historical Labs submissions used:
 

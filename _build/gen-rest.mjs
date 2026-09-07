@@ -113,7 +113,7 @@ const OPS = [
 
   // --- farms ---
   ['/farms', 'farms', 'list-farms', 'REST API: List active farms',
-    'List all active SaucerSwap yield farms with farm and pool ids, SAUCE and HBAR emission rates per second, and total staked LP token amounts per farm.'],
+    'List all active SaucerSwap yield farms with farm and pool ids, SAUCE and HBAR emission rates per minute, and total staked LP token amounts per farm.'],
   ['/farms/totals/{accountId}', 'farms', 'farm-totals-by-account', 'REST API: Farm LP totals by account',
     'Retrieve the LP token amounts a Hedera account has staked in each SaucerSwap farm, with farm id, pool id, and the timestamp of the latest update.'],
 ];

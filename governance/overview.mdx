@@ -59,14 +59,13 @@ Matters not specified here — particularly broader financial concerns — are m
 
 The flows below describe the mechanism; the percentages within each splitter are DAO-adjustable, and per-week amounts vary with emissions and market conditions. For contract-by-contract detail, see [Contract deployments](/developers/contracts); for transaction-level reporting, see [DAO reporting](/governance/dao-reporting).
 
-- **Masterchef emissions** (`0.0.1077627`) — mints SAUCE on the [tokenomics schedule](/tokenomics/overview). Its 5,000 pool-reward points currently allocate 788 to V1 farms, 2,314 to LARI, and 1,898 to the DAO. The additive devcut's current economic destination is 100% xSAUCE staking; an operational splitter can remain in the transfer topology.
-- **LARI distribution** — SAUCE designated for LARI accumulates in holding accounts and is airdropped to V2 LPs at the end of each epoch. Current per-epoch totals are published in [LARI weights](/protocol/saucerswap-v2/lari-weights).
-- **V1/V2 fee-switch revenue and HBAR staking rewards** — after SAUCE buybacks through BrewsaucerV2 (`0.0.9575119`), the ratified economic allocation is 50% xSAUCE, 10% Development, 10% burn, and 30% protocol-owned liquidity plus incentive reserve.
-- **V3 net fees** — taker fees less any maker rebates also fund SAUCE buybacks. The ratified allocation is 30% xSAUCE, 60% Development, 10% burn, and 0% protocol-owned liquidity plus incentive reserve.
-- **Collection topology** — V1's 1/6 protocol share accrues to feeTo (`0.0.1062785`); V2 uses each pool's configured 1/N protocol share where 4 ≤ N ≤ 10. Mothership (`0.0.1460199`), sauceSplitter (`0.0.1462981`), hbarSplitter (`0.0.1462986`), stakeToSetter (`0.0.1456973`), and BrewsaucerV2 implement collection and routing. An intermediary contract does not by itself define the economic destination.
+- Masterchef emissions (`0.0.1077627`) — mints SAUCE at the [Phase 1 rate](/tokenomics/overview#masterchef-emissions). The 5,000 base-reward points allocate 1,200 to V1 farms, 3,500 to LARI, and 300 to the DAO. The additive devcut goes through a separate splitter: 30% to burn and 70% to the existing non-staking recipients.
+- LARI distribution — designated SAUCE accumulates for distribution to eligible V2 liquidity providers at each epoch's end. Published budgets appear in [LARI weights](/protocol/saucerswap-v2/lari-weights).
+- Unified BrewSaucer — eligible V1/V2 fee-switch revenue, net V3 fees, and WHBAR native-staking rewards fund SAUCE buybacks. Purchased SAUCE is routed 40% to Mothership/xSAUCE, 30% to the Development Fund, 10% to burn, and 20% to the POL + Incentive Reserve.
+- Collection — V1's protocol share is 1/6 of swap fees. Each V2 pool uses its configured 1/N protocol share, where 4 ≤ N ≤ 10. V3 first resolves maker rebates and applicable trader discounts. See [contract deployments](/developers/contracts) for collection and routing contracts.
 
 <Note>
-  The source-specific allocation matrix was ratified through [V3 Launch Economics, thread 368](https://gov.saucerswap.finance/t/v3-launch-economics/368), proposal 6123, and final passing election 6141. [Thread 385](https://gov.saucerswap.finance/t/v3-order-book-calibration-contract-migration-market-set-and-fee-configuration/385), proposal 6285, and final election 6296 later ratified an order-book recalibration on July 22, 2026, but its new configuration and cross-venue routing are not verified as deployed. Use the governance app and live protocol surfaces together.
+  The [SAUCE emission reduction and Unified BrewSaucer proposal](https://gov.saucerswap.finance/t/hbar-usd-perpetuals-sauce-emission-reduction-and-unified-brewsaucer/396) was ratified in [election 6360](https://www.saucerswap.finance/governance/elections/6360). Phase 1 updates emissions and revenue routing. The later perpetuals-related allocation remains subject to the proposal's Phase 2 activation conditions.
 </Note>
 
 ## Proto-governance

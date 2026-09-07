@@ -1126,12 +1126,12 @@ components:
           type: number
           format: float
           example: 2.3062
-          description: 'The amount of SAUCE emitted per second to the pool if the farm exists'
+          description: 'Whole SAUCE allocated to this farm per minute, excluding the separate Masterchef devcut. Divide by 60 for SAUCE/sec. This is a per-farm rate, not the protocol-wide base emission rate.'
         hbarEmissions:
           type: number
           format: float
           example: 0.0103
-          description: 'The amount of HBAR emitted per second to the pool if the farm exists'
+          description: 'Whole HBAR allocated to this farm per minute if the farm has funded HBAR rewards'
         totalStaked:
           type: string
           example: '955338445589'

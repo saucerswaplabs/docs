@@ -36,13 +36,13 @@ Lower fee tiers use tighter tick spacing, allowing greater capital efficiency wh
 
 ## Distribution of fees
 
-Traders pay the pool's fee tier on each swap. As in V1, 5/6 of the collected fee goes to LPs and 1/6 to the protocol; the protocol's share funds SAUCE buybacks distributed between the [Infinity Pool](/protocol/single-sided-staking) and the DAO. Unlike V1, LPs earn fees directly in the pool's tokens — a USDC/HBAR position accrues claimable USDC and HBAR.
+Traders pay the pool's fee tier on each swap. The configured protocol fee-switch share is 1/N, where 4 ≤ N ≤ 10; the remainder goes to LPs. The protocol share funds [Unified BrewSaucer buybacks](/tokenomics/overview#unified-brewsaucer-buybacks-and-burn), with purchased SAUCE allocated to xSAUCE, development, burn, and liquidity incentives. Unlike V1, LPs earn fees directly in the pool's tokens — a USDC/HBAR position accrues claimable USDC and HBAR.
 
 $$
-\text{Fees APR} = \frac{\text{24h volume} \times (\text{fee} \times 5/6)}{L_{\text{bal}}} \times 365
+\mathrm{APR}_{\mathrm{fees}} = \frac{V_{24} \times f \times (1 - 1/N)}{L_{\mathrm{bal}}} \times 365
 $$
 
-where fee is the pool's tier and $L_{\text{bal}}$ is the total liquidity aggregated over a [balanced range](/protocol/saucerswap-v2#balanced-approach). The interface displays the 7-day average.
+where $V_{24}$ is the 24-hour trading volume, $f$ is the pool's fee tier expressed as a decimal, and $L_{\mathrm{bal}}$ is liquidity aggregated over a [balanced range](/protocol/saucerswap-v2#balanced-approach). Use the same currency for volume and liquidity. The interface displays the 7-day average.
 
 <Info>
   Total APR = fees APR + reward APR, where reward APR is sourced from [LARI](/protocol/saucerswap-v2#liquidity-aligned-reward-initiative-lari).
@@ -165,7 +165,7 @@ LARI can emit any number of HTS tokens per pool, so projects can run campaigns r
 
 ### Reward funding
 
-LARI rewards are funded from the DAO's share of Masterchef emissions, plus any tokens that partner projects commit to campaigns. The DAO sets each epoch's total allocation and per-pool weights through governance; see [LARI weights](/protocol/saucerswap-v2/lari-weights) for the live epoch and past distributions, and [SAUCE tokenomics](/tokenomics/overview) for the emission schedule.
+LARI receives a dedicated Masterchef allocation, separate from the DAO's allocation: 3,500 of 5,000 points during Phase 1, or 70% of base SAUCE emissions. Partner projects can also commit tokens to campaigns. The DAO sets each epoch's allocation and per-pool weights through governance; see [LARI weights](/protocol/saucerswap-v2/lari-weights) for published epoch distributions and [SAUCE tokenomics](/tokenomics/overview) for the emission rate.
 
 <Frame caption="LARI rewards efficient, in-range liquidity rather than idle capital.">
   ![Diagram of the LARI reward flow across a two-week epoch](/images/protocol/lari.png)
