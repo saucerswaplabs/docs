@@ -136,7 +136,7 @@ A missing required query param, or an unknown order book, returns `400`.
 ## Fee units
 
 <Info>
-  Fee rates are expressed in pips (1 pip = 1e-6 = 0.0001%), matching the `takerFeePips` / `makerFeePips` / `capFractionPips` field names. They are not basis points.
+  Fee rates use pips: 1 pip = 1e-6 = 0.0001%, and 100 pips = 1 basis point. `takerFeePips` and `makerFeePips` express trading fee rates. `capFractionPips` instead expresses the maker rebate cap as a fraction of effective taker fees, using the same scale; it is not an additional trading fee. See [V3 fees and rebates](/protocol/saucerswap-v3/fees#maker-rebate-safety-cap).
 </Info>
 
 Authenticated accounts can fetch their fee rates for an order book side with `GET /fees/:orderbookId?side=maker` — this endpoint requires a JWT. See [authentication](/api-reference/orderbook/authentication).

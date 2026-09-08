@@ -25,6 +25,8 @@ The [V3 order book](/protocol/saucerswap-v3) has a separate, one-way AMM backsto
 
 The swap router does not currently compare an AMM swap quote with an order-book quote. [Governance thread 385](https://gov.saucerswap.finance/t/v3-order-book-calibration-contract-migration-market-set-and-fee-configuration/385), proposal 6285, and final election 6296 ratified that cross-venue comparison on July 22, 2026, but the change is not verified as deployed.
 
+Under the approved calibration, V3 is eligible only when its quote is fresh, fully executable for the requested size, and at least 5 basis points (0.05%) better all-in. A better top-of-book price alone does not qualify. See [V3 market routing eligibility](/protocol/saucerswap-v3/markets#relationship-to-swap-routing) for the HBAR/USDC relaunch condition.
+
 ## For integrators
 
 The smart order router is part of the SaucerSwap app and is not exposed as a public API. Integrators quote directly against the venues:

@@ -1,68 +1,90 @@
 ---
 title: "SaucerSwap V3"
-description: "How SaucerSwap V3's central limit order book works: off-chain matching with on-chain settlement on Hedera, order types, AMM backstop, and halts."
+description: "Understand SaucerSwap V3's order book: bids and asks, maker and taker orders, wallet-held funds, off-chain matching, and on-chain settlement on Hedera."
 ---
 
-SaucerSwap V3 is a central limit order book (CLOB) on Hedera, live on mainnet since June 12, 2026. It brings CEX-style trading — limit orders, market orders, live depth, and charting — to the trade page of the web app, while keeping assets in your own wallet: you sign orders, and settlement happens on-chain.
+SaucerSwap V3 is a central limit order book (CLOB) for spot trading on Hedera. You buy or sell tokens against orders at specific prices, instead of depositing liquidity into an automated market maker (AMM) pool. Tokens remain in your wallet until a trade settles on-chain.
 
-V3 was audited by Halborn on May 18, 2026, ahead of launch; see [Audits](/developers/security/audits). Trading an order book carries risks that AMM swaps do not — read the [V3 Orderbook Risk Notice](/legal/orderbook-risk-notice) before trading.
+<Info>
+  As of September 8, 2026, the [approved V3 calibration](https://gov.saucerswap.finance/t/saucerswap-v3-order-book-calibration-contract-migration-market-set-and-fee-configuration/385) has not activated yet. Its planned market set, fee schedule, and contract migration are described in [V3 markets](/protocol/saucerswap-v3/markets) and [V3 fees](/protocol/saucerswap-v3/fees). Check the app for the markets and effective fees available when you trade.
+</Info>
 
-## Architecture: off-chain matching, on-chain settlement
+## How an order book works
 
-V3 uses a hybrid model:
+A market pairs a base token with a quote token. In SAUCE/USDC, for example, you buy or sell SAUCE at a price expressed in USDC per SAUCE. A buy order spends the quote token to receive the base token; a sell order does the reverse.
 
-1. **You sign an order, not a transaction.** Orders are structured, signed messages (EIP-712 typed data or a Hedera personal-sign payload). Your tokens stay in your wallet; you grant a token allowance once per token.
-2. **Matching happens off-chain.** A purpose-built matching engine maintains the book and matches orders with millisecond latency, which is how the book achieves exchange-grade responsiveness.
-3. **Settlement happens on-chain.** Matched orders are submitted to an on-chain settlement contract (the reactor) on Hedera and settle atomically. The reactor verifies signatures and enforces the signed order parameters, and it remains the source of truth for order state.
+| Concept | Meaning |
+| --- | --- |
+| Bid | An order to buy the base token at a specified price |
+| Ask | An order to sell the base token at a specified price |
+| Spread | The difference between the highest bid and the lowest ask |
+| Depth | The amount available at each price level |
+| Fill | The executed portion of an order |
 
-This design means placing and canceling orders costs no per-trade gas; you pay fees only on fills. It also means displayed order status can briefly lag or differ from on-chain state — the [risk notice](/legal/orderbook-risk-notice) describes these failure modes in detail.
+A large trade may fill against several orders at different prices. A displayed price does not mean your entire trade can execute at that price; available depth and your order's price limits determine what can fill. See [Slippage](/get-started/faq#what-is-slippage) for the difference between a quote and the execution you accept.
 
-<Frame caption="A V3 order from signing to on-chain settlement.">
-  <img src="/images/diagrams/order-lifecycle.svg" alt="Lifecycle of a SaucerSwap V3 order: build and sign, submit to the book, off-chain matching, on-chain settlement through the reactor, and account events" />
-</Frame>
+## Makers and takers
+
+A maker adds an order that can be filled by another trader. A taker removes available liquidity by trading against it. The distinction depends on how an order fills, not simply whether you selected a limit or market order.
+
+A limit order priced to cross the opposite side of the book can take liquidity immediately. Its unfilled remainder may rest on the book, where later fills act as maker fills. Maker rebates, where configured, are funded by taker fees rather than SAUCE emissions; see [Fees and rebates](/protocol/saucerswap-v3/fees).
 
 ## Order types
 
 | Type | Behavior |
 | --- | --- |
-| Limit | Rests on the book at your price until filled, canceled, or expired (order deadlines apply) |
-| Market | Executes immediately against available liquidity |
-| Maker-only | A limit order restricted to maker fills — it never takes liquidity from the book (post-only) |
-| One-cancels-the-other (OCO) | Two linked limit orders; when one fills, the other is canceled |
+| Limit | Buys at your limit price or lower, or sells at your limit price or higher; any resting amount remains subject to the order's deadline |
+| Market | Seeks immediate execution against available liquidity within the signed amount and price-protection parameters |
+| Maker-only | Restricts a limit order to maker fills so it cannot take liquidity |
+| One-cancels-the-other (OCO) | Links two limit orders; when one is filled, the service requests cancellation of the other |
 
-Orders can be canceled at any time before they fill, at no cost. Cancellation requests are asynchronous — an accepted cancel is not yet a completed cancel — and advanced users can also cancel directly on-chain through the reactor. For exact order parameters, deadlines, and limits, see the [Orderbook API reference](/api-reference/orderbook/overview).
+The [trading tutorial](/tutorials/trade) covers the web app. Maker-only and OCO parameters are documented in the [Orderbook API](/api-reference/orderbook/orders); do not assume every API option is exposed in the interface. OCO links are managed off-chain, so they do not provide an atomic on-chain guarantee that only one order can fill.
 
-## AMM interplay
+## Off-chain matching, on-chain settlement
 
-V3 does not replace the AMMs — it sits alongside them, and the systems reinforce each other:
+V3 separates order entry from settlement:
 
-- **AMM backstop.** Markets can enable AMM routing, letting an order settle against [V1](/protocol/saucerswap-v1) and [V2](/protocol/saucerswap-v2) pool liquidity when the book alone cannot fill it at a better price. Orders opt into AMM-backed settlement; execution stays within your signed parameters either way.
+1. You approve the required token allowance and sign an order message containing its trade parameters.
+2. The off-chain matching engine maintains the book and finds fills.
+3. The settlement contract, called the reactor, verifies signatures and executes the matched trades atomically on Hedera.
 
-This is a one-way settlement backstop for V3 orders, not a swap-router comparison between AMM and order-book quotes. Governance thread 385, proposal 6285, and final election 6296 ratified cross-venue comparison on July 22, 2026, but it is not verified as deployed. See [Swap routing](/protocol/routing) for the distinction.
+Signing an order does not deposit tokens into the book. Your wallet must retain the required balance and allowance for settlement; spending those tokens elsewhere can prevent an open order from filling. Token approvals are separate standing permissions, potentially for a maximum amount until revoked, rather than a limit that applies only to your next signed order.
 
-## Market status and halts
+<Frame caption="A V3 order from signing to on-chain settlement.">
+  <img src="/images/diagrams/order-lifecycle.svg" alt="Lifecycle of a SaucerSwap V3 order: build and sign, submit to the book, off-chain matching, on-chain settlement through the reactor, and account events" />
+</Frame>
 
-Each market carries an independent status (for example, `OPEN` or `CLOSED`) and `isMarketHalted` flag. A market can therefore be marked open while matching is halted. SaucerSwap Labs can halt and reopen markets for legal, security, or operational reasons.
+Submitting orders and requesting cancellation through the off-chain service do not require a network transaction for each request. The protocol pays the network settlement fee on V3 fills, while traders pay their applicable trading fee. Wallet setup transactions and direct on-chain cancellation can still incur network fees.
 
-Check both fields before trading. Live values are visible on the trade page and in [`GET /books`](https://orderbook-api.saucerswap.finance/books); see the [market data reference](/api-reference/orderbook/market-data). All five public mainnet books reported `OPEN` and `isMarketHalted: 0` when checked July 29, 2026, but this snapshot can change.
+## Order book and AMM liquidity
 
-## Self-custody and trust assumptions
+V3 operates alongside [V1](/protocol/saucerswap-v1) and [V2](/protocol/saucerswap-v2). Where enabled, an order can opt into AMM-backed settlement within its signed parameters. This backstop lets V3 orders use pool liquidity without turning the order book into an AMM pool.
 
-V3 is non-custodial: SaucerSwap Labs never holds your keys or tokens, and the reactor only moves funds within the parameters you signed. The order book infrastructure itself (order entry, matching, market data, APIs) is operated off-chain by SaucerSwap Labs, so availability and displayed state depend on that infrastructure. Review every wallet prompt and signed order before approving, and read the [V3 Orderbook Risk Notice](/legal/orderbook-risk-notice) for the complete risk inventory.
+The approved calibration also adds comparison between AMM and order-book quotes in the trade flow. That planned routing feature is separate from AMM-backed settlement and is not yet active. See [Swap routing](/protocol/routing) for the selection rules and activation distinction.
+
+## Cancellation and settlement risks
+
+An order can be partially filled before you cancel it; cancellation affects only what remains unfilled. An accepted cancellation request is not confirmation that matching or settlement has stopped. Check the final order and fill status before placing a replacement that could duplicate your trade.
+
+<Warning>
+  Quotes, fills, and cancellation status can be delayed or differ from on-chain state. Non-custodial settlement does not guarantee liquidity, execution, or successful cancellation. Review every wallet prompt and read the [V3 Orderbook Risk Notice](/legal/orderbook-risk-notice) before trading.
+</Warning>
+
+SaucerSwap Labs operates the off-chain order entry, matching, and market-data services. Availability depends on that infrastructure even though your tokens remain in your wallet until settlement. Audit coverage is specific to the reviewed contracts and versions; see [Audits](/developers/security/audits).
 
 ## Next steps
 
 <CardGroup cols={2}>
-  <Card title="Trade on the order book" icon="chart-candlestick" href="/tutorials/trade">
-    Place your first limit or market order on the trade page.
+  <Card title="Trade on V3" icon="chart-candlestick" href="/tutorials/trade">
+    Read the book, place an order, and follow its fills.
+  </Card>
+  <Card title="V3 markets" icon="list" href="/protocol/saucerswap-v3/markets">
+    Understand market parameters and the planned calibration.
   </Card>
   <Card title="V3 fees and rebates" icon="percent" href="/protocol/saucerswap-v3/fees">
-    Taker fees, maker rebates, and xSAUCE fee discounts.
+    Check trading fees, rebate limits, and xSAUCE discounts.
   </Card>
-  <Card title="Orderbook API" icon="code" href="/api-reference/orderbook/overview">
-    Build bots and integrations against the V3 API.
-  </Card>
-  <Card title="V3 Orderbook Risk Notice" icon="triangle-exclamation" href="/legal/orderbook-risk-notice">
-    Understand the risks before you trade.
+  <Card title="Manage V3 orders" icon="list-check" href="/tutorials/manage-v3-orders">
+    Follow fills and cancel or replace open orders.
   </Card>
 </CardGroup>

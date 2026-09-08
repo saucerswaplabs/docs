@@ -1,68 +1,89 @@
 ---
 title: "V3 fees and rebates"
-description: "How SaucerSwap V3 order book fees work: percentage-based taker fees and maker rebates, xSAUCE fee discounts, fee caps, and the BrewSaucer buyback flow."
+description: "Understand SaucerSwap V3's approved market fees, maker rebate caps, xSAUCE discounts, and revenue routing, with calibration changes pending activation."
 ---
 
-V3 charges fees on order book fills. Fees are set per market and per side (maker or taker), can differ by account, and are designed so that takers fund the system: maker rebates, where active, are paid out of taker fees rather than token emissions.
+V3 fees apply to executed fills. Takers pay for removing liquidity, while eligible makers can receive rebates for supplying it. Fees are configured per market and can differ by account; always review the fee shown for your order before signing. Order-book execution has no separate interface fee; wallet setup transactions can still incur network fees.
 
 <Info>
-  This page shows fee rates as percentages, with basis points in parentheses. The API fields — `takerFeePips`, `makerFeePips`, and `capFractionPips` — return raw pips, where 1 pip = 0.0001% and 100 pips = 1 basis point. Convert those values before displaying them to users.
+  As of September 8, 2026, the market schedule below is approved under the [V3 calibration proposal](https://gov.saucerswap.finance/t/saucerswap-v3-order-book-calibration-contract-migration-market-set-and-fee-configuration/385) but has not activated yet. It replaces the original launch schedule when the recalibrated markets open. Until then, use the app's effective fees rather than these planned rates.
 </Info>
 
-## Launch baseline and live rates
+## Approved market fee schedule
 
-[V3 Launch Economics, thread 368](https://gov.saucerswap.finance/t/v3-launch-economics/368), proposal 6123, and final passing election 6141 ratified this public launch baseline:
+The maker column shows a negative fee: SAUCE/HBAR's −0.05% means a rebate of up to 0.05% of the filled value, before the safety cap. One basis point (bp) equals 0.01%.
 
-| Market class | Taker · maker |
-| --- | --- |
-| Non-stable markets | 0.12% (12 bps) taker · 0.002% (0.20 bps) maker rebate |
-| Stable–stable markets | 0.06% (6 bps) taker · 0.0005% (0.05 bps) maker rebate |
+| Market | Taker fee | Maximum maker rebate before discounts |
+| --- | --- | --- |
+| SAUCE/HBAR | 0.20% (20 bps) | −0.05% (−5 bps) |
+| DOVU/HBAR | 0.80% (80 bps) | −0.20% (−20 bps) |
+| WETH/HBAR | 0.10% (10 bps) | −0.025% (−2.5 bps) |
+| SAUCE/USDC | 0.25% (25 bps) | −0.0625% (−6.25 bps) |
+| HBAR/USDC | 0.12% (12 bps) | −0.03% (−3 bps) |
 
-Market and account configuration can differ from this baseline. Read the effective values live:
+These are the calibration's starting parameters, not a promise that every account receives the maximum rebate. Minimum order sizes and the approved scope for later parameter adjustments are covered in [V3 markets](/protocol/saucerswap-v3/markets).
 
-| Surface | What it shows |
-| --- | --- |
-| `GET /books` | Public per-market baseline fields, including `takerFeePips` and `makerFeePips` |
-| Trade page order preview | The fee applied to your order before you sign it |
-| `GET /fees/:orderbookId?side=maker` (or `taker`) | Your account's fee rates for a market, in pips (requires wallet authentication) |
+## Maker rebate safety cap
 
-See the [Orderbook API reference](/api-reference/orderbook/overview) for authentication and endpoint details.
+For the recalibrated markets, the applied maker rebate cannot exceed 25% of the effective taker fees collected on the fill, after xSAUCE discounts. This prevents rebates from exceeding their funding source. A quoted maker rebate can therefore be reduced when the counterparty's taker discount lowers the fee collected.
 
-<Info>
-  [Thread 385](https://gov.saucerswap.finance/t/v3-order-book-calibration-contract-migration-market-set-and-fee-configuration/385), proposal 6285, and final election 6296 ratified a later order-book recalibration on July 22, 2026, but that configuration is not verified as deployed. Checked July 29, 2026: the five public mainnet books still reported the 12/6 bps launch taker schedule, while every public `makerFeePips` field reported `0`. A rebate is not proven active for a specific account unless its authenticated fee response or order preview shows it.
-</Info>
+<Accordion title="Example: how a taker discount changes the rebate cap">
+  Assume a SAUCE/HBAR fill with a value equivalent to $1,000. At the planned 20 bps taker fee, an account with a 20% xSAUCE discount pays 16 bps, or $1.60.
 
-## Takers pay, makers may earn
+  The maker rebate is capped at 25% of $1.60, or $0.40. Although the market's listed maximum rebate is 5 bps ($0.50 on this fill), the applied rebate cannot exceed $0.40. The example isolates fee allocation and does not model settlement costs or token-price changes.
+</Accordion>
 
-- **Taker fees.** Orders that remove liquidity from the book pay the market's effective taker fee on the filled amount.
-- **Maker fees and rebates.** A negative maker fee is a rebate funded from taker fees. The effective maker value may be zero or account-specific, so verify it before placing an order.
-- **Fee caps.** Markets carry a fee-cap parameter (`capFractionPips`) that bounds the fee actually charged on a fill. The fee you sign against is the most you pay.
-
-<Note>
-  Per the [terms of service](/legal/terms-of-service), market-maker, API, and enterprise participants may operate under separate written programs with different fee tiers, rebates, or limits. Public docs describe the public schedule only; see [Market makers](/resources/market-makers) for the onboarding path.
-</Note>
+Maker rebates are paid from trading fees, not from [Masterchef emissions](/tokenomics/overview#masterchef-emissions) or [Liquidity-Aligned Reward Initiative (LARI)](/protocol/saucerswap-v2#liquidity-aligned-reward-initiative-lari) rewards. A resting order earns no rebate merely for being present on the book; it must receive an eligible maker fill.
 
 ## xSAUCE fee discounts
 
-Holding xSAUCE (staked SAUCE) earns tiered multipliers on a market's baseline fee schedule: positive fees are reduced, and negative maker rebates are increased. Current tiers and thresholds are shown in the web app; your effective rates always come from the fees endpoint or the order preview. To stake, see [Single-sided staking](/protocol/single-sided-staking).
+Holding xSAUCE gives your account a tiered discount on the market's baseline fee schedule. The [V3 launch proposal](https://gov.saucerswap.finance/t/saucerswap-v3-launch-economics/368) established these thresholds, and the calibration leaves them unchanged:
 
-## Where fees go
+| Minimum xSAUCE balance | Discount |
+| --- | --- |
+| Below 10,000 | 0% |
+| 10,000 | 5% |
+| 50,000 | 10% |
+| 250,000 | 15% |
+| 1,000,000 | 20% |
+| 5,000,000 | 30% |
+| 10,000,000 | 40% |
 
-Net order book fees — taker fees after applicable trader discounts, less maker rebates paid — fund SAUCE buybacks through Unified BrewSaucer. Purchased SAUCE follows the same allocation as the other eligible revenue sources: 40% to Mothership/xSAUCE, 30% to the Development Fund, 10% to burn, and 20% to the POL + Incentive Reserve. Maker rebates remain funded upstream from taker fees; V3 does not receive SAUCE emission incentives. See [SAUCE tokenomics](/tokenomics/overview#unified-brewsaucer-buybacks-and-burn) for the full revenue flow.
+A discount reduces a positive taker or maker fee. If the maker fee is negative, the tier can increase the rebate, but the rebate safety cap still applies; holding more xSAUCE does not guarantee a larger payment on every fill. To acquire xSAUCE through staking, see [Single-sided staking](/protocol/single-sided-staking).
+
+## Check the effective fee
+
+| Surface | What it shows |
+| --- | --- |
+| Trade page order preview | The fee quoted for your order before signing |
+| `GET /books` | Public market configuration, including baseline maker and taker fee fields |
+| `GET /fees/:orderbookId?side=maker` or `side=taker` | Account-specific fee configuration for a market; wallet authentication required |
+
+The API expresses fees in pips: 1 pip = 0.0001%, and 100 pips = 1 bp. The `capFractionPips` field expresses the rebate cap as a fraction of effective taker fees; it is not a separate trading fee. See the [Orderbook API reference](/api-reference/orderbook/market-data#fee-units) for the units and authentication requirements.
+
+<Note>
+  [Market makers](/resources/market-makers), API users, and enterprise participants may have separate written fee or rebate programs under the [terms of service](/legal/terms-of-service). Public market parameters do not establish an account's eligibility for those programs.
+</Note>
+
+## Where net fees go
+
+After applicable trader discounts and maker rebates, V3 net fees fund SAUCE buybacks through Unified BrewSaucer. Purchased SAUCE is allocated 40% to Mothership/xSAUCE, 30% to the Development Fund, 10% to burn, and 20% to the protocol-owned liquidity (POL) + Incentive Reserve.
+
+This is the Phase 1 allocation from the later [SAUCE alignment proposal](https://gov.saucerswap.finance/t/hbar-usd-perpetuals-sauce-emission-reduction-and-unified-brewsaucer/396). It replaces the older source-specific V3 split independently of the pending V3 market calibration. See [SAUCE tokenomics](/tokenomics/overview#unified-brewsaucer-buybacks-and-burn) for the complete revenue flow and the separate devcut burn.
 
 ## Next steps
 
 <CardGroup cols={2}>
-  <Card title="SaucerSwap V3" icon="book-open" href="/protocol/saucerswap-v3">
-    How the order book matches and settles trades.
+  <Card title="V3 markets" icon="list" href="/protocol/saucerswap-v3/markets">
+    Check the planned market set, minimum orders, and migration.
   </Card>
-  <Card title="Stake for fee discounts" icon="layer-group" href="/protocol/single-sided-staking">
-    Convert SAUCE to xSAUCE and lower your trading fees.
+  <Card title="Trade on V3" icon="chart-candlestick" href="/tutorials/trade">
+    Review an order's price and fee before signing.
   </Card>
-  <Card title="Orderbook API" icon="code" href="/api-reference/orderbook/overview">
-    Query your live fee rates programmatically.
+  <Card title="Single-sided staking" icon="layer-group" href="/protocol/single-sided-staking">
+    Stake SAUCE to receive xSAUCE and qualify for fee tiers.
   </Card>
-  <Card title="Market makers" icon="handshake" href="/resources/market-makers">
-    Onboarding for professional liquidity providers.
+  <Card title="SAUCE tokenomics" icon="coins" href="/tokenomics/overview">
+    Follow protocol revenue into buybacks and its destinations.
   </Card>
 </CardGroup>
