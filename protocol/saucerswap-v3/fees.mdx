@@ -1,15 +1,11 @@
 ---
 title: "V3 fees and rebates"
-description: "Understand SaucerSwap V3's approved market fees, maker rebate caps, xSAUCE discounts, and revenue routing, with calibration changes pending activation."
+description: "Understand SaucerSwap V3 trading fees, maker rebates, xSAUCE discount tiers, and how net fees fund SAUCE buybacks through the Unified BrewSaucer."
 ---
 
 V3 fees apply to executed fills. Takers pay for removing liquidity, while eligible makers can receive rebates for supplying it. Fees are configured per market and can differ by account; always review the fee shown for your order before signing. Order-book execution has no separate interface fee; wallet setup transactions can still incur network fees.
 
-<Info>
-  As of September 8, 2026, the market schedule below is approved under the [V3 calibration proposal](https://gov.saucerswap.finance/t/saucerswap-v3-order-book-calibration-contract-migration-market-set-and-fee-configuration/385) but has not activated yet. It replaces the original launch schedule when the recalibrated markets open. Until then, use the app's effective fees rather than these planned rates.
-</Info>
-
-## Approved market fee schedule
+## Market fee schedule
 
 The maker column shows a negative fee: SAUCE/HBAR's −0.05% means a rebate of up to 0.05% of the filled value, before the safety cap. One basis point (bp) equals 0.01%.
 
@@ -21,14 +17,14 @@ The maker column shows a negative fee: SAUCE/HBAR's −0.05% means a rebate of u
 | SAUCE/USDC | 0.25% (25 bps) | −0.0625% (−6.25 bps) |
 | HBAR/USDC | 0.12% (12 bps) | −0.03% (−3 bps) |
 
-These are the calibration's starting parameters, not a promise that every account receives the maximum rebate. Minimum order sizes and the approved scope for later parameter adjustments are covered in [V3 markets](/protocol/saucerswap-v3/markets).
+These baseline rates follow the [V3 fee policy](https://gov.saucerswap.finance/t/saucerswap-v3-order-book-calibration-contract-migration-market-set-and-fee-configuration/385). Your effective fee depends on your account tier and the rebate cap. See [V3 markets](/protocol/saucerswap-v3/markets) for minimum orders and how market parameters can change.
 
 ## Maker rebate safety cap
 
-For the recalibrated markets, the applied maker rebate cannot exceed 25% of the effective taker fees collected on the fill, after xSAUCE discounts. This prevents rebates from exceeding their funding source. A quoted maker rebate can therefore be reduced when the counterparty's taker discount lowers the fee collected.
+The applied maker rebate cannot exceed 25% of the effective taker fees collected on the fill, after xSAUCE discounts. This prevents rebates from exceeding their funding source. A quoted maker rebate can therefore be reduced when the counterparty's taker discount lowers the fee collected.
 
 <Accordion title="Example: how a taker discount changes the rebate cap">
-  Assume a SAUCE/HBAR fill with a value equivalent to $1,000. At the planned 20 bps taker fee, an account with a 20% xSAUCE discount pays 16 bps, or $1.60.
+  Assume a SAUCE/HBAR fill with a value equivalent to $1,000. At the 20 bps taker fee, an account with a 20% xSAUCE discount pays 16 bps, or $1.60.
 
   The maker rebate is capped at 25% of $1.60, or $0.40. Although the market's listed maximum rebate is 5 bps ($0.50 on this fill), the applied rebate cannot exceed $0.40. The example isolates fee allocation and does not model settlement costs or token-price changes.
 </Accordion>
@@ -37,7 +33,7 @@ Maker rebates are paid from trading fees, not from [Masterchef emissions](/token
 
 ## xSAUCE fee discounts
 
-Holding xSAUCE gives your account a tiered discount on the market's baseline fee schedule. The [V3 launch proposal](https://gov.saucerswap.finance/t/saucerswap-v3-launch-economics/368) established these thresholds, and the calibration leaves them unchanged:
+Holding xSAUCE gives your account a tiered discount on the market's baseline fee schedule. Your xSAUCE balance determines your tier:
 
 | Minimum xSAUCE balance | Discount |
 | --- | --- |
@@ -69,13 +65,13 @@ The API expresses fees in pips: 1 pip = 0.0001%, and 100 pips = 1 bp. The `capFr
 
 After applicable trader discounts and maker rebates, V3 net fees fund SAUCE buybacks through Unified BrewSaucer. Purchased SAUCE is allocated 40% to Mothership/xSAUCE, 30% to the Development Fund, 10% to burn, and 20% to the protocol-owned liquidity (POL) + Incentive Reserve.
 
-This is the Phase 1 allocation from the later [SAUCE alignment proposal](https://gov.saucerswap.finance/t/hbar-usd-perpetuals-sauce-emission-reduction-and-unified-brewsaucer/396). It replaces the older source-specific V3 split independently of the pending V3 market calibration. See [SAUCE tokenomics](/tokenomics/overview#unified-brewsaucer-buybacks-and-burn) for the complete revenue flow and the separate devcut burn.
+See [SAUCE tokenomics](/tokenomics/overview#unified-brewsaucer-buybacks-and-burn) for the full Unified BrewSaucer allocation and the separate devcut burn.
 
 ## Next steps
 
 <CardGroup cols={2}>
   <Card title="V3 markets" icon="list" href="/protocol/saucerswap-v3/markets">
-    Check the planned market set, minimum orders, and migration.
+    Check supported markets, minimum orders, and trading parameters.
   </Card>
   <Card title="Trade on V3" icon="chart-candlestick" href="/tutorials/trade">
     Review an order's price and fee before signing.

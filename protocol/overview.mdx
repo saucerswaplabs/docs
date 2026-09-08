@@ -28,7 +28,7 @@ SaucerSwap supports Hedera Token Service (HTS) tokens and supported ERC-20 asset
 | [SaucerSwap V2](/protocol/saucerswap-v2) | Concentrated-liquidity AMM (Uniswap V3 style) | Capital-efficient liquidity provision |
 | [SaucerSwap V3](/protocol/saucerswap-v3) | Central limit order book with on-chain settlement | Limit orders and CEX-style trading |
 
-When you swap in the web app, [routing](/protocol/routing) compares available V1 and V2 paths and quotes the trade for you. On the separate trade page, V3 orders can opt into AMM-backed settlement. The swap router does not currently compare AMM quotes with order-book quotes.
+When you swap in the web app, [routing](/protocol/routing) compares the best V1/V2 AMM quote with an eligible V3 order-book quote and selects one venue for your trade. On the separate **trade** page, you can place and manage V3 orders; eligible orders can also use AMM-backed settlement.
 
 ## Fees and buybacks
 

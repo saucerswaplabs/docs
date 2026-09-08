@@ -1,29 +1,23 @@
 ---
-title: "V3 markets and calibration"
-description: "Explore SaucerSwap V3 market parameters, the approved relaunch market set, minimum order sizes, trading halts, and the planned settlement-contract migration."
+title: "V3 markets"
+description: "Explore SaucerSwap V3 markets, minimum order sizes, price and quantity increments, market-making inventory, trading halts, and settlement permissions."
 ---
 
 A V3 market is an order book for a specific base and quote token. Each market has its own price and quantity increments, minimum order requirements, fee configuration, and trading status. Unlike an automated market maker (AMM) pool, there is no shared liquidity deposit or liquidity-provider (LP) token: traders and market makers supply liquidity by placing orders.
 
-<Info>
-  As of September 8, 2026, the [approved V3 calibration](https://gov.saucerswap.finance/t/saucerswap-v3-order-book-calibration-contract-migration-market-set-and-fee-configuration/385) is pending activation. The market set and migration below describe that planned change, not a list of markets currently open for trading. Use the [trade page](https://www.saucerswap.finance/trade) for current availability.
-</Info>
+## Markets and minimum orders
 
-## Approved relaunch markets
+Minimum orders help cover the network settlement cost paid by the protocol. Each minimum is expressed in the market's quote token, so the dollar value of an HBAR-denominated minimum changes with HBAR's price.
 
-The calibration replaces the five original USDC-quoted markets with this starting set. Its minimum orders are sized to support the network settlement cost paid by the protocol. The approximate dollar values are proposal references; use the app's token-denominated requirement when placing an order.
+| Market | Minimum order value |
+| --- | --- |
+| SAUCE/HBAR | 700 HBAR |
+| DOVU/HBAR | 350 HBAR |
+| WETH/HBAR | 1,400 HBAR |
+| SAUCE/USDC | 40 USDC |
+| HBAR/USDC | 100 USDC |
 
-| Market | Role | Minimum order reference |
-| --- | --- | --- |
-| SAUCE/HBAR | HBAR-quoted SAUCE market | ≈$50, denominated in HBAR |
-| DOVU/HBAR | Long-tail market with delegated maker inventory | ≈$25; 350 HBAR in the proposal |
-| WETH/HBAR | HBAR-quoted market using direct ERC-20 WETH | ≈$100 |
-| SAUCE/USDC | USDC-quoted SAUCE market | $40 |
-| HBAR/USDC | Benchmark against deep AMM liquidity | $100 |
-
-The DOVU/HBAR launch also depends on executed market-support terms. Under the proposed delegated-inventory model, DOVU supplies token inventory for market making, SaucerSwap supplies quote-side HBAR, and designated makers place orders. The inventory remains the provider's price exposure rather than a permanent treasury transfer. Delegation does not guarantee continuous liquidity or remove token-price risk.
-
-WETH/USDC, WBTC/USDC, and JAM/HBAR are candidates for later consideration, not approved additions to this initial relaunch set. USDT0/USDC is not scheduled to relaunch, and WBTC/HBAR is deferred. See [V3 fees](/protocol/saucerswap-v3/fees#approved-market-fee-schedule) for the market-specific taker fees and maker rebates.
+Use the [trade page](https://www.saucerswap.finance/trade) to select a market and check its current minimum. See [V3 fees](/protocol/saucerswap-v3/fees#market-fee-schedule) for taker fees and maker rebates.
 
 ## Market parameters
 
@@ -36,23 +30,27 @@ WETH/USDC, WBTC/USDC, and JAM/HBAR are candidates for later consideration, not a
 | Fee configuration | Baseline market fees and your account's effective fee tier |
 | Trading status | Whether the market is open and whether matching is halted |
 
-The public [market-data endpoints](/api-reference/orderbook/market-data) expose token identifiers and trading increments. Quotes and the order preview show what can execute for your size. Do not infer that two tokens with the same symbol are interchangeable; WETH and WBTC markets can use ERC-20 tokens rather than Hedera Token Service (HTS)-wrapped versions.
+The public [market-data endpoints](/api-reference/orderbook/market-data) expose token identifiers and trading increments. Quotes and the order preview show what can execute for your size. Do not infer that two tokens with the same symbol are interchangeable: WETH/HBAR uses direct ERC-20 WETH rather than a Hedera Token Service (HTS)-wrapped version.
+
+## Market-making inventory
+
+Market makers supply liquidity by quoting buy and sell orders. Under DOVU/HBAR's delegated-inventory model, DOVU supplies token inventory, SaucerSwap supplies quote-side HBAR, and designated makers place orders. Inventory remains the provider's price exposure rather than a permanent treasury transfer. Delegation does not guarantee continuous liquidity or remove token-price risk.
 
 ## Relationship to swap routing
 
-The calibration introduces comparison between AMM and V3 order-book quotes. The order-book route must be fresh, fully executable, and at least 5 basis points (0.05%) better all-in before selection. These checks concern the entire proposed trade, not just the best displayed order-book price.
+The **swap** page compares AMM and V3 order-book quotes. The order-book route must be fresh, fully executable, and at least 5 basis points (0.05%) better all-in before selection. These checks concern the entire trade, not just the best displayed order-book price.
 
-HBAR/USDC begins as a benchmark market. Its eligibility for default routing depends on the universal router being completed and validated; the proposal's later clarification allows eligibility from relaunch if that condition is met. Trading availability and routing eligibility are separate decisions. See [Swap routing](/protocol/routing) for the distinction from V3's existing AMM backstop.
+Trading availability and routing eligibility are separate: an open market is not automatically selected for a swap. See [Swap routing](/protocol/routing) for the distinction between venue selection and V3's AMM backstop.
 
-## Planned contract migration
+## Returning after the V3 relaunch
 
-The calibration includes an upgraded settlement contract that must complete its follow-on audit before mainnet deployment. Open orders on the old books will be canceled during the announced cutover. Since the book holds signed orders rather than deposits, you do not need to withdraw funds or claim a migrated balance.
+Open orders on the retired books were canceled during the relaunch; they were not transferred to the new books. Since the book holds signed orders rather than deposits, there is no migrated balance to withdraw or claim.
 
-After the new markets open, you will need to place any desired orders again and complete the required approval for the new settlement contract. Existing token associations and Permit2 approvals carry over under the migration plan. Review the contract and allowance in your wallet prompt; an approval is separate from signing the new order.
+To resume trading, place any desired orders again and complete the required approval for the new settlement contract. Existing token associations and Permit2 approvals carry over. Review the contract and allowance in your wallet prompt; an approval is separate from signing the new order.
 
 ## Governance and market halts
 
-Market creation and fee policy are governed by the [decentralized autonomous organization (DAO)](/governance/overview). Within the calibration mandate, SaucerSwap Labs may adjust taker fees by up to ±50% of the listed rate, keep maker rebates at or below the 25% cap, and set minimum orders within 1–3× measured settlement breakeven. These adjustments require public disclosure and must respond to the proposal's market-health conditions; new markets or changes beyond the mandate return to governance.
+Market creation and fee policy are governed by the [decentralized autonomous organization (DAO)](/governance/overview). Under the [V3 market policy](https://gov.saucerswap.finance/t/saucerswap-v3-order-book-calibration-contract-migration-market-set-and-fee-configuration/385), SaucerSwap Labs may adjust taker fees by up to ±50% of the baseline rate, keep maker rebates at or below the 25% cap, and set minimum orders within 1–3× measured settlement breakeven. These adjustments require public disclosure and respond to market-health conditions; new markets or changes beyond the mandate return to governance.
 
 A market's status and matching halt are separate: it can report `OPEN` while `isMarketHalted` is set. Markets can be paused or wound down for security, legal, operational, or market-health reasons. Check the current status in the app or `GET /books`; an open status does not guarantee an available fill.
 
@@ -60,7 +58,7 @@ A market's status and matching halt are separate: it can report `OPEN` while `is
 
 <CardGroup cols={2}>
   <Card title="V3 fees and rebates" icon="percent" href="/protocol/saucerswap-v3/fees">
-    Read the approved fee schedule and how rebates are capped.
+    Read the fee schedule and how rebates are capped.
   </Card>
   <Card title="Trade on V3" icon="chart-candlestick" href="/tutorials/trade">
     Choose a market and place your first order.

@@ -3,7 +3,7 @@ title: "Swap tokens"
 description: "Swap any listed HTS token on SaucerSwap: pick tokens, set slippage tolerance, review the quote and fees, approve an allowance, and confirm in your wallet."
 ---
 
-The **swap** page executes trades instantly against SaucerSwap's V1 and V2 AMM liquidity, automatically routing your trade for the best quoted price. If you want to set your own price instead, use the [order book](/tutorials/trade).
+The **swap** page compares V1/V2 AMM quotes with eligible V3 order-book quotes and selects a venue for your trade. If you want to place and manage a limit order, use the [trade page](/tutorials/trade). See [Swap routing](/protocol/routing) for how quotes are compared.
 
 <Frame caption="The swap page of the SaucerSwap web app.">
   <img src="/images/app/swap.webp" alt="SaucerSwap swap page showing the sell and buy token fields with a quote" />
@@ -39,13 +39,13 @@ The **swap** page executes trades instantly against SaucerSwap's V1 and V2 AMM l
     | --- | --- |
     | Minimum received | The least you can receive after slippage (selling an exact amount) |
     | Maximum sold | The most you can sell after slippage (buying an exact amount) |
-    | Price impact | How much your trade moves the pool price; high impact means low liquidity |
-    | Fee | The pool swap fee, 0.05% to 1.00% depending on the pool; multi-hop routes pay a fee per pool |
+    | Price impact | How your trade size affects the execution price; high impact means limited liquidity |
+    | Fee | The fee for the selected venue; AMM paths pay pool fees, while V3 uses the market and account fee schedule |
 
-    V1 sends 5/6 of each swap fee to liquidity providers and 1/6 to BrewSaucer. V2 uses the same split by default, with the split set per pool by the DAO; see [V2 fee distribution](/protocol/saucerswap-v2#distribution-of-fees). Network fees are separate and paid in HBAR.
+    V1 sends 5/6 of each swap fee to liquidity providers and 1/6 to BrewSaucer. V2 uses the same split by default, with the split set per pool by the DAO; see [V2 fee distribution](/protocol/saucerswap-v2#distribution-of-fees). V3 uses [market-specific fees](/protocol/saucerswap-v3/fees). AMM network fees and wallet setup fees are separate; V3 settlement has no user-paid network fee.
   </Step>
   <Step title="Approve and swap">
-    Choose between a one-time [token allowance](/get-started/faq#what-is-a-token-allowance) for this exact amount or a maximum allowance that skips approval on future swaps. Confirm the swap and sign the transaction in your wallet. If the receiving token is not yet associated with your account, the interface prompts you to associate it first.
+    Follow the confirmation flow for the selected venue. For AMM swaps, choose a one-time [token allowance](/get-started/faq#what-is-a-token-allowance) or a maximum allowance, then sign the swap transaction. A V3 route uses the [order-book sign-in, permissions, and order-signing flow](/tutorials/trade#set-up-trading-permissions). Review each wallet prompt; the app requests HTS token association when needed.
   </Step>
   <Step title="Verify the result">
     The interface confirms the completed swap, and your updated balances appear on the **dashboard** page. For an independent record, look up the transaction on [HashScan](https://hashscan.io/mainnet/dashboard).

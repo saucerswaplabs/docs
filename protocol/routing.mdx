@@ -1,19 +1,21 @@
 ---
 title: "Swap routing"
-description: "Where your SaucerSwap price comes from: how the app routes swaps across V1 and V2 pools, how V3 orders tap AMM liquidity, and integrator options."
+description: "How SaucerSwap compares V1/V2 AMM routes with V3 order-book quotes, selects a venue for your swap, and uses AMM-backed settlement for eligible V3 orders."
 ---
 
 When you swap in the web app, you do not pick a pool — routing does. This page explains where your quoted price comes from and what the router optimizes for.
 
 ## How the app routes a swap
 
-The order router evaluates the available V1 and V2 paths from the input token to the output token and returns the best executable route. That route can be:
+The app compares the best V1/V2 AMM quote with an eligible V3 order-book quote. It selects one venue for the swap; it does not split a single swap between the order book and AMM pools.
+
+Within the AMM route, the router evaluates available paths from the input token to the output token. That route can be:
 
 - **Direct.** A swap through one V1 or V2 pool.
 - **Multi-hop.** A swap routed sequentially through up to three V1 or V2 pools, either because no direct pool exists or because the indirect path prices better.
 - **Split route.** A swap divided across multiple paths at the same time to improve executable output and reduce price impact.
 
-The router selects the route with the best executable output for your trade size, accounting for each pool's fee tier and price impact. Larger trades can route differently than small ones, because price impact grows with size relative to pool depth. The chosen route is shown in the swap details before you confirm.
+The AMM router selects the path or combination of paths with the best executable output for your trade size, accounting for pool fees and price impact. V3 is selected only when its quote is fresh, fully executable for the requested size, and at least 5 basis points (0.05%) better all-in than the AMM quote. Otherwise, the swap uses the AMM route. Check the selected venue and quote details before confirming.
 
 <Info>
   Quoted output is an estimate as of quote time. Your slippage tolerance bounds the worst execution you will accept; the transaction reverts rather than fill beyond it.
@@ -23,9 +25,7 @@ The router selects the route with the best executable output for your trade size
 
 The [V3 order book](/protocol/saucerswap-v3) has a separate, one-way AMM backstop. Where enabled, a V3 order can opt into settlement against AMM liquidity, subject to the order's signed parameters.
 
-The swap router does not currently compare an AMM swap quote with an order-book quote. [Governance thread 385](https://gov.saucerswap.finance/t/v3-order-book-calibration-contract-migration-market-set-and-fee-configuration/385), proposal 6285, and final election 6296 ratified that cross-venue comparison on July 22, 2026, but the change is not verified as deployed.
-
-Under the approved calibration, V3 is eligible only when its quote is fresh, fully executable for the requested size, and at least 5 basis points (0.05%) better all-in. A better top-of-book price alone does not qualify. See [V3 market routing eligibility](/protocol/saucerswap-v3/markets#relationship-to-swap-routing) for the HBAR/USDC relaunch condition.
+This backstop is distinct from the swap page's comparison of complete venue quotes. See [V3 markets](/protocol/saucerswap-v3/markets#relationship-to-swap-routing) for market availability and routing eligibility.
 
 ## For integrators
 

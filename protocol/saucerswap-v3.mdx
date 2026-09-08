@@ -5,10 +5,6 @@ description: "Understand SaucerSwap V3's order book: bids and asks, maker and ta
 
 SaucerSwap V3 is a central limit order book (CLOB) for spot trading on Hedera. You buy or sell tokens against orders at specific prices, instead of depositing liquidity into an automated market maker (AMM) pool. Tokens remain in your wallet until a trade settles on-chain.
 
-<Info>
-  As of September 8, 2026, the [approved V3 calibration](https://gov.saucerswap.finance/t/saucerswap-v3-order-book-calibration-contract-migration-market-set-and-fee-configuration/385) has not activated yet. Its planned market set, fee schedule, and contract migration are described in [V3 markets](/protocol/saucerswap-v3/markets) and [V3 fees](/protocol/saucerswap-v3/fees). Check the app for the markets and effective fees available when you trade.
-</Info>
-
 ## How an order book works
 
 A market pairs a base token with a quote token. In SAUCE/USDC, for example, you buy or sell SAUCE at a price expressed in USDC per SAUCE. A buy order spends the quote token to receive the base token; a sell order does the reverse.
@@ -60,7 +56,7 @@ Submitting orders and requesting cancellation through the off-chain service do n
 
 V3 operates alongside [V1](/protocol/saucerswap-v1) and [V2](/protocol/saucerswap-v2). Where enabled, an order can opt into AMM-backed settlement within its signed parameters. This backstop lets V3 orders use pool liquidity without turning the order book into an AMM pool.
 
-The approved calibration also adds comparison between AMM and order-book quotes in the trade flow. That planned routing feature is separate from AMM-backed settlement and is not yet active. See [Swap routing](/protocol/routing) for the selection rules and activation distinction.
+The **swap** page compares an eligible V3 quote with the best V1/V2 AMM quote and selects one venue for the trade. This quote comparison is separate from AMM-backed settlement within V3. See [Swap routing](/protocol/routing) for the selection rules.
 
 ## Cancellation and settlement risks
 
@@ -79,7 +75,7 @@ SaucerSwap Labs operates the off-chain order entry, matching, and market-data se
     Read the book, place an order, and follow its fills.
   </Card>
   <Card title="V3 markets" icon="list" href="/protocol/saucerswap-v3/markets">
-    Understand market parameters and the planned calibration.
+    Understand market parameters, minimum orders, and trading availability.
   </Card>
   <Card title="V3 fees and rebates" icon="percent" href="/protocol/saucerswap-v3/fees">
     Check trading fees, rebate limits, and xSAUCE discounts.
