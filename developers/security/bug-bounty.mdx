@@ -1,9 +1,11 @@
 ---
 title: "Bug bounty"
-description: "SaucerSwap bug bounty program: scope, severity-based rewards, disclosure process, and eligibility rules for responsibly reporting vulnerabilities."
+description: "SaucerSwap bug bounty program: material loss of funds requirement, eligible vulnerabilities, exclusions, rewards, and responsible disclosure rules."
 ---
 
-Security is a top priority for SaucerSwap. To encourage responsible disclosure of vulnerabilities, we offer a bug bounty program with financial rewards based on the severity of the identified issues.
+SaucerSwap offers financial rewards for responsibly disclosed, in-scope vulnerabilities that could cause material loss of user or protocol funds. Reports must demonstrate a credible exploit path to that loss; severity alone does not establish payout eligibility.
+
+Material loss includes theft, unauthorized transfers, or permanently inaccessible funds. Demonstrate the potential impact with safe reproduction steps or a proof of concept; actual loss is not required, and mainnet testing remains prohibited.
 
 ## Scope
 
@@ -16,21 +18,22 @@ The following are not within the scope of the program:
 - SaucerSwap mainnet contracts and production environment (testing restricted to testnet, which mirrors mainnet)
 - Third-party contracts not directly associated with SaucerSwap
 - Known issues from previous audit and bug bounty reports
+- UI, cosmetic, usability, or informational findings without a demonstrated path to material loss of user or protocol funds
 - Third-party applications using SaucerSwap contracts
 - Any findings that rely on Denial of Service (DoS) or Distributed Denial of Service (DDoS)
 - Phishing, social engineering, or attacks requiring collusion from SaucerSwap staff or third-party support
 - Physical access, stolen/unlocked devices, SIM-swap, device-level malware, or OS/kernel exploits unrelated to the app
-- Repackaged or modified app builds, emulator-only issues, or jailbreak-only read-only file access (unless chained to unauthorized signing, in which case it is evaluated under High)
+- Repackaged or modified app builds, emulator-only issues, or jailbreak-only read-only file access (unless chained to unauthorized signing that could cause material loss of funds, in which case it is evaluated under High)
 - Vulnerabilities in third-party libraries without demonstrable impact on SaucerSwap Mobile
 
 ## Rewards
 
-The program includes the following four-level severity scale, based on the [OWASP risk rating methodology](https://owasp.org/www-community/OWASP_Risk_Rating_Methodology).
+The program uses the following four-level severity scale, based on the [OWASP risk rating methodology](https://owasp.org/www-community/OWASP_Risk_Rating_Methodology). Only Critical or High vulnerabilities that meet the material loss of funds requirement and all other program conditions are eligible for a bounty payout. Reputational, legal, or other non-financial impacts alone do not qualify.
 
 | Severity | Definition |
 | --- | --- |
-| Critical | Issues that could impact numerous users and have serious reputational, legal, or financial implications, such as locking contracts permanently or taking funds from all users. |
-| High | Issues that impact individual users where exploitation would pose reputational, legal, or moderate financial risk to the user. |
+| Critical | Issues that could cause material loss of funds across numerous users or the protocol, such as theft or permanently locking funds in contracts. |
+| High | Issues that could cause material loss of an individual user's funds, such as unauthorized transfers. |
 | Medium | The risk is relatively small and does not pose a threat to user funds. |
 | Informational | The issue does not pose an immediate risk but is relevant to security best practices. |
 
@@ -40,20 +43,20 @@ SaucerSwap Labs will determine rewards based on the bug's severity and its poten
 
 Report vulnerabilities to [dev@saucerswap.finance](mailto:dev@saucerswap.finance). An acknowledgment will be sent within two to three business days. Do not disclose the bug publicly until it is resolved and permitted by SaucerSwap Labs.
 
-A detailed report of a vulnerability increases the likelihood of a reward and may increase the reward amount. Please provide as much information about the vulnerability as possible, including:
+For payout consideration, provide enough information to reproduce the vulnerability and assess its potential financial impact, including:
 
 - Conditions required for reproducing the bug
 - Step-by-step guide or proof of concept for reproduction
-- Potential consequences if exploited
+- Potential consequences if exploited, including the funds at risk and how the exploit could cause material loss
 - Suggested remediation (optional)
 
-Anyone who reports a unique, previously-unreported vulnerability that results in a change to the code or a configuration change and who keeps such vulnerability confidential until it has been resolved by our engineers will be financially rewarded.
+A code or configuration change alone does not qualify a report for a bounty. Rewards are subject to the scope, material financial impact, disclosure, and eligibility requirements of this program.
 
 ## Eligibility
 
 To be eligible for a reward under this program, you must meet the following conditions:
 
-1. **Uniqueness:** Discover a previously unreported, non-public vulnerability that is not already known to our team and is within the scope of the program.
+1. **Uniqueness:** Discover a previously unreported, non-public vulnerability that is not already known to our team, is within the scope of the program, and could cause material loss of user or protocol funds.
 2. **First disclosure:** Be the first to disclose the unique vulnerability to [dev@saucerswap.finance](mailto:dev@saucerswap.finance), and adhere to the program's disclosure requirements.
 3. **Detailed reporting:** Provide comprehensive information that enables our engineers to reproduce and remedy the vulnerability.
 4. **Non-exploitation:** Do not exploit the vulnerability in any form, including publicizing it or seeking other forms of profit, except under this program.
