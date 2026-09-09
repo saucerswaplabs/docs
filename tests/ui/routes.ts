@@ -23,6 +23,7 @@ export const uiRoutes: UiRoute[] = [
   { name: 'dao-reporting', path: '/governance/dao-reporting', heading: 'DAO reporting' },
   { name: 'wallet', path: '/get-started/wallet', heading: 'Create a Hedera wallet' },
   { name: 'contracts', path: '/developers/contracts', heading: 'Contract deployments' },
+  { name: 'bug-bounty', path: '/developers/security/bug-bounty', heading: 'Bug bounty' },
   { name: 'ai', path: '/developers/ai', heading: 'Build with AI' },
   { name: 'for-projects', path: '/resources/for-projects', heading: 'For projects: list your token' },
   { name: 'v2-pool', path: '/api-reference/rest/pools-v2/get-v2-pool', heading: 'REST API: Get V2 pool by id' },
