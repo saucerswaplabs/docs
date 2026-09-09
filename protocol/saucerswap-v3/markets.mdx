@@ -1,0 +1,72 @@
+---
+title: "V3 markets"
+description: "Explore SaucerSwap V3 markets, minimum order sizes, price and quantity increments, market-making inventory, trading halts, and settlement permissions."
+---
+
+A V3 market is an order book for a specific base and quote token. Each market has its own price and quantity increments, minimum order requirements, fee configuration, and trading status. Unlike an automated market maker (AMM) pool, there is no shared liquidity deposit or liquidity-provider (LP) token: traders and market makers supply liquidity by placing orders.
+
+## Markets and minimum orders
+
+Minimum orders help cover the network settlement cost paid by the protocol. Each minimum is expressed in the market's quote token, so the dollar value of an HBAR-denominated minimum changes with HBAR's price.
+
+| Market | Minimum order value |
+| --- | --- |
+| SAUCE/HBAR | 700 HBAR |
+| DOVU/HBAR | 350 HBAR |
+| WETH/HBAR | 1,400 HBAR |
+| SAUCE/USDC | 40 USDC |
+| HBAR/USDC | 100 USDC |
+
+Use the [trade page](https://www.saucerswap.finance/trade) to select a market and check its current minimum. See [V3 fees](/protocol/saucerswap-v3/fees#market-fee-schedule) for taker fees and maker rebates.
+
+## Market parameters
+
+| Parameter | What to check |
+| --- | --- |
+| Base and quote tokens | The token you buy or sell and the token used to express its price; verify token identifiers as well as symbols |
+| Price increment | Prices must fit the market's allowed grid |
+| Quantity increment | Order sizes must fit the permitted token-amount grid |
+| Minimum order | The smallest accepted order size or value for the market |
+| Fee configuration | Baseline market fees and your account's effective fee tier |
+| Trading status | Whether the market is open and whether matching is halted |
+
+The public [market-data endpoints](/api-reference/orderbook/market-data) expose token identifiers and trading increments. Quotes and the order preview show what can execute for your size. Do not infer that two tokens with the same symbol are interchangeable: WETH/HBAR uses direct ERC-20 WETH rather than a Hedera Token Service (HTS)-wrapped version.
+
+## Market-making inventory
+
+Market makers supply liquidity by quoting buy and sell orders. Under DOVU/HBAR's delegated-inventory model, DOVU supplies token inventory, SaucerSwap supplies quote-side HBAR, and designated makers place orders. Inventory remains the provider's price exposure rather than a permanent treasury transfer. Delegation does not guarantee continuous liquidity or remove token-price risk.
+
+## Relationship to swap routing
+
+The **swap** page compares AMM and V3 order-book quotes. The order-book route must be fresh, fully executable, and at least 5 basis points (0.05%) better all-in before selection. These checks concern the entire trade, not just the best displayed order-book price.
+
+Trading availability and routing eligibility are separate: an open market is not automatically selected for a swap. See [Swap routing](/protocol/routing) for the distinction between venue selection and V3's AMM backstop.
+
+## Returning after the V3 relaunch
+
+Open orders on the retired books were canceled during the relaunch; they were not transferred to the new books. Since the book holds signed orders rather than deposits, there is no migrated balance to withdraw or claim.
+
+To resume trading, place any desired orders again and complete the required approval for the new settlement contract. Existing token associations and Permit2 approvals carry over. Review the contract and allowance in your wallet prompt; an approval is separate from signing the new order.
+
+## Governance and market halts
+
+Market creation and fee policy are governed by the [decentralized autonomous organization (DAO)](/governance/overview). Under the [V3 market policy](https://gov.saucerswap.finance/t/saucerswap-v3-order-book-calibration-contract-migration-market-set-and-fee-configuration/385), SaucerSwap Labs may adjust taker fees by up to ±50% of the baseline rate, keep maker rebates at or below the 25% cap, and set minimum orders within 1–3× measured settlement breakeven. These adjustments require public disclosure and respond to market-health conditions; new markets or changes beyond the mandate return to governance.
+
+A market's status and matching halt are separate: it can report `OPEN` while `isMarketHalted` is set. Markets can be paused or wound down for security, legal, operational, or market-health reasons. Check the current status in the app or `GET /books`; an open status does not guarantee an available fill.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="V3 fees and rebates" icon="percent" href="/protocol/saucerswap-v3/fees">
+    Read the fee schedule and how rebates are capped.
+  </Card>
+  <Card title="Trade on V3" icon="chart-candlestick" href="/tutorials/trade">
+    Choose a market and place your first order.
+  </Card>
+  <Card title="Market makers" icon="handshake" href="/resources/market-makers">
+    Find the onboarding path for professional liquidity providers.
+  </Card>
+  <Card title="V3 Orderbook Risk Notice" icon="triangle-exclamation" href="/legal/orderbook-risk-notice">
+    Review settlement, cancellation, and market-availability risks.
+  </Card>
+</CardGroup>

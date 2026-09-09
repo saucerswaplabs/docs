@@ -43,18 +43,18 @@ for (const route of uiRoutes) {
       }
       if (route.name === 'routing') {
         await expect(page.getByText('Split route.', { exact: true })).toBeVisible();
-        await expect(page.getByText('final election 6296', { exact: false })).toBeVisible();
+        await expect(page.getByText('it does not split a single swap between the order book and AMM pools', { exact: false })).toBeVisible();
         const v3Link = page.locator('main a[href="/protocol/saucerswap-v3"]').first();
         await expect(v3Link).toBeVisible();
         await expect(v3Link).toHaveAttribute('href', '/protocol/saucerswap-v3');
       }
-      if (route.name === 'v3') {
+      if (route.name === 'v3-markets') {
         await expect(page.getByText('isMarketHalted', { exact: false }).first()).toBeVisible();
         await expect(page.getByText('halt: 0', { exact: false })).toHaveCount(0);
       }
       if (route.name === 'v3-fees') {
-        await expect(page.getByText('This page shows fee rates as percentages', { exact: false })).toBeVisible();
-        await expect(page.getByText('0.12% (12 bps) taker · 0.002% (0.20 bps) maker rebate', { exact: true })).toBeVisible();
+        await expect(page.getByText('has not activated yet', { exact: false })).toHaveCount(0);
+        await expect(page.getByRole('row', { name: 'SAUCE/HBAR 0.20% (20 bps) −0.05% (−5 bps)', exact: true })).toBeVisible();
         await expect(page.getByText('1,200 pips', { exact: false })).toHaveCount(0);
       }
       if (route.name === 'contracts') {
@@ -149,8 +149,24 @@ for (const route of uiRoutes) {
 }
 
 test.describe('navigation regressions', () => {
+  test('connects V3 trading, order management, and markets', async ({ page }) => {
+    await page.goto('/tutorials/trade', { waitUntil: 'domcontentloaded' });
+    // As in the rendered-page checks above, let the local Mintlify preview
+    // hydrate before interacting with links in the server-rendered content.
+    await page.waitForTimeout(1_500);
+    await page.locator('main a[href="/tutorials/manage-v3-orders"]').first().click();
+    await expect(page.getByRole('heading', { level: 1, name: 'Manage V3 orders' })).toBeVisible();
+    await page.locator('main a[href="/protocol/saucerswap-v3/markets#returning-after-the-v3-relaunch"]').click();
+    await expect(page).toHaveURL(/\/protocol\/saucerswap-v3\/markets#returning-after-the-v3-relaunch$/);
+    await expect(page.getByRole('heading', { level: 2, name: /Returning after the V3 relaunch/ })).toBeVisible();
+    await page.locator('main a[href="/protocol/saucerswap-v3/fees#market-fee-schedule"]').click();
+    await expect(page).toHaveURL(/\/protocol\/saucerswap-v3\/fees#market-fee-schedule$/);
+    await expect(page.getByRole('heading', { level: 2, name: /Market fee schedule/ })).toBeVisible();
+  });
+
   test('routes from the swap-routing guide to the V3 overview', async ({ page }) => {
     await page.goto('/protocol/routing', { waitUntil: 'domcontentloaded' });
+    await page.waitForTimeout(1_500);
     const v3Link = page.locator('main a[href="/protocol/saucerswap-v3"]').first();
     await expect(v3Link).toBeVisible();
     await v3Link.click();

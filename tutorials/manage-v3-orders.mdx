@@ -1,0 +1,100 @@
+---
+title: "Manage V3 orders"
+description: "Track SaucerSwap V3 orders and partial fills, cancel unfilled amounts, check settlement history, and review the standing token permissions in your wallet."
+---
+
+After [placing a V3 order](/tutorials/trade), monitor its fills and any amount still open. Tokens stay in your wallet until settlement, but a valid signed order can still execute while its balance and permissions are available.
+
+## Prerequisites
+
+- The [wallet](/get-started/wallet) that signed the order, connected and signed in to V3
+- An understanding of [limit and market orders](/tutorials/trade)
+- [HBAR](/get-started/hbar) if you need an on-chain permission change
+
+## Track open orders and fills
+
+<Steps>
+  <Step title="Open your orders">
+    On the [trade page](https://www.saucerswap.finance/trade), open **Open Orders** below the chart. Use **All Markets** to include orders outside the selected pair before assuming an order is missing.
+  </Step>
+  <Step title="Check the filled and remaining amounts">
+    Select an order to review its details. Compare the original size with the amount already filled. Several fills can complete one order at different times, leaving a remainder open at its limit price.
+  </Step>
+  <Step title="Review closed activity">
+    Use **Closed Orders** for completed activity. For the fuller record, open [on-chain order history](https://www.saucerswap.finance/orderbook-history). Inspect individual fills and settlement transactions when reconciling the amount spent or received.
+  </Step>
+</Steps>
+
+| Order state | What it means for you |
+| --- | --- |
+| Open | The order has not finished and may still execute |
+| Partially filled | Some tokens have traded; check whether a remainder is still open |
+| Filled | The recorded order size has traded; review the fill details |
+| Canceled, expired, or failed | The remainder is no longer shown as open; completed fills are not reversed |
+
+<Note>
+  Interface and API updates can lag settlement. A request acknowledgment or a displayed status is not independent proof of final on-chain state. Use the settlement transaction on [HashScan](https://hashscan.io/mainnet/dashboard) when resolving a discrepancy; see the [order book risk notice](/legal/orderbook-risk-notice).
+</Note>
+
+## Cancel or change a limit order
+
+<Steps>
+  <Step title="Identify the order to cancel">
+    In **Open Orders**, check the market, side, price, and remaining size. Select **Cancel**, then review the **Cancel order** confirmation. Check the scope before using a bulk cancellation action: it can apply to the selected market or all open orders.
+  </Step>
+  <Step title="Wait for the result">
+    Confirm the request and wait for the cancellation result. Refresh the order details and check for fills that occurred while the cancellation was being processed. Ordinary cancellation is an off-chain request and does not require a new wallet transaction.
+  </Step>
+  <Step title="Place a replacement only after reconciling">
+    To change the price or size, cancel the existing order and place a new one. Size the replacement from the amount still needed, not the original amount: part of the first order may already have filled.
+  </Step>
+</Steps>
+
+<Warning>
+  Cancellation is asynchronous and can arrive too late to stop a fill already in progress. Treat an order as potentially live while cancellation is pending. Canceling an order does not reverse a trade or revoke your standing token permissions.
+</Warning>
+
+Where available, order details also offer **Advanced** → **Cancel on-chain**. This submits directly to the reactor, requires the order's published signed payload, and costs a network fee. Check settlement before retrying a cancellation through another path.
+
+## Review standing permissions
+
+Revoking a required allowance can make an open order unfillable and requires setup again before future trading. It is not a substitute for canceling the order itself. You can manage allowances through supported wallet tools, or through **Manage standing order permissions** when that control is available below the app's order entry panel.
+
+<Steps>
+  <Step title="Reconcile orders that use the token">
+    Cancel orders you no longer want and check for in-flight fills before changing their spending permissions.
+  </Step>
+  <Step title="Review the permission and revoke if needed">
+    Open the available allowance-management tool, check the token and spender, and follow the wallet prompts for the permission you want to revoke. This is an on-chain change and can incur a network fee.
+  </Step>
+  <Step title="Confirm the change">
+    Wait for the transaction result and review the updated permission. If you grant permission again later, first check that old signed orders you no longer want have been canceled or expired.
+  </Step>
+</Steps>
+
+## Common issues
+
+| Issue | What to check |
+| --- | --- |
+| A limit order has not filled | Your price may not cross available liquidity, or the market may be halted. A matching last-trade price alone does not guarantee a fill. |
+| A market order filled only partly | Review the executed amount and unspent balance before trying again; liquidity can change between quote and settlement. |
+| An order becomes unfillable | Check your spendable token balance, associations, permissions, and deadline. Moving tokens elsewhere can affect several open orders. |
+| A cancellation or fill looks missing | Check filters, refresh the history, and reconcile settlement on HashScan before submitting a replacement. |
+| An order from before the V3 relaunch is missing | Orders on the retired books were canceled. See [returning after the relaunch](/protocol/saucerswap-v3/markets#returning-after-the-v3-relaunch) before placing a new order. |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Place an order" icon="arrow-trend-up" href="/tutorials/trade">
+    Review the market and limit order workflows.
+  </Card>
+  <Card title="V3 fees and rebates" icon="percent" href="/protocol/saucerswap-v3/fees">
+    Understand the fees and rebates recorded on your fills.
+  </Card>
+  <Card title="Order book risks" icon="triangle-exclamation" href="/legal/orderbook-risk-notice">
+    Review execution, cancellation, and interface limitations.
+  </Card>
+  <Card title="Orderbook API" icon="code" href="/api-reference/orderbook/overview">
+    Build automated order and settlement tracking.
+  </Card>
+</CardGroup>

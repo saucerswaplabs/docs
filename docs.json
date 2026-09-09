@@ -99,7 +99,13 @@
             "group": "Tutorials",
             "pages": [
               "tutorials/swap",
-              "tutorials/trade",
+              {
+                "group": "Trade on V3",
+                "pages": [
+                  "tutorials/trade",
+                  "tutorials/manage-v3-orders"
+                ]
+              },
               "tutorials/liquidity-v1",
               "tutorials/liquidity-v2",
               "tutorials/stake",
@@ -150,6 +156,7 @@
                 "tag": "NEW",
                 "pages": [
                   "protocol/saucerswap-v3",
+                  "protocol/saucerswap-v3/markets",
                   "protocol/saucerswap-v3/fees"
                 ]
               }

@@ -18,7 +18,7 @@ flowchart TD
 
 ## Tokens on Hedera
 
-Every asset on SaucerSwap is a Hedera Token Service (HTS) token. HBAR itself is not an HTS token, so the protocol wraps it into WHBAR behind the scenes; you always see plain HBAR in the interface. Before your account can hold a new token, Hedera requires a one-time token association, which the web app prompts for automatically.
+SaucerSwap supports Hedera Token Service (HTS) tokens and supported ERC-20 assets. HTS tokens require token association before your account can hold them; ERC-20 tokens use a different allowance model. HBAR is the network's native currency, with WHBAR used where a contract requires a token representation. Check the market's token identifiers and see [ERC-20 tokens and wrapping](/tutorials/erc20-wrapping) before choosing a token version.
 
 ## Three trading venues
 
@@ -28,11 +28,13 @@ Every asset on SaucerSwap is a Hedera Token Service (HTS) token. HBAR itself is 
 | [SaucerSwap V2](/protocol/saucerswap-v2) | Concentrated-liquidity AMM (Uniswap V3 style) | Capital-efficient liquidity provision |
 | [SaucerSwap V3](/protocol/saucerswap-v3) | Central limit order book with on-chain settlement | Limit orders and CEX-style trading |
 
-When you swap in the web app, [routing](/protocol/routing) compares available V1 and V2 paths and quotes the trade for you. On the separate trade page, V3 orders can opt into AMM-backed settlement. The swap router does not currently compare AMM quotes with order-book quotes.
+When you swap in the web app, [routing](/protocol/routing) compares the best V1/V2 AMM quote with an eligible V3 order-book quote and selects one venue for your trade. On the separate **trade** page, you can place and manage V3 orders; eligible orders can also use AMM-backed settlement.
 
 ## Fees and buybacks
 
-Traders pay a fee on every trade: a percentage of each AMM swap, or a taker fee on order-book fills. Most of each AMM fee goes to liquidity providers, while protocol fee-switch revenue and net V3 fees fund SAUCE buybacks through BrewSaucer. Unified BrewSaucer routes purchased SAUCE consistently across eligible revenue sources: 40% to xSAUCE, 30% to development, 10% to burn, and 20% to protocol-owned liquidity and incentives. See [SAUCE tokenomics](/tokenomics/overview) for the full allocation.
+AMM swaps incur a percentage fee. V3 applies market- and account-specific fees to fills, with eligible makers receiving rebates funded by taker fees. Most of each AMM fee goes to liquidity providers, while protocol fee-switch revenue and net V3 fees fund SAUCE buybacks through BrewSaucer.
+
+Unified BrewSaucer routes purchased SAUCE consistently across eligible revenue sources: 40% to xSAUCE, 30% to development, 10% to burn, and 20% to protocol-owned liquidity and incentives. See [SAUCE tokenomics](/tokenomics/overview) for the full allocation.
 
 ## Liquidity incentives
 
