@@ -272,7 +272,8 @@
                   "developers/whbar/wrap-hbar-for-whbar",
                   "developers/whbar/unwrap-whbar-for-hbar"
                 ]
-              }
+              },
+              "widget"
             ]
           },
           {

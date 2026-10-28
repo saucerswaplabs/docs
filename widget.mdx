@@ -1,0 +1,236 @@
+---
+title: "SaucerSwap Widget"
+---
+
+## Overview
+
+The SaucerSwap Widget is a plug-and-play token swap interface that allows any website or dApp on Hedera Hashgraph to execute instant token swaps.
+
+Powered by SaucerSwap's Smart Order Router (SOR), Universal Router, and Sodax Intent Routing, the widget automatically finds the best execution price across SaucerSwap V1, SaucerSwap V2, and tokenized US equities and ETFs.
+
+### Key Benefits
+
+- Zero Maintenance Liquidity: Direct access to SaucerSwap trading pairs and liquidity pools on Hedera Mainnet.
+- Tokenized Stocks & ETFs: Natively supports trading tokenized US equities (e.g. TSLA, NVDA, AAPL, SPY) via Sodax integration.
+- Custom Integrator Fees: Earn 80% of custom integrator fees configured directly on your widget.
+- Automated Hedera UX: Handles token associations (HTS), Permit2 token approvals, slippage protection, and route splitting automatically.
+- Coexists Seamlessly With Host Wallets: Use the widget's built-in wallet modal or share your dApp's existing wallet connection without library collisions.
+- Universal Framework Support: Available as a native React Component, an encapsulated Custom Web Component (`<saucerswap-widget>`), and a vanilla Script Embed.
+
+👉 **Try the Live Configurator Studio:** [widget.saucerswap.finance](https://widget.saucerswap.finance)
+
+---
+
+## Quickstart
+
+### 1. React (`@saucerswaplabs/widget`)
+
+Install the packages via your preferred package manager:
+
+```bash
+npm install @saucerswaplabs/widget
+# or
+pnpm add @saucerswaplabs/widget
+# or
+yarn add @saucerswaplabs/widget
+```
+
+Import and embed `<SaucerSwapWidget />`:
+
+```tsx
+import React from 'react';
+import { SaucerSwapWidget } from '@saucerswaplabs/widget';
+import '@saucerswaplabs/widget/styles.css';
+
+export function SwapPage() {
+  return (
+    <div style={{ maxWidth: 440, margin: '0 auto', padding: 16 }}>
+      <SaucerSwapWidget
+        network="mainnet"
+        projectId="YOUR_REOWN_PROJECT_ID"
+        initialInputToken="0.0.0"          // HBAR
+        initialOutputToken="0.0.731861"    // SAUCE
+        defaultAmount="50"                 // Prefilled sell amount on first load
+        integratorFee={{
+          bps: 50,                         // 0.50% fee
+          recipient: '0.0.123456',         // Your Hedera account ID
+        }}
+        onSwapSuccess={(receipt) => {
+          console.log('Swap completed successfully:', receipt.transactionId);
+        }}
+      />
+    </div>
+  );
+}
+```
+
+---
+
+### 2. HTML Web Component (`<saucerswap-widget>`)
+
+Embed inside any HTML framework (Vue, Angular, Svelte, Webflow, Shopify, or static HTML):
+
+```html
+<!-- 1. Load the standalone script -->
+<script src="https://widget.saucerswap.finance/widget.js" type="module"></script>
+
+<!-- 2. Drop the custom element into your markup -->
+<saucerswap-widget
+  network="mainnet"
+  project-id="YOUR_REOWN_PROJECT_ID"
+  input-token="0.0.0"
+  output-token="0.0.731861"
+  default-amount="50"
+  integrator-fee-bps="50"
+  integrator-fee-recipient="0.0.123456"
+  theme="dark"
+></saucerswap-widget>
+
+<script>
+  // Optional: Listen for swap success events
+  const widget = document.querySelector('saucerswap-widget');
+  widget.addEventListener('swap-success', (event) => {
+    console.log('Transaction ID:', event.detail.transactionId);
+  });
+</script>
+```
+
+---
+
+## Configuration Reference
+
+All properties can be configured via React props or HTML kebab-case attributes on the `<saucerswap-widget>` custom element:
+
+| React Prop | Web Component Attribute | Type | Default | Description |
+| :-- | :-- | :-- | :-- | :-- |
+| `network` | `network` | `'mainnet'` | `'mainnet'` | Target Hedera network (mainnet-only architecture). |
+| `projectId` | `project-id` | `string` | _(Required)_ | Reown / WalletConnect Project ID for wallet pairing. [Get a free ID here](https://cloud.reown.com). |
+| `initialInputToken` | `input-token` | `string` | `'0.0.0'` | Default token to sell. Use `'0.0.0'` or `'HBAR'` for native HBAR. |
+| `initialOutputToken` | `output-token` | `string` | `'0.0.731861'` | Default token to buy (e.g. SAUCE on mainnet). |
+| `defaultAmount` | `default-amount` | `string` | `''` | **Amount to be prefilled on first load** (e.g. `'10'`). When set, the widget automatically requests a quote on initial render. |
+| `fixedInput` | `fixed-input` | `boolean` | `false` | Locks the sell token so users cannot select a different token to sell. |
+| `fixedOutput` | `fixed-output` | `boolean` | `false` | Locks the buy token so users cannot select a different token to buy. |
+| `theme` | `theme` | `'dark' \| 'light'` | `'dark'` | Visual theme mode. |
+| `themeAccent` | `theme-accent` | `string` | `'#17803D'` | Custom primary action button and accent color (hex string). |
+| `themeBorderRadius` | `theme-border-radius` | `string` | `'16px'` | Card border radius: presets `'pill'`, `'default'`, `'compact'`, `'square'` or CSS string (e.g. `'12px'`). |
+| `defaultSlippageBps` | `slippage-bps` | `number` | `50` | Default slippage tolerance in basis points (`50` = 0.50%). |
+| `title` | `title` | `string` | `'Swap'` | Custom title displayed in the widget header. |
+| `titleLogoUrl` | `title-logo-url` | `string` | `''` | Optional custom logo URL displayed in the widget header. |
+| `integratorFee` | `integrator-fee-bps`, `integrator-fee-recipient` | `{ bps: number, recipient?: string }` | `{ bps: 0 }` | Custom integrator fee configuration (see Integrator Fee section). |
+| `externalWallet` | `widget.externalWallet` | `HederaWalletAdapter` | `undefined` | Pass an existing connected wallet adapter from the host dApp. |
+| `onWalletConnectRequest` | `walletconnect-request` | `() => boolean` / `CustomEvent` | `undefined` | Delegate WalletConnect modal opening to host dApp (e.g. host AppKit). |
+| `onSwapSuccess` | `swap-success` | `(details) => void` / `CustomEvent` | `undefined` | Callback fired when a swap transaction is confirmed on-chain. |
+| `onSwapError` | `swap-error` | `(error) => void` / `CustomEvent` | `undefined` | Callback fired when a swap fails or is rejected. |
+
+---
+
+## Integrator Fee
+
+Integrators can optionally add custom fees to swaps executed through the widget:
+
+- **Configuration**: Set `bps` (or `integrator-fee-bps`) up to a maximum of `500` (5.00%), and set `recipient` (or `integrator-fee-recipient`) to your Hedera account ID (e.g. `0.0.123456`).
+- **Fee Split**: Integrators keep **80%** of the custom fee, and 20% is retained by SaucerSwap.
+- **Execution**: Fees are collected automatically on-chain via the Universal Router on the output token. There are zero chargebacks and no payment processing delays.
+
+---
+
+## Wallet Integration & Host Coexistence
+
+The widget supports two wallet modes:
+
+### Mode A: Standalone Out-of-the-Box
+
+If your site does not have a wallet connection modal, the widget provides a complete built-in wallet menu:
+
+- **HashPack**: Connects via browser extension or mobile pairing.
+- **MetaMask**: Connects directly via Hedera JSON-RPC EVM provider.
+- **Kabila**: Connects via Kabila browser extension.
+- **WalletConnect**: Displays a built-in QR code and copyable pairing code for mobile Hedera wallets.
+
+### Mode B: Coexisting with Host dApps (Reown AppKit)
+
+If your dApp already connects to wallets using **Reown AppKit** or another wallet provider, you can prevent modal duplicates:
+
+1. **Option 1: Pass your connected wallet adapter directly**
+   ```tsx
+   <SaucerSwapWidget externalWallet={myConnectedAdapter} />
+   ```
+2. **Option 2: Intercept WalletConnect to trigger your host modal** When the user clicks "WalletConnect" inside the widget, the widget emits an event. If you call `preventDefault()`, the widget modal closes and yields to your host modal:
+   ```html
+   <saucerswap-widget id="my-swap"></saucerswap-widget>
+   <script>
+     const widget = document.getElementById('my-swap');
+     widget.addEventListener('walletconnect-request', (event) => {
+       event.preventDefault(); // Tells widget to yield
+       myHostAppKitModal.open(); // Opens your existing site modal
+     });
+   </script>
+   ```
+
+---
+
+## Customizing Design & Themes
+
+The widget uses CSS custom properties that you can override to match your brand:
+
+```css
+/* Custom theme variables */
+:root {
+  --ss-green-action: #2563EB;        /* Primary action button color */
+  --ss-green-action-hover: #1D4ED8;  /* Action button hover */
+  --ss-r-card: 20px;                 /* Outer card border radius */
+  --ss-font-family: 'Inter', sans-serif;
+  --ss-bg: #0B0E14;                  /* Main background */
+  --ss-card-bg: #151A23;             /* Input wells background */
+}
+```
+
+In React, you can also pass a style object directly:
+
+```tsx
+<SaucerSwapWidget
+  style={{
+    ['--ss-green-action' as any]: '#8B5CF6',
+    ['--ss-r-card' as any]: '24px',
+  }}
+/>
+```
+
+---
+
+## Event Hooks & Types
+
+### Swap Success Payload (`SwapSuccessDetails`)
+
+```typescript
+interface SwapSuccessDetails {
+  transactionId: string;    // e.g. "0.0.123456@1780000000.000000000"
+  hash?: string;            // EVM transaction hash if routed through EVM JSON-RPC
+  tokenIn: TokenMetadata;   // Input token metadata (id, symbol, decimals, icon)
+  tokenOut: TokenMetadata;  // Output token metadata (id, symbol, decimals, icon)
+  amountIn: string;         // Formatted human-readable amount swapped in
+  amountOut: string;        // Formatted human-readable amount received
+  network: HederaNetwork;   // Hedera network (e.g. 'mainnet')
+  sodaxScanUrl?: string;    // Explorer tracking link if routed via Sodax
+}
+```
+
+---
+
+## Frequently Asked Questions
+
+#### Q: Can I add custom integrator fees?
+
+Yes. You can configure custom integrator fees up to 500 bps (5.00%). Integrators keep 80% of the configured fee, and 20% is retained by SaucerSwap.
+
+#### Q: How does the widget handle Hedera token associations?
+
+The widget inspects the connected account's token relationships via Hedera Mirror Nodes prior to trade execution. If the user is not associated with the output token, the widget automatically bundles an association step before executing the swap.
+
+#### Q: Can I lock the tokens to only allow buying my project's token?
+
+Yes! Set `initialOutputToken="0.0.YOUR_TOKEN_ID"` and `fixedOutput={true}`. The buy token selector will be locked so users can only swap into your token.
+
+#### Q: Where do I get a WalletConnect Project ID?
+
+Create a free project at [cloud.reown.com](https://cloud.reown.com). It takes less than 1 minute and provides the relay infrastructure for wallet pairings.
