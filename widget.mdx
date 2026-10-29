@@ -128,9 +128,10 @@ All properties can be configured via React props or HTML kebab-case attributes o
 
 Integrators can optionally add custom fees to swaps executed through the widget:
 
-- **Configuration**: Set `bps` (or `integrator-fee-bps`) up to a maximum of `500` (5.00%), and set `recipient` (or `integrator-fee-recipient`) to your Hedera account ID (e.g. `0.0.123456`).
+- **Configuration**: Set `bps` (or `integrator-fee-bps`) up to a maximum of `500` (5.00%), and set `recipient` (or `integrator-fee-recipient`) to your Hedera account ID (e.g. `0.0.123456`). A valid `recipient` is required; without it no fee is applied.
 - **Fee Split**: Integrators keep **80%** of the custom fee, and 20% is retained by SaucerSwap.
 - **Execution**: Fees are collected automatically on-chain via the Universal Router on the output token. There are zero chargebacks and no payment processing delays.
+- **Token Association Requirement**: Integrator fee is paid in the output token, your fee collector account must be capable of receiving HTS tokens. We recommend enabling unlimited automatic token associations (-1) on your fee collector account. If auto-association is disabled (set to 0) and an unassociated token is received, the swap transaction will revert.
 
 ---
 
@@ -222,6 +223,10 @@ interface SwapSuccessDetails {
 #### Q: Can I add custom integrator fees?
 
 Yes. You can configure custom integrator fees up to 500 bps (5.00%). Integrators keep 80% of the configured fee, and 20% is retained by SaucerSwap.
+
+#### Q: What token are integrator fees paid in, and does my account need to be associated?
+
+Integrator fee is paid in the output token, your fee collector account must be capable of receiving HTS tokens. We recommend enabling unlimited automatic token associations (-1) on your fee collector account. If auto-association is disabled (set to 0) and an unassociated token is received, the swap transaction will revert.
 
 #### Q: How does the widget handle Hedera token associations?
 
