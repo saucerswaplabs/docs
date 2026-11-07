@@ -1,0 +1,32 @@
+---
+title: "Interface fee"
+description: "SaucerSwap charges an interface fee on swaps made in its own apps. The fee is charged on the swap output. It is paid in addition to the pool fee."
+---
+
+Updated [DATE].
+
+SaucerSwap charges an interface fee on swaps made in its own apps.
+
+| App | Interface fee |
+|---|---|
+| SaucerSwap web app | 0.40% |
+| SaucerSwap mobile app | 0.50% |
+
+## How it works
+
+- The fee is charged on the swap output.
+- It is calculated on the output before the fee is taken. A swap with an output of 1,000 units before the fee pays 4 units on web.
+- It is paid in addition to the pool fee. The pool fee is set by each pool, for example 0.15% or 0.30%, and is not part of the interface fee.
+- Swaps between two of these stablecoins pay a lower interface fee, 0.05% on web and on mobile: USDC, USDC[hts], USDT[hts], DAI[hts] and USDT0. Any other pair pays the rate in the table.
+- Two kinds of swap pay no interface fee: swaps whose output token charges its own fee on transfer, and swaps from a short list of exempt accounts.
+- Other apps that route swaps through SaucerSwap's pools may add their own fees. Those are set by those apps, not by SaucerSwap.
+
+## Stock trades
+
+Stock trades on the web app pay a separate SaucerSwap fee of 0.25%. It is taken from the input amount and paid on Sonic, not to the account below. Stock trading is not in the mobile app.
+
+## Check it on chain
+
+The interface fee is paid to account 0.0.3946530 in the same swap transaction. Example swap on web: [HashScan link: SaucerSwap web example swap].
+
+Rate read on [DATE].
