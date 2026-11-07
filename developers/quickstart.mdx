@@ -3,42 +3,31 @@ title: "Developer quickstart"
 description: "Make your first SaucerSwap API calls in minutes: fetch token data and pools from the REST API and get a live on-chain swap quote from QuoterV2."
 ---
 
-This quickstart walks the shortest useful path: read token data, list pools, then fetch a real swap quote. The first two calls use the REST data API; the quote runs against the on-chain QuoterV2 contract through Hedera's public mirror node, which needs no key at all.
+This quickstart walks the shortest useful path: read token data, list pools, then fetch a real swap quote. The first two calls use the REST data API; the quote runs against the on-chain QuoterV2 contract through Hedera's public mirror node. None of these calls needs an API key.
 
 Prerequisites:
 
-- A SaucerSwap [API key](/api-reference/authentication) for the REST calls (the quote step works without one)
 - `curl`, or Node.js 18+, or Python 3 with `requests`
 
 <Steps>
-  <Step title="Get an API key">
-    The REST data API authenticates with an `x-api-key` header. Request a key by emailing [support@saucerswap.finance](mailto:support@saucerswap.finance) — see [Authentication](/api-reference/authentication) for what to include and what to expect. Substitute your key for `YOUR_API_KEY` below.
-  </Step>
-
   <Step title="Fetch token data">
     Fetch the SAUCE token (`0.0.731861`) with all of its market metadata:
 
     <CodeGroup>
     ```bash cURL
-    curl -H "x-api-key: YOUR_API_KEY" \
-      "https://api.saucerswap.finance/tokens/0.0.731861"
+    curl "https://api.saucerswap.finance/tokens/0.0.731861"
     ```
 
     ```javascript JavaScript
-    const res = await fetch('https://api.saucerswap.finance/tokens/0.0.731861', {
-      headers: { 'x-api-key': process.env.SAUCERSWAP_API_KEY },
-    });
+    const res = await fetch('https://api.saucerswap.finance/tokens/0.0.731861');
     const token = await res.json();
     console.log(token.symbol, token.priceUsd);
     ```
 
     ```python Python
-    import os, requests
+    import requests
 
-    res = requests.get(
-        "https://api.saucerswap.finance/tokens/0.0.731861",
-        headers={"x-api-key": os.environ["SAUCERSWAP_API_KEY"]},
-    )
+    res = requests.get("https://api.saucerswap.finance/tokens/0.0.731861")
     token = res.json()
     print(token["symbol"], token["priceUsd"])
     ```
@@ -73,14 +62,11 @@ Prerequisites:
 
     <CodeGroup>
     ```bash cURL
-    curl -H "x-api-key: YOUR_API_KEY" \
-      "https://api.saucerswap.finance/v2/pools"
+    curl "https://api.saucerswap.finance/v2/pools"
     ```
 
     ```javascript JavaScript
-    const res = await fetch('https://api.saucerswap.finance/v2/pools', {
-      headers: { 'x-api-key': process.env.SAUCERSWAP_API_KEY },
-    });
+    const res = await fetch('https://api.saucerswap.finance/v2/pools');
     const pools = await res.json();
     for (const p of pools) {
       console.log(`${p.tokenA.symbol}/${p.tokenB.symbol} @ ${p.fee / 10_000}%`);
@@ -88,12 +74,9 @@ Prerequisites:
     ```
 
     ```python Python
-    import os, requests
+    import requests
 
-    res = requests.get(
-        "https://api.saucerswap.finance/v2/pools",
-        headers={"x-api-key": os.environ["SAUCERSWAP_API_KEY"]},
-    )
+    res = requests.get("https://api.saucerswap.finance/v2/pools")
     for p in res.json():
         print(f"{p['tokenA']['symbol']}/{p['tokenB']['symbol']} @ {p['fee'] / 10_000}%")
     ```

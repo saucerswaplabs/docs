@@ -11,16 +11,16 @@ SaucerSwap exposes two separate HTTP APIs. The REST API serves protocol data: to
 
 | API | Best for | Authentication | Mainnet base URL |
 | --- | --- | --- | --- |
-| REST API | Prices, charts, pools, positions, farms, protocol stats | `x-api-key` header on every request | `https://api.saucerswap.finance` |
+| REST API | Prices, charts, pools, positions, farms, protocol stats | None | `https://api.saucerswap.finance` |
 | Orderbook API | V3 order book market data, quotes, and trading | Public reads; wallet-JWT for account endpoints | `https://orderbook-api.saucerswap.finance` |
 
 ## Authentication comparison
 
-The two APIs use different access models. Keys and tokens are not interchangeable between them.
+The two APIs use different access models. The REST API needs no credential; only Orderbook account endpoints do.
 
 | Access model | Applies to | Credential | How you get it |
 | --- | --- | --- | --- |
-| API key | Every REST API endpoint | `x-api-key` header | Email [support@saucerswap.finance](mailto:support@saucerswap.finance); see [REST API authentication](/api-reference/authentication) |
+| Public read | Every REST API endpoint | None | No signup or API key; see [REST API access](/api-reference/authentication) |
 | Public read | Orderbook API market data: books, depth, trades, quotes, and the signature domain | None | No signup; see [Orderbook market data](/api-reference/orderbook/market-data) |
 | Wallet JWT | Orderbook API account endpoints: fees, onboarding, orders, cancels, and both WebSocket streams | `Authorization: Bearer <token>` | Sign a challenge with your account key; see [Orderbook authentication](/api-reference/orderbook/authentication) |
 
@@ -55,15 +55,15 @@ Orderbook WebSocket streams use the same hosts with the `wss://` scheme.
 
 ## Rate limits
 
-The REST API enforces a monthly request quota per API key, agreed when your key is provisioned, and reports usage through `x-ratelimit-*` response headers. See [REST API errors and rate limits](/api-reference/errors).
+The REST API applies per-IP rate limits and reports usage through `x-ratelimit-*` response headers. See [REST API errors and rate limits](/api-reference/errors).
 
 The Orderbook API applies rate and service-protection limits and returns `429` when they are exceeded, plus policy limits on order counts and deadlines. See [Orderbook limits and errors](/api-reference/orderbook/limits-and-errors). Teams planning sustained high-volume traffic should contact [support@saucerswap.finance](mailto:support@saucerswap.finance) to coordinate limits.
 
 ## Next steps
 
 <CardGroup cols={2}>
-  <Card title="REST API authentication" icon="key" href="/api-reference/authentication">
-    Request an API key and make your first authenticated call.
+  <Card title="REST API access" icon="key" href="/api-reference/authentication">
+    Call the REST API with no API key and read its rate-limit headers.
   </Card>
   <Card title="REST API conventions" icon="ruler" href="/api-reference/conventions">
     Understand tinybar, smallest-unit amounts, timestamps, and intervals.
