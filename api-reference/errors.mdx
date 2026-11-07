@@ -1,6 +1,6 @@
 ---
 title: "REST API errors and rate limits"
-description: "Interpret REST API error statuses including 400, 404, and 429, read the rate-limit headers on every response, and build retry logic that respects the limits."
+description: "Interpret REST API error statuses including 400, 404, and 429, know the per-IP rate limits on the REST API, and build retry logic that backs off at the limit."
 ---
 
 The REST API uses standard HTTP status codes. This page covers the statuses you should handle, the rate limits to respect, and how to retry safely.
