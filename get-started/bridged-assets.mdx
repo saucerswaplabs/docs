@@ -1,0 +1,49 @@
+---
+title: "Bridged assets on Hedera"
+description: "What a bridged token is, how to tell versions of one symbol apart, what can go wrong, and where to check before you trade."
+---
+
+<Note>
+  SaucerSwap lists tokens. It does not issue, back, or vouch for them. A bridged token is only as good as its bridge and its issuer, and the same symbol can be a different token, so check the token ID. You can lose some or all of what you put in. This page is information, not advice.
+</Note>
+
+## Which version do I have?
+
+**Native tokens.** USDC is Circle's fiat-backed stablecoin, issued natively on Hedera as an HTS token. Check the token ID on [Circle's USDC page](https://www.circle.com/multi-chain-usdc/hedera).
+
+**Axelar tokens (names ending in .axl).** These came to Hedera through Axelar. SaucerSwap's bridge routes over Axelar and LayerZero, and issuers can deploy an existing Hedera token to other chains with Axelar's Interchain Token Service. What backs each .axl token is set by its issuer: read [Axelar's page](https://docs.axelar.dev/dev/send-tokens/interchain-tokens/intro/) and the token's own issuer.
+
+**LayerZero tokens (USDT0, WETH, WBTC).** SaucerSwap lists pools for these and routes the bridge over LayerZero. What backs each one is set by its issuer: read the issuer's own page first. Bridges can pause. On 1 May 2026 SaucerSwap [posted](https://x.com/SaucerSwapLabs/status/2050249246411252133) that WBTC bridging had resumed after BitGo restored its verification step.
+
+**Old [hts] tokens (USDC[hts], WBTC[hts], WETH[hts], USDT[hts]).** These came through Hashport, which shut down on 31 May 2026. They cannot be redeemed for the original asset. Do not treat them as the real thing. See [the FAQ](/get-started/faq#what-is-the-difference-between-usdc-and-usdchts).
+
+Do not assume two tokens with one symbol are interchangeable. For example, the WETH/HBAR order-book market uses direct ERC-20 WETH, not an HTS-wrapped one ([markets](/protocol/saucerswap-v3/markets)).
+
+## What can go wrong
+
+SaucerSwap's [terms](/legal/terms-of-service) name these risks: token-issuer risk, stablecoin reserve and redemption risk, freeze or blacklist functions, bridge risk, admin-key and upgrade risk. In plain words:
+
+- The bridge or its message layer fails or pauses.
+- The issuer freezes the token or cannot redeem it.
+- An admin key or an upgrade changes how the token behaves.
+- You hold a look-alike with the same symbol.
+- A transfer looks stuck, or the token does not show up. Most stuck transfers are still in flight. Look up the transaction hash on [AxelarScan](https://axelarscan.io/). On Hedera, associate the token with your account. See [bridge troubleshooting](/tutorials/bridge#troubleshooting).
+
+The terms also say a token being available in the app is not a review, a reserve check, or a promise that it is backed or redeemable ([section 12](/legal/terms-of-service#12-token-pair-pool-orderbook-market-route-and-stablecoin-availability)).
+
+## Check it yourself
+
+- Look up the token on [HashScan](https://hashscan.io/mainnet/dashboard). Compare its token ID with the issuer's page.
+- Read the issuer's own page for what backs it and how to redeem.
+- Track a bridge transfer on [AxelarScan](https://axelarscan.io/) by transaction hash or wallet address.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Bridge routes explained" icon="diagram-project" href="/get-started/bridge-to-hedera">
+    The Axelar and LayerZero routes, and the Hashport decommission notice.
+  </Card>
+  <Card title="Bridge tutorial" icon="bridge" href="/tutorials/bridge">
+    Use the in-app bridge step by step, with troubleshooting.
+  </Card>
+</CardGroup>
