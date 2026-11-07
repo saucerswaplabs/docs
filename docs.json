@@ -92,6 +92,7 @@
               "get-started/wallet",
               "get-started/hbar",
               "get-started/bridge-to-hedera",
+              "get-started/bridged-assets",
               "get-started/saucerswap-wallet"
             ]
           },
