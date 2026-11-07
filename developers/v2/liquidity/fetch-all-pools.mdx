@@ -5,7 +5,7 @@ description: "Retrieve every SaucerSwap V2 concentrated liquidity pool with fee 
 
 SaucerSwap offers a public [REST API](/api-reference/overview) endpoint to retrieve all liquidity pools, accompanied by useful metadata for each pool, including liquidity pool reserves, and their associated tokens. Use the following URL options to access the data.
 
-The endpoint is `GET /v2/pools` on `https://api.saucerswap.finance` (mainnet) or `https://test-api.saucerswap.finance` (testnet). Requests require an API key; see [Authentication](/api-reference/authentication).
+The endpoint is `GET /v2/pools` on `https://api.saucerswap.finance` (mainnet) or `https://test-api.saucerswap.finance` (testnet). Requests need no API key; see [REST API access](/api-reference/authentication).
 
 <Note>
 For SaucerSwap V1 liquidity pools, see [Fetch all pools (V1)](/developers/v1/liquidity/fetch-all-pools).
@@ -86,7 +86,7 @@ For SaucerSwap V1 liquidity pools, see [Fetch all pools (V1)](/developers/v1/liq
     The V1 equivalent with reserve amounts.
   </Card>
 
-  <Card title="API authentication" href="/api-reference/authentication">
-    Get an API key for the REST API.
+  <Card title="REST API access" href="/api-reference/authentication">
+    Call the REST API with no API key and read its rate-limit headers.
   </Card>
 </CardGroup>

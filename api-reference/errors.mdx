@@ -1,9 +1,9 @@
 ---
 title: "REST API errors and rate limits"
-description: "Interpret REST API error statuses including 401, 403, and 429, monitor monthly quota headers, and build retry logic that respects your limits."
+description: "Interpret REST API error statuses including 400, 404, and 429, read the rate-limit headers on every response, and build retry logic that respects the limits."
 ---
 
-The REST API uses standard HTTP status codes. This page covers the statuses you should handle, the quota headers to monitor, and how to retry safely.
+The REST API uses standard HTTP status codes. This page covers the statuses you should handle, the rate limits to respect, and how to retry safely.
 
 ## Status codes
 
@@ -11,10 +11,8 @@ The REST API uses standard HTTP status codes. This page covers the statuses you 
 | --- | --- | --- |
 | `200` | Success | Parse the JSON body. |
 | `400` | Invalid request — a malformed or missing parameter, such as an out-of-range `from`/`to` or an unsupported `interval` | Fix the request; do not retry unchanged. |
-| `401` | Missing or invalid `x-api-key` header | Check that the key is present, unexpired, and sent on every request. |
-| `403` | The key is not authorized for the request | Contact [support@saucerswap.finance](mailto:support@saucerswap.finance) about your key's access. |
 | `404` | Unknown resource, such as a token or pool id that does not exist | Verify the id against the corresponding list endpoint. |
-| `429` | Rate limited — the monthly quota is exhausted or requests are arriving too fast | Back off and retry later; see below. |
+| `429` | Rate limited — requests are arriving too fast | Back off and retry later; see below. |
 | `5xx` | Server error | Retry with exponential backoff. |
 
 <Note>
@@ -29,8 +27,8 @@ The REST API uses standard HTTP status codes. This page covers the statuses you 
 ## Next steps
 
 <CardGroup cols={2}>
-  <Card title="REST API authentication" icon="key" href="/api-reference/authentication">
-    Request an API key and understand how quotas are provisioned.
+  <Card title="REST API access" icon="key" href="/api-reference/authentication">
+    Call the REST API with no API key and read its rate-limit headers.
   </Card>
   <Card title="REST API conventions" icon="ruler" href="/api-reference/conventions">
     Parse amounts, prices, and timestamps correctly before debugging errors.

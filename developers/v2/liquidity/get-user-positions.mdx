@@ -5,7 +5,7 @@ description: "List all SaucerSwap V2 liquidity positions for a Hedera account fr
 
 SaucerSwap offers a public [REST API](/api-reference/overview) endpoint to retrieve all positions for a user, accompanied by useful metadata for each position, including liquidity and fees earned, and their associated tokens. Use the following URL options to access the data.
 
-The endpoint is `GET /v2/nfts/{accountId}/positions` on `https://api.saucerswap.finance` (mainnet) or `https://test-api.saucerswap.finance` (testnet). Requests require an API key; see [Authentication](/api-reference/authentication).
+The endpoint is `GET /v2/nfts/{accountId}/positions` on `https://api.saucerswap.finance` (mainnet) or `https://test-api.saucerswap.finance` (testnet). Requests need no API key; see [REST API access](/api-reference/authentication).
 
 ## Data JSON schema
 
@@ -84,7 +84,7 @@ The endpoint is `GET /v2/nfts/{accountId}/positions` on `https://api.saucerswap.
     Collect the fees a position has earned.
   </Card>
 
-  <Card title="API authentication" href="/api-reference/authentication">
-    Get an API key for the REST API.
+  <Card title="REST API access" href="/api-reference/authentication">
+    Call the REST API with no API key and read its rate-limit headers.
   </Card>
 </CardGroup>
