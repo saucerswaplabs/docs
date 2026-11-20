@@ -51,6 +51,15 @@ Your positions are accessible from the **dashboard** page under **V2 Pools**, or
 
 Positions in LARI-incentivized pools earn rewards automatically every two weeks with no staking step — see [SaucerSwap V2](/protocol/saucerswap-v2) for how LARI works.
 
+## Create a new V2 pool
+
+V2 pool creation is permissionless. On the **pool** page, open the **Create new pool** menu and choose **Create V2 pool** to walk through the four-step wizard:
+
+1. **Select tokens and fee tier** — choose both tokens and one of the four V2 fee tiers (`0.05%`, `0.15%`, `0.30%`, or `1.00%`). If a pool already exists for that pair and fee tier, the interface routes you straight to adding liquidity to it.
+2. **Set initial price** — enter the starting price ratio for the pair. Match market prices where possible to avoid immediate arbitrage losses.
+3. **Set range and deposit amounts** — pick a price range and enter your deposit. A tiny full-range floor anchor (around $2 equivalent on priced pairs, or 0.5% on unpriced pairs) is minted permanently to the burn address (`0xdead`) alongside your primary position in the same atomic transaction so the pool stays continuously usable if active positions move out of range.
+4. **Review and create** — confirm the pool creation fee (≈$10 paid in HBAR, shown in the interface) and sign in your wallet.
+
 ## Auto pools
 
 Auto pools manage the price range for you: you deposit a single token into a vault, and the vault maintains and rebalances a range position. Pools with a vault carry an **AUTO** marker on the **pool** page.
