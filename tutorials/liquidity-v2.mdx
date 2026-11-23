@@ -60,6 +60,10 @@ V2 pool creation is permissionless. On the **pool** page, open the **Create new 
 3. **Set range and deposit amounts** — pick a price range and enter your deposit. A tiny full-range floor anchor (around $2 equivalent on priced pairs, or 0.5% on unpriced pairs) is minted permanently to the burn address (`0xdead`) alongside your primary position in the same atomic transaction so the pool stays continuously usable if active positions move out of range.
 4. **Review and create** — confirm the pool creation fee (≈$10 paid in HBAR, shown in the interface) and sign in your wallet.
 
+<Note>
+  SaucerSwap V2 does not support tokens with custom fees (fixed or fractional). Use [SaucerSwap V1](/tutorials/liquidity-v1) for supported custom-fee tokens instead. See [Does SaucerSwap support tokens with custom fees?](/get-started/faq#does-saucerswap-support-tokens-with-custom-fees).
+</Note>
+
 ## Auto pools
 
 Auto pools manage the price range for you: you deposit a single token into a vault, and the vault maintains and rebalances a range position. Pools with a vault carry an **AUTO** marker on the **pool** page.
