@@ -32,6 +32,10 @@ Large integers are returned as JSON strings. Fields such as `price`, `tvl`, `vol
 | `tvl`, `volumeTotal` | string | Protocol-wide values in tinybar |
 | `tvlUsd`, `volumeTotalUsd`, `volumeUsd`, `liquidityUsd` | number | USD values as floats |
 
+<Info>
+  V1 and V2 volume fields (`volume`, `volumeUsd`, `volumeTotal`, `volumeTotalUsd`) use an anchor-asset tracked volume model: direct pools between two Tier 3 tokens report `0`. See [How volume is calculated](/resources/analytics#how-volume-is-calculated) for the tier list and rules.
+</Info>
+
 ## Timestamps
 
 | Format | Where it appears | Example |

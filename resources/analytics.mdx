@@ -14,6 +14,29 @@ SaucerSwap publishes live protocol data in the web app, and the protocol is trac
 | [Staking analytics](https://www.saucerswap.finance/stake) | Infinity Pool rates and distribution data on the stake page |
 | [Portfolio](https://www.saucerswap.finance/portfolio) | Your positions, balances, and rewards on the dashboard |
 
+## How volume is calculated
+
+SaucerSwap uses an anchor-asset tracked volume model across V1 and V2 pools so reported swap volume reflects real economic value rather than stale or manipulable prices on low-liquidity tokens.
+
+Tokens are grouped into three tiers (as of November 24, 2026):
+
+| Tier | Assets | Role |
+|---|---|---|
+| Tier 1 (Base anchors) | HBAR, WHBAR, USDC | Highest-priority pricing anchors |
+| Tier 2 (Ecosystem anchors) | SAUCE, xSAUCE, HBARX, DOVU, WETH, WBTC, PACK, BONZO | Liquid ecosystem anchors used when paired with Tier 3 tokens |
+| Tier 3 (Community tokens) | All other Hedera Token Service (HTS) tokens | Valued through their Tier 1 or Tier 2 counterparty |
+
+Each swap is valued using these rules:
+
+- Cross-tier pools (for example, HBAR / Token or SAUCE / Token) — volume is calculated strictly from the higher-tier anchor leg (`amount × anchor price`), ignoring the Tier 3 token's spot price.
+- Same-tier anchor pools (for example, HBAR / USDC or SAUCE / xSAUCE) — both sides are trusted anchors, so volume is averaged across both legs.
+- Direct Tier 3 / Tier 3 pools — reported volume is `0` to prevent wash trading and phantom volume spikes on unanchored pairs.
+- Multi-hop swaps — if a trade between two Tier 3 tokens routes through an anchor asset (for example, Token A to HBAR to Token B), each hop executes in an anchor-paired pool and is counted normally.
+
+<Note>
+  Anchor tiers reflect on-chain liquidity depth and may be updated over time as tokens establish or lose liquidity on SaucerSwap.
+</Note>
+
 ## Third-party trackers
 
 | Tracker | Coverage |
