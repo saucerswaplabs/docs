@@ -132,7 +132,8 @@
             "group": "Concepts",
             "pages": [
               "protocol/overview",
-              "protocol/routing"
+              "protocol/routing",
+              "protocol/interface-fee"
             ]
           },
           {
