@@ -3,7 +3,7 @@ title: "SaucerSwap governance"
 description: "How the SaucerSwap DAO works: token-weighted voting with SAUCE and xSAUCE, the RFC-to-election proposal lifecycle, scope, and treasury contracts."
 ---
 
-The SaucerSwap decentralized autonomous organization (DAO) governs key aspects of the protocol: reward allocations, protocol fee splits, tokenomics adjustments, and treasury management. Decisions are made collectively by community members holding SAUCE and xSAUCE.
+The SaucerSwap decentralized autonomous organization (DAO) governs key aspects of the protocol: reward allocations, liquidity pool creation, tokenomics adjustments, and treasury management. Decisions are made collectively by community members holding SAUCE and xSAUCE.
 
 ## Token-weighted voting
 
@@ -48,7 +48,7 @@ If a proposal or election fails, a 2-week cooldown applies before the same RFC c
 The DAO oversees:
 
 - **V1 farm creation and amendment** — new yield farms and adjustments to SAUCE and HBAR emissions for existing farms; see [farm weights](/protocol/saucerswap-v1/farm-weights).
-- **V2 pool fee splits** — V2 pool creation is permissionless. By default, swap fees split 5/6 to LPs and 1/6 to BrewSaucer; the DAO governs this protocol-share setting for each pool. When enabled, the protocol share is 1/N, where N is an integer from 4 to 10 (6 is the standard setting).
+- **V2 pool creation** — V2 pools are created permissioned by DAO vote to prevent liquidity fragmentation. New-pool proposals can specify both the swap fee tier and the split between LPs and BrewSaucer. The standard split is 5/6 to LPs and 1/6 to BrewSaucer; the DAO governs this setting for each pool. When enabled, the protocol share is 1/N, where N is an integer from 4 to 10 (6 is the standard setting).
 - **LARI campaign creation and amendment** — each proposal specifies campaign duration and token allocations per epoch; see [LARI weights](/protocol/saucerswap-v2/lari-weights).
 - **Tokenomics changes** — significant changes to SAUCE tokenomics require DAO approval; see [SAUCE tokenomics](/tokenomics/overview).
 - **Treasury management** — fee switches, HBAR staking reward allocation within protocol contracts, SAUCE buyback allocations, and management of treasury assets within SaucerSwap and other protocols.

@@ -11,7 +11,7 @@ For anything not covered here, contact [outreach@saucerswap.finance](mailto:outr
 
 <Steps>
   <Step title="Create a liquidity pool">
-    Any account can create a SaucerSwap V1 or V2 pool for an HTS token from the **pool** page — both V1 and V2 pool creation are permissionless. Follow the [V2 liquidity tutorial](/tutorials/liquidity-v2) for concentrated liquidity pools or the [V1 liquidity tutorial](/tutorials/liquidity-v1) for constant-product pools.
+    Any account can create a SaucerSwap V1 pool for an HTS token. Follow the [V1 liquidity tutorial](/tutorials/liquidity-v1) to create a pool and seed it with initial liquidity. V2 pool creation is permissioned and governed by the [SaucerSwap DAO](/governance/overview) to limit liquidity fragmentation.
   </Step>
   <Step title="Confirm the token is tradable">
     Once at least one pool exists, users can trade the token by entering its token ID (for example, `0.0.12345`) in the token selector on the [swap page](/tutorials/swap).
@@ -36,9 +36,9 @@ Tokens on SaucerSwap fall into one of three classes: default, extended, or untra
 | Included in SaucerSwap APIs | Yes | Yes | No |
 | Eligible for yield farm and LARI | Yes | Yes | No |
 
-Criteria, as of November 2026:
+Criteria, as of July 2026:
 
-- Default — the token has an icon (via token metadata or Davinci Pics) and a place among the top 50 V1 or V2 pools that contain at least one common token, ranked by aggregated TVL and volume and updated monthly. Common tokens: HBAR, HBARX, SAUCE, xSAUCE, USDC, WETH, WBTC, USDT0.
+- Default — the token has an icon (via token metadata or Davinci Pics) and either a V2 pool or a place among the top 50 V1 pools that contain at least one common token, ranked by aggregated TVL and volume and updated monthly. Common tokens: HBAR, HBARX, SAUCE, xSAUCE, USDC, USDC[hts], USDT[hts], WBTC[hts], WETH[hts].
 - Extended — the token has an icon available via token metadata or Davinci Pics.
 - Untracked — every other token. Users can still trade it by entering its token ID.
 
