@@ -36,7 +36,7 @@ Lower fee tiers use tighter tick spacing, allowing greater capital efficiency wh
 
 ## Distribution of fees
 
-Traders pay the pool's fee tier on each swap. By default, 5/6 (about 83.33%) of that fee goes to LPs and 1/6 (about 16.67%) goes to BrewSaucer. The split is configurable for each pool under [DAO governance](/governance/overview), separately from the swap fee tier. A new-pool proposal can request a different split.
+Traders pay the pool's fee tier on each swap. By default, 5/6 (about 83.33%) of that fee goes to LPs and 1/6 (about 16.67%) goes to BrewSaucer. The split is configurable for each pool under [DAO governance](/governance/overview), separately from the swap fee tier. A governance proposal can request a different split for a pool.
 
 The protocol share funds [Unified BrewSaucer buybacks](/tokenomics/overview#unified-brewsaucer-buybacks-and-burn), with purchased SAUCE allocated to xSAUCE, development, burn, and liquidity incentives. Unlike V1, LPs earn fees directly in the pool's tokens — a USDC/HBAR position accrues claimable USDC and HBAR.
 
@@ -172,6 +172,10 @@ LARI receives a dedicated Masterchef allocation, separate from the DAO's allocat
 <Frame caption="LARI rewards efficient, in-range liquidity rather than idle capital.">
   ![Diagram of the LARI reward flow across a two-week epoch](/images/protocol/lari.png)
 </Frame>
+
+## Tokens with custom fees
+
+SaucerSwap V2 does not support HTS tokens with custom fees (fixed or fractional). V2 pool contracts verify via pre- and post-transfer balance checks that exact calculated amounts reach the pool on every mint and swap; transfer-level custom fees alter delivered or payer balances outside what the contract accounts for, causing transactions to fail or misaccount liquidity. Tokens with fractional custom fees (with net-of-transfers disabled) can instead use [SaucerSwap V1](/tutorials/liquidity-v1). See [Does SaucerSwap support tokens with custom fees?](/get-started/faq#does-saucerswap-support-tokens-with-custom-fees).
 
 ## Next steps
 
